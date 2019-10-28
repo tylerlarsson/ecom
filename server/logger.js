@@ -10,14 +10,14 @@ const CONSOLE_CONFIG = {
   json: false,
   handleExceptions: true,
   humanReadableUnhandledException: true,
-  timestamp,
+  timestamp
 };
 const FILE_CONFIG = {
   datePattern: 'YYYY-MM-DD',
   zippedArchive: false,
   maxSize: '1000m',
   maxFiles: '500d',
-  timestamp,
+  timestamp
 };
 
 function createLogger(filename) {
@@ -28,9 +28,9 @@ function createLogger(filename) {
     transports: [
       new winston.transports.Console(CONSOLE_CONFIG),
       new winston.transports.DailyRotateFile(
-        Object.assign({ filename: fullFilename }, FILE_CONFIG),
-      ),
-    ],
+        Object.assign({ filename: fullFilename }, FILE_CONFIG)
+      )
+    ]
   });
 
   winstonLogger.exitOnError = false;
@@ -49,7 +49,7 @@ function errorTransformer(errors) {
   });
 }
 
-module.exports = function(name = 'define module') {
+module.exports = (name = 'define module') => {
   const winstonLogger = createLogger(name);
   return {
     info(...text) {
@@ -60,6 +60,6 @@ module.exports = function(name = 'define module') {
       // eslint-disable-next-line no-param-reassign
       text = errorTransformer(text);
       winstonLogger.error(`${name}:`, ...text);
-    },
+    }
   };
 };

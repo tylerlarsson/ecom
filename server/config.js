@@ -33,16 +33,10 @@ console.info('database:', nconf.get('mongo:db'));
 
 nconf.set('mode:dev', env === 'development');
 nconf.set(
-  'agenda:url',
-  `mongodb://${nconf.get('mongo:host')}/${nconf.get(
-    'mongo:agenda-db',
-  )}?retryWrites=true`,
-);
-nconf.set(
   'db:url',
   `mongodb://${nconf.get('mongo:host')}/${nconf.get(
-    'mongo:db',
-  )}?retryWrites=true`,
+    'mongo:db'
+  )}?retryWrites=true`
 );
 
 module.exports = nconf;
