@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "new user configuration schema",
+  "type": "object",
+  "required": [
+    "username",
+    "password",
+    "email",
+    "firstname",
+    "lastname",
+    "roles"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "username": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 30
+    },
+    "password": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 30
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "firstname": {
+      "type": "string",
+      "minLength": 2
+    },
+    "lastname": {
+      "type": "string",
+      "minLength": 2
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "$ref": "#role"
+      },
+      "minItems": 1
+    }
+  }
+}
