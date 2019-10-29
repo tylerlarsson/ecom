@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
@@ -21,24 +22,6 @@ app.use('/user', userRoute);
 app.use('/role', roleRoute);
 app.use('/permission', permissionRoute);
 app.use('/oauth', oauthRoute);
-
-/**
- * @swagger
- *
- * /:
- *   get:
- *     description: returns a hello
- *     security:
- *      - bearerAuth: []
- *     produces:
- *       - application/text
- *     responses:
- *       200:
- *         description: login
- */
-app.get('/', (req, res) => {
-  res.send('Public Hello World');
-});
 
 /**
  * @swagger
@@ -79,4 +62,16 @@ app.get('/test/permission3', Permission('third-super-permission'), (req, res) =>
 });
 
 const port = config.get('web-app:port');
-app.listen(port, () => logger.info('web server started port', port));
+
+if (config.get('NODE_ENV') === 'production') {
+  // production mode
+  app.use('/', express.static(path.join(__dirname, '..', 'web-app')));
+  app.listen(port, () => logger.info('web server started port', port));
+} else if (config.get('NODE_ENV') === 'development') {
+  // npm: run dev script to start
+  // then web-server
+  // eslint-disable-next-line global-require
+  require('./web-server.dev')(app, port);
+} else {
+  throw new Error('not supported app mode!');
+}
