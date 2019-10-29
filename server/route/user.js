@@ -48,17 +48,14 @@ router.post('/login', async (req, res) => {
   if (!username || !password) {
     return res.status(400).end();
   }
-  const valid = await db.model.User.verify(username, password);
-  if (valid) {
-    logger.info(
-      'user',
-      username,
-      'authenticated successfully, creating tokens'
-    );
-    const token = jwt.sign({ username }, SECRET, {
+  const user = await db.model.User.verify(username, password);
+  if (user) {
+    logger.info('user', username, 'authenticated successfully, creating tokens');
+    const userData = { username, roles: await user.roleNames, permissions: await user.permissionNames };
+    const token = jwt.sign(userData, SECRET, {
       expiresIn: config.get('web-app:token-expires-in')
     });
-    const refreshToken = jwt.sign({ username }, SECRET, {
+    const refreshToken = jwt.sign(userData, SECRET, {
       expiresIn: config.get('web-app:refresh-token-expires-in')
     });
     return res.json({ token, refreshToken });
@@ -130,9 +127,14 @@ router.post('/', async (req, res) => {
   const existing = await db.model.User.findOne({ username: data.username });
   if (existing) {
     logger.error('user', data.username, 'already exists');
-    res
-      .status(409)
-      .json({ errors: [{ dataPath: '.username', message: 'already exists' }] });
+    res.status(409).json({ errors: [{ dataPath: '.username', message: 'already exists' }] });
+    return;
+  }
+
+  const notCreatedRoles = await db.model.Role.findNotCreatedRoles(data.roles);
+  if (notCreatedRoles.length) {
+    logger.error('roles', notCreatedRoles, 'have not been created yet');
+    res.status(409).json({ errors: [{ dataPath: '.roles', message: `not created, ids: ${notCreatedRoles}` }] });
     return;
   }
 
