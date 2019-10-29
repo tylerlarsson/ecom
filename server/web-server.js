@@ -65,8 +65,8 @@ const port = config.get('web-app:port');
 
 if (config.get('NODE_ENV') === 'production') {
   // production mode
-  app.use('/', express.static(path.join(__dirname, '..', 'web-app')));
-  app.listen(port, () => logger.info('web server started port', port));
+  app.use('/', express.static(path.join(__dirname, '..', 'build')));
+  app.listen(port, () => logger.info('web server started in production, port', port));
 } else if (config.get('NODE_ENV') === 'development') {
   // npm: run dev script to start
   // then web-server
