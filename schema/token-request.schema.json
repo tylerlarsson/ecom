@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "login/token request schema",
+  "type": "object",
+  "required": ["grant_type", "client_id"],
+  "additionalProperties": false,
+  "properties": {
+    "grant_type": {
+      "type": "string",
+      "pattern": "^(password|refresh_token)$"
+    },
+    "client_id": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 30
+    },
+    "username": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 30
+    },
+    "password": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 30
+    },
+    "refresh_token": {
+      "type": "string",
+      "minLength": 8
+    }
+  },
+  "anyOf": [
+    {
+      "properties": {
+        "grant_type": {
+          "const": "password"
+        }
+      },
+      "required": ["username", "password"]
+    },
+    {
+      "properties": {
+        "grant_type": {
+          "const": "refresh_token"
+        }
+      },
+      "required": ["refresh_token"]
+    }
+  ]
+}

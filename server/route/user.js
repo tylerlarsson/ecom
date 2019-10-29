@@ -1,70 +1,13 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const config = require('../config');
+// const jwt = require('jsonwebtoken');
+// const config = require('../config');
 const createLogger = require('../logger');
 const validator = require('../validator');
 const db = require('../db');
 
 const router = express.Router();
-const SECRET = config.get('web-app:secret');
+// const SECRET = config.get('web-app:secret');
 const logger = createLogger('web-server.user-route');
-
-/**
- * @swagger
- * definitions:
- *   UserCredentials:
- *     type: object
- *     required:
- *       - username
- *       - password
- *     properties:
- *       username:
- *         type: string
- *       password:
- *         type: string
- *         format: password
- *
- * /user/login:
- *   post:
- *     description: Login to the application
- *     consumes:
- *       - application/json
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: user
- *         description: User object
- *         in:  body
- *         required: true
- *         type: string
- *         schema:
- *           $ref: '#/definitions/UserCredentials'
- *     responses:
- *       200:
- *         description: login
- */
-router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).end();
-  }
-  const valid = await db.model.User.verify(username, password);
-  if (valid) {
-    logger.info(
-      'user',
-      username,
-      'authenticated successfully, creating tokens'
-    );
-    const token = jwt.sign({ username }, SECRET, {
-      expiresIn: config.get('web-app:token-expires-in')
-    });
-    const refreshToken = jwt.sign({ username }, SECRET, {
-      expiresIn: config.get('web-app:refresh-token-expires-in')
-    });
-    return res.json({ token, refreshToken });
-  }
-  return res.status(401).end();
-});
 
 /**
  * @swagger
@@ -130,9 +73,14 @@ router.post('/', async (req, res) => {
   const existing = await db.model.User.findOne({ username: data.username });
   if (existing) {
     logger.error('user', data.username, 'already exists');
-    res
-      .status(409)
-      .json({ errors: [{ dataPath: '.username', message: 'already exists' }] });
+    res.status(409).json({ errors: [{ dataPath: '.username', message: 'already exists' }] });
+    return;
+  }
+
+  const notCreatedRoles = await db.model.Role.findNotCreatedRoles(data.roles);
+  if (notCreatedRoles.length) {
+    logger.error('roles', notCreatedRoles, 'have not been created yet');
+    res.status(409).json({ errors: [{ dataPath: '.roles', message: `not created, ids: ${notCreatedRoles}` }] });
     return;
   }
 

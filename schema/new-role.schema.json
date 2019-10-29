@@ -6,9 +6,7 @@
   "additionalProperties": false,
   "properties": {
     "id": {
-      "type": "string",
-      "minLength": 24,
-      "maxLength": 24
+      "$ref": "#mongo-id"
     },
     "name": {
       "$ref": "#name"
@@ -19,7 +17,7 @@
     "permissions": {
       "type": "array",
       "items": {
-        "$ref": ""
+        "$ref": "#mongo-id"
       }
     }
   }

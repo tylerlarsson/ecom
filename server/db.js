@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema.Types;
 const bcrypt = require('bcryptjs');
@@ -6,13 +7,45 @@ const config = require('./config');
 mongoose.Promise = Promise;
 mongoose.connect(config.get('db:url'), { useNewUrlParser: true });
 
-const USER = new mongoose.Schema({
-  username: { type: String, unique: true },
-  hash: String,
-  email: { type: String, index: true },
-  firstname: { type: String, index: true },
-  lastname: { type: String, index: true },
-  roles: { type: [String], index: true }
+/* eslint-disable no-param-reassign */
+const DEFAULT_OPTIONS = {
+  toJSON: {
+    transform(doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.__v;
+    }
+  }
+};
+/* eslint-enable no-param-reassign */
+
+const USER = new mongoose.Schema(
+  {
+    username: { type: String, unique: true },
+    hash: String,
+    email: { type: String, index: true },
+    firstname: { type: String, index: true },
+    lastname: { type: String, index: true },
+    roles: [{ type: [ObjectId], ref: 'role' }]
+  },
+  DEFAULT_OPTIONS
+);
+
+// eslint-disable-next-line func-names
+USER.virtual('roleNames').get(async function() {
+  const roles = await Role.find({ _id: { $in: this.roles } }).select({ name: 1 });
+  return roles.map(({ name }) => name);
+});
+
+// eslint-disable-next-line func-names
+USER.virtual('permissionNames').get(async function() {
+  const roles = await Role.find({ _id: { $in: this.roles } })
+    .populate('permissions')
+    .select({ permissions: 1 });
+  const r = new Set();
+  // eslint-disable-next-line no-return-assign
+  roles.forEach(({ permissions }) => permissions.forEach(({ name }) => r.add(name)));
+  return Array.from(r);
 });
 
 USER.statics.create = async ({ username, password, email, firstname, lastname, roles }) => {
@@ -23,21 +56,35 @@ USER.statics.create = async ({ username, password, email, firstname, lastname, r
   return user;
 };
 
+USER.statics.verifyUsername = async username => {
+  const user = await User.findOne({ username });
+  if (!user) {
+    return false;
+  }
+  return user;
+};
+
 USER.statics.verify = async (username, password) => {
   const user = await User.findOne({ username });
   if (!user) {
     return false;
   }
-  return bcrypt.compare(password, user.hash);
+  if (await bcrypt.compare(password, user.hash)) {
+    return user;
+  }
+  return false;
 };
 
 const User = mongoose.model('user', USER);
 
-const ROLE = new mongoose.Schema({
-  name: { type: String, unique: true },
-  description: String,
-  permissions: { type: [ObjectId], index: true }
-});
+const ROLE = new mongoose.Schema(
+  {
+    name: { type: String, unique: true },
+    description: String,
+    permissions: [{ type: [ObjectId], ref: 'permission' }]
+  },
+  DEFAULT_OPTIONS
+);
 
 ROLE.statics.create = async ({ id, name, description, permissions }) => {
   let role;
@@ -52,12 +99,21 @@ ROLE.statics.create = async ({ id, name, description, permissions }) => {
   return role.save();
 };
 
+ROLE.statics.findNotCreatedRoles = async roles => {
+  const select = await Role.find({ _id: { $in: roles } }).select({ _id: 1 });
+  const created = select.map(({ _id }) => String(_id));
+  return roles.filter(p => !created.includes(p));
+};
+
 const Role = mongoose.model('role', ROLE);
 
-const PERMISSION = new mongoose.Schema({
-  name: { type: String, unique: true },
-  description: String
-});
+const PERMISSION = new mongoose.Schema(
+  {
+    name: { type: String, unique: true },
+    description: String
+  },
+  DEFAULT_OPTIONS
+);
 
 PERMISSION.statics.create = async ({ id, name, description }) => {
   let permission;
@@ -72,11 +128,9 @@ PERMISSION.statics.create = async ({ id, name, description }) => {
 };
 
 PERMISSION.statics.findNotCreatedPermissions = async permissions => {
-  const notCreated = await Permission.find({ _id: { $not: { $in: permissions } } }).select({ _id: 1 });
-  if (notCreated.length) {
-    return notCreated.map(({ _id }) => _id);
-  }
-  return [];
+  const select = await Permission.find({ _id: { $in: permissions } }).select({ _id: 1 });
+  const created = select.map(({ _id }) => String(_id));
+  return permissions.filter(p => !created.includes(p));
 };
 
 const Permission = mongoose.model('permission', PERMISSION);
