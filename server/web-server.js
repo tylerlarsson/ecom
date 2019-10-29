@@ -4,7 +4,11 @@ const swaggerUi = require('swagger-ui-express');
 const expressJwt = require('express-jwt');
 const swaggerSpec = require('./swagger');
 // const jwt = require('jsonwebtoken');
+
 const userRoute = require('./route/user');
+const roleRoute = require('./route/role');
+const permissionRoute = require('./route/permission');
+
 const config = require('./config');
 
 const SECRET = config.get('web-app:secret');
@@ -16,6 +20,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/user', userRoute);
+app.use('/role', roleRoute);
+app.use('/permission', permissionRoute);
 
 /**
  * @swagger
