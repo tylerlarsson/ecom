@@ -20,13 +20,15 @@ import {
   createMuiTheme,
   responsiveFontSizes,
 } from '@material-ui/core/styles';
+import blue from '@material-ui/core/colors/blue';
+import grey from '@material-ui/core/colors/grey';
 
 // Import root app
 import App from 'containers/App';
 
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
-import '!file-loader?name=[name].[ext]!./images/favicon.ico';
+import '!file-loader?name=[name].[ext]!./assets/images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
@@ -36,7 +38,12 @@ import configureStore from './configureStore';
 const initialState = {};
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
-let theme = createMuiTheme();
+let theme = createMuiTheme({
+  palette: {
+    primary: blue,
+    secondary: grey,
+  }
+});
 theme = responsiveFontSizes(theme);
 
 const render = () => {
