@@ -56,6 +56,14 @@ USER.statics.create = async ({ username, password, email, firstname, lastname, r
   return user;
 };
 
+USER.statics.verifyUsername = async username => {
+  const user = await User.findOne({ username });
+  if (!user) {
+    return false;
+  }
+  return user;
+};
+
 USER.statics.verify = async (username, password) => {
   const user = await User.findOne({ username });
   if (!user) {
