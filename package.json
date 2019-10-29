@@ -24,7 +24,7 @@
     "build": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress --hide-modules --display-optimization-bailout",
     "build:clean": "rimraf ./build",
     "start": "npm run start:prod",
-    "dev": "cross-env NODE_ENV=development node client",
+    "dev": "node ./server/web-server.js --NODE_ENV=development",
     "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node client",
     "start:production": "npm run test && npm run build && npm run start:prod",
     "start:prod": "cross-env NODE_ENV=production node client",
@@ -44,8 +44,7 @@
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "prettify": "prettier --write",
-    "server": "node ./server/web-server.js --NODE_ENV=development"
+    "prettify": "prettier --write"
   },
   "browserslist": [
     "last 2 versions",
@@ -170,7 +169,7 @@
     "jest-dom": "3.1.3",
     "jest-styled-components": "6.3.1",
     "lint-staged": "8.1.5",
-    "ngrok": "3.1.1",
+    "ngrok": "3.2.3",
     "node-plop": "0.18.0",
     "offline-plugin": "5.0.6",
     "plop": "2.3.0",
@@ -182,6 +181,7 @@
     "stylelint-config-recommended": "2.2.0",
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-processor-styled-components": "1.6.0",
-    "whatwg-fetch": "3.0.0"
+    "whatwg-fetch": "3.0.0",
+    "express-static-proxy": "1.0.0"
   }
 }
