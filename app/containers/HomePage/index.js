@@ -7,14 +7,18 @@
 
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+import routes from '../../constants/routes.json';
 
 export default function HomePage() {
   return (
-    <div>
-      <h1>This is the HomePage container!</h1>
-      <Button variant="contained" color="primary">
-        Button
-      </Button>
+    <div style={{textAlign: 'center'}}>
+      <h1>Ecom Freedom Homepage</h1>
+      <Link to={routes.LOGIN} style={{textDecoration: 'none'}}>
+        <Button variant="contained" color="primary">
+          Login
+        </Button>
+      </Link>
     </div>
   );
 }

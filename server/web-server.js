@@ -7,6 +7,7 @@ const { Role, Permission } = require('./authorizer');
 const userRoute = require('./route/user');
 const roleRoute = require('./route/role');
 const permissionRoute = require('./route/permission');
+const oauthRoute = require('./route/oauth');
 
 const config = require('./config');
 
@@ -19,6 +20,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/user', userRoute);
 app.use('/role', roleRoute);
 app.use('/permission', permissionRoute);
+app.use('/oauth', oauthRoute);
 
 /**
  * @swagger
