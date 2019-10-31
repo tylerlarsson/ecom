@@ -14,14 +14,15 @@ const config = require('./config');
 
 const createLogger = require('./logger');
 const logger = createLogger('web-server');
+const API = config.get('base-path');
 
 const app = express();
 app.use(bodyParser.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use('/user', userRoute);
-app.use('/role', roleRoute);
-app.use('/permission', permissionRoute);
-app.use('/oauth', oauthRoute);
+app.use(`${API}/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(`${API}/user`, userRoute);
+app.use(`${API}/role`, roleRoute);
+app.use(`${API}/permission`, permissionRoute);
+app.use(`${API}/oauth`, oauthRoute);
 
 /**
  * @swagger
@@ -38,7 +39,7 @@ app.use('/oauth', oauthRoute);
  *         description: login
  */
 
-app.get('/test/admin', Role('admin-role'), (req, res) => {
+app.get(`${API}/test/admin`, Role('admin-role'), (req, res) => {
   res.send('admin role only!');
 });
 
@@ -57,7 +58,7 @@ app.get('/test/admin', Role('admin-role'), (req, res) => {
  *         description: login
  */
 
-app.get('/test/permission3', Permission('third-super-permission'), (req, res) => {
+app.get(`${API}/test/permission3`, Permission('third-super-permission'), (req, res) => {
   res.send('third-super-permission only!');
 });
 

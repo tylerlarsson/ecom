@@ -18,5 +18,5 @@ function readJson(...relativePath) {
 module.exports = {
   readFile,
   readJson,
-  BASE_PATH,
+  BASE_PATH
 };

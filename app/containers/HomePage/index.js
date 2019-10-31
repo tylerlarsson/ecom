@@ -8,7 +8,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import routes from '../../constants/routes.json';
+import routes from 'constants/routes.json';
 
 export default function HomePage() {
   return (

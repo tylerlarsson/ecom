@@ -44,7 +44,11 @@
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "prettify": "prettier --write"
+    "prettify": "prettier --write",
+    "user:admin:dev": "node ./server/db-script/create-admin.js --NODE_ENV=development",
+    "user:regular:dev": "node ./server/db-script/create-user.js --NODE_ENV=development",
+    "user:admin:prod": "node ./server/db-script/create-admin.js --NODE_ENV=production",
+    "user:regular:prod": "node ./server/db-script/create-user.js --NODE_ENV=production"
   },
   "browserslist": [
     "last 2 versions",

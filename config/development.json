@@ -11,5 +11,8 @@
     "secret": "Z$@r>h[u%#9R#UlL&u?ES$/s3Fe;tf",
     "token-expires-in": "30m",
     "refresh-token-expires-in": "1d"
-  }
+  },
+  "base-path": "/v1/api",
+  "default-admin-permissions": ["*"],
+  "default-user-permissions": ["profile-view"]
 }
