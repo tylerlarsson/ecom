@@ -34,7 +34,6 @@ const styles = theme => ({
 });
 
 class LoginPage extends Component {
-
   render() {
     const { classes, onSubmit } = this.props;
 

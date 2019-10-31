@@ -1,7 +1,8 @@
 const swaggerJSDoc = require('swagger-jsdoc');
+const config = require('./config');
 
 const swaggerDefinition = {
-  basePath: '/', // Base path (optional)
+  basePath: config.get('base-path'),
   securityDefinitions: {
     bearerAuth: {
       type: 'apiKey',

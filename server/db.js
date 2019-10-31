@@ -86,6 +86,15 @@ const ROLE = new mongoose.Schema(
   DEFAULT_OPTIONS
 );
 
+ROLE.statics.createIfNotExists = async (name, permissions) => {
+  const role = await Role.findOne({ name });
+  if (role) {
+    role.permissions = permissions;
+    return role.save();
+  }
+  return Role.create({ name, description: '', permissions });
+};
+
 ROLE.statics.create = async ({ id, name, description, permissions }) => {
   let role;
   if (id) {
@@ -114,6 +123,14 @@ const PERMISSION = new mongoose.Schema(
   },
   DEFAULT_OPTIONS
 );
+
+PERMISSION.statics.createIfNotExists = async name => {
+  const permission = await Permission.findOne({ name });
+  if (permission) {
+    return permission;
+  }
+  return Permission.create({ name, description: '' });
+};
 
 PERMISSION.statics.create = async ({ id, name, description }) => {
   let permission;
