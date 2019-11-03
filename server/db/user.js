@@ -8,10 +8,13 @@ const USER = new mongoose.Schema(
   {
     username: { type: String, unique: true },
     hash: String,
-    email: { type: String, index: true },
+    email: { type: String, unique: true },
     firstname: { type: String, index: true },
     lastname: { type: String, index: true },
-    roles: [{ type: [ObjectId], ref: 'role' }]
+    roles: [{ type: ObjectId, ref: 'role' }],
+    loginCount: { type: Number, default: 0 },
+    loginLast: { type: Date, default: null },
+    created: { type: Date, default: null }
   },
   DEFAULT_OPTIONS
 );
@@ -34,9 +37,14 @@ USER.virtual('permissionNames').get(async function() {
 });
 
 USER.statics.create = async ({ username, password, email, firstname, lastname, roles }) => {
+  if (!username) {
+    username = email;
+  }
+
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
-  const user = new User({ username, hash, email, firstname, lastname, roles });
+  const created = new Date();
+  const user = new User({ username, hash, email, firstname, lastname, roles, created });
   await user.save();
   return user;
 };
@@ -49,8 +57,16 @@ USER.statics.verifyUsername = async username => {
   return user;
 };
 
-USER.statics.verify = async (username, password) => {
-  const user = await User.findOne({ username });
+USER.statics.verifyEmail = async email => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    return false;
+  }
+  return user;
+};
+
+USER.statics.verify = async (email, password) => {
+  const user = await User.findOne({ email });
   if (!user) {
     return false;
   }
@@ -58,6 +74,13 @@ USER.statics.verify = async (username, password) => {
     return user;
   }
   return false;
+};
+
+// eslint-disable-next-line func-names
+USER.methods.updateLoginStats = async function() {
+  this.loginLast = new Date();
+  ++this.loginCount;
+  await this.save();
 };
 
 const User = mongoose.model('user', USER);

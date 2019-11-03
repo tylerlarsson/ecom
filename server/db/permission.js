@@ -30,15 +30,21 @@ PERMISSION.statics.create = async ({ id, name, description }) => {
 };
 
 PERMISSION.statics.mapToId = async permissions => {
-  const select = await Permission.find({ $or: [{ _id: { $in: permissions } }, { name: { $in: permissions } }] }).select(
+  const probableIds = permissions.filter(p => mongoose.Types.ObjectId.isValid(p));
+  const select = await Permission.find({ $or: [{ _id: { $in: probableIds } }, { name: { $in: permissions } }] }).select(
     { _id: 1 }
   );
   return select.map(({ _id }) => String(_id));
 };
 
-PERMISSION.statics.findNotCreatedPermissions = async permissions => {
+PERMISSION.statics.mapOneToId = async permission => {
+  const [id] = await Permission.mapToId([permission]);
+  return id;
+};
+
+PERMISSION.statics.isCreated = async permissions => {
   const ids = await Permission.mapToId(permissions);
-  return permissions.filter(p => !ids.includes(p));
+  return permissions.length === ids.length;
 };
 
 const Permission = mongoose.model('permission', PERMISSION);

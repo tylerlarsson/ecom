@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "new user configuration schema",
   "type": "object",
-  "required": ["username", "password", "email", "firstname", "lastname", "roles"],
+  "required": ["password", "email"],
   "additionalProperties": false,
   "properties": {
     "$schema": {

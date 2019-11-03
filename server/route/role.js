@@ -2,6 +2,8 @@ const express = require('express');
 const createLogger = require('../logger');
 const validator = require('../validator');
 const db = require('../db');
+const paginated = require('../middleware/page-request');
+const filter = require('../filter');
 
 const router = express.Router();
 const logger = createLogger('web-server.role-route');
@@ -71,12 +73,10 @@ router.post('/', async (req, res) => {
     }
   }
 
-  const notCreatedPermissions = await db.model.Permission.findNotCreatedPermissions(data.permissions);
-  if (notCreatedPermissions.length) {
-    logger.error('permissions', notCreatedPermissions, 'have not been created yet');
-    res
-      .status(409)
-      .json({ errors: [{ dataPath: '.permissions', message: `not created, ids: ${notCreatedPermissions}` }] });
+  const allCreated = await db.model.Permission.isCreated(data.permissions);
+  if (!allCreated) {
+    logger.error('permissions', data.permissions, 'have not been created yet');
+    res.status(409).json({ errors: [{ dataPath: '.permissions', message: `not created: ${data.permissions}` }] });
     return;
   }
 
@@ -115,16 +115,15 @@ router.post('/:role/permission/:permission', async (req, res) => {
     return;
   }
 
-  const [roleId] = await db.model.Role.mapToId([data.role]);
-
-  const exists = await db.model.Role.count({ _id: roleId });
-  if (!exists) {
+  const roleId = await db.model.Role.mapOneToId(data.role);
+  if (!roleId) {
     logger.error('role not found, id/name', data.role);
     res.status(422).json({ errors: [{ dataPath: '.id', message: 'role not found for provided id' }] });
     return;
   }
 
-  const [permissionId] = await db.model.Permission.mapToId(data.permission);
+
+  const permissionId = await db.model.Permission.mapOneToId(data.permission);
   const { nModified } = await db.model.Role.updateOne({ _id: roleId }, { $addToSet: { permissions: permissionId } });
 
   logger.info('roles modified', nModified);
@@ -158,16 +157,15 @@ router.delete('/:role/permission/:permission', async (req, res) => {
     return;
   }
 
-  const [roleId] = await db.model.Role.mapToId([data.role]);
-  const exists = await db.model.Role.count({ _id: roleId });
-  if (!exists) {
+  const roleId = await db.model.Role.mapOneToId(data.role);
+  if (!roleId) {
     logger.error('role not found, id/name', data.role);
     res.status(422).json({ errors: [{ dataPath: '.id', message: 'role not found for provided id' }] });
     return;
   }
 
-  const [permissionId] = await db.model.Permission.mapToId(data.permission);
-  const { nModified } = await db.model.Role.updateOne({ _id: data.id }, { $pull: { permissions: permissionId } });
+  const permissionId = await db.model.Permission.mapOneToId(data.permission);
+  const { nModified } = await db.model.Role.updateOne({ _id: roleId }, { $pull: { permissions: permissionId } });
 
   logger.info('roles modified', nModified);
   return res.json({ modified: nModified });
@@ -175,11 +173,11 @@ router.delete('/:role/permission/:permission', async (req, res) => {
 
 /**
  * @swagger
- * /role/{id}:
+ * /role/{name}:
  *   delete:
  *     parameters:
- *       - name: id
- *         description: id to delete
+ *       - name: name
+ *         description: id or name to delete
  *         in: path
  *     description: deletes the role
  *     produces:
@@ -191,20 +189,21 @@ router.delete('/:role/permission/:permission', async (req, res) => {
  *         description: no id provided
  *
  */
-router.delete('/:id', async (req, res) => {
+router.delete('/:name', async (req, res) => {
   const data = req.params;
 
-  if (!validator.mongoId(data)) {
-    logger.error('validation of role delete request failed', validator.mongoId.errors);
-    res.status(422).json({ errors: validator.mongoId.errors });
+  if (!validator.name(data)) {
+    logger.error('validation of role delete request failed', validator.name.errors);
+    res.status(422).json({ errors: validator.name.errors });
     return;
   }
 
-  const result = await db.model.Role.deleteOne({ _id: data.id });
+  const roleId = await db.model.Role.mapOneToId(data.name);
+  const result = await db.model.Role.deleteOne({ _id: roleId });
   if (result.deletedCount) {
-    logger.info('role, id', data.id, 'has been deleted');
+    logger.info('role, id/name', data.name, 'has been deleted');
   } else {
-    logger.error('could not delete role, id', data.id);
+    logger.error('could not delete role, id/name', data.name);
   }
   res.json({ deleted: result.deletedCount });
 });
@@ -213,6 +212,15 @@ router.delete('/:id', async (req, res) => {
  * @swagger
  * /role:
  *   get:
+ *     parameters:
+ *       - name: pageNumber
+ *         in: query
+ *         required: true
+ *         default: 0
+ *       - name: pageSize
+ *         in: query
+ *         required: true
+ *         default: 10
  *     description: Get all the roles with assigned permissionss
  *     produces:
  *       - application/json
@@ -221,19 +229,21 @@ router.delete('/:id', async (req, res) => {
  *         description: returns roles
  *
  */
-router.get('/', async (req, res) => {
-  // TODO pagination
-  const result = await db.model.Role.find().populate('permissions');
+router.get('/', paginated, async (req, res) => {
+  const result = await db.model.Role.find()
+    .limit(req.page.limit)
+    .skip(req.page.skip)
+    .populate('permissions');
   res.json(result);
 });
 
 /**
  * @swagger
- * /role/{id}:
+ * /role/{name}:
  *   get:
  *     parameters:
- *       - name: id
- *         description: id
+ *       - name: name
+ *         description: id or name to get
  *         in:  path
  *     description: Get the role by id with assigned permissions
  *     produces:
@@ -245,17 +255,75 @@ router.get('/', async (req, res) => {
  *         description: id is wrong
  *
  */
-router.get('/:id', async (req, res) => {
+router.get('/:name', async (req, res) => {
   const { params } = req;
 
-  if (!validator.mongoId(params)) {
-    logger.error('validation of role delete request failed', validator.mongoId.errors);
-    res.status(422).json({ errors: validator.mongoId.errors });
+  if (!validator.name(params)) {
+    logger.error('validation of role get request failed', validator.name.errors);
+    res.status(422).json({ errors: validator.name.errors });
     return;
   }
 
-  const result = await db.model.Role.findById(params.id).populate('permissions');
+  const roleId = await db.model.Role.mapOneToId(params.name);
+  const result = await db.model.Role.findById(roleId).populate('permissions');
   res.json(result);
+});
+
+/**
+ * @swagger
+ * /role/{role}/filter:
+ *   post:
+ *     parameters:
+ *       - name: role
+ *         description: id or name of role to set filters
+ *         in:  path
+ *         default: admin
+ *       - name: filters array
+ *         description: array of string with filter names
+ *         in:  body
+ *         required: true
+ *         type: array
+ *         items:
+ *           type: string
+ *           example: completed-course
+ *     description: adds filters for the role
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: returns role object or null if not found
+ *       409:
+ *         description: filters do not exist
+ *       422:
+ *         description: id or name is wrong
+ *
+ */
+
+router.post('/:role/filter', async (req, res) => {
+  const {
+    params: { role },
+    body: filters
+  } = req;
+
+  if (!validator.assignFilter({ role, filters })) {
+    logger.error('validation of assign filter request failed', validator.assignFilter.errors);
+    res.status(422).json({ errors: validator.assignFilter.errors });
+    return;
+  }
+
+  if (!filter.exist(filters)) {
+    logger.error('validation of filter name failed');
+    res.status(409).json({ errors: [{ dataPath: '.filters', message: 'some of filters do not exist' }] });
+    return;
+  }
+
+  const roleId = await db.model.Role.mapOneToId(role);
+  const { nModified } = await db.model.Role.updateOne({ _id: roleId }, { filters });
+
+  logger.info('roles modified', nModified);
+  return res.json({ modified: nModified });
 });
 
 module.exports = router;

@@ -3,12 +3,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
-const { Role, Permission } = require('./authorizer');
+const { Role, Permission } = require('./middleware/authorizer');
 
 const userRoute = require('./route/user');
 const roleRoute = require('./route/role');
 const permissionRoute = require('./route/permission');
 const oauthRoute = require('./route/oauth');
+const filterRoute = require('./route/filter');
 
 const config = require('./config');
 
@@ -23,6 +24,7 @@ app.use(`${API}/user`, userRoute);
 app.use(`${API}/role`, roleRoute);
 app.use(`${API}/permission`, permissionRoute);
 app.use(`${API}/oauth`, oauthRoute);
+app.use(`${API}/filter`, filterRoute);
 
 /**
  * @swagger

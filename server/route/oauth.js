@@ -88,7 +88,8 @@ router.post('/token', async (req, res) => {
       logger.error('username/password are wrong');
       return res.status(401).end();
     }
-    logger.info('user', user.username, 'authenticated successfully, creating tokens');
+    await user.updateLoginStats();
+    logger.info('user', user.email, 'authenticated successfully, creating tokens');
   } else if (grantType === GRANT_TYPE.REFRESH_TOKEN) {
     logger.info('grant type: refresh token');
     try {
@@ -97,7 +98,7 @@ router.post('/token', async (req, res) => {
         logger.error('wrong token used to refresh!');
         return res.status(401).end();
       }
-      user = await db.model.User.verifyUsername(userData.username);
+      user = await db.model.User.verifyEmail(userData.email);
       if (!user) {
         logger.error('user permissions revoked');
         return res.status(401).end();
@@ -106,9 +107,15 @@ router.post('/token', async (req, res) => {
       logger.error('refresh token is wrong');
       return res.status(401).end();
     }
+    logger.info('refresh token for user', user.email, 'verified successfully, refreshing access_token');
   }
 
-  const userData = { username: user.username, roles: await user.roleNames, permissions: await user.permissionNames };
+  const userData = {
+    username: user.username,
+    email: user.email,
+    roles: await user.roleNames,
+    permissions: await user.permissionNames
+  };
   const token = jwt.sign(userData, SECRET, {
     expiresIn: config.get('web-app:token-expires-in')
   });

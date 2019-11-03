@@ -2,6 +2,7 @@ const express = require('express');
 const createLogger = require('../logger');
 const validator = require('../validator');
 const db = require('../db');
+const paginated = require('../middleware/page-request');
 
 const router = express.Router();
 const logger = createLogger('web-server.permission-route');
@@ -14,10 +15,13 @@ const logger = createLogger('web-server.permission-route');
  *     properties:
  *       id:
  *         type: string
+ *         example: 5db43b325abc9302f46fe9ba
  *       name:
  *         type: string
+ *         example: read-write
  *       description:
  *         type: string
+ *         example: read write permission
  *
  * /permission:
  *   post:
@@ -68,11 +72,11 @@ router.post('/', async (req, res) => {
 
 /**
  * @swagger
- * /permission/{id}:
+ * /permission/{name}:
  *   delete:
  *     parameters:
- *       - name: id
- *         description: id to get
+ *       - name: name
+ *         description: id or name to delete
  *         in: path
  *     description: deletes the permission and removes assigned permissions from Roles
  *     produces:
@@ -84,23 +88,24 @@ router.post('/', async (req, res) => {
  *         description: no id provided
  *
  */
-router.delete('/:id', async (req, res) => {
+router.delete('/:name', async (req, res) => {
   const data = req.params;
 
-  if (!validator.mongoId(data)) {
-    logger.error('validation of permission delete request failed', validator.mongoId.errors);
-    res.status(422).json({ errors: validator.mongoId.errors });
+  if (!validator.name(data)) {
+    logger.error('validation of permission delete request failed', validator.name.errors);
+    res.status(422).json({ errors: validator.name.errors });
     return;
   }
 
-  const { nModified } = await db.model.Role.update({}, { $pull: { permissions: data.id } }, { multi: true });
+  const permissionId = await db.model.Permission.mapOneToId(data.name);
+  const { nModified } = await db.model.Role.update({}, { $pull: { permissions: permissionId } }, { multi: true });
   logger.info('roles changed', nModified);
 
-  const result = await db.model.Permission.deleteOne({ _id: data.id });
+  const result = await db.model.Permission.deleteOne({ _id: permissionId });
   if (result.deletedCount) {
-    logger.info('permission, id', data.id, 'has been deleted');
+    logger.info('permission, id/name', data.name, 'has been deleted');
   } else {
-    logger.error('could not delete permission, id', data.id);
+    logger.error('could not delete permission, id/name', data.name);
   }
   res.json({ deleted: result.deletedCount });
 });
@@ -109,6 +114,15 @@ router.delete('/:id', async (req, res) => {
  * @swagger
  * /permission:
  *   get:
+ *     parameters:
+ *       - name: pageNumber
+ *         in: query
+ *         required: true
+ *         default: 0
+ *       - name: pageSize
+ *         in: query
+ *         required: true
+ *         default: 10
  *     description: Get all the permissions
  *     produces:
  *       - application/json
@@ -117,19 +131,20 @@ router.delete('/:id', async (req, res) => {
  *         description: returns permissions
  *
  */
-router.get('/', async (req, res) => {
-  // TODO pagination
-  const result = await db.model.Permission.find();
+router.get('/', paginated, async (req, res) => {
+  const result = await db.model.Permission.find()
+    .limit(req.page.limit)
+    .skip(req.page.skip);
   res.json(result);
 });
 
 /**
  * @swagger
- * /permission/{id}:
+ * /permission/{name}:
  *   get:
  *     parameters:
- *       - name: id
- *         description: id to get
+ *       - name: name
+ *         description: id or name to get
  *         in: path
  *     description: Get the permission object
  *     produces:
@@ -138,19 +153,20 @@ router.get('/', async (req, res) => {
  *       200:
  *         description: returns permission object or null if not found
  *       422:
- *         description: id is wrong
+ *         description: id or name is wrong
  *
  */
-router.get('/:id', async (req, res) => {
+router.get('/:name', async (req, res) => {
   const { params } = req;
 
-  if (!validator.mongoId(params)) {
-    logger.error('validation of role delete request failed', validator.mongoId.errors);
-    res.status(422).json({ errors: validator.mongoId.errors });
+  if (!validator.name(params)) {
+    logger.error('validation of get request failed', validator.name.errors);
+    res.status(422).json({ errors: validator.name.errors });
     return;
   }
 
-  const result = await db.model.Role.findById(params.id).populate('permissions');
+  const permissionId = await db.model.Permission.mapOneToId(params.name);
+  const result = await db.model.Permission.findById(permissionId);
   res.json(result);
 });
 
