@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
-import SignupForm from '../../components/SignupForm';
+import SignupForm from 'components/SignupForm';
+import { signUpAction } from 'redux/actions/auth';
+import { connect } from 'react-redux';
 
 const styles = theme => ({
   root: {
@@ -35,14 +37,13 @@ const styles = theme => ({
 
 class SignupPage extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, onSubmit } = this.props;
 
-    console.log('classes', classes);
     return (
       <div className={classes.root}>
         <Grid container spacing={0} className={classes.wrapper}>
           <Grid item xs={12} className={classes.column}>
-            <SignupForm />
+            <SignupForm onSubmit={onSubmit} />
           </Grid>
         </Grid>
       </div>
@@ -50,4 +51,13 @@ class SignupPage extends Component {
   }
 }
 
-export default withStyles(styles)(SignupPage);
+const mapDispatchToProps = dispatch => ({
+  onSubmit: data => {
+    dispatch(signUpAction(data));
+  }
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(styles)(SignupPage));

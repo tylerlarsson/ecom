@@ -55,7 +55,7 @@
     },
     "base-path": {
       "type": "string",
-      "pattern": "^/v\\d+/[a-z-]+$"
+      "pattern": "^/[a-z-]+/v\\d+$"
     },
     "default-user-permissions": {
       "type": "array",

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import LoginForm from '../../components/LoginForm';
-import { tryToLogin } from '../../redux/actions/auth';
+import LoginForm from 'components/LoginForm';
+import { signInAction } from 'redux/actions/auth';
 
 const styles = theme => ({
   root: {
@@ -51,11 +52,11 @@ class LoginPage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: ({ email, password }) => {
-    dispatch(tryToLogin(email, password));
+    dispatch(signInAction(email, password));
   }
 });
 
-export default connect(
+export default withRouter(connect(
   null,
   mapDispatchToProps
-)(withStyles(styles)(LoginPage));
+)(withStyles(styles)(LoginPage)));
