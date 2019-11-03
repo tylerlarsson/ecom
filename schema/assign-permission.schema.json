@@ -2,14 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "assign permission request schema",
   "type": "object",
-  "required": ["id", "permission"],
+  "required": ["role", "permission"],
   "additionalProperties": false,
   "properties": {
-    "id": {
-      "$ref": "#mongo-id"
+    "role": {
+      "anyOf": [{ "$ref": "#mongo-id" }, { "$ref": "#name" }]
     },
     "permission": {
-      "$ref": "#mongo-id"
+      "anyOf": [{ "$ref": "#mongo-id" }, { "$ref": "#name" }]
     }
   }
 }

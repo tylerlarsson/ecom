@@ -4,5 +4,5 @@
   "title": "role or permission name",
   "type": "string",
   "pattern": "^[a-z-\\d]+$",
-  "minLength": 5
+  "minLength": 4
 }

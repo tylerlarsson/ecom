@@ -1,29 +1,60 @@
-import { routerActions } from 'connected-react-router';
-// import { Dispatch } from '../reducers/types';
+import {
+  LOGIN_REQUEST,
+  FORGOT_PASSWORD_REQUEST,
+  RESET_PASSWORD_REQUEST,
+  SIGN_UP_REQUEST,
+  GET_USER_REQUEST, LOG_OUT_REQUEST, SET_USER_REQUEST, UPDATE_USER_REQUEST,
+} from 'constants/actionTypes';
 
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
-export const LOGIN_FAIL = 'LOGIN_FAIL';
-
-const login = () => ({ type: LOGIN });
-
-const wrongCredentials = () => ({ type: LOGIN_FAIL });
-
-const logout = () => ({ type: LOGOUT });
-
-export function tryToLogin(email, password) {
-  if (email === 'test@test.com' && password === '123456') {
-    return (dispatch) => {
-      dispatch(login());
-      return dispatch(routerActions.push('/'));
-    };
+export const isAuth = () => {
+  if (localStorage.getItem('authentication_token')) {
+    return true;
   }
-  return (dispatch) => dispatch(wrongCredentials());
-}
+  return false;
+};
 
-export function tryToLogout() {
-  return (dispatch) => {
-    dispatch(logout());
-    return dispatch(routerActions.push('/login'));
-  };
-}
+export const setUserAction = res => ({
+  type: SET_USER_REQUEST,
+  res,
+});
+
+export const signInAction = (email, password) => ({
+  type: LOGIN_REQUEST,
+  payload: {
+    email,
+    password,
+  },
+});
+
+export const getUserAction = email => ({
+  type: GET_USER_REQUEST,
+  payload: {
+    email,
+  },
+});
+
+export const updateUserAction = payload => ({
+  type: UPDATE_USER_REQUEST,
+  payload,
+});
+
+export const forgotPasswordAction = payload => ({
+  type: FORGOT_PASSWORD_REQUEST,
+  payload,
+});
+
+export const resetPasswordAction = payload => ({
+  type: RESET_PASSWORD_REQUEST,
+  payload,
+});
+
+export const signUpAction = user => ({
+  type: SIGN_UP_REQUEST,
+  payload: {
+    ...user,
+  },
+});
+
+export const logoutAction = () => ({
+  type: LOG_OUT_REQUEST,
+});

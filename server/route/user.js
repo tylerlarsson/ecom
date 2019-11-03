@@ -1,9 +1,10 @@
 const express = require('express');
-// const jwt = require('jsonwebtoken');
 // const config = require('../config');
 const createLogger = require('../logger');
 const validator = require('../validator');
 const db = require('../db');
+const paginated = require('../middleware/page-request');
+const filtered = require('../middleware/filter');
 
 const router = express.Router();
 // const SECRET = config.get('web-app:secret');
@@ -15,27 +16,31 @@ const logger = createLogger('web-server.user-route');
  *   NewUser:
  *     type: object
  *     required:
- *       - username
  *       - password
  *       - email
- *       - firstname
- *       - lastname
  *     properties:
  *       username:
  *         type: string
+ *         example: super
  *       password:
  *         type: string
  *         format: password
+ *         example: awesomepassword
  *       email:
  *         type: string
+ *         example: super@awesome.com
  *       firstname:
  *         type: string
+ *         example: John
  *       lastname:
  *         type: string
+ *         example: Doe
  *       roles:
  *         type: array
  *         items:
  *           type: string
+ *           description: id or name of role
+ *           example: admin
  *
  * /user:
  *   post:
@@ -70,23 +75,72 @@ router.post('/', async (req, res) => {
     return;
   }
 
-  const existing = await db.model.User.findOne({ username: data.username });
+  const existing = await db.model.User.findOne({ email: data.email });
   if (existing) {
-    logger.error('user', data.username, 'already exists');
-    res.status(409).json({ errors: [{ dataPath: '.username', message: 'already exists' }] });
+    logger.error('user', data.email, 'already exists');
+    res.status(409).json({ errors: [{ dataPath: '.email', message: 'already exists' }] });
     return;
   }
 
-  const notCreatedRoles = await db.model.Role.findNotCreatedRoles(data.roles);
-  if (notCreatedRoles.length) {
-    logger.error('roles', notCreatedRoles, 'have not been created yet');
-    res.status(409).json({ errors: [{ dataPath: '.roles', message: `not created, ids: ${notCreatedRoles}` }] });
+  if (!data.roles) {
+    data.roles = ['user'];
+  }
+
+  const allCreated = await db.model.Role.isCreated(data.roles);
+  if (!allCreated) {
+    logger.error('not all roles from', data.roles, 'have not been created yet');
+    res.status(409).json({ errors: [{ dataPath: '.roles', message: `not created: ${data.roles}` }] });
     return;
   }
 
+  data.roles = await db.model.Role.mapToId(data.roles);
   const user = await db.model.User.create(data);
-  logger.info('user', user.username, 'has been created, id', String(user._id));
-  res.json({ username: user.user, _id: user._id });
+  logger.info('user', user.email, 'has been created, id', String(user._id));
+  res.json({ email: user.email, _id: user._id });
+});
+
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *     parameters:
+ *       - name: pageNumber
+ *         in: query
+ *         required: true
+ *         default: 0
+ *       - name: pageSize
+ *         in: query
+ *         required: true
+ *         default: 10
+ *       - name: last-login-after
+ *         in: query
+ *         default: 1
+ *       - name: last-login-before
+ *         in: query
+ *         default: 2000000000000
+ *       - name: login-count-greater-than
+ *         in: query
+ *         default: 1
+ *       - name: signed-up-after
+ *         in: query
+ *         default: 1
+ *       - name: signed-up-before
+ *         in: query
+ *         default: 1
+ *     description: Get users
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: returns users
+ *
+ */
+router.get('/', paginated, filtered, async (req, res) => {
+  const result = await db.model.User.find(req.filter)
+    .limit(req.page.limit)
+    .skip(req.page.skip)
+    .populate({ path: 'roles', populate: { path: 'permissions', model: 'permission' } });
+  res.json(result);
 });
 
 module.exports = router;

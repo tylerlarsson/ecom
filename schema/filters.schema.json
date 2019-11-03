@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "filters schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "last-login-after": {
+      "type": "string",
+      "pattern": "^\\d+$"
+    },
+    "last-login-before": {
+      "type": "string",
+      "pattern": "^\\d+$"
+    },
+    "login-count-greater-than": {
+      "type": "string",
+      "pattern": "^\\d+$"
+    },
+    "signed-up-after": {
+      "type": "string",
+      "pattern": "^\\d+$"
+    },
+    "signed-up-before": {
+      "type": "string",
+      "pattern": "^\\d+$"
+    }
+  }
+}

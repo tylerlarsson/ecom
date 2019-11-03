@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import { fade, withStyles, makeStyles } from '@material-ui/core/styles';
+import { fade, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -10,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import routes from '../constants/routes.json';
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -61,7 +62,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1)
   }
-}));
+});
 
 const BootstrapInput = withStyles(theme => ({
   root: {
@@ -86,64 +87,123 @@ const BootstrapInput = withStyles(theme => ({
   }
 }))(InputBase);
 
-export default function SignupForm() {
-  const classes = useStyles();
+class SignupForm extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5" className={classes.title}>
-          Sign up
-        </Typography>
-        <div className={classes.subtitle}>
-          or <Link to={routes.LOGIN}>log in</Link>
-        </div>
-        <form className={classes.form} noValidate>
-          <FormControl className={classes.margin}>
-            <InputLabel
-              shrink
-              htmlFor="email"
-              classes={{
-                root: classes.label,
-                focused: classes.label
-              }}
-            >
-              Username or email address
-            </InputLabel>
-            <BootstrapInput
-              required
-              fullWidth
-              id="email"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-          </FormControl>
-          <FormControl className={classes.margin}>
-            <InputLabel shrink htmlFor="password" className={classes.label}>
-              Password
-            </InputLabel>
-            <BootstrapInput
-              required
-              fullWidth
-              name="password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-          </FormControl>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
+    this.state = {
+      email: '',
+      password: ''
+    };
+  }
+
+  handleChange = prop => event => {
+    this.setState({ [prop]: event.target.value });
+  };
+
+  validate = () => {
+    const { email, password } = this.state;
+
+    if (!email.trim() || !password) {
+      return false;
+    }
+
+    return true;
+  };
+
+  handleSubmit = event => {
+    const { email, password } = this.state;
+    const { onSubmit } = this.props;
+    event.preventDefault();
+
+    if (this.validate()) {
+      onSubmit({
+        email,
+        password,
+        firstname: 'User',
+        lastname: 'Name',
+        roles: ['5dbb7ba4bb63cb5e04523fb2']
+      });
+    }
+  };
+
+  render() {
+    const { classes } = this.props;
+    const { email, password } = this.state;
+
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5" className={classes.title}>
             Sign up
-          </Button>
-        </form>
-      </div>
-    </Container>
-  );
+          </Typography>
+          <div className={classes.subtitle}>
+            or <Link to={routes.LOGIN}>log in</Link>
+          </div>
+          <form className={classes.form}>
+            <FormControl className={classes.margin}>
+              <InputLabel
+                shrink
+                htmlFor="email"
+                classes={{
+                  root: classes.label
+                }}
+                focused={false}
+              >
+                Username or email address
+              </InputLabel>
+              <BootstrapInput
+                required
+                fullWidth
+                id="email"
+                name="email"
+                autoComplete="email"
+                value={email || ''}
+                onChange={this.handleChange('email')}
+                autoFocus
+              />
+            </FormControl>
+            <FormControl className={classes.margin}>
+              <InputLabel
+                shrink
+                htmlFor="password"
+                classes={{
+                  root: classes.label
+                }}
+                focused={false}
+              >
+                Password
+              </InputLabel>
+              <BootstrapInput
+                required
+                fullWidth
+                name="password"
+                type="password"
+                id="password"
+                value={password || ''}
+                onChange={this.handleChange('password')}
+                autoComplete="current-password"
+              />
+            </FormControl>
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={this.handleSubmit}
+            >
+              Sign Up
+            </Button>
+          </form>
+        </div>
+      </Container>
+    );
+  }
 }
+
+SignupForm.props = {
+  onSubmit: PropTypes.func.isRequired
+};
+export default withStyles(styles)(SignupForm);

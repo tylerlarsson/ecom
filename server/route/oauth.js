@@ -28,17 +28,26 @@ const GRANT_TYPE = {
  *     properties:
  *       grant_type:
  *         type: string
- *         description: we support only "password"
+ *         enum: [password, refresh_token]
+ *         description: login - password, refresh_token on refresh
+ *         example: password
  *       client_id:
  *         type: string
- *         description: sent client id, for instance "WEB-APP"
+ *         description: sent client id, for instance "WEB-APP",
+ *         example: WEB-APP
  *       username:
  *         type: string
+ *         description: required when grant_type="password"
+ *         example: admin
  *       password:
  *         type: string
  *         format: password
+ *         description: required when grant_type="password"
+ *         example: masterpassword
  *       refresh_token:
  *         type: string
+ *         description: required when grant_type="refresh_token"
+ *         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cGVyIiwicm9sZXMiOlsiYWRtaW4tcm9sZS0yIl0sInBlcm1pc3Npb25zIjpbInN1cGVyLXBlcm1pc3Npb24iXSwicmVmcmVzaFRva2VuIjoxLCJpYXQiOjE1NzI2NjgxOTAsImV4cCI6MTU3Mjc1NDU5MH0.5cYO9-10sGAyKhUjSM0sDxnP-IYUByWhAdMkQ6rn6A8
  *
  * /oauth/token:
  *   post:
@@ -79,7 +88,8 @@ router.post('/token', async (req, res) => {
       logger.error('username/password are wrong');
       return res.status(401).end();
     }
-    logger.info('user', user.username, 'authenticated successfully, creating tokens');
+    await user.updateLoginStats();
+    logger.info('user', user.email, 'authenticated successfully, creating tokens');
   } else if (grantType === GRANT_TYPE.REFRESH_TOKEN) {
     logger.info('grant type: refresh token');
     try {
@@ -88,7 +98,7 @@ router.post('/token', async (req, res) => {
         logger.error('wrong token used to refresh!');
         return res.status(401).end();
       }
-      user = await db.model.User.verifyUsername(userData.username);
+      user = await db.model.User.verifyEmail(userData.email);
       if (!user) {
         logger.error('user permissions revoked');
         return res.status(401).end();
@@ -97,9 +107,15 @@ router.post('/token', async (req, res) => {
       logger.error('refresh token is wrong');
       return res.status(401).end();
     }
+    logger.info('refresh token for user', user.email, 'verified successfully, refreshing access_token');
   }
 
-  const userData = { username: user.username, roles: await user.roleNames, permissions: await user.permissionNames };
+  const userData = {
+    username: user.username,
+    email: user.email,
+    roles: await user.roleNames,
+    permissions: await user.permissionNames
+  };
   const token = jwt.sign(userData, SECRET, {
     expiresIn: config.get('web-app:token-expires-in')
   });

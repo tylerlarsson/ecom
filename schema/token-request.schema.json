@@ -43,8 +43,7 @@
         "grant_type": {
           "const": "refresh_token"
         }
-      },
-      "required": ["refresh_token"]
+      }
     }
   ]
 }
