@@ -12,7 +12,7 @@
     "token-expires-in": "30m",
     "refresh-token-expires-in": "1d"
   },
-  "base-path": "/v1/api",
+  "base-path": "/api/v1",
   "default-admin-permissions": ["*"],
   "default-user-permissions": ["profile-view"]
 }

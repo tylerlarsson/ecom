@@ -23,19 +23,26 @@ const logger = createLogger('web-server.user-route');
  *     properties:
  *       username:
  *         type: string
+ *         example: super
  *       password:
  *         type: string
  *         format: password
+ *         example: awesomepassword
  *       email:
  *         type: string
+ *         example: super@awesome.com
  *       firstname:
  *         type: string
+ *         example: John
  *       lastname:
  *         type: string
+ *         example: Doe
  *       roles:
  *         type: array
  *         items:
  *           type: string
+ *           description: id or name of role
+ *           example: admin
  *
  * /user:
  *   post:
@@ -84,6 +91,7 @@ router.post('/', async (req, res) => {
     return;
   }
 
+  data.roles = await db.model.Role.mapToId(data.roles);
   const user = await db.model.User.create(data);
   logger.info('user', user.username, 'has been created, id', String(user._id));
   res.json({ username: user.user, _id: user._id });

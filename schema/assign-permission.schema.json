@@ -6,10 +6,10 @@
   "additionalProperties": false,
   "properties": {
     "id": {
-      "$ref": "#mongo-id"
+      "anyOf": [{ "$ref": "#mongo-id" }, { "$ref": "#name" }]
     },
     "permission": {
-      "$ref": "#mongo-id"
+      "anyOf": [{ "$ref": "#mongo-id" }, { "$ref": "#name" }]
     }
   }
 }

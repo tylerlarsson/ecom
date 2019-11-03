@@ -13,15 +13,20 @@ const logger = createLogger('web-server.role-route');
  *     type: object
  *     properties:
  *       id:
- *         type: string
+ *         type: string,
+ *         example: 5db3f8d7075794205c8d1c31
  *       name:
- *         type: string
+ *         type: string,
+ *         example: admin-role
  *       description:
- *         type: string
+ *         type: string,
+ *         example: this role is for web app admnins
  *       permissions:
  *         type: array
  *         items:
  *           type: string
+ *           example: 5db3f8d7075794205c8d1c31
+ *           description: name or id of permission
  *
  * /role:
  *   post:
@@ -75,6 +80,7 @@ router.post('/', async (req, res) => {
     return;
   }
 
+  data.permissions = await db.model.Permission.mapToId(data.permissions);
   const role = await db.model.Role.create(data);
   logger.info('role', role.name, 'has been created/updated, id', String(role._id));
   res.json(role);
@@ -82,15 +88,17 @@ router.post('/', async (req, res) => {
 
 /**
  * @swagger
- * /role/{id}/permission/{permission}:
+ * /role/{role}/permission/{permission}:
  *   post:
  *     parameters:
- *       - name: id
- *         description: role id to assign the permission
+ *       - name: role
+ *         description: role id or name to assign the permission
  *         in: path
+ *         example: admin
  *       - name: permission
- *         description: permission id to assign
+ *         description: permission id or name to assign
  *         in: path
+ *         example: \*
  *     produces:
  *       - application/json
  *     responses:
@@ -98,7 +106,7 @@ router.post('/', async (req, res) => {
  *         description: returns number of affected rules 1/0
  *
  */
-router.post('/:id/permission/:permission', async (req, res) => {
+router.post('/:role/permission/:permission', async (req, res) => {
   const data = req.params;
 
   if (!validator.assignPermission(data)) {
@@ -107,17 +115,17 @@ router.post('/:id/permission/:permission', async (req, res) => {
     return;
   }
 
-  const exists = await db.model.Role.count({ _id: data.id });
+  const [roleId] = await db.model.Role.mapToId([data.role]);
+
+  const exists = await db.model.Role.count({ _id: roleId });
   if (!exists) {
-    logger.error('role not found, id', data.id);
+    logger.error('role not found, id/name', data.role);
     res.status(422).json({ errors: [{ dataPath: '.id', message: 'role not found for provided id' }] });
     return;
   }
 
-  const { nModified } = await db.model.Role.updateOne(
-    { _id: data.id },
-    { $addToSet: { permissions: data.permission } }
-  );
+  const [permissionId] = await db.model.Permission.mapToId(data.permission);
+  const { nModified } = await db.model.Role.updateOne({ _id: roleId }, { $addToSet: { permissions: permissionId } });
 
   logger.info('roles modified', nModified);
   return res.json({ modified: nModified });
@@ -125,14 +133,14 @@ router.post('/:id/permission/:permission', async (req, res) => {
 
 /**
  * @swagger
- * /role/{id}/permission/{permission}:
+ * /role/{role}/permission/{permission}:
  *   delete:
  *     parameters:
- *       - name: id
- *         description: role id to remove the permission from
+ *       - name: role
+ *         description: role id or name to remove the permission from
  *         in: path
  *       - name: permission
- *         description: permission id to delete
+ *         description: permission id or name to delete
  *         in: path
  *     produces:
  *       - application/json
@@ -141,7 +149,7 @@ router.post('/:id/permission/:permission', async (req, res) => {
  *         description: returns number of affected rules 1/0
  *
  */
-router.delete('/:id/permission/:permission', async (req, res) => {
+router.delete('/:role/permission/:permission', async (req, res) => {
   const data = req.params;
 
   if (!validator.assignPermission(data)) {
@@ -150,14 +158,16 @@ router.delete('/:id/permission/:permission', async (req, res) => {
     return;
   }
 
-  const exists = await db.model.Role.count({ _id: data.id });
+  const [roleId] = await db.model.Role.mapToId([data.role]);
+  const exists = await db.model.Role.count({ _id: roleId });
   if (!exists) {
-    logger.error('role not found, id', data.id);
+    logger.error('role not found, id/name', data.role);
     res.status(422).json({ errors: [{ dataPath: '.id', message: 'role not found for provided id' }] });
     return;
   }
 
-  const { nModified } = await db.model.Role.updateOne({ _id: data.id }, { $pull: { permissions: data.permission } });
+  const [permissionId] = await db.model.Permission.mapToId(data.permission);
+  const { nModified } = await db.model.Role.updateOne({ _id: data.id }, { $pull: { permissions: permissionId } });
 
   logger.info('roles modified', nModified);
   return res.json({ modified: nModified });

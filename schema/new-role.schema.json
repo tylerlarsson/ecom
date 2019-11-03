@@ -17,7 +17,7 @@
     "permissions": {
       "type": "array",
       "items": {
-        "$ref": "#mongo-id"
+        "anyOf": [{ "$ref": "#mongo-id" }, { "$ref": "#name" }]
       }
     }
   }
