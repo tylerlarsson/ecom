@@ -27,9 +27,7 @@ function createLogger(filename) {
   const winstonLogger = new winston.Logger({
     transports: [
       new winston.transports.Console(CONSOLE_CONFIG),
-      new winston.transports.DailyRotateFile(
-        Object.assign({ filename: fullFilename }, FILE_CONFIG)
-      )
+      new winston.transports.DailyRotateFile(Object.assign({ filename: fullFilename }, FILE_CONFIG))
     ]
   });
 
@@ -40,11 +38,7 @@ function createLogger(filename) {
 function errorTransformer(errors) {
   return errors.map(error => {
     const { response } = error;
-    const message =
-      response &&
-      response.body &&
-      response.body.error &&
-      response.body.error.message;
+    const message = response && response.body && response.body.error && response.body.error.message;
     return message || error;
   });
 }

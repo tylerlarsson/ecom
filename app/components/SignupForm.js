@@ -203,7 +203,9 @@ class SignupForm extends Component {
   }
 }
 
-SignupForm.props = {
-  onSubmit: PropTypes.func.isRequired
+SignupForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  classes: PropTypes.object
 };
+
 export default withStyles(styles)(SignupForm);

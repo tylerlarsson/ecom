@@ -5,20 +5,36 @@
  *
  */
 
-import React from 'react';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
 import routes from 'constants/routes.json';
 
-export default function HomePage() {
+export function HomePage({ history }) {
   return (
-    <div style={{textAlign: 'center'}}>
-      <h1>Ecom Freedom Homepage</h1>
-      <Link to={routes.LOGIN} style={{textDecoration: 'none'}}>
-        <Button variant="contained" color="primary">
-          Login
-        </Button>
-      </Link>
+    <div style={{ textAlign: 'center' }}>
+      <h1>Ecom Freedom Homepage test</h1>
+      <Button variant="contained" color="primary" onClick={() => history.push(routes.LOGIN)}>
+        Login
+      </Button>
     </div>
   );
 }
+
+HomePage.propTypes = {
+  history: PropTypes.object
+};
+
+const mapStateToProps = createStructuredSelector({});
+
+const withConnect = connect(mapStateToProps);
+
+export default compose(
+  withConnect,
+  withRouter,
+  memo
+)(HomePage);

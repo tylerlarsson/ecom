@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 import SignupForm from 'components/SignupForm';
@@ -35,7 +36,7 @@ const styles = theme => ({
   }
 });
 
-class SignupPage extends Component {
+class SignupPage extends PureComponent {
   render() {
     const { classes, onSubmit } = this.props;
 
@@ -56,6 +57,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(signUpAction(data));
   }
 });
+
+SignupPage.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  classes: PropTypes.object
+};
 
 export default connect(
   null,

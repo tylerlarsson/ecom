@@ -10,6 +10,51 @@ exports[`<App /> should render and match the snapshot 1`] = `
     />
     <Route
       component={[Function]}
+      exact={true}
+      path="/login"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "Naked": [Function],
+          "WrappedComponent": Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "Naked": [Function],
+            "displayName": "WithStyles(SignupPage)",
+            "options": Object {},
+            "propTypes": Object {
+              "classes": [Function],
+              "innerRef": [Function],
+            },
+            "render": [Function],
+            "useStyles": [Function],
+          },
+          "compare": null,
+          "displayName": "Connect(WithStyles(SignupPage))",
+          "options": Object {},
+          "type": [Function],
+          "useStyles": [Function],
+        }
+      }
+      exact={true}
+      path="/signup"
+    />
+    <Route
+      component={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(Authentication)",
+          "type": [Function],
+        }
+      }
+      exact={true}
+      path="/profile"
+    />
+    <Route
+      component={[Function]}
     />
   </Switch>
   <GlobalStyleComponent />
