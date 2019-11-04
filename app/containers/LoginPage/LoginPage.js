@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -34,7 +35,7 @@ const styles = theme => ({
   }
 });
 
-class LoginPage extends Component {
+class LoginPage extends PureComponent {
   render() {
     const { classes, onSubmit } = this.props;
 
@@ -56,7 +57,14 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRouter(connect(
-  null,
-  mapDispatchToProps
-)(withStyles(styles)(LoginPage)));
+LoginPage.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  classes: PropTypes.object
+};
+
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(withStyles(styles)(LoginPage))
+);

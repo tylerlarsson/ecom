@@ -17,9 +17,7 @@ export default function* watchAuthListener(context = {}) {
 export function* signInRequestSaga({ history }, { payload }) {
   try {
     const res = yield call(signInRequest, payload);
-    yield [
-      put({ type: types.LOGIN_SUCCESS, res }),
-    ];
+    yield [put({ type: types.LOGIN_SUCCESS, res })];
     if (history) {
       history.push('/');
     }
@@ -31,9 +29,7 @@ export function* signInRequestSaga({ history }, { payload }) {
 export function* forgotPasswordRequestSaga({ payload }) {
   try {
     const res = yield call(forgotPasswordRequest, payload);
-    yield [
-      put({ type: types.FORGOT_PASSWORD_SUCCESS, res }),
-    ];
+    yield [put({ type: types.FORGOT_PASSWORD_SUCCESS, res })];
   } catch (error) {
     yield put({ type: types.FORGOT_PASSWORD_FAILED, error });
   }
@@ -42,9 +38,7 @@ export function* forgotPasswordRequestSaga({ payload }) {
 export function* resetPasswordRequestSaga({ payload }) {
   try {
     const res = yield call(resetPasswordRequest, payload);
-    yield [
-      put({ type: types.RESET_PASSWORD_SUCCESS, res }),
-    ];
+    yield [put({ type: types.RESET_PASSWORD_SUCCESS, res })];
   } catch (error) {
     yield put({ type: types.RESET_PASSWORD_FAILED, error });
   }
@@ -60,9 +54,9 @@ export function* updateUserSaga({ payload }) {
         type: types.SET_NOTIFICATION,
         payload: {
           success: res.success,
-          message: res.success ? 'Account updated' : res.message || 'Account not updated',
-        },
-      }),
+          message: res.success ? 'Account updated' : res.message || 'Account not updated'
+        }
+      })
     ];
   } catch (error) {
     yield [
@@ -71,9 +65,9 @@ export function* updateUserSaga({ payload }) {
         type: types.SET_NOTIFICATION,
         payload: {
           success: false,
-          message: error && error.message ? error.message : 'Server error',
-        },
-      }),
+          message: error && error.message ? error.message : 'Server error'
+        }
+      })
     ];
   }
 }

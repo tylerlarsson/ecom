@@ -138,12 +138,7 @@ class Login extends Component {
             Sign in
           </Typography>
           <div className={classes.subtitle}>
-            or{' '}
-            <Link
-              to={routes.SIGNUP}
-            >
-              create account
-            </Link>
+            or <Link to={routes.SIGNUP}>create account</Link>
           </div>
           <form className={classes.form}>
             <FormControl className={classes.margin} error={login && login.failed}>
@@ -212,8 +207,9 @@ function mapStateToProps(state) {
   return { login };
 }
 
-Login.props = {
+Login.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  login: PropTypes.object
+  login: PropTypes.object,
+  classes: PropTypes.object
 };
 export default connect(mapStateToProps)(withStyles(styles)(Login));

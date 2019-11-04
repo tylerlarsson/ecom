@@ -6,27 +6,27 @@ const initialState = {
     password: '',
     status: false,
     error: null,
-    loginStatus: null,
+    loginStatus: null
   },
   signUp: {
     status: false,
     error: null,
-    loginStatus: null,
+    loginStatus: null
   },
   forgotPassword: {
     status: false,
     error: null,
-    forgotStatus: null,
+    forgotStatus: null
   },
   user: {
     data: {},
     status: false,
     error: null,
-    userStatus: null,
-  },
+    userStatus: null
+  }
 };
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case types.SET_USER_REQUEST:
       return {
@@ -35,8 +35,8 @@ export default function (state = initialState, action) {
           data: action.res,
           status: true,
           error: null,
-          userStatus: true,
-        },
+          userStatus: true
+        }
       };
 
     case types.LOGIN_SUCCESS:
@@ -46,8 +46,8 @@ export default function (state = initialState, action) {
           login: {
             ...state.login,
             loginStatus: action.res.success,
-            error: action.res.reason,
-          },
+            error: action.res.reason
+          }
         };
       }
       return {
@@ -55,22 +55,22 @@ export default function (state = initialState, action) {
         login: {
           ...state.login,
           loginStatus: action.res.success,
-          error: null,
+          error: null
         },
         user: {
           data: action.res.data,
           status: true,
           error: null,
-          userStatus: true,
-        },
+          userStatus: true
+        }
       };
     case types.LOGIN_FAILED:
       return {
         ...state,
         login: {
           ...state.login,
-          error: 'Bad Request',
-        },
+          error: 'Bad Request'
+        }
       };
 
     // UPDATE USER REDUCER
@@ -81,8 +81,8 @@ export default function (state = initialState, action) {
           login: {
             ...state.login,
             loginStatus: action.res.success,
-            error: action.res.reason,
-          },
+            error: action.res.reason
+          }
         };
       }
       return {
@@ -90,22 +90,22 @@ export default function (state = initialState, action) {
         login: {
           ...state.login,
           loginStatus: action.res.success,
-          error: null,
+          error: null
         },
         user: {
           data: action.res.data,
           status: true,
           error: null,
-          userStatus: true,
-        },
+          userStatus: true
+        }
       };
     case types.UPDATE_USER_FAILED:
       return {
         ...state,
         login: {
           ...state.login,
-          error: 'Bad Request',
-        },
+          error: 'Bad Request'
+        }
       };
 
     // Requests for forgot password
@@ -113,7 +113,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         status: false,
-        error: null,
+        error: null
       };
     case types.FORGOT_PASSWORD_SUCCESS:
       if (!action.res.success) {
@@ -122,16 +122,16 @@ export default function (state = initialState, action) {
           forgotPassword: {
             ...state.forgotPassword,
             status: action.res.success,
-            error: action.res.reason,
-          },
+            error: action.res.reason
+          }
         };
       }
       return {
         ...state,
         forgotPassword: {
           ...state.forgotPassword,
-          status: action.res.success,
-        },
+          status: action.res.success
+        }
       };
     case types.FORGOT_PASSWORD_FAILED:
       return {
@@ -139,8 +139,8 @@ export default function (state = initialState, action) {
         forgotPassword: {
           ...state.forgotPassword,
           status: false,
-          error: 'Bad Request',
-        },
+          error: 'Bad Request'
+        }
       };
 
     // Requests for resetting the password
@@ -149,19 +149,19 @@ export default function (state = initialState, action) {
         return {
           ...state,
           status: action.res.success,
-          error: action.res.reason,
+          error: action.res.reason
         };
       }
       return {
         ...state,
         status: action.res.success,
-        error: null,
+        error: null
       };
     case types.RESET_PASSWORD_FAILED:
       return {
         ...state,
         status: false,
-        error: 'Bad Request',
+        error: 'Bad Request'
       };
 
     case types.GET_USER_SUCCESS:
@@ -171,15 +171,15 @@ export default function (state = initialState, action) {
           user: {
             ...state.forgotPassword,
             status: action.res.success,
-            error: action.res.reason,
-          },
+            error: action.res.reason
+          }
         };
       }
       return {
         ...state,
         status: action.res.success,
         error: null,
-        user: { ...action.res.data },
+        user: { ...action.res.data }
       };
     case types.GET_USER_FAILED:
       return {
@@ -187,38 +187,37 @@ export default function (state = initialState, action) {
         user: {
           ...state.forgotPassword,
           status: false,
-          error: 'Bad Request',
-        },
+          error: 'Bad Request'
+        }
       };
     case types.SIGN_UP_SUCCESS:
-      console.log('SIGN_UP_SUCCESS reducer', action.res)
       if (!action.res.success) {
         return {
           ...state,
           signUp: {
             loginStatus: false,
-            error: action.res.reason,
-          },
+            error: action.res.reason
+          }
         };
       }
       return {
         ...state,
         signUp: {
           loginStatus: action.res.success,
-          error: null,
-        },
+          error: null
+        }
       };
     case types.SIGN_UP_FAILED:
       return {
         ...state,
         signUp: {
           loginStatus: false,
-          error: action.res.reason,
-        },
+          error: action.res.reason
+        }
       };
     case types.LOG_OUT_SUCCESS:
       return {
-        ...initialState,
+        ...initialState
       };
     default:
       return state;

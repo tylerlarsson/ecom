@@ -25,7 +25,7 @@
     "build:clean": "rimraf ./build",
     "start": "npm run start:prod",
     "dev": "node ./server/web-server.js --NODE_ENV=development",
-    "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node client",
+    "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node server",
     "start:production": "npm run test && npm run build && npm run start:prod",
     "start:prod": "npm run build && node ./server/web-server.js --NODE_ENV=production",
     "presetup": "npm i chalk shelljs",
@@ -170,6 +170,7 @@
     "eslint-plugin-react": "7.12.4",
     "eslint-plugin-react-hooks": "1.6.0",
     "eslint-plugin-redux-saga": "1.0.0",
+    "express-static-proxy": "1.0.0",
     "jest-cli": "24.7.1",
     "jest-dom": "3.1.3",
     "jest-styled-components": "6.3.1",
@@ -180,13 +181,13 @@
     "plop": "2.3.0",
     "pre-commit": "1.2.2",
     "prettier": "1.17.0",
+    "redux-mock-store": "^1.5.3",
     "rimraf": "2.6.3",
     "shelljs": "^0.8.3",
     "stylelint": "10.0.1",
     "stylelint-config-recommended": "2.2.0",
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-processor-styled-components": "1.6.0",
-    "whatwg-fetch": "3.0.0",
-    "express-static-proxy": "1.0.0"
+    "whatwg-fetch": "3.0.0"
   }
 }

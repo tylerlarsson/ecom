@@ -122,7 +122,6 @@ router.post('/:role/permission/:permission', async (req, res) => {
     return;
   }
 
-
   const permissionId = await db.model.Permission.mapOneToId(data.permission);
   const { nModified } = await db.model.Role.updateOne({ _id: roleId }, { $addToSet: { permissions: permissionId } });
 

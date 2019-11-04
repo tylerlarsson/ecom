@@ -1,6 +1,6 @@
 const { resolve } = require('path');
 const ngrok = require('ngrok');
-const setup = require('../client/middlewares/frontendMiddleware');
+const setup = require('./middlewares/frontendMiddleware');
 const createLogger = require('./logger');
 const logger = createLogger('web-server.dev');
 
