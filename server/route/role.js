@@ -73,6 +73,7 @@ router.post('/', async (req, res) => {
     }
   }
 
+  data.permissions = data.permissions || [];
   const allCreated = await db.model.Permission.isCreated(data.permissions);
   if (!allCreated) {
     logger.error('permissions', data.permissions, 'have not been created yet');
@@ -229,11 +230,15 @@ router.delete('/:name', async (req, res) => {
  *
  */
 router.get('/', paginated, async (req, res) => {
-  const result = await db.model.Role.find()
+  const total = await db.model.Role.countDocuments();
+  const data = await db.model.Role.find()
     .limit(req.page.limit)
     .skip(req.page.skip)
     .populate('permissions');
-  res.json(result);
+  res.json({
+    total,
+    data
+  });
 });
 
 /**

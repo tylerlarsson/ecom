@@ -132,10 +132,14 @@ router.delete('/:name', async (req, res) => {
  *
  */
 router.get('/', paginated, async (req, res) => {
-  const result = await db.model.Permission.find()
+  const total = await db.model.Permission.countDocuments();
+  const data = await db.model.Permission.find()
     .limit(req.page.limit)
     .skip(req.page.skip);
-  res.json(result);
+  res.json({
+    total,
+    data
+  });
 });
 
 /**

@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "filters schema",
+  "$id": "#filter",
+  "type": "array",
+  "additionalProperties": false,
+  "items": {
+    "type": "string",
+    "enum": ["last-login-after", "last-login-before", "login-count-greater-than", "signed-up-after", "signed-up-before"]
+  }
+}

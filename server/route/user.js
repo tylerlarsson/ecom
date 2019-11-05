@@ -126,7 +126,7 @@ router.post('/', async (req, res) => {
  *         default: 1
  *       - name: signed-up-before
  *         in: query
- *         default: 1
+ *         default: 2000000000000
  *     description: Get users
  *     produces:
  *       - application/json
@@ -136,11 +136,15 @@ router.post('/', async (req, res) => {
  *
  */
 router.get('/', paginated, filtered, async (req, res) => {
-  const result = await db.model.User.find(req.filter)
+  const total = await db.model.User.countDocuments(req.filter);
+  const data = await db.model.User.find(req.filter)
     .limit(req.page.limit)
     .skip(req.page.skip)
     .populate({ path: 'roles', populate: { path: 'permissions', model: 'permission' } });
-  res.json(result);
+  res.json({
+    total,
+    data
+  });
 });
 
 module.exports = router;

@@ -16,7 +16,14 @@ const USER = new mongoose.Schema(
     loginLast: { type: Date, default: null },
     created: { type: Date, default: null }
   },
-  DEFAULT_OPTIONS
+  {
+    toJSON: {
+      transform(doc, ret) {
+        DEFAULT_OPTIONS.toJSON.transform(doc, ret);
+        delete ret.hash;
+      }
+    }
+  }
 );
 
 // eslint-disable-next-line func-names
@@ -36,15 +43,25 @@ USER.virtual('permissionNames').get(async function() {
   return Array.from(r);
 });
 
-USER.statics.create = async ({ username, password, email, firstname, lastname, roles }) => {
+USER.statics.create = async ({
+  username,
+  password,
+  email,
+  firstname,
+  lastname,
+  roles,
+  created,
+  loginLast,
+  loginCount
+}) => {
   if (!username) {
     username = email;
   }
 
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
-  const created = new Date();
-  const user = new User({ username, hash, email, firstname, lastname, roles, created });
+  created = created || new Date();
+  const user = new User({ username, hash, email, firstname, lastname, roles, created, loginLast, loginCount });
   await user.save();
   return user;
 };
