@@ -64,7 +64,6 @@ module.exports = {
     'no-console': 1,
     'no-unused-vars': 2,
     'no-use-before-define': 0,
-    'prefer-template': 2,
     'react/destructuring-assignment': 0,
     'react-hooks/rules-of-hooks': 'error',
     'react/jsx-closing-tag-location': 0,
@@ -85,7 +84,11 @@ module.exports = {
     'no-param-reassign': "off",
     "no-plusplus": "off",
     "no-await-in-loop": "off",
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "prefer-destructuring": "warn",
+    "prefer-template": "warn",
+    "one-var": "warn",
+    "no-shadow": "off"
   },
   settings: {
     'import/resolver': {

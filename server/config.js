@@ -29,12 +29,35 @@ if (!validate(data)) {
 console.info('starting with the env:', env);
 
 nconf.file({ file: `${BASE_PATH}config/${env}.json` });
+
+if (nconf.get('DB_HOST')) {
+  nconf.set('mongo:host', nconf.get('DB_HOST'));
+}
+if (nconf.get('DB_USER')) {
+  nconf.set('mongo:user', nconf.get('DB_USER'));
+}
+if (nconf.get('DB_PASSWORD')) {
+  nconf.set('mongo:password', nconf.get('DB_PASSWORD'));
+}
+if (nconf.get('DB_NAME')) {
+  nconf.set('mongo:db', nconf.get('DB_NAME'));
+}
+
 // eslint-disable-next-line no-console
 console.info('mongo host:', nconf.get('mongo:host'));
 // eslint-disable-next-line no-console
 console.info('database:', nconf.get('mongo:db'));
 
 nconf.set('mode:dev', env === 'development');
-nconf.set('db:url', `mongodb://${nconf.get('mongo:host')}/${nconf.get('mongo:db')}?retryWrites=true`);
+
+let credentials = '';
+if (nconf.get('mongo:user') && nconf.get('mongo:password')) {
+  credentials = `${nconf.get('mongo:user')}:${nconf.get('mongo:password')}@`;
+}
+
+nconf.set(
+  'db:url',
+  `mongodb://${credentials}${nconf.get('mongo:host')}/${nconf.get('mongo:db')}?retryWrites=true&w=majority`
+);
 
 module.exports = nconf;

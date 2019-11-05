@@ -75,6 +75,8 @@ if (config.get('NODE_ENV') === 'production') {
   // then web-server
   // eslint-disable-next-line global-require
   require('./web-server.dev')(app, port);
+} else if (config.get('NODE_ENV') === 'integration-testing') {
+  module.exports = app;
 } else {
   throw new Error('not supported app mode!');
 }
