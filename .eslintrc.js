@@ -43,6 +43,8 @@ module.exports = {
     ],
     'jsx-a11y/aria-props': 2,
     'jsx-a11y/heading-has-content': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/label-has-associated-control': [
       2,
       {
@@ -81,7 +83,9 @@ module.exports = {
     'no-underscore-dangle':0,
     'consistent-return': 0,
     'no-param-reassign': "off",
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "no-await-in-loop": "off",
+    "no-restricted-syntax": "off"
   },
   settings: {
     'import/resolver': {

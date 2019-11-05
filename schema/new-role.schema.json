@@ -19,6 +19,12 @@
       "items": {
         "anyOf": [{ "$ref": "#mongo-id" }, { "$ref": "#name" }]
       }
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "$ref": "#filter"
+      }
     }
   }
 }

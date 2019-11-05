@@ -2,7 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "web server configuration schema",
   "type": "object",
-  "required": ["mongo", "web-app", "base-path", "default-user-permissions", "default-admin-permissions"],
+  "required": [
+    "mongo",
+    "web-app",
+    "base-path",
+    "default-user-permissions",
+    "default-admin-permissions",
+    "default-role-filters"
+  ],
   "additionalProperties": false,
   "properties": {
     "$schema": {
@@ -69,6 +76,24 @@
       "items": {
         "type": "string",
         "pattern": "^(\\*|[a-z-]+)$"
+      }
+    },
+    "default-role-filters": {
+      "type": "object",
+      "required": ["student", "owner", "author", "affiliate"],
+      "properties": {
+        "student": {
+          "$ref": "#filter"
+        },
+        "owner": {
+          "$ref": "#filter"
+        },
+        "author": {
+          "$ref": "#filter"
+        },
+        "affiliate": {
+          "$ref": "#filter"
+        }
       }
     }
   }

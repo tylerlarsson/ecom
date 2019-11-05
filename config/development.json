@@ -14,5 +14,17 @@
   },
   "base-path": "/api/v1",
   "default-admin-permissions": ["*"],
-  "default-user-permissions": ["profile-view"]
+  "default-user-permissions": ["profile-view"],
+  "default-role-filters": {
+    "student": [
+      "last-login-after",
+      "last-login-before",
+      "login-count-greater-than",
+      "signed-up-after",
+      "signed-up-before"
+    ],
+    "owner": ["last-login-after", "last-login-before", "login-count-greater-than", "signed-up-after"],
+    "author": ["last-login-after", "last-login-before", "login-count-greater-than"],
+    "affiliate": ["last-login-after", "last-login-before"]
+  }
 }
