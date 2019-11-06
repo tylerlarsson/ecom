@@ -7,7 +7,7 @@
     "db": "eecom-freedom"
   },
   "web-app": {
-    "port": 80,
+    "port": 8080,
     "secret": "aNjGBJW9m7{VMqu0ANX(BOCCK-VV0!",
     "token-expires-in": "30m",
     "refresh-token-expires-in": "1d"

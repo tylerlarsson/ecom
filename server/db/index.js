@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('../config');
 
 mongoose.Promise = Promise;
-mongoose.connect(config.get('db:url'), { useNewUrlParser: true });
+mongoose.connect(config.get('db:url'), { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
 
 /* eslint-disable global-require */
 
