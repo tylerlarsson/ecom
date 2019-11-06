@@ -43,6 +43,8 @@
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
+    "test:integration": "jest --config=jest.it.config.js",
+    "test:integration-coverage": "jest --config=jest.it.config.js --coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "prettify": "prettier --write",
     "db:create-admin:dev": "node ./server/db-script/create-admin.js --NODE_ENV=development",
@@ -54,10 +56,7 @@
     "db:create-test-users:dev": "node ./server/db-script/create-test-users.js --NODE_ENV=development",
     "db:create-test-users:prod": "node ./server/db-script/create-test-users.js --NODE_ENV=production",
     "db:delete-test-users:dev": "node ./server/db-script/delete-test-users.js --NODE_ENV=development",
-    "db:delete-test-users:prod": "node ./server/db-script/delete-test-users.js --NODE_ENV=production",
-    "jasmine:init": "jasmine init",
-    "test:integration": "jasmine --NODE_ENV=integration-testing --reporter=jasmine-console-reporter",
-    "test:integration-covered": "istanbul cover --root server --include-all-sources spec/specs.js && istanbul check-coverage --NODE_ENV=integration-testing"
+    "db:delete-test-users:prod": "node ./server/db-script/delete-test-users.js --NODE_ENV=production"
   },
   "browserslist": [
     "last 2 versions",
@@ -86,11 +85,13 @@
     "@babel/plugin-transform-modules-commonjs": "7.4.3",
     "@babel/plugin-transform-react-constant-elements": "7.2.0",
     "@babel/plugin-transform-react-inline-elements": "7.2.0",
+    "@babel/plugin-transform-runtime": "7.6.2",
     "@babel/polyfill": "7.4.3",
     "@babel/preset-env": "7.4.3",
     "@babel/preset-react": "7.0.0",
     "@babel/register": "7.4.0",
-    "@material-ui/core": "^4.5.1",
+    "@babel/runtime": "7.7.1",
+    "@material-ui/core": "^4.6.0",
     "@material-ui/icons": "^4.5.1",
     "add-asset-html-webpack-plugin": "3.1.3",
     "ajv": "6.10.2",
@@ -106,7 +107,6 @@
     "body-parser": "1.19.0",
     "chalk": "^2.4.2",
     "circular-dependency-plugin": "5.0.2",
-    "classnames": "^2.2.6",
     "compression": "1.7.4",
     "compression-webpack-plugin": "2.0.0",
     "connected-react-router": "6.4.0",
@@ -182,7 +182,6 @@
     "eslint-plugin-react": "7.12.4",
     "eslint-plugin-react-hooks": "1.6.0",
     "eslint-plugin-redux-saga": "1.0.0",
-    "express-static-proxy": "1.0.0",
     "jest-cli": "24.7.1",
     "jest-dom": "3.1.3",
     "jest-styled-components": "6.3.1",
@@ -199,6 +198,7 @@
     "stylelint-config-recommended": "2.2.0",
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-processor-styled-components": "1.6.0",
-    "whatwg-fetch": "3.0.0"
+    "whatwg-fetch": "3.0.0",
+    "supertest": "4.0.2"
   }
 }

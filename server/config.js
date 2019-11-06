@@ -57,7 +57,9 @@ if (nconf.get('mongo:user') && nconf.get('mongo:password')) {
 
 nconf.set(
   'db:url',
-  `mongodb+srv://${credentials}${nconf.get('mongo:host')}/${nconf.get('mongo:db')}?retryWrites=true&w=majority`
+  `${nconf.get('mongo:protocol')}://${credentials}${nconf.get('mongo:host')}/${nconf.get(
+    'mongo:db'
+  )}?retryWrites=true&w=majority`
 );
 
 module.exports = nconf;
