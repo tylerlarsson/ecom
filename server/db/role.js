@@ -39,6 +39,8 @@ ROLE.statics.create = async ({ id, name, description, permissions, filters }) =>
       role.filters = filters;
     }
   } else {
+    permissions = permissions || [];
+    filters = filters || [];
     role = new Role({ name, description, permissions, filters });
   }
   return role.save();

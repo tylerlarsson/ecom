@@ -15,17 +15,20 @@ import ProfilePage from 'containers/ProfilePage';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
-import RequireAuth from '../../components/RequireAuth';
+import RequireAuth from 'components/RequireAuth';
 import LoginPage from '../LoginPage/LoginPage';
 import SignupPage from '../SignupPage/SignupPage';
+import AdminPage from '../AdminPage';
+import RequireNoAuth from 'components/RequireNoAuth';
 
 export default function App() {
   return (
     <div>
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/signup" component={SignupPage} />
+        <Route exact path="/" component={RequireAuth(HomePage)} />
+        <Route exact path="/login" component={RequireNoAuth(LoginPage)} />
+        <Route exact path="/signup" component={RequireNoAuth(SignupPage)} />
+        <Route path="/admin" component={RequireAuth(AdminPage)} />
         <Route exact path="/profile" component={RequireAuth(ProfilePage)} />
         <Route component={NotFoundPage} />
       </Switch>

@@ -18,8 +18,12 @@
     "mongo": {
       "additionalProperties": false,
       "type": "object",
-      "required": ["host", "db", "password", "user"],
+      "required": ["host", "db", "password", "user", "protocol"],
       "properties": {
+        "protocol": {
+          "type": "string",
+          "minLength": 7
+        },
         "host": {
           "type": "string",
           "format": "ipv4"

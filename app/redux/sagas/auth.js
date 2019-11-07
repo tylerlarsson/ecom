@@ -1,5 +1,5 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
-import { signInRequest, forgotPasswordRequest, resetPasswordRequest, updateAccount, signUpRequest } from 'api/Api';
+import { signInRequest, forgotPasswordRequest, resetPasswordRequest, updateAccount, signUpRequest, logOut } from 'api/Api';
 import * as types from 'constants/actionTypes';
 
 // Responsible for searching media library, making calls to the API
@@ -12,14 +12,19 @@ export default function* watchAuthListener(context = {}) {
   yield takeLatest(types.RESET_PASSWORD_REQUEST, resetPasswordRequestSaga);
   yield takeLatest(types.UPDATE_USER_REQUEST, updateUserSaga);
   yield takeLatest(types.SIGN_UP_REQUEST, signUpRequestSaga, context);
+  yield takeLatest(types.SIGN_UP_REQUEST, signUpRequestSaga, context);
+  yield takeLatest(types.LOG_OUT_REQUEST, logOutRequestSaga, context);
 }
 
 export function* signInRequestSaga({ history }, { payload }) {
   try {
     const res = yield call(signInRequest, payload);
-    yield [put({ type: types.LOGIN_SUCCESS, res })];
-    if (history) {
-      history.push('/');
+    if (res.success) {
+      yield put({ type: types.LOGIN_SUCCESS, res });
+      if (history) {
+        // history.push('/');
+        window.location.href = '';
+      }
     }
   } catch (error) {
     yield put({ type: types.LOGIN_FAILED, error });
@@ -76,6 +81,18 @@ export function* signUpRequestSaga({ history }, { payload }) {
   try {
     const res = yield call(signUpRequest, payload);
     yield put({ type: types.SIGN_UP_SUCCESS, res });
+    if (history) {
+      history.push('/');
+    }
+  } catch (error) {
+    yield put({ type: types.SIGN_UP_FAILED, error });
+  }
+}
+
+export function* logOutRequestSaga({ history }, { payload }) {
+  try {
+    const res = yield call(logOut, {});
+    yield put({ type: types.LOG_OUT_SUCCESS, res });
     if (history) {
       history.push('/');
     }
