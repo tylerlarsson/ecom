@@ -6,12 +6,12 @@ const db = require('../../server/db/test');
 const path = `${config.get('base-path')}/permission`;
 
 describe('permissions apis', () => {
+  beforeAll(db.beforeAll);
+  afterAll(db.afterAll);
+
   let id;
   let name;
   let description;
-
-  beforeAll(() => db.open());
-  afterAll(() => db.close());
 
   beforeEach(async () => {
     await db.model.Permission.deleteMany({});
