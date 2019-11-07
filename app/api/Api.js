@@ -18,8 +18,6 @@ import { API_ENDPOINT_URL } from 'constants/default';
 // };
 
 export const signInRequest = payload => {
-  console.log('payload', payload);
-
   return axios
     .post(`${API_ENDPOINT_URL}/oauth/token`, {
       username: payload.email,
@@ -28,14 +26,13 @@ export const signInRequest = payload => {
       grant_type: 'password'
     })
     .then(res => {
-      console.log('res', res);
-      if (res.data.user) {
-        setAccessToken(res.data.token); // no-use-before-define
-        setUserID(res.data.user.id);
-      let permissions = res.data.user.permissions; // eslint-disable-line
-        delete res.data.user.permissions;
-        setUser(res.data.user);
-        setPermissions(permissions);
+      if (res.data.access_token) {
+        setAccessToken(res.data.access_token); // no-use-before-define
+        // setUserID(res.data.user.id);
+        // let permissions = res.data.user.permissions; // eslint-disable-line
+        //   delete res.data.user.permissions;
+        //   setUser(res.data.user);
+        //   setPermissions(permissions);
         return { success: true };
       }
       return { success: false, reason: res.message };
@@ -112,7 +109,156 @@ export const updateAccount = payload => {
     }));
 };
 
+// // Users
+// export const getUsers = payload => {
+//   axios
+//     .get(`${API_ENDPOINT_URL}/user`)
+//     .then(res => {
+//       console.log('getUsers res', res)
+//       if (res.data.status) {
+//         return {success: true};
+//       }
+//       return {success: false, reason: res.message};
+//     })
+//     .catch(err => ({success: false, reason: err.response.data.message}));
+// };
+
+// Permissions
+export const getPermissions = payload =>
+  axios
+    .get(`${API_ENDPOINT_URL}/permission`)
+    .then(res => {
+      if (res.data) {
+        return {success: true, data: res.data};
+      }
+      return {success: false, reason: res.message};
+    })
+    .catch(err => ({success: false, reason: err.response.data.message}));
+
+export const createPermission = payload => {
+  const data = {
+    name: payload.name,
+    description: payload.description
+  };
+
+  if (payload.id) {
+    data.id = payload.id;
+  }
+
+  return axios
+    .post(`${API_ENDPOINT_URL}/permission`, data)
+    .then(res => {
+      if (res.data) {
+        return {success: true, data: res.data};
+      }
+      return {success: false, reason: res.message};
+    })
+    .catch(err => ({success: false, reason: err.response.data.message}));
+}
+
+export const deletePermission = payload =>
+  axios
+    .delete(`${API_ENDPOINT_URL}/permission/${payload.name}`)
+    .then(res => {
+      if (res.data) {
+        return {success: true};
+      }
+      return {success: false, reason: res.message};
+    })
+    .catch(err => ({success: false, reason: err.response.data.message}));
+
+// Roles
+export const getRoles = payload =>
+  axios
+    .get(`${API_ENDPOINT_URL}/role`)
+    .then(res => {
+      if (res.data) {
+        return {success: true, data: res.data};
+      }
+      return {success: false, reason: res.message};
+    })
+    .catch(err => ({success: false, reason: err.response.data.message}));
+
+export const createRole = payload => {
+  const data = {
+    name: payload.name,
+    description: payload.description
+  };
+
+  if (payload.id) {
+    data.id = payload.id;
+  }
+
+  return axios
+    .post(`${API_ENDPOINT_URL}/role`, data)
+    .then(res => {
+      if (res.data) {
+        return {success: true, data: res.data};
+      }
+      return {success: false, reason: res.message};
+    })
+    .catch(err => ({success: false, reason: err.response.data.message}));
+}
+
+export const deleteRole = payload =>
+  axios
+    .delete(`${API_ENDPOINT_URL}/role/${payload.name}`)
+    .then(res => {
+      if (res.data) {
+        return {success: true};
+      }
+      return {success: false, reason: res.message};
+    })
+    .catch(err => ({success: false, reason: err.response.data.message}));
+
+
+// Users
+export const getUsers = payload =>
+  axios
+    .get(`${API_ENDPOINT_URL}/user`)
+    .then(res => {
+      if (res.data) {
+        return {success: true, data: res.data};
+      }
+      return {success: false, reason: res.message};
+    })
+    .catch(err => ({success: false, reason: err.response.data.message}));
+
+export const createUsers = payload => {
+  const data = {
+    name: payload.name,
+    description: payload.description
+  };
+
+  if (payload.id) {
+    data.id = payload.id;
+  }
+
+  return axios
+    .post(`${API_ENDPOINT_URL}/user`, data)
+    .then(res => {
+      if (res.data) {
+        return {success: true, data: res.data};
+      }
+      return {success: false, reason: res.message};
+    })
+    .catch(err => ({success: false, reason: err.response.data.message}));
+}
+
+export const deleteUsers = payload =>
+  axios
+    .delete(`${API_ENDPOINT_URL}/user/${payload.name}`)
+    .then(res => {
+      if (res.data) {
+        return {success: true};
+      }
+      return {success: false, reason: res.message};
+    })
+    .catch(err => ({success: false, reason: err.response.data.message}));
+
+
 function setAccessToken(token) {
+  console.log('setAccessToken', token)
   localStorage.setItem('authentication_token', token);
 }
 
@@ -130,17 +276,6 @@ export const setUserLocalStorage = user => {
   localStorage.setItem('user', user);
 };
 
-export const setPermissions = perms => {
-  localStorage.setItem('permissions', JSON.stringify(perms));
-};
-
-export const getPermissions = () => {
-  if (!localStorage.getItem('permissions')) {
-    return false;
-  }
-  return JSON.parse(localStorage.getItem('permissions'));
-};
-
 export const getUserID = () => {
   if (!localStorage.getItem('user_id')) {
     return false;
@@ -156,7 +291,8 @@ export const getUser = () => {
 };
 
 export const logOut = () => {
-  localStorage.setItem('access_token', null);
-  localStorage.setItem('user_id', null);
-  localStorage.setItem('user', null);
+  localStorage.clear();
+  // localStorage.setItem('access_token', null);
+  // localStorage.setItem('user_id', null);
+  // localStorage.setItem('user', null);
 };
