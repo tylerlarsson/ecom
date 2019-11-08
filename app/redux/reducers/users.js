@@ -79,7 +79,7 @@ export default function(state = initialState, action) {
           ...state
         };
       }
-      temp = state.permissions.data.filter(item => item.name !== action.res.name)
+      temp = state.permissions.data.filter(item => item.name !== action.res.name);
       return {
         ...state,
         permissions: {
@@ -135,7 +135,7 @@ export default function(state = initialState, action) {
           ...state
         };
       }
-      temp = state.roles.data.filter(item => item.name !== action.res.name)
+      temp = state.roles.data.filter(item => item.name !== action.res.name);
       return {
         ...state,
         roles: {
@@ -182,10 +182,10 @@ export default function(state = initialState, action) {
     case DELETE_USERS_SUCCESS:
       if (!action.res.success) {
         return {
-          ...state,
+          ...state
         };
       }
-      temp = state.users.filter(item => item.id !== action.res.id)
+      temp = state.users.filter(item => item.id !== action.res.id);
       return {
         ...state,
         users: [...temp]
