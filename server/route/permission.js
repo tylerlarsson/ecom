@@ -105,6 +105,7 @@ router.delete('/:name', async (req, res) => {
   if (result.deletedCount) {
     logger.info('permission, id/name', data.name, 'has been deleted');
   } else {
+    /* istanbul ignore next */
     logger.error('could not delete permission, id/name', data.name);
   }
   res.json({ deleted: result.deletedCount });
