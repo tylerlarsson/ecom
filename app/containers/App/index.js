@@ -14,12 +14,12 @@ import HomePage from 'containers/HomePage/Loadable';
 import ProfilePage from 'containers/ProfilePage';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
-import GlobalStyle from '../../global-styles';
 import RequireAuth from 'components/RequireAuth';
+import RequireNoAuth from 'components/RequireNoAuth';
+import GlobalStyle from '../../global-styles';
 import LoginPage from '../LoginPage/LoginPage';
 import SignupPage from '../SignupPage/SignupPage';
 import AdminPage from '../AdminPage';
-import RequireNoAuth from 'components/RequireNoAuth';
 
 export default function App() {
   return (

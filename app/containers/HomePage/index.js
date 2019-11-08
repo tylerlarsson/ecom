@@ -20,22 +20,24 @@ export function HomePage({ history, user, handleLogout }) {
       <h1>Ecom Freedom Homepage test</h1>
       {!user.status ? (
         <Button variant="contained" color="primary" onClick={() => history.push(routes.LOGIN)}>
-        Login
-      </Button>
-      ) : null
-      }
+          Login
+        </Button>
+      ) : null}
       {user.status ? (
-        <Button variant="contained" color="primary" onClick={() => history.push(routes.ADMIN)} style={{ marginLeft: 16 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => history.push(routes.ADMIN)}
+          style={{ marginLeft: 16 }}
+        >
           Admin
         </Button>
-      ) : null
-      }
+      ) : null}
       {user.status ? (
         <Button variant="contained" color="primary" onClick={() => handleLogout()} style={{ marginLeft: 16 }}>
           Logout
         </Button>
-      ) : null
-      }
+      ) : null}
     </div>
   );
 }
@@ -56,7 +58,10 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
 
 export default compose(
   withConnect,

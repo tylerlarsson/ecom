@@ -1,5 +1,12 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
-import { signInRequest, forgotPasswordRequest, resetPasswordRequest, updateAccount, signUpRequest, logOut } from 'api/Api';
+import {
+  signInRequest,
+  forgotPasswordRequest,
+  resetPasswordRequest,
+  updateAccount,
+  signUpRequest,
+  logOut
+} from 'api/Api';
 import * as types from 'constants/actionTypes';
 
 // Responsible for searching media library, making calls to the API
@@ -89,7 +96,7 @@ export function* signUpRequestSaga({ history }, { payload }) {
   }
 }
 
-export function* logOutRequestSaga({ history }, { payload }) {
+export function* logOutRequestSaga({ history }) {
   try {
     const res = yield call(logOut, {});
     yield put({ type: types.LOG_OUT_SUCCESS, res });

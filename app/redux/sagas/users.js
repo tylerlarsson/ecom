@@ -37,7 +37,7 @@ import {
   CREATE_USERS_FAILED,
   DELETE_USERS_REQUEST,
   DELETE_USERS_SUCCESS,
-  DELETE_USERS_FAILED,
+  DELETE_USERS_FAILED
 } from 'constants/actionTypes';
 
 // Responsible for searching media library, making calls to the API

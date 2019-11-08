@@ -1,18 +1,18 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import { map } from 'lodash';
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import IconButton from "@material-ui/core/IconButton";
+import withStyles from '@material-ui/core/styles/withStyles';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 // core components
-import tableStyle from "assets/jss/material-dashboard-react/components/tableStyle.jsx";
+import tableStyle from 'assets/jss/material-dashboard-react/components/tableStyle';
 
 function TableList({ ...props }) {
   const { classes, tableHead, tableColumns, tableData, deleteAction, editAction, tableHeaderColor } = props;
@@ -20,61 +20,67 @@ function TableList({ ...props }) {
     <div className={classes.tableResponsive}>
       <Table className={classes.table}>
         {tableHead !== undefined ? (
-          <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
+          <TableHead className={classes[`${tableHeaderColor}TableHeader`]}>
             <TableRow>
-              {tableHead.map((prop, key) => {
-                return (
-                  <TableCell
-                    className={classes.tableCell + " " + classes.tableHeadCell}
-                    key={key}
-                  >
-                    {prop}
-                  </TableCell>
-                );
-              })}
+              {tableHead.map(prop => (
+                <TableCell className={`${classes.tableCell} ${classes.tableHeadCell}`} key={prop}>
+                  {prop}
+                </TableCell>
+              ))}
               {editAction || deleteAction ? (
                 <TableCell
-                  className={classes.tableCell + " " + classes.tableHeadCell}
+                  className={`${classes.tableCell} ${classes.tableHeadCell}`}
                   key="actions"
-                  style={{ textAlign: 'right'}}
+                  style={{ textAlign: 'right' }}
                 >
                   Actions
                 </TableCell>
-                ) : null
-              }
+              ) : null}
             </TableRow>
           </TableHead>
         ) : null}
         <TableBody>
-          {map(tableData, (prop, key) => {
-            return (
-              <TableRow key={key}>
-                {map(prop, (prop, key) => {
-                  if (tableColumns.includes(key)) {
-                    return (
-                      <TableCell className={classes.tableCell} key={key}>
-                        {prop}
-                      </TableCell>
-                    );
-                  }
-                })}
-                {editAction || deleteAction ? (
-                  <TableCell className={classes.tableCell} key="edit" style={{ textAlign: 'right'}}>
-                    {editAction ? (
-                      <IconButton className={classes.button} aria-label="delete" color="secondary" onClick={() => {editAction(prop)}}>
-                        <EditIcon />
-                      </IconButton>
-                    ) : null}
-                    {deleteAction ? (
-                      <IconButton className={classes.button} aria-label="delete" color="secondary" onClick={() => {deleteAction(prop)}}>
-                        <DeleteIcon />
-                      </IconButton>
-                    ) : null}
-                  </TableCell>
-                ) : null}
-              </TableRow>
-            );
-          })}
+          {map(tableData, (prop, key) => (
+            <TableRow key={key}>
+              {map(prop, (prop, key) => {
+                if (tableColumns.includes(key)) {
+                  return (
+                    <TableCell className={classes.tableCell} key={key}>
+                      {prop}
+                    </TableCell>
+                  );
+                }
+              })}
+              {editAction || deleteAction ? (
+                <TableCell className={classes.tableCell} key="edit" style={{ textAlign: 'right' }}>
+                  {editAction ? (
+                    <IconButton
+                      className={classes.button}
+                      aria-label="delete"
+                      color="secondary"
+                      onClick={() => {
+                        editAction(prop);
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  ) : null}
+                  {deleteAction ? (
+                    <IconButton
+                      className={classes.button}
+                      aria-label="delete"
+                      color="secondary"
+                      onClick={() => {
+                        deleteAction(prop);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  ) : null}
+                </TableCell>
+              ) : null}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>
@@ -82,21 +88,16 @@ function TableList({ ...props }) {
 }
 
 TableList.defaultProps = {
-  tableHeaderColor: "gray"
+  tableHeaderColor: 'gray'
 };
 
 TableList.propTypes = {
   classes: PropTypes.object.isRequired,
-  tableHeaderColor: PropTypes.oneOf([
-    "warning",
-    "primary",
-    "danger",
-    "success",
-    "info",
-    "rose",
-    "gray"
-  ]),
+  deleteAction: PropTypes.func,
+  editAction: PropTypes.func,
+  tableHeaderColor: PropTypes.oneOf(['warning', 'primary', 'danger', 'success', 'info', 'rose', 'gray']),
   tableHead: PropTypes.arrayOf(PropTypes.string),
+  tableColumns: PropTypes.arrayOf(PropTypes.string),
   tableData: PropTypes.arrayOf(PropTypes.object)
 };
 

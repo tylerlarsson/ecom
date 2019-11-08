@@ -16,7 +16,6 @@ import {
   LOG_OUT_SUCCESS
 } from 'constants/actionTypes';
 
-
 const initialState = {
   login: {
     email: '',

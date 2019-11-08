@@ -17,8 +17,8 @@ import { API_ENDPOINT_URL } from 'constants/default';
 //   return uri;
 // };
 
-export const signInRequest = payload => {
-  return axios
+export const signInRequest = payload =>
+  axios
     .post(`${API_ENDPOINT_URL}/oauth/token`, {
       username: payload.email,
       password: payload.password,
@@ -38,7 +38,6 @@ export const signInRequest = payload => {
       return { success: false, reason: res.message };
     })
     .catch(err => ({ success: false, reason: err.response.data.message }));
-};
 
 export const signUpRequest = payload =>
   axios
@@ -124,16 +123,16 @@ export const updateAccount = payload => {
 // };
 
 // Permissions
-export const getPermissions = payload =>
+export const getPermissions = () =>
   axios
     .get(`${API_ENDPOINT_URL}/permission`)
     .then(res => {
       if (res.data) {
-        return {success: true, data: res.data};
+        return { success: true, data: res.data };
       }
-      return {success: false, reason: res.message};
+      return { success: false, reason: res.message };
     })
-    .catch(err => ({success: false, reason: err.response.data.message}));
+    .catch(err => ({ success: false, reason: err.response.data.message }));
 
 export const createPermission = payload => {
   const data = {
@@ -149,35 +148,35 @@ export const createPermission = payload => {
     .post(`${API_ENDPOINT_URL}/permission`, data)
     .then(res => {
       if (res.data) {
-        return {success: true, data: res.data};
+        return { success: true, data: res.data };
       }
-      return {success: false, reason: res.message};
+      return { success: false, reason: res.message };
     })
-    .catch(err => ({success: false, reason: err.response.data.message}));
-}
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+};
 
 export const deletePermission = payload =>
   axios
     .delete(`${API_ENDPOINT_URL}/permission/${payload.name}`)
     .then(res => {
       if (res.data) {
-        return {success: true};
+        return { success: true };
       }
-      return {success: false, reason: res.message};
+      return { success: false, reason: res.message };
     })
-    .catch(err => ({success: false, reason: err.response.data.message}));
+    .catch(err => ({ success: false, reason: err.response.data.message }));
 
 // Roles
-export const getRoles = payload =>
+export const getRoles = () =>
   axios
     .get(`${API_ENDPOINT_URL}/role`)
     .then(res => {
       if (res.data) {
-        return {success: true, data: res.data};
+        return { success: true, data: res.data };
       }
-      return {success: false, reason: res.message};
+      return { success: false, reason: res.message };
     })
-    .catch(err => ({success: false, reason: err.response.data.message}));
+    .catch(err => ({ success: false, reason: err.response.data.message }));
 
 export const createRole = payload => {
   const data = {
@@ -193,36 +192,35 @@ export const createRole = payload => {
     .post(`${API_ENDPOINT_URL}/role`, data)
     .then(res => {
       if (res.data) {
-        return {success: true, data: res.data};
+        return { success: true, data: res.data };
       }
-      return {success: false, reason: res.message};
+      return { success: false, reason: res.message };
     })
-    .catch(err => ({success: false, reason: err.response.data.message}));
-}
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+};
 
 export const deleteRole = payload =>
   axios
     .delete(`${API_ENDPOINT_URL}/role/${payload.name}`)
     .then(res => {
       if (res.data) {
-        return {success: true};
+        return { success: true };
       }
-      return {success: false, reason: res.message};
+      return { success: false, reason: res.message };
     })
-    .catch(err => ({success: false, reason: err.response.data.message}));
-
+    .catch(err => ({ success: false, reason: err.response.data.message }));
 
 // Users
-export const getUsers = payload =>
+export const getUsers = () =>
   axios
     .get(`${API_ENDPOINT_URL}/user`)
     .then(res => {
       if (res.data) {
-        return {success: true, data: res.data};
+        return { success: true, data: res.data };
       }
-      return {success: false, reason: res.message};
+      return { success: false, reason: res.message };
     })
-    .catch(err => ({success: false, reason: err.response.data.message}));
+    .catch(err => ({ success: false, reason: err.response.data.message }));
 
 export const createUsers = payload => {
   const data = {
@@ -238,35 +236,34 @@ export const createUsers = payload => {
     .post(`${API_ENDPOINT_URL}/user`, data)
     .then(res => {
       if (res.data) {
-        return {success: true, data: res.data};
+        return { success: true, data: res.data };
       }
-      return {success: false, reason: res.message};
+      return { success: false, reason: res.message };
     })
-    .catch(err => ({success: false, reason: err.response.data.message}));
-}
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+};
 
 export const deleteUsers = payload =>
   axios
     .delete(`${API_ENDPOINT_URL}/user/${payload.name}`)
     .then(res => {
       if (res.data) {
-        return {success: true};
+        return { success: true };
       }
-      return {success: false, reason: res.message};
+      return { success: false, reason: res.message };
     })
-    .catch(err => ({success: false, reason: err.response.data.message}));
-
+    .catch(err => ({ success: false, reason: err.response.data.message }));
 
 function setAccessToken(token) {
-  console.log('setAccessToken', token)
+  console.log('setAccessToken', token);
   localStorage.setItem('authentication_token', token);
 }
 
 export const getAccessToken = () => localStorage.getItem('authentication_token');
 
-function setUserID(id) {
-  localStorage.setItem('user_id', id);
-}
+// function setUserID(id) {
+//   localStorage.setItem('user_id', id);
+// }
 
 function setUser(user) {
   localStorage.setItem('user', JSON.stringify(user));
