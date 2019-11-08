@@ -9,6 +9,8 @@ const PERMISSION = new mongoose.Schema(
   DEFAULT_OPTIONS
 );
 
+// used from DB seed
+/* istanbul ignore next */
 PERMISSION.statics.createIfNotExists = async name => {
   const permission = await Permission.findOne({ name });
   if (permission) {

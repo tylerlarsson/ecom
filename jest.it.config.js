@@ -13,7 +13,7 @@ module.exports = {
     }
   },
   moduleDirectories: ['node_modules'],
-  collectCoverageFrom: ['server/**/*.js', '!server/web-server.dev.js'],
+  collectCoverageFrom: ['server/**/*.js', '!server/web-server.dev.js', '!server/db-script/*.js', '!server/db/test.js'],
   coverageDirectory: 'coverage-it',
   testRegex: 'server-test/.*\\.test\\.js$'
 };

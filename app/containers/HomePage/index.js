@@ -10,28 +10,53 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { createStructuredSelector } from 'reselect';
 import Button from '@material-ui/core/Button';
 import routes from 'constants/routes.json';
+import { logoutAction } from 'redux/actions/auth';
 
-export function HomePage({ history }) {
+export function HomePage({ history, user, handleLogout }) {
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>Ecom Freedom Homepage test</h1>
-      <Button variant="contained" color="primary" onClick={() => history.push(routes.LOGIN)}>
+      {!user.status ? (
+        <Button variant="contained" color="primary" onClick={() => history.push(routes.LOGIN)}>
         Login
       </Button>
+      ) : null
+      }
+      {user.status ? (
+        <Button variant="contained" color="primary" onClick={() => history.push(routes.ADMIN)} style={{ marginLeft: 16 }}>
+          Admin
+        </Button>
+      ) : null
+      }
+      {user.status ? (
+        <Button variant="contained" color="primary" onClick={() => handleLogout()} style={{ marginLeft: 16 }}>
+          Logout
+        </Button>
+      ) : null
+      }
     </div>
   );
 }
 
 HomePage.propTypes = {
-  history: PropTypes.object
+  handleLogout: PropTypes.func,
+  history: PropTypes.object,
+  user: PropTypes.object
 };
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = ({ auth }) => ({
+  user: auth.user
+});
 
-const withConnect = connect(mapStateToProps);
+const mapDispatchToProps = dispatch => ({
+  handleLogout: () => {
+    dispatch(logoutAction());
+  }
+});
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(
   withConnect,

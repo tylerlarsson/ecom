@@ -54,6 +54,21 @@ describe('permissions apis', () => {
     expect(res.body.data[0]).toEqual({ id, name, description });
   });
 
+  test('should create and read by name a permission', async () => {
+    const res = await request(app)
+      .get(`${path}/read-write`)
+      .query({ pageNumber: 0, pageSize: 10 });
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ id, name, description });
+  });
+
+  test('should fail to read when wrong id', async () => {
+    const res = await request(app)
+      .get(`${path}/WRONG!`)
+      .query({ pageNumber: 0, pageSize: 10 });
+    expect(res.status).toBe(422);
+  });
+
   test('should update the permission by id', async () => {
     let res = await request(app)
       .post(path)
@@ -89,5 +104,45 @@ describe('permissions apis', () => {
       .query({ pageNumber: 0, pageSize: 10 });
     expect(res.status).toBe(200);
     expect(res.body.total).toBe(0);
+  });
+
+  test('should fail on wrong id', async () => {
+    const res = await request(app)
+      .post(path)
+      .send({
+        id: 'wrong-id',
+        name: 'read-write-updated',
+        description: 'updated'
+      });
+
+    expect(res.status).toBe(422);
+  });
+
+  test('should fail on creation with same name', async () => {
+    const res = await request(app)
+      .post(path)
+      .send({
+        name: 'read-write',
+        description: 'read write permission'
+      });
+
+    expect(res.status).toBe(409);
+  });
+
+  test('should delete permission by name', async () => {
+    const res = await request(app).delete(`${path}/read-write`);
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ deleted: 1 });
+  });
+
+  test('should delete permission by id', async () => {
+    const res = await request(app).delete(`${path}/${id}`);
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ deleted: 1 });
+  });
+
+  test('should fail delete when wrong param', async () => {
+    const res = await request(app).delete(`${path}/WRONG!`);
+    expect(res.status).toBe(422);
   });
 });
