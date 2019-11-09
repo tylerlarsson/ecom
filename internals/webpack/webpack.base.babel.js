@@ -8,6 +8,9 @@ const webpack = require('webpack');
 module.exports = options => ({
   mode: options.mode,
   entry: options.entry,
+  node: {
+    fs: 'empty'
+  },
   output: Object.assign(
     {
       // Compile into js/build.js

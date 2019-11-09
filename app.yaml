@@ -26,8 +26,3 @@ resources:
   memory_gb: 0.5
   disk_size_gb: 10
 # [END gae_quickstart_yaml]
-env_variables:
-  DB_HOST: "ecomfreedom-nhjcz.gcp.mongodb.net"
-  DB_NAME: "test"
-  DB_USER: "ecom-user"
-  DB_PASSWORD: "password"

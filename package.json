@@ -41,7 +41,7 @@
     "lint:staged": "lint-staged",
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
-    "test": "npm run test:ui && npm run test:integration:coverage",
+    "test": "npm run test:ui",
     "test:ui": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
     "test:integration": "jest --config=jest.it.config.js --runInBand",
@@ -59,7 +59,8 @@
     "db:delete-test-users:dev": "node ./server/db-script/delete-test-users.js --NODE_ENV=development",
     "db:delete-test-users:prod": "node ./server/db-script/delete-test-users.js --NODE_ENV=production",
     "db:seed:dev": "npm run db:create-admin:dev && npm run db:create-user:dev && npm run db:set-default-role-filters:dev && npm run db:create-test-users:dev",
-    "db:seed:prod": "npm run db:create-admin:prod && npm run db:create-user:prod && npm run db:set-default-role-filters:prod && npm run db:create-test-users:prod"
+    "db:seed:prod": "npm run db:create-admin:prod && npm run db:create-user:prod && npm run db:set-default-role-filters:prod && npm run db:create-test-users:prod",
+    "create-env": "printenv > .env"
   },
   "browserslist": [
     "last 2 versions",
@@ -116,6 +117,7 @@
     "connected-react-router": "6.4.0",
     "cross-env": "5.2.0",
     "css-loader": "2.1.1",
+    "dotenv": "^8.2.0",
     "eslint-import-resolver-webpack": "0.11.1",
     "express": "4.17.1",
     "express-jwt": "5.3.1",
