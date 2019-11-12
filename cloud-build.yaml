@@ -2,11 +2,19 @@ steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
 - name: 'gcr.io/cloud-builders/npm'
-  args: ['test']
-- name: 'gcr.io/cloud-builders/npm'
   args: ['run', 'build']
+- name: 'gcr.io/cloud-builders/npm'
+  args: ["run", "create-env"]
+  env:
+  - 'DB_HOST=${_DB_HOST}'
+  - 'DB_NAME=${_DB_NAME}'
+  - 'DB_USER=${_DB_USER}'
+  - 'DB_PASSWORD=${_DB_PASSWORD}'
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['run', 'db:create-admin:prod']
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['test']
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
   timeout: "2600s"
 timeout: "3000s"
-

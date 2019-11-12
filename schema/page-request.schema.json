@@ -3,6 +3,7 @@
   "title": "assign permission request schema",
   "type": "object",
   "additionalProperties": false,
+  "required": ["pageNumber", "pageSize"],
   "properties": {
     "pageNumber": {
       "type": "string",
