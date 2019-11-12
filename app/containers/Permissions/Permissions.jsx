@@ -15,7 +15,7 @@ import Card from 'components/Card/Card.jsx';
 import CardBody from 'components/Card/CardBody.jsx';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
-import { getPermissions, createPermission, deletePermission } from "../../redux/actions/users";
+import { getPermissions, createPermission, deletePermission } from '../../redux/actions/users';
 
 const styles = {
   cardCategoryWhite: {
@@ -59,7 +59,7 @@ class Permissions extends Component {
     deleteItem: null,
     name: '',
     description: ''
-  }
+  };
 
   componentDidMount() {
     this.props.getPermissionsAction();
@@ -67,7 +67,7 @@ class Permissions extends Component {
 
   handleAddNew = () => {
     this.setState({ open: true });
-  }
+  };
 
   handleClose = () => {
     this.setState({ open: false, openConfirm: false, name: '', description: '', editId: null, deleteItem: null });
@@ -84,15 +84,15 @@ class Permissions extends Component {
 
     createPermissionAction(payload);
     this.handleClose();
-  }
+  };
 
   onChange = field => event => {
     this.setState({ [field]: event.target.value });
-  }
+  };
 
-  handleDelete = (item) => {
+  handleDelete = item => {
     this.setState({ openConfirm: true, deleteItem: item });
-  }
+  };
 
   handleDeleteConfirmed = () => {
     const { deleteItem } = this.state;
@@ -101,11 +101,11 @@ class Permissions extends Component {
       deletePermissionAction({ name: deleteItem.name });
       this.handleClose();
     }
-  }
+  };
 
-  handleEdit = (item) => {
+  handleEdit = item => {
     this.setState({ open: true, name: item.name, editId: item.id, description: item.description });
-  }
+  };
 
   renderConfirm = () => {
     const { openConfirm } = this.state;
@@ -119,14 +119,14 @@ class Permissions extends Component {
         description="Are you sure you want to delete this element?"
         okTitle="Delete"
       />
-    )
-  }
+    );
+  };
 
   renderNavbar = classes => (
     <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleAddNew}>
       Add Permission
     </Fab>
-  )
+  );
 
   renderModal = () => {
     const { open, name, description } = this.state;
@@ -164,14 +164,14 @@ class Permissions extends Component {
         />
       </Modal>
     );
-  }
+  };
 
   render() {
     const { classes, data } = this.props;
 
     return (
       <>
-        <AdminNavbar title='Permissions' right={this.renderNavbar(classes)}/>
+        <AdminNavbar title="Permissions" right={this.renderNavbar(classes)} />
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
