@@ -7,7 +7,8 @@ import {
   DELETE_ROLE_REQUEST,
   GET_USERS_REQUEST,
   CREATE_USERS_REQUEST,
-  DELETE_USERS_REQUEST
+  DELETE_USERS_REQUEST,
+  GET_ROLE_REQUEST
 } from 'constants/actionTypes';
 
 export const getPermissions = payload => ({
@@ -27,6 +28,11 @@ export const deletePermission = payload => ({
 
 export const getRoles = payload => ({
   type: GET_ROLES_REQUEST,
+  payload
+});
+
+export const getRole = payload => ({
+  type: GET_ROLE_REQUEST,
   payload
 });
 

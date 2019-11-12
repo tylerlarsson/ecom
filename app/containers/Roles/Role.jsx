@@ -16,8 +16,7 @@ import Card from 'components/Card/Card.jsx';
 import CardBody from 'components/Card/CardBody';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
-import routes from 'constants/routes.json';
-import { getRoles, createRole, deleteRole } from '../../redux/actions/users';
+import { getRole, createRole, deleteRole } from '../../redux/actions/users';
 
 const styles = {
   cardCategoryWhite: {
@@ -53,18 +52,24 @@ const styles = {
   }
 };
 
-class Roles extends Component {
-  state = {
-    open: false,
-    openConfirm: false,
-    editId: null,
-    deleteItem: null,
-    name: '',
-    description: ''
-  };
+class Role extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      openConfirm: false,
+      editId: null,
+      deleteItem: null,
+      name: '',
+      description: ''
+    };
+  }
 
   componentDidMount() {
-    this.props.getRolesAction();
+    const { match } = this.props;
+    const roleName = match && match.params && match.params.name;
+
+    this.props.getRoleAction(roleName);
   }
 
   handleAddNew = () => {
@@ -94,12 +99,6 @@ class Roles extends Component {
 
   handleDelete = item => {
     this.setState({ openConfirm: true, deleteItem: item });
-  };
-
-  handleEdit = item => {
-    const { history } = this.props;
-
-    history.push(`${routes.ADMIN}${routes.ROLE}`.replace(':name', item.name));
   };
 
   handleDeleteConfirmed = () => {
@@ -182,7 +181,7 @@ class Roles extends Component {
 
     return (
       <>
-        <AdminNavbar title="Roles" right={this.renderNavbar(classes)} />
+        <AdminNavbar title="Role" right={this.renderNavbar(classes)} />
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
@@ -194,7 +193,6 @@ class Roles extends Component {
                     tableColumns={['name', 'description', 'permissions']}
                     tableData={this.prepareData(data)}
                     deleteAction={this.handleDelete}
-                    editAction={this.handleEdit}
                   />
                 </CardBody>
               </Card>
@@ -208,12 +206,14 @@ class Roles extends Component {
   }
 }
 
-Roles.propTypes = {
-  getRolesAction: PropTypes.func,
+Role.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.any),
+  getRoleAction: PropTypes.func,
   createRoleAction: PropTypes.func,
   deleteRoleAction: PropTypes.func,
   data: PropTypes.array,
-  history: PropTypes.object
+  history: PropTypes.objectOf(PropTypes.any),
+  match: PropTypes.objectOf(PropTypes.any)
 };
 
 const mapStateToProps = ({ users }) => ({
@@ -222,8 +222,8 @@ const mapStateToProps = ({ users }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getRolesAction: () => {
-    dispatch(getRoles());
+  getRoleAction: (name) => {
+    dispatch(getRole(name));
   },
   createRoleAction: data => {
     dispatch(createRole(data));
@@ -236,4 +236,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Roles));
+)(withStyles(styles)(Role));

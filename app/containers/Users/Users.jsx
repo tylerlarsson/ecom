@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { map } from 'lodash';
-import * as moment from 'moment';
+import moment, * as moments from 'moment';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
@@ -17,7 +17,7 @@ import Card from 'components/Card/Card.jsx';
 import CardBody from 'components/Card/CardBody.jsx';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
-import { getUsers, createUsers, deleteUsers } from "../../redux/actions/users";
+import { getUsers, createUsers, deleteUsers } from '../../redux/actions/users';
 
 const styles = {
   cardCategoryWhite: {
@@ -61,7 +61,7 @@ class Users extends Component {
     deleteItem: null,
     name: '',
     description: ''
-  }
+  };
 
   componentDidMount() {
     this.props.getUsersAction();
@@ -69,7 +69,7 @@ class Users extends Component {
 
   handleAddNew = () => {
     this.setState({ open: true });
-  }
+  };
 
   handleClose = () => {
     this.setState({ open: false, openConfirm: false, name: '', description: '', editId: null, deleteItem: null });
@@ -86,25 +86,24 @@ class Users extends Component {
 
     createUserAction(payload);
     this.handleClose();
-  }
+  };
 
   onChange = field => event => {
     this.setState({ [field]: event.target.value });
-  }
+  };
 
-  prepareData = (data) => {
-    return map(data, item => {
+  prepareData = data =>
+    map(data, item => {
       const { roles, created, loginLast, loginCount, ...rest } = item;
 
       return {
         ...rest,
         roles: map(roles, p => p.name).join(', '),
-        created: moment(created).format('YYYY-MM-DD HH:mm:ss'),
-        loginLast: moment(loginLast).format('YYYY-MM-DD HH:mm:ss'),
+        created: created && moment(created).format('YYYY-MM-DD HH:mm:ss'),
+        loginLast: loginLast && moment(loginLast).format('YYYY-MM-DD HH:mm:ss'),
         loginCount
       };
     });
-  }
 
   renderConfirm = () => {
     const { openConfirm } = this.state;
@@ -118,14 +117,14 @@ class Users extends Component {
         description="Are you sure you want to delete this element?"
         okTitle="Delete"
       />
-    )
-  }
+    );
+  };
 
   renderNavbar = classes => (
     <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleAddNew}>
       Add User
     </Fab>
-  )
+  );
 
   renderModal = () => {
     const { open, name, description } = this.state;
@@ -163,14 +162,14 @@ class Users extends Component {
         />
       </Modal>
     );
-  }
+  };
 
   render() {
-    const { classes, data } = this.props;
+    const { data } = this.props;
 
     return (
       <>
-        <AdminNavbar title='Users' />
+        <AdminNavbar title="Users" />
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
