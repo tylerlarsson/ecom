@@ -26,6 +26,7 @@ function createLogger(filename) {
   filename += '-%DATE%.log';
   const fullFilename = path.join(process.cwd(), 'logs', filename);
   const transports = [new winston.transports.Console(CONSOLE_CONFIG)];
+  /* istanbul ignore next */
   if (FILE_LOGS) {
     transports.push(new winston.transports.DailyRotateFile(Object.assign({ filename: fullFilename }, FILE_CONFIG)));
   }

@@ -6,14 +6,21 @@ module.exports = {
 
   coverageThreshold: {
     global: {
-      statements: 0,
-      branches: 0,
-      functions: 0,
-      lines: 0
+      statements: 90,
+      branches: 80,
+      functions: 50,
+      lines: 90
     }
   },
   moduleDirectories: ['node_modules'],
-  collectCoverageFrom: ['server/**/*.js', '!server/web-server.dev.js', '!server/db-script/*.js', '!server/db/test.js'],
+  collectCoverageFrom: [
+    'server/**/*.js',
+    '!server/web-server.dev.js',
+    '!server/db-script/*.js',
+    '!server/db/test.js',
+    '!server/middlewares/*.js',
+    '!server/config.js'
+  ],
   coverageDirectory: 'coverage-it',
   testRegex: 'server-test/.*\\.test\\.js$'
 };
