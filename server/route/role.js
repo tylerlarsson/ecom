@@ -216,12 +216,12 @@ router.delete('/:name', async (req, res) => {
  *     parameters:
  *       - name: pageNumber
  *         in: query
- *         required: true
+ *         required: false
  *         default: 0
  *       - name: pageSize
  *         in: query
- *         required: true
- *         default: 10
+ *         required: false
+ *         default: 1000
  *     description: Get all the roles with assigned permissionss
  *     produces:
  *       - application/json
@@ -230,7 +230,7 @@ router.delete('/:name', async (req, res) => {
  *         description: returns roles
  *
  */
-router.get('/', paginated, async (req, res) => {
+router.get('/', paginated(1000), async (req, res) => {
   const total = await db.model.Role.countDocuments();
   const data = await db.model.Role.find()
     .limit(req.page.limit)

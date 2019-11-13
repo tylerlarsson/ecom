@@ -33,11 +33,6 @@ describe('permissions apis', () => {
     expect(description).toBe('read write permission');
   });
 
-  test('should fail when reading permissions when no pagination', async () => {
-    const res = await request(app).get(path);
-    expect(res.status).toBe(422);
-  });
-
   test('should create and read a permission', async () => {
     let res = await request(app)
       .get(`${path}/${id}`)
@@ -52,6 +47,19 @@ describe('permissions apis', () => {
     expect(res.body.total).toBe(1);
     expect(res.body.data.length).toBe(1);
     expect(res.body.data[0]).toEqual({ id, name, description });
+  });
+
+  test('should create and read a permission without pagination', async () => {
+    let res = await request(app)
+      .get(`${path}/${id}`)
+      .query({ pageNumber: 0, pageSize: 10 });
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ id, name, description });
+
+    res = await request(app).get(path);
+    expect(res.status).toBe(200);
+    expect(res.body.total).toBe(1);
+    expect(res.body.data.length).toBe(1);
   });
 
   test('should create and read by name a permission', async () => {

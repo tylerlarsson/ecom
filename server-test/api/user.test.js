@@ -84,6 +84,20 @@ describe('user apis', () => {
     expect(res.body.data[0].roles[0].id).toBe(testRole.id);
   });
 
+  test('should create a user and read without pagination', async () => {
+    let res = await request(app)
+      .post(path)
+      .send({
+        email: 'test@user.com',
+        password: 'testpassword',
+        roles: [testRole.id]
+      });
+    expect(res.status).toBe(200);
+
+    res = await request(app).get(path);
+    expect(res.body.total).toBe(1);
+  });
+
   test('should fail to create a user on same email', async () => {
     let res = await request(app)
       .post(path)

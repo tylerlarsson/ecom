@@ -106,12 +106,12 @@ router.post('/', async (req, res) => {
  *     parameters:
  *       - name: pageNumber
  *         in: query
- *         required: true
+ *         required: false
  *         default: 0
  *       - name: pageSize
  *         in: query
- *         required: true
- *         default: 10
+ *         required: false
+ *         default: 20
  *       - name: last-login-after
  *         in: query
  *         default: 1
@@ -135,7 +135,7 @@ router.post('/', async (req, res) => {
  *         description: returns users
  *
  */
-router.get('/', paginated, filtered, async (req, res) => {
+router.get('/', paginated(20), filtered, async (req, res) => {
   const total = await db.model.User.countDocuments(req.filter);
   const data = await db.model.User.find(req.filter)
     .limit(req.page.limit)
