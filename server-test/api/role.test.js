@@ -75,6 +75,21 @@ describe('role apis', () => {
     expect(res.body.data[0].permissions).toEqual([]);
   });
 
+  test('should create a role and read without pagination', async () => {
+    let res = await request(app)
+      .post(path)
+      .send({
+        name: 'test-role',
+        description: 'integration tests role'
+      });
+    expect(res.status).toBe(200);
+
+    res = await request(app).get(path);
+    expect(res.status).toBe(200);
+    expect(res.body.total).toBe(1);
+    expect(res.body.data.length).toBe(1);
+  });
+
   test('should fail to read when wrong id', async () => {
     let res = await request(app)
       .post(path)
