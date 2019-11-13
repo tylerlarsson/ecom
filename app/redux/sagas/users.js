@@ -8,7 +8,8 @@ import {
   deleteRole,
   getUsers,
   createUsers,
-  deleteUsers
+  deleteUsers,
+  getRole
 } from 'api/Api';
 import {
   GET_PERMISSIONS_REQUEST,
@@ -37,7 +38,10 @@ import {
   CREATE_USERS_FAILED,
   DELETE_USERS_REQUEST,
   DELETE_USERS_SUCCESS,
-  DELETE_USERS_FAILED
+  DELETE_USERS_FAILED,
+  GET_ROLE_REQUEST,
+  GET_ROLE_SUCCESS,
+  GET_ROLE_FAILED
 } from 'constants/actionTypes';
 
 // Responsible for searching media library, making calls to the API
@@ -54,6 +58,7 @@ export default function* watchAuthListener() {
   yield takeLatest(GET_USERS_REQUEST, getUsersRequestSaga);
   yield takeLatest(CREATE_USERS_REQUEST, createUsersRequestSaga);
   yield takeLatest(DELETE_USERS_REQUEST, deleteUsersRequestSaga);
+  yield takeLatest(GET_ROLE_REQUEST, getRoleRequestSaga);
 }
 
 export function* getPermissionsRequestSaga({ payload }) {
@@ -89,6 +94,15 @@ export function* getRolesRequestSaga({ payload }) {
     yield put({ type: GET_ROLES_SUCCESS, res });
   } catch (error) {
     yield put({ type: GET_ROLES_FAILED, error });
+  }
+}
+
+export function* getRoleRequestSaga({ payload }) {
+  try {
+    const res = yield call(getRole, payload);
+    yield put({ type: GET_ROLE_SUCCESS, res });
+  } catch (error) {
+    yield put({ type: GET_ROLE_FAILED, error });
   }
 }
 

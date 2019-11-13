@@ -8,5 +8,6 @@
   "USERS": "/users",
   "PERMISSIONS": "/permissions",
   "DASHBOARD": "/dashboard",
-  "USER": "/user"
+  "USER": "/user",
+  "USERS_FILTER": "/users/:role"
 }

@@ -178,6 +178,17 @@ export const getRoles = () =>
     })
     .catch(err => ({ success: false, reason: err.response.data.message }));
 
+export const getRole = payload =>
+  axios
+    .get(`${API_ENDPOINT_URL}/role/${payload.name}`)
+    .then(res => {
+      if (res.data) {
+        return { success: true, data: res.data };
+      }
+      return { success: false, reason: res.message };
+    })
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+
 export const createRole = payload => {
   const data = {
     name: payload.name,

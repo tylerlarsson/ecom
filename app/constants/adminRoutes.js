@@ -8,6 +8,7 @@ import Roles from 'containers/Roles/Roles';
 import Role from 'containers/Roles/Role';
 import Permissions from 'containers/Permissions/Permissions';
 import routes from 'constants/routes.json';
+import UsersFilterPage from 'containers/UsersFilterPage/UsersFilterPage';
 
 const dashboardRoutes = [
   // {
@@ -24,6 +25,14 @@ const dashboardRoutes = [
   //   component: UserProfile,
   //   layout: '/admin'
   // },
+  {
+    path: routes.USERS_FILTER.replace(':role', 'student'),
+    name: 'Students',
+    icon: Person,
+    component: UsersFilterPage,
+    layout: routes.ADMIN,
+    visible: true
+  },
   {
     path: routes.USERS,
     name: 'Users',
@@ -48,7 +57,6 @@ const dashboardRoutes = [
     layout: routes.ADMIN,
     visible: true
   },
-
   {
     path: routes.PERMISSIONS,
     name: 'Permissions',

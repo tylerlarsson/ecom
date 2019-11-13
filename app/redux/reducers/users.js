@@ -16,7 +16,9 @@ import {
   CREATE_USERS_SUCCESS,
   CREATE_USERS_FAILED,
   DELETE_USERS_SUCCESS,
-  DELETE_USERS_FAILED
+  DELETE_USERS_FAILED,
+  GET_ROLE_SUCCESS,
+  GET_ROLE_FAILED
 } from 'constants/actionTypes';
 
 const initialState = {
@@ -31,7 +33,8 @@ const initialState = {
   users: {
     data: [],
     total: 0
-  }
+  },
+  role: {}
 };
 let temp;
 export default function(state = initialState, action) {
@@ -111,6 +114,22 @@ export default function(state = initialState, action) {
       return {
         ...state,
         roles: []
+      };
+    case GET_ROLE_SUCCESS:
+      if (!action.res.success) {
+        return {
+          ...state,
+          role: {}
+        };
+      }
+      return {
+        ...state,
+        role: action.res.data
+      };
+    case GET_ROLE_FAILED:
+      return {
+        ...state,
+        role: {}
       };
     case CREATE_ROLE_SUCCESS:
       if (!action.res.success) {
