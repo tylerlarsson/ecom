@@ -5,6 +5,8 @@ const db = require('../../server/db/test');
 
 const path = `${config.get('base-path')}/role`;
 
+const names = ({ name }) => name;
+
 describe('role apis', () => {
   beforeAll(db.beforeAll);
   afterAll(db.afterAll);
@@ -34,6 +36,15 @@ describe('role apis', () => {
 
     expect(res.status).toBe(200);
     permission2 = res.body;
+
+    res = await request(app)
+      .post(`${config.get('base-path')}/permission`)
+      .send({
+        name: '*',
+        description: 'wildcard permission'
+      });
+
+    expect(res.status).toBe(200);
   });
 
   beforeEach(async () => {
@@ -131,6 +142,69 @@ describe('role apis', () => {
     expect(res.body.data[0].name).toEqual('test-role');
     expect(res.body.data[0].description).toEqual('integration tests role');
     expect(res.body.data[0].permissions[0].id).toEqual(permission.id);
+  });
+
+  test('should create a role with a permissions by name', async () => {
+    let res = await request(app)
+      .post(path)
+      .send({
+        name: 'test-role',
+        description: 'integration tests role',
+        permissions: ['read-write', '*']
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body.id).toMatch(/^[\da-z]{24}$/);
+
+    const { id } = res.body;
+
+    res = await request(app)
+      .get(path)
+      .query({ pageNumber: 0, pageSize: 10 });
+    expect(res.status).toBe(200);
+    expect(res.body.total).toBe(1);
+    expect(res.body.data.length).toBe(1);
+    expect(res.body.data[0].id).toEqual(id);
+    expect(res.body.data[0].name).toEqual('test-role');
+    expect(res.body.data[0].description).toEqual('integration tests role');
+    expect(res.body.data[0].permissions.map(names).sort()).toEqual(['*', 'read-write']);
+  });
+
+  test('should update a role with a permission by name', async () => {
+    let res = await request(app)
+      .post(path)
+      .send({
+        name: 'test-role',
+        description: 'integration tests role',
+        permissions: ['*']
+      });
+
+    expect(res.status).toBe(200);
+    expect(res.body.id).toMatch(/^[\da-z]{24}$/);
+
+    const { id } = res.body;
+
+    res = await request(app)
+      .post(path)
+      .send({
+        id,
+        name: 'new-test-role',
+        description: 'new integration tests role',
+        permissions: ['*']
+      });
+    expect(res.status).toBe(200);
+
+    res = await request(app)
+      .get(path)
+      .query({ pageNumber: 0, pageSize: 10 });
+    expect(res.status).toBe(200);
+    expect(res.body.total).toBe(1);
+    expect(res.body.data.length).toBe(1);
+    expect(res.body.data[0].id).toEqual(id);
+    expect(res.body.data[0].name).toEqual('new-test-role');
+    expect(res.body.data[0].description).toEqual('new integration tests role');
+    expect(res.body.data[0].permissions[0].name).toEqual('*');
+    expect(res.body.data[0].permissions.length).toEqual(1);
   });
 
   test('should fail creation a role when not created permission', async () => {
