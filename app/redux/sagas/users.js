@@ -9,7 +9,8 @@ import {
   getUsers,
   createUsers,
   deleteUsers,
-  getRole
+  getRole,
+  getFilters
 } from 'api/Api';
 import {
   GET_PERMISSIONS_REQUEST,
@@ -114,6 +115,7 @@ export function* createRoleRequestSaga({ payload }) {
   try {
     const res = yield call(createRole, payload);
     yield put({ type: CREATE_ROLE_SUCCESS, res });
+    yield call(getRolesRequestSaga, {});
   } catch (error) {
     yield put({ type: CREATE_ROLE_FAILED, error });
   }
@@ -157,8 +159,8 @@ export function* deleteUsersRequestSaga({ payload }) {
 
 export function* getFiltersRequestSaga({ payload }) {
   try {
-    const res = yield call(deleteUsers, payload);
-    yield put({ type: GET_FILTERS_SUCCESS, res: { ...res, name: payload.name } });
+    const res = yield call(getFilters, payload);
+    yield put({ type: GET_FILTERS_SUCCESS, res });
   } catch (error) {
     yield put({ type: GET_FILTERS_FAILED, error });
   }

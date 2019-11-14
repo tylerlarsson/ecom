@@ -63,10 +63,6 @@ class Roles extends Component {
     description: ''
   };
 
-  componentDidMount() {
-    this.props.getRolesAction();
-  }
-
   handleAddNew = () => {
     this.setState({ open: true });
   };

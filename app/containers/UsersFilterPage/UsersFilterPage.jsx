@@ -7,6 +7,11 @@ import moment, * as moments from 'moment';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
 import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Link from '@material-ui/core/Link';
+import Close from "@material-ui/icons/Close";
 // core components
 import Modal from 'components/Modal/Modal';
 import GridItem from 'components/Grid/GridItem';
@@ -49,7 +54,17 @@ const styles = {
   },
   fab: {
     background: 'orange',
-    elevation: 1
+    marginLeft: 16
+  },
+  filterContent: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  filterCard: {
+    marginTop: 10,
+    marginBottom: 10
   }
 };
 
@@ -61,17 +76,27 @@ class UsersFilterPage extends Component {
     deleteItem: null,
     name: '',
     description: '',
-    role: {}
+    role: {},
+    selected: {}
   };
 
   componentWillMount() {
     this.setRole();
     this.props.getFiltersAction();
+    this.props.getUsersAction();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { roles } = this.props;
+
+    if (prevProps.roles !== roles) {
+      this.setRole();
+    }
   }
 
   setRole = () => {
     const { match, roles } = this.props;
-    const roleName = match && match.params && match.params.name;
+    const roleName = match && match.params && match.params.role;
     const role = find(roles, item => item.name === roleName);
 
     if (role) {
@@ -80,28 +105,29 @@ class UsersFilterPage extends Component {
   };
 
   handleAddNew = () => {
-    this.setState({ open: true });
+    console.log('New Student');
   };
 
-  handleClose = () => {
-    this.setState({ open: false, openConfirm: false, name: '', description: '', editId: null, deleteItem: null });
+  handleExportCSV = () => {
+    console.log('Export CSV');
   };
 
-  handleSubmit = () => {
-    const { name, description, editId } = this.state;
-    const { createUserAction } = this.props;
-    const payload = { name, description };
-
-    if (editId) {
-      payload.id = editId;
-    }
-
-    createUserAction(payload);
-    this.handleClose();
+  handleCloseFilter = name => () => {
+    console.log('handleCloseFilter', name);
+    const { selected } = this.state;
+    selected[name] = false;
+    this.setState({ selected });
   };
 
-  onChange = field => event => {
-    this.setState({ [field]: event.target.value });
+  handleChange = event => {
+    console.log('handleChange', event, event.target);
+    const { selected } = this.state;
+    selected[event.target.value] = true;
+    this.setState({ selected });
+  };
+
+  resetFilters = () => {
+    this.setState({ selected: {}});
   };
 
   prepareData = data =>
@@ -117,74 +143,55 @@ class UsersFilterPage extends Component {
       };
     });
 
-  renderConfirm = () => {
-    const { openConfirm } = this.state;
-
-    return (
-      <Modal
-        open={openConfirm}
-        maxWidth="md"
-        onClose={this.handleClose}
-        onSubmit={this.handleDeleteConfirmed}
-        description="Are you sure you want to delete this element?"
-        okTitle="Delete"
-      />
-    );
-  };
-
   renderNavbar = classes => (
-    <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleAddNew}>
-      Add User
-    </Fab>
+    <>
+      <Fab variant="extended" size="medium" aria-label="like" color="secondary" onClick={this.handleExportCSV}>
+        Export CSV
+      </Fab>
+      <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleAddNew}>
+        Add Student
+      </Fab>
+    </>
   );
 
-  renderModal = () => {
-    const { open, name, description } = this.state;
-
-    return (
-      <Modal
-        open={open}
-        maxWidth="md"
-        onClose={this.handleClose}
-        onSubmit={this.handleSubmit}
-        title="Add New User"
-        okTitle="Save"
-      >
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          name="name"
-          label="Name"
-          type="text"
-          fullWidth
-          value={name}
-          onChange={this.onChange('name')}
-        />
-        <TextField
-          autoFocus
-          margin="dense"
-          id="description"
-          name="description"
-          label="Description"
-          type="text"
-          fullWidth
-          value={description}
-          onChange={this.onChange('description')}
-        />
-      </Modal>
-    );
-  };
-
   render() {
-    const { data } = this.props;
-    const { role } = this.state;
+    const { data, roles, filters, classes } = this.props;
+    const { role, selected } = this.state;
 
-    console.log('role', role);
+    console.log('role', role, roles);
+    console.log('filters', filters);
+    console.log('selected', selected);
     return (
       <>
-        <AdminNavbar title={role.name || ''} />
+        <AdminNavbar title={role.description || ''} right={this.renderNavbar(classes)} />
         <AdminContent>
+          <Card>
+            <CardBody className={classes.filterContent}>
+              <FormControl className={classes.formControl}>
+                <Select onChange={this.handleChange} value="" displayEmpty disableUnderline>
+                  <MenuItem value="">
+                    Add Filter
+                  </MenuItem>
+                  {map(filters, item => (<MenuItem key={item.name} value={item.name}>{item.label}</MenuItem>))}
+                </Select>
+              </FormControl>
+              <Link onClick={this.resetFilters}>Reset Filters</Link>
+            </CardBody>
+          </Card>
+          {map(filters, item => {
+            if (selected[item.name]) {
+              return (
+                <Card className={classes.filterCard} key={item.name}>
+                  <CardBody className={classes.filterContent}>
+                    <div className={classes.filterContent}>
+                      <div>{item.label}</div>
+                    </div>
+                    <Close onClick={this.handleCloseFilter(item.name)} />
+                  </CardBody>
+                </Card>
+              )
+            }
+          })}
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
               <Card>
@@ -200,8 +207,6 @@ class UsersFilterPage extends Component {
             </GridItem>
           </GridContainer>
         </AdminContent>
-        {this.renderModal()}
-        {this.renderConfirm()}
       </>
     );
   }
@@ -210,11 +215,14 @@ class UsersFilterPage extends Component {
 UsersFilterPage.propTypes = {
   getUsersAction: PropTypes.func.isRequired,
   getFiltersAction: PropTypes.func.isRequired,
+  roles: PropTypes.arrayOf(PropTypes.any).isRequired,
   data: PropTypes.array,
   total: PropTypes.number
 };
 
 const mapStateToProps = ({ users }) => ({
+  roles: users.roles.data,
+  filters: users.filters,
   data: users.users.data,
   total: users.users.total
 });
