@@ -136,6 +136,23 @@ describe('user apis', () => {
     expect(res.body.data[0].roles[0].name).toBe('user');
   });
 
+  test('should create a user and find by role', async () => {
+    let res = await request(app)
+      .post(path)
+      .send({
+        email: 'test@user.com',
+        password: 'testpassword'
+      });
+    expect(res.status).toBe(200);
+
+    res = await request(app)
+      .get(path)
+      .query({ 'has-role': 'user' });
+    expect(res.body.total).toBe(1);
+    expect(res.body.data[0].email).toBe('test@user.com');
+    expect(res.body.data[0].roles[0].name).toBe('user');
+  });
+
   test('should failt to create a user by email with a not existing user role', async () => {
     const res = await request(app)
       .post(path)

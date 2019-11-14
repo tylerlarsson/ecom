@@ -8,7 +8,8 @@ import {
   GET_USERS_REQUEST,
   CREATE_USERS_REQUEST,
   DELETE_USERS_REQUEST,
-  GET_ROLE_REQUEST
+  GET_ROLE_REQUEST,
+  GET_FILTERS_REQUEST
 } from 'constants/actionTypes';
 
 export const getPermissions = payload => ({
@@ -58,5 +59,10 @@ export const createUsers = payload => ({
 
 export const deleteUsers = payload => ({
   type: DELETE_USERS_REQUEST,
+  payload
+});
+
+export const getFilters = payload => ({
+  type: GET_FILTERS_REQUEST,
   payload
 });
