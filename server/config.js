@@ -20,7 +20,7 @@ const validate = ajv.compile(schema);
 
 if (!validate(data)) {
   // eslint-disable-next-line no-console
-  console.error('Bot configuration does not match the JSON schema');
+  console.error('configuration does not match the JSON schema');
   // eslint-disable-next-line no-console
   console.error(validate.errors);
   process.exit(401);

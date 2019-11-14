@@ -122,7 +122,7 @@ TableList.propTypes = {
   onSelect: PropTypes.func,
   deleteAction: PropTypes.func,
   editAction: PropTypes.func,
-  selected: PropTypes.number,
+  selected: PropTypes.objectOf(PropTypes.any),
   tableHeaderColor: PropTypes.oneOf(['warning', 'primary', 'danger', 'success', 'info', 'rose', 'gray']),
   tableHead: PropTypes.arrayOf(PropTypes.string),
   tableColumns: PropTypes.arrayOf(PropTypes.string),

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import { map, forEach, find } from 'lodash';
 import moment, * as moments from 'moment';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -9,15 +9,15 @@ import Fab from '@material-ui/core/Fab';
 import TextField from '@material-ui/core/TextField';
 // core components
 import Modal from 'components/Modal/Modal';
-import GridItem from 'components/Grid/GridItem.jsx';
-import GridContainer from 'components/Grid/GridContainer.jsx';
+import GridItem from 'components/Grid/GridItem';
+import GridContainer from 'components/Grid/GridContainer';
 import TableList from 'components/Table/TableList';
-import Card from 'components/Card/Card.jsx';
+import Card from 'components/Card/Card';
 // import CardHeader from 'components/Card/CardHeader.jsx';
-import CardBody from 'components/Card/CardBody.jsx';
+import CardBody from 'components/Card/CardBody';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
-import { getUsers, createUsers, deleteUsers } from '../../redux/actions/users';
+import { getUsers, getFilters } from '../../redux/actions/users';
 
 const styles = {
   cardCategoryWhite: {
@@ -60,12 +60,24 @@ class UsersFilterPage extends Component {
     editId: null,
     deleteItem: null,
     name: '',
-    description: ''
+    description: '',
+    role: {}
   };
 
-  componentDidMount() {
-    this.props.getUsersAction();
+  componentWillMount() {
+    this.setRole();
+    this.props.getFiltersAction();
   }
+
+  setRole = () => {
+    const { match, roles } = this.props;
+    const roleName = match && match.params && match.params.name;
+    const role = find(roles, item => item.name === roleName);
+
+    if (role) {
+      this.setState({ role });
+    }
+  };
 
   handleAddNew = () => {
     this.setState({ open: true });
@@ -166,10 +178,12 @@ class UsersFilterPage extends Component {
 
   render() {
     const { data } = this.props;
+    const { role } = this.state;
 
+    console.log('role', role);
     return (
       <>
-        <AdminNavbar title="Users Filter" />
+        <AdminNavbar title={role.name || ''} />
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
@@ -194,9 +208,8 @@ class UsersFilterPage extends Component {
 }
 
 UsersFilterPage.propTypes = {
-  getUsersAction: PropTypes.func,
-  createUserAction: PropTypes.func,
-  deleteUserAction: PropTypes.func,
+  getUsersAction: PropTypes.func.isRequired,
+  getFiltersAction: PropTypes.func.isRequired,
   data: PropTypes.array,
   total: PropTypes.number
 };
@@ -210,11 +223,8 @@ const mapDispatchToProps = dispatch => ({
   getUsersAction: () => {
     dispatch(getUsers());
   },
-  createUserAction: data => {
-    dispatch(createUsers(data));
-  },
-  deleteUserAction: data => {
-    dispatch(deleteUsers(data));
+  getFiltersAction: data => {
+    dispatch(getFilters(data));
   }
 });
 

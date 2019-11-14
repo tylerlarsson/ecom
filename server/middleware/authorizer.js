@@ -21,7 +21,7 @@ function Permission(...authorizedPermissions) {
 
     async (req, res, next) => {
       const { permissions } = req.user;
-      if (permissions.include('*')) {
+      if (permissions.includes('*')) {
         return next();
       }
       if (authorizedPermissions.some(authorizedPermission => permissions.includes(authorizedPermission))) {

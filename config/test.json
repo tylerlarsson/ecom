@@ -10,8 +10,8 @@
   "web-app": {
     "port": 8081,
     "secret": "Z$@r>h[u%#9R#UlL&u?ES$/s3Fe;tf",
-    "token-expires-in": "30m",
-    "refresh-token-expires-in": "1d"
+    "token-expires-in": "2s",
+    "refresh-token-expires-in": "4s"
   },
   "base-path": "/api/v1",
   "default-admin-permissions": ["*"],

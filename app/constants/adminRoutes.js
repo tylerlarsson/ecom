@@ -26,7 +26,7 @@ const dashboardRoutes = [
   //   layout: '/admin'
   // },
   {
-    path: routes.USERS_FILTER.replace(':role', 'student'),
+    path: routes.FILTER.replace(':role', 'student'),
     name: 'Students',
     icon: Person,
     component: UsersFilterPage,

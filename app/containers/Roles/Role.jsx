@@ -56,6 +56,7 @@ class Role extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: '',
       name: '',
       description: '',
       selected: {},
@@ -63,29 +64,29 @@ class Role extends Component {
   }
 
   componentWillMount() {
-    const { match, roles } = this.props;
-    const roleName = match && match.params && match.params.name;
-
-    const role = find(roles, item => item.name === roleName);
-    if (role) {
-      this.setRole(role);
-    }
+    this.setRole();
   }
 
   componentDidUpdate(prevProps) {
-    const { role } = this.props;
+    const { roles } = this.props;
 
-    if (prevProps.role !== role) {
-      this.setRole(role);
+    if (prevProps.roles !== roles) {
+      this.setRole();
     }
   }
 
-  setRole = (role) => {
-    const selected = {};
-    forEach(role.permissions, p => {
-      selected[p.name] = true;
-    });
-    this.setState({ name: role.name, description: role.description, selected });
+  setRole = () => {
+    const { match, roles } = this.props;
+    const roleName = match && match.params && match.params.name;
+    const role = find(roles, item => item.name === roleName);
+
+    if (role) {
+      const selected = {};
+      forEach(role.permissions, p => {
+        selected[p.name] = true;
+      });
+      this.setState({ id: role.id, name: role.name, description: role.description, selected });
+    }
   };
 
   handleBack = () => {
@@ -95,12 +96,21 @@ class Role extends Component {
   };
 
   handleSave = () => {
-    const { name, description } = this.state;
+    const { id, name, description, selected } = this.state;
     const { createRoleAction } = this.props;
-    const payload = { name, description };
+    const permissions = [];
+
+    forEach(selected, (item, key) => {
+      console.log(item, key)
+      if (selected[key]) {
+        permissions.push(key);
+      }
+    })
+
+    const payload = { id, name, description, permissions };
 
     console.log('handleSave', payload);
-    // createRoleAction(payload);
+    createRoleAction(payload);
     this.handleBack();
   };
 

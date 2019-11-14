@@ -9,5 +9,5 @@
   "PERMISSIONS": "/permissions",
   "DASHBOARD": "/dashboard",
   "USER": "/user",
-  "USERS_FILTER": "/users/:role"
+  "FILTER": "/filter/:role"
 }

@@ -9,7 +9,15 @@
       "$ref": "#mongo-id"
     },
     "name": {
-      "$ref": "#name"
+      "oneOf": [
+        {
+          "$ref": "#name"
+        },
+        {
+          "type": "string",
+          "pattern": "^\\*$"
+        }
+      ]
     },
     "description": {
       "type": "string"

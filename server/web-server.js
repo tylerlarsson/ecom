@@ -1,10 +1,8 @@
-require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
-const { Role, Permission } = require('./middleware/authorizer');
 
 const userRoute = require('./route/user');
 const roleRoute = require('./route/role');
@@ -27,46 +25,9 @@ app.use(`${API}/permission`, permissionRoute);
 app.use(`${API}/oauth`, oauthRoute);
 app.use(`${API}/filter`, filterRoute);
 
-/**
- * @swagger
- *
- * /test/admin:
- *   get:
- *     description: returns a hello
- *     security:
- *      - bearerAuth: []
- *     produces:
- *       - application/text
- *     responses:
- *       200:
- *         description: login
- */
-
-app.get(`${API}/test/admin`, Role('admin-role'), (req, res) => {
-  res.send('admin role only!');
-});
-
-/**
- * @swagger
- *
- * /test/permission3:
- *   get:
- *     description: returns a hello
- *     security:
- *      - bearerAuth: []
- *     produces:
- *       - application/text
- *     responses:
- *       200:
- *         description: login
- */
-
-app.get(`${API}/test/permission3`, Permission('third-super-permission'), (req, res) => {
-  res.send('third-super-permission only!');
-});
-
 const port = config.get('web-app:port');
 
+/* istanbul ignore next */
 if (config.get('NODE_ENV') === 'production') {
   // production mode
   app.use('/', express.static(path.join(__dirname, '..', 'build')));
