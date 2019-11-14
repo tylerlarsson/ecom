@@ -25,6 +25,7 @@ const switchRoutes = (
       if (prop.layout === "/admin") {
         return (
           <Route
+            exact
             path={prop.layout + prop.path}
             component={props => {
               const Component = prop.component;
