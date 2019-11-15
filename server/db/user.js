@@ -74,6 +74,11 @@ USER.statics.verifyUsername = async username => {
   return user;
 };
 
+USER.statics.verifyEmails = async emails => {
+  const count = await User.countDocuments({ email: { $in: emails } });
+  return count === emails.length;
+};
+
 USER.statics.verifyEmail = async email => {
   const user = await User.findOne({ email });
   if (!user) {
@@ -98,6 +103,14 @@ USER.methods.updateLoginStats = async function() {
   this.loginLast = new Date();
   ++this.loginCount;
   await this.save();
+};
+
+USER.statics.mapToId = async users => {
+  const probableIds = users.filter(r => mongoose.Types.ObjectId.isValid(r));
+  const select = await User.find({
+    $or: [{ _id: { $in: probableIds } }, { username: { $in: users } }, { email: { $in: users } }]
+  }).select({ _id: 1 });
+  return select.map(({ _id }) => String(_id));
 };
 
 const User = mongoose.model('user', USER);

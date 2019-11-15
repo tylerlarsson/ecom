@@ -8,9 +8,7 @@ import {
   deleteRole,
   getUsers,
   createUsers,
-  deleteUsers,
-  getRole,
-  getFilters
+  deleteUsers
 } from 'api/Api';
 import {
   GET_PERMISSIONS_REQUEST,
@@ -39,13 +37,7 @@ import {
   CREATE_USERS_FAILED,
   DELETE_USERS_REQUEST,
   DELETE_USERS_SUCCESS,
-  DELETE_USERS_FAILED,
-  GET_ROLE_REQUEST,
-  GET_ROLE_SUCCESS,
-  GET_ROLE_FAILED,
-  GET_FILTERS_REQUEST,
-  GET_FILTERS_SUCCESS,
-  GET_FILTERS_FAILED
+  DELETE_USERS_FAILED
 } from 'constants/actionTypes';
 
 // Responsible for searching media library, making calls to the API
@@ -62,8 +54,6 @@ export default function* watchAuthListener() {
   yield takeLatest(GET_USERS_REQUEST, getUsersRequestSaga);
   yield takeLatest(CREATE_USERS_REQUEST, createUsersRequestSaga);
   yield takeLatest(DELETE_USERS_REQUEST, deleteUsersRequestSaga);
-  yield takeLatest(GET_ROLE_REQUEST, getRoleRequestSaga);
-  yield takeLatest(GET_FILTERS_REQUEST, getFiltersRequestSaga);
 }
 
 export function* getPermissionsRequestSaga({ payload }) {
@@ -102,20 +92,10 @@ export function* getRolesRequestSaga({ payload }) {
   }
 }
 
-export function* getRoleRequestSaga({ payload }) {
-  try {
-    const res = yield call(getRole, payload);
-    yield put({ type: GET_ROLE_SUCCESS, res });
-  } catch (error) {
-    yield put({ type: GET_ROLE_FAILED, error });
-  }
-}
-
 export function* createRoleRequestSaga({ payload }) {
   try {
     const res = yield call(createRole, payload);
     yield put({ type: CREATE_ROLE_SUCCESS, res });
-    yield call(getRolesRequestSaga, {});
   } catch (error) {
     yield put({ type: CREATE_ROLE_FAILED, error });
   }
@@ -154,14 +134,5 @@ export function* deleteUsersRequestSaga({ payload }) {
     yield put({ type: DELETE_USERS_SUCCESS, res: { ...res, name: payload.name } });
   } catch (error) {
     yield put({ type: DELETE_USERS_FAILED, error });
-  }
-}
-
-export function* getFiltersRequestSaga({ payload }) {
-  try {
-    const res = yield call(getFilters, payload);
-    yield put({ type: GET_FILTERS_SUCCESS, res });
-  } catch (error) {
-    yield put({ type: GET_FILTERS_FAILED, error });
   }
 }

@@ -13,11 +13,10 @@ import GridContainer from 'components/Grid/GridContainer.jsx';
 import TableList from 'components/Table/TableList';
 import Card from 'components/Card/Card.jsx';
 // import CardHeader from 'components/Card/CardHeader.jsx';
-import CardBody from 'components/Card/CardBody';
+import CardBody from 'components/Card/CardBody.jsx';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
-import routes from 'constants/routes.json';
-import { getRoles, createRole, deleteRole } from '../../redux/actions/users';
+import { getRoles, createRole, deleteRole } from "../../redux/actions/users";
 
 const styles = {
   cardCategoryWhite: {
@@ -61,11 +60,15 @@ class Roles extends Component {
     deleteItem: null,
     name: '',
     description: ''
-  };
+  }
+
+  componentDidMount() {
+    this.props.getRolesAction();
+  }
 
   handleAddNew = () => {
     this.setState({ open: true });
-  };
+  }
 
   handleClose = () => {
     this.setState({ open: false, openConfirm: false, name: '', description: '', editId: null, deleteItem: null });
@@ -82,21 +85,15 @@ class Roles extends Component {
 
     createRoleAction(payload);
     this.handleClose();
-  };
+  }
 
   onChange = field => event => {
     this.setState({ [field]: event.target.value });
-  };
+  }
 
-  handleDelete = item => {
+  handleDelete = (item) => {
     this.setState({ openConfirm: true, deleteItem: item });
-  };
-
-  handleEdit = item => {
-    const { history } = this.props;
-
-    history.push(`${routes.ADMIN}${routes.ROLE}`.replace(':name', item.name));
-  };
+  }
 
   handleDeleteConfirmed = () => {
     const { deleteItem } = this.state;
@@ -105,14 +102,15 @@ class Roles extends Component {
       deleteRoleAction({ name: deleteItem.name });
       this.handleClose();
     }
-  };
+  }
 
-  prepareData = data =>
-    map(data, item => {
+  prepareData = (data) => {
+    return map(data, item => {
       const { permissions, ...rest } = item;
 
       return { ...rest, permissions: map(permissions, p => p.name).join(', ') };
     });
+  }
 
   renderConfirm = () => {
     const { openConfirm } = this.state;
@@ -126,14 +124,14 @@ class Roles extends Component {
         description="Are you sure you want to delete this element?"
         okTitle="Delete"
       />
-    );
-  };
+    )
+  }
 
   renderNavbar = classes => (
     <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleAddNew}>
       Add Role
     </Fab>
-  );
+  )
 
   renderModal = () => {
     const { open, name, description } = this.state;
@@ -171,14 +169,14 @@ class Roles extends Component {
         />
       </Modal>
     );
-  };
+  }
 
   render() {
     const { classes, data } = this.props;
 
     return (
       <>
-        <AdminNavbar title="Roles" right={this.renderNavbar(classes)} />
+        <AdminNavbar title='Roles' right={this.renderNavbar(classes)} />
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
@@ -190,7 +188,6 @@ class Roles extends Component {
                     tableColumns={['name', 'description', 'permissions']}
                     tableData={this.prepareData(data)}
                     deleteAction={this.handleDelete}
-                    editAction={this.handleEdit}
                   />
                 </CardBody>
               </Card>
@@ -209,7 +206,7 @@ Roles.propTypes = {
   createRoleAction: PropTypes.func,
   deleteRoleAction: PropTypes.func,
   data: PropTypes.array,
-  history: PropTypes.object
+  total: PropTypes.number
 };
 
 const mapStateToProps = ({ users }) => ({

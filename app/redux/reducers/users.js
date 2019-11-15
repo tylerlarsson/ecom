@@ -1,4 +1,3 @@
-import { filter } from 'lodash';
 import {
   GET_PERMISSIONS_SUCCESS,
   GET_PERMISSIONS_FAILED,
@@ -17,11 +16,7 @@ import {
   CREATE_USERS_SUCCESS,
   CREATE_USERS_FAILED,
   DELETE_USERS_SUCCESS,
-  DELETE_USERS_FAILED,
-  GET_ROLE_SUCCESS,
-  GET_ROLE_FAILED,
-  GET_FILTERS_SUCCESS,
-  GET_FILTERS_FAILED
+  DELETE_USERS_FAILED
 } from 'constants/actionTypes';
 
 const initialState = {
@@ -36,9 +31,7 @@ const initialState = {
   users: {
     data: [],
     total: 0
-  },
-  filters: [],
-  role: {}
+  }
 };
 let temp;
 export default function(state = initialState, action) {
@@ -119,33 +112,16 @@ export default function(state = initialState, action) {
         ...state,
         roles: []
       };
-    case GET_ROLE_SUCCESS:
-      if (!action.res.success) {
-        return {
-          ...state,
-          role: {}
-        };
-      }
-      return {
-        ...state,
-        role: action.res.data
-      };
-    case GET_ROLE_FAILED:
-      return {
-        ...state,
-        role: {}
-      };
     case CREATE_ROLE_SUCCESS:
       if (!action.res.success) {
         return {
           ...state
         };
       }
-      temp = filter(state.roles.data, item => action.res.data.id !== item.id);
       return {
         ...state,
         roles: {
-          data: [...temp, action.res.data],
+          data: [...state.roles.data, action.res.data],
           total: state.total + 1
         }
       };
@@ -217,24 +193,6 @@ export default function(state = initialState, action) {
     case DELETE_USERS_FAILED:
       return {
         ...state
-      };
-
-    // Filters
-    case GET_FILTERS_SUCCESS:
-      if (!action.res.success) {
-        return {
-          ...state,
-          filters: []
-        };
-      }
-      return {
-        ...state,
-        filters: action.res.data
-      };
-    case GET_FILTERS_FAILED:
-      return {
-        ...state,
-        filters: []
       };
     default:
       return state;

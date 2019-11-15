@@ -5,10 +5,8 @@ import Person from '@material-ui/icons/Person';
 // import UserProfile from 'views/UserProfile/UserProfile.jsx';
 import Users from 'containers/Users/Users';
 import Roles from 'containers/Roles/Roles';
-import Role from 'containers/Roles/Role';
 import Permissions from 'containers/Permissions/Permissions';
 import routes from 'constants/routes.json';
-import UsersFilterPage from 'containers/UsersFilterPage/UsersFilterPage';
 
 const dashboardRoutes = [
   // {
@@ -26,45 +24,25 @@ const dashboardRoutes = [
   //   layout: '/admin'
   // },
   {
-    path: routes.FILTER,
-    link: routes.FILTER.replace(':role', 'student'),
-    name: 'Students',
-    icon: Person,
-    component: UsersFilterPage,
-    layout: routes.ADMIN,
-    visible: true
-  },
-  {
-    path: routes.USERS,
+    path: '/users',
     name: 'Users',
     icon: Person,
     component: Users,
-    layout: routes.ADMIN,
-    visible: true
+    layout: routes.ADMIN
   },
   {
-    path: routes.ROLE,
-    name: 'Role',
-    icon: Person,
-    component: Role,
-    layout: routes.ADMIN,
-    visible: false
-  },
-  {
-    path: routes.ROLES,
+    path: '/roles',
     name: 'Roles',
     icon: Person,
     component: Roles,
-    layout: routes.ADMIN,
-    visible: true
+    layout: routes.ADMIN
   },
   {
-    path: routes.PERMISSIONS,
+    path: '/permissions',
     name: 'Permissions',
     icon: Person,
     component: Permissions,
-    layout: routes.ADMIN,
-    visible: true
+    layout: routes.ADMIN
   }
 ];
 

@@ -178,25 +178,11 @@ export const getRoles = () =>
     })
     .catch(err => ({ success: false, reason: err.response.data.message }));
 
-export const getRole = payload =>
-  axios
-    .get(`${API_ENDPOINT_URL}/role/${payload.name}`)
-    .then(res => {
-      if (res.data) {
-        return { success: true, data: res.data };
-      }
-      return { success: false, reason: res.message };
-    })
-    .catch(err => ({ success: false, reason: err.response.data.message }));
-
 export const createRole = payload => {
   const data = {
     name: payload.name,
     description: payload.description
   };
-  if (payload.permissions) {
-    data.permissions = payload.permissions;
-  }
 
   if (payload.id) {
     data.id = payload.id;
@@ -206,7 +192,7 @@ export const createRole = payload => {
     .post(`${API_ENDPOINT_URL}/role`, data)
     .then(res => {
       if (res.data) {
-        return { success: true, data: res };
+        return { success: true, data: res.data };
       }
       return { success: false, reason: res.message };
     })
@@ -272,17 +258,6 @@ function setAccessToken(token) {
   console.log('setAccessToken', token);
   localStorage.setItem('authentication_token', token);
 }
-
-export const getFilters = () =>
-  axios
-    .get(`${API_ENDPOINT_URL}/filter`)
-    .then(res => {
-      if (res.data) {
-        return { success: true, data: res.data };
-      }
-      return { success: false, reason: res.message };
-    })
-    .catch(err => ({ success: false, reason: err.response.data.message }));
 
 export const getAccessToken = () => localStorage.getItem('authentication_token');
 

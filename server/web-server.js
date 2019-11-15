@@ -9,6 +9,7 @@ const roleRoute = require('./route/role');
 const permissionRoute = require('./route/permission');
 const oauthRoute = require('./route/oauth');
 const filterRoute = require('./route/filter');
+const courseRoute = require('./route/course');
 
 const config = require('./config');
 
@@ -24,6 +25,7 @@ app.use(`${API}/role`, roleRoute);
 app.use(`${API}/permission`, permissionRoute);
 app.use(`${API}/oauth`, oauthRoute);
 app.use(`${API}/filter`, filterRoute);
+app.use(`${API}/course`, courseRoute);
 
 const port = config.get('web-app:port');
 

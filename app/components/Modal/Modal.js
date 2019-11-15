@@ -37,8 +37,8 @@ FormDialog.propTypes = {
   onSubmit: PropTypes.func,
   title: PropTypes.string,
   description: PropTypes.string,
-  maxWidth: PropTypes.string,
-  children: PropTypes.array,
+  maxWidth: PropTypes.number,
+  children: PropTypes.object,
   okTitle: PropTypes.string
 };
 

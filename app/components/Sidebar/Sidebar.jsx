@@ -18,8 +18,8 @@ import sidebarStyle from "assets/jss/material-dashboard-react/components/sidebar
 
 const Sidebar = ({ ...props }) => {
   // verifies if routeName is the one active (in browser input)
-  function activeRoute(routeName, link) {
-    return props.location.pathname.indexOf(routeName) > -1 || props.location.pathname.indexOf(link) > -1 ? true : false;
+  function activeRoute(routeName) {
+    return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
   const { classes, color, logo, image, logoText, routes } = props;
   var links = (
@@ -27,21 +27,28 @@ const Sidebar = ({ ...props }) => {
       {routes.map((prop, key) => {
         var activePro = " ";
         var listItemClasses;
-        listItemClasses = classNames({
-          [" " + classes[color]]: activeRoute(prop.layout + prop.path, prop.layout + prop.link)
-        });
+        if (prop.path === "/upgrade-to-pro") {
+          activePro = classes.activePro + " ";
+          listItemClasses = classNames({
+            [" " + classes[color]]: true
+          });
+        } else {
+          listItemClasses = classNames({
+            [" " + classes[color]]: activeRoute(prop.layout + prop.path)
+          });
+        }
         const whiteFontClasses = classNames({
-          [" " + classes.whiteFont]: activeRoute(prop.layout + prop.path, prop.layout + prop.link )
+          [" " + classes.whiteFont]: activeRoute(prop.layout + prop.path)
         });
         return (
           <NavLink
-            to={prop.layout + (prop.link || prop.path)}
+            to={prop.layout + prop.path}
             className={activePro + classes.item}
             activeClassName="active"
             key={key}
           >
             <ListItem button className={classes.itemLink + listItemClasses}>
-              {typeof prop.icon === 'string' ? (
+              {typeof prop.icon === "string" ? (
                 <Icon
                   className={classNames(classes.itemIcon, whiteFontClasses, {
                     [classes.itemIconRTL]: props.rtlActive
