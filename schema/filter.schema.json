@@ -6,6 +6,13 @@
   "additionalProperties": false,
   "items": {
     "type": "string",
-    "enum": ["last-login-after", "last-login-before", "login-count-greater-than", "signed-up-after", "signed-up-before"]
+    "enum": [
+      "last-login-after",
+      "last-login-before",
+      "login-count-greater-than",
+      "signed-up-after",
+      "signed-up-before",
+      "has-role"
+    ]
   }
 }

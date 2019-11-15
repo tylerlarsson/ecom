@@ -23,6 +23,9 @@
     "signed-up-before": {
       "type": "string",
       "pattern": "^\\d+$"
+    },
+    "has-role": {
+      "anyOf": [{ "$ref": "#name" }, { "type": "string", "pattern": "^\\*$" }]
     }
   }
 }

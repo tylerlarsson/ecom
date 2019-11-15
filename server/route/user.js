@@ -127,6 +127,9 @@ router.post('/', async (req, res) => {
  *       - name: signed-up-before
  *         in: query
  *         default: 2000000000000
+ *       - name: has-role
+ *         in: query
+ *         default: user
  *     description: Get users
  *     produces:
  *       - application/json
