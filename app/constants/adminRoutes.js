@@ -1,6 +1,7 @@
 // @material-ui/icons
 // import Dashboard from '@material-ui/icons/Dashboard';
 import Person from '@material-ui/icons/Person';
+import Dashboard from '@material-ui/icons/Dashboard';
 // core components/views for Admin layout
 // import UserProfile from 'views/UserProfile/UserProfile.jsx';
 import Users from 'containers/Users/Users';
@@ -9,15 +10,16 @@ import Role from 'containers/Roles/Role';
 import Permissions from 'containers/Permissions/Permissions';
 import routes from 'constants/routes.json';
 import UsersFilterPage from 'containers/UsersFilterPage/UsersFilterPage';
+import DashboardPage from 'containers/HomePage';
 
 const dashboardRoutes = [
-  // {
-  //   path: '/dashboard',
-  //   name: 'Dashboard',
-  //   icon: Dashboard,
-  //   component: DashboardPage,
-  //   layout: '/admin'
-  // },
+  {
+    path: '/',
+    name: 'Dashboard',
+    icon: Dashboard,
+    component: DashboardPage,
+    layout: '/admin'
+  },
   // {
   //   path: '/user',
   //   name: 'User Profile',
