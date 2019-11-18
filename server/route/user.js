@@ -1,3 +1,4 @@
+const HttpStatus = require('http-status-codes');
 const express = require('express');
 const config = require('../config');
 const createLogger = require('../logger');
@@ -71,14 +72,14 @@ router.post('/', async (req, res) => {
 
   if (!validator.newUser(data)) {
     logger.error('validation of the new user failed', validator.newUser.errors);
-    res.status(422).json({ errors: validator.newUser.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.newUser.errors });
     return;
   }
 
   const existing = await db.model.User.findOne({ email: data.email });
   if (existing) {
     logger.error('user', data.email, 'already exists');
-    res.status(409).json({ errors: [{ dataPath: '.email', message: 'already exists' }] });
+    res.status(HttpStatus.CONFLICT).json({ errors: [{ dataPath: '.email', message: 'already exists' }] });
     return;
   }
 
@@ -89,7 +90,7 @@ router.post('/', async (req, res) => {
   const allCreated = await db.model.Role.isCreated(data.roles);
   if (!allCreated) {
     logger.error('not all roles from', data.roles, 'have not been created yet');
-    res.status(409).json({ errors: [{ dataPath: '.roles', message: `not created: ${data.roles}` }] });
+    res.status(HttpStatus.CONFLICT).json({ errors: [{ dataPath: '.roles', message: `not created: ${data.roles}` }] });
     return;
   }
 

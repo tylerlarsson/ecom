@@ -4,14 +4,11 @@ import PropTypes from "prop-types";
 import { Switch, Route, Redirect } from "react-router-dom";
 import axios from "axios";
 // creates a beautiful scrollbar
-import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
-import Navbar from "components/Navbars/Navbar.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
-
 import routes from "constants/adminRoutes";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
@@ -28,6 +25,7 @@ const switchRoutes = (
       if (prop.layout === "/admin") {
         return (
           <Route
+            exact
             path={prop.layout + prop.path}
             component={props => {
               const Component = prop.component;
@@ -68,9 +66,6 @@ class Dashboard extends React.Component {
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
-  getRoute() {
-    return this.props.location.pathname !== "/admin/maps";
-  }
   resizeFunction = () => {
     if (window.innerWidth >= 960) {
       this.setState({ mobileOpen: false });
@@ -114,11 +109,12 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
+    const menu = routes.filter(item => item.visible );
 
     return (
       <div className={classes.wrapper}>
         <Sidebar
-          routes={routes}
+          routes={menu}
           logoText={"Ecom Freedom"}
           logo={logo}
           // image={this.state.image}
@@ -128,11 +124,7 @@ class Dashboard extends React.Component {
           {...rest}
         />
         <div className={classes.mainPanel} ref="mainPanel">
-          {this.getRoute() ?
-            switchRoutes
-          : (
-            <div className={classes.map}>{switchRoutes}</div>
-          )}
+          {switchRoutes}
         </div>
       </div>
     );

@@ -1,3 +1,4 @@
+const HttpStatus = require('http-status-codes');
 const validator = require('../validator');
 
 module.exports = DEFAULT_PAGE_SIZE => async (req, res, next) => {
@@ -7,7 +8,7 @@ module.exports = DEFAULT_PAGE_SIZE => async (req, res, next) => {
   pageSize = pageSize || String(DEFAULT_PAGE_SIZE);
 
   if (!validator.pageRequest({ pageNumber, pageSize })) {
-    res.status(422).json({ errors: validator.pageRequest.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.pageRequest.errors });
     return;
   }
 

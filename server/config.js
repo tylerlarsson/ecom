@@ -23,7 +23,7 @@ if (!validate(data)) {
   console.error('configuration does not match the JSON schema');
   // eslint-disable-next-line no-console
   console.error(validate.errors);
-  process.exit(401);
+  process.exit(422);
 }
 
 // eslint-disable-next-line no-console

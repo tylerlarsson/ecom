@@ -2,5 +2,12 @@
   "HOME": "/",
   "LOGIN": "/login",
   "SIGNUP": "/signup",
-  "ADMIN": "/admin"
+  "ADMIN": "/admin",
+  "ROLES": "/roles",
+  "ROLE": "/role/:name",
+  "USERS": "/users",
+  "PERMISSIONS": "/permissions",
+  "DASHBOARD": "/dashboard",
+  "USER": "/user",
+  "FILTER": "/filter/:role"
 }

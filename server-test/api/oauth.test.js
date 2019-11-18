@@ -1,3 +1,4 @@
+const HttpStatus = require('http-status-codes');
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const config = require('../../server/config');
@@ -24,7 +25,7 @@ describe('oauth apis', () => {
         name: 'test-permission',
         description: 'test user role'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     // test user role
     res = await request(app)
@@ -34,7 +35,7 @@ describe('oauth apis', () => {
         description: 'test user role',
         permissions: ['test-permission']
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     // test user
     res = await request(app)
@@ -44,7 +45,7 @@ describe('oauth apis', () => {
         password: 'testpassword',
         roles: ['test-role']
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
   });
 
   test('should fail request is not correct', async () => {
@@ -56,7 +57,7 @@ describe('oauth apis', () => {
         username: 'user@test.com',
         password: 'wrong!password'
       });
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
   test('should fail when password is wrong', async () => {
@@ -68,7 +69,7 @@ describe('oauth apis', () => {
         username: 'user@test.com',
         password: 'wrong!password'
       });
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(HttpStatus.UNAUTHORIZED);
   });
 
   test('should authorize and get tokens', async () => {
@@ -80,7 +81,7 @@ describe('oauth apis', () => {
         username: 'user@test.com',
         password: 'testpassword'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     const at = res.body.access_token;
     const data = jwt.decode(at);
@@ -93,7 +94,7 @@ describe('oauth apis', () => {
     res = await request(app)
       .get(`${config.get('base-path')}/user/test-users-only/`)
       .set('Authorization', `Bearer ${at}`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body).toEqual(true);
   });
 
@@ -106,7 +107,7 @@ describe('oauth apis', () => {
         username: 'user@test.com',
         password: 'testpassword'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     const at = res.body.access_token;
 
     // waiting to expire
@@ -114,7 +115,7 @@ describe('oauth apis', () => {
     res = await request(app)
       .get(`${config.get('base-path')}/user/test-users-only/`)
       .set('Authorization', `Bearer ${at}`);
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(HttpStatus.UNAUTHORIZED);
   });
 
   test('should authorize, refresh tokens and when expired', async () => {
@@ -126,7 +127,7 @@ describe('oauth apis', () => {
         username: 'user@test.com',
         password: 'testpassword'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     let at = res.body.access_token;
     const rt = res.body.refresh_token;
 
@@ -140,7 +141,7 @@ describe('oauth apis', () => {
         client_id: 'WEB-APP',
         refresh_token: rt
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.refresh_token).toBe(rt);
     expect(res.body.access_token).not.toBe(at);
     at = res.body.access_token;
@@ -148,26 +149,26 @@ describe('oauth apis', () => {
     res = await request(app)
       .get(`${config.get('base-path')}/user/test-users-only/`)
       .set('Authorization', `Bearer ${at}`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body).toEqual(true);
 
     // should fail on another role
     res = await request(app)
       .get(`${config.get('base-path')}/user/admin-users-only/`)
       .set('Authorization', `Bearer ${at}`);
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(HttpStatus.UNAUTHORIZED);
 
     res = await request(app)
       .get(`${config.get('base-path')}/user/test-permission-only/`)
       .set('Authorization', `Bearer ${at}`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body).toEqual(true);
 
     // should fail on another permission
     res = await request(app)
       .get(`${config.get('base-path')}/user/write-permission-only/`)
       .set('Authorization', `Bearer ${at}`);
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(HttpStatus.UNAUTHORIZED);
   });
 
   test('should authorize and fail when refresh token is wrong', async () => {
@@ -179,7 +180,7 @@ describe('oauth apis', () => {
         username: 'user@test.com',
         password: 'testpassword'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     const at = res.body.access_token;
 
     res = await request(app)
@@ -189,7 +190,7 @@ describe('oauth apis', () => {
         client_id: 'WEB-APP',
         refresh_token: at
       });
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(HttpStatus.UNAUTHORIZED);
   });
 
   test('should authorize and fail when refresh token is expired', async () => {
@@ -201,7 +202,7 @@ describe('oauth apis', () => {
         username: 'user@test.com',
         password: 'testpassword'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     const rt = res.body.refresh_token;
 
     // waiting to expire
@@ -213,7 +214,7 @@ describe('oauth apis', () => {
         client_id: 'WEB-APP',
         refresh_token: rt
       });
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(HttpStatus.UNAUTHORIZED);
   });
 
   test('should authorize and fail to refresh when user is revoked', async () => {
@@ -225,7 +226,7 @@ describe('oauth apis', () => {
         username: 'user@test.com',
         password: 'testpassword'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     const rt = res.body.refresh_token;
 
     await db.model.User.deleteMany({});
@@ -237,6 +238,6 @@ describe('oauth apis', () => {
         client_id: 'WEB-APP',
         refresh_token: rt
       });
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(HttpStatus.UNAUTHORIZED);
   });
 });
