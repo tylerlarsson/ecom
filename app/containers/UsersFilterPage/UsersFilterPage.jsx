@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map, forEach, find, filter } from 'lodash';
+import { map, find, filter, forEach } from 'lodash';
 import moment, * as moments from 'moment';
+import { CSVLink } from 'react-csv/lib';
 // @material-ui/core components
 import 'date-fns';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -17,9 +18,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import Close from "@material-ui/icons/Close";
+import Close from '@material-ui/icons/Close';
 // core components
-import Modal from 'components/Modal/Modal';
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import TableList from 'components/Table/TableList';
@@ -77,17 +77,14 @@ const styles = {
   },
   label: {
     marginRight: 24
+  },
+  csvLink: {
+    textDecoration: 'none'
   }
 };
 
 class UsersFilterPage extends Component {
   state = {
-    open: false,
-    openConfirm: false,
-    editId: null,
-    deleteItem: null,
-    name: '',
-    description: '',
     role: {},
     selected: {},
     filtersValues: {}
@@ -100,24 +97,33 @@ class UsersFilterPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { roles } = this.props;
-    const { filtersValues } = this.state;
+    const { roles, match } = this.props;
+    const { filtersValues, role } = this.state;
 
-    if (prevProps.roles !== roles) {
+    if (prevProps.roles !== roles || prevProps.match.url !== match.url) {
       this.setRole();
     }
-    if (prevState.filtersValues !== filtersValues) {
+    if (prevState.filtersValues !== filtersValues || prevState.role !== role) {
       this.getUsers();
     }
   }
 
   getUsers = () => {
-    const { match } = this.props;
-    const { filtersValues } = this.state;
+    const { match, filters } = this.props;
+    const { filtersValues, selected } = this.state;
     const roleName = match && match.params && match.params.role;
     if (roleName) {
-      const payload = { params: { ...filtersValues, 'has-role': roleName } };
-
+      const filtersPayload = {};
+      forEach(filters, item => {
+        if (selected[item.name]) {
+          if (item.type === 'date') {
+            filtersPayload[item.name] = Math.round(new Date(filtersValues[item.name]).getTime() / 1000);
+          } else {
+            filtersPayload[item.name] = filtersValues[item.name];
+          }
+        }
+      });
+      const payload = { params: { ...filtersPayload, 'has-role': roleName } };
       this.props.getUsersAction(payload);
     }
   };
@@ -142,16 +148,35 @@ class UsersFilterPage extends Component {
 
   handleCloseFilter = name => () => {
     const { selected, filtersValues } = this.state;
-    selected[name] = false;
-    filtersValues[name] = undefined;
-    this.setState({ selected, filtersValues });
+    this.setState({ selected: { ...selected, [name]: false }, filtersValues: { ...filtersValues, [name]: undefined } });
   };
 
-  handleChange = event => {
+  handleAddFilter = event => {
     const { selected, filtersValues } = this.state;
-    selected[event.target.value] = true;
-    filtersValues[event.target.value] = '';
-    this.setState({ selected, filtersValues });
+    const { filters } = this.props;
+    const currentFilter = find(filters, item => item.name === event.target.value);
+    let value = '';
+
+    if (currentFilter) {
+      switch (currentFilter.type) {
+        case 'boolean':
+          value = true;
+          break;
+        case 'number':
+          value = 0;
+          break;
+        case 'date':
+          value = new Date();
+          break;
+        default:
+          value = '';
+      }
+    }
+
+    this.setState({
+      selected: { ...selected, [event.target.value]: true },
+      filtersValues: { ...filtersValues, [event.target.value]: value }
+    });
   };
 
   resetFilters = () => {
@@ -171,23 +196,21 @@ class UsersFilterPage extends Component {
       };
     });
 
-  prepareFilters = (data) => {
+  prepareFilters = data => {
     return filter(data, item => !!item.type);
   };
 
   handleDateChange = field => value => {
-    console.log('handleDateChange', field, value)
     const { filtersValues } = this.state;
     this.setState({ filtersValues: { ...filtersValues, [field]: value } });
   };
 
   handleInputChange = field => event => {
-    console.log('handleInputChange', field, event.target.value)
     const { filtersValues } = this.state;
     this.setState({ filtersValues: { ...filtersValues, [field]: event.target.value }});
   };
 
-  renderControl = (item) => {
+  renderControl = item => {
     const { filtersValues } = this.state;
     const value = filtersValues[item];
     let control;
@@ -211,6 +234,17 @@ class UsersFilterPage extends Component {
           </MuiPickersUtilsProvider>
         );
         break;
+      case 'number':
+        control = (
+          <TextField
+            name={item.name}
+            value={value}
+            onChange={this.handleInputChange(item.name)}
+            placeholder="Input number"
+            type="number"
+          />
+        );
+        break;
       case 'string':
         control = (
           <TextField
@@ -228,33 +262,38 @@ class UsersFilterPage extends Component {
     return control;
   };
 
-  renderNavbar = classes => (
-    <>
-      <Fab variant="extended" size="medium" aria-label="like" color="secondary" onClick={this.handleExportCSV}>
-        Export CSV
-      </Fab>
-      <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleAddNew}>
-        Add Student
-      </Fab>
-    </>
-  );
+  renderNavbar = () => {
+    const { classes, data } = this.props;
+    const { role } = this.state;
+    const filename = `${role.name}-${moment().format('MM-DD-YYYY')}.csv`;
 
-  render() {
-    const { data, roles, filters, classes } = this.props;
-    const { role, selected, filtersValues } = this.state;
-
-    console.log('role', role, roles);
-    console.log('filters', filters);
-    console.log('selected', selected);
-    console.log('filtersValues', filtersValues);
     return (
       <>
-        <AdminNavbar title={role.description || ''} right={this.renderNavbar(classes)} />
+        <CSVLink data={this.prepareData(data)} filename={filename} className={classes.csvLink}>
+          <Fab variant="extended" size="medium" aria-label="like" color="secondary" onClick={this.handleExportCSV}>
+            Export CSV
+          </Fab>
+        </CSVLink>
+
+        <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleAddNew}>
+          Add Student
+        </Fab>
+      </>
+    );
+  }
+
+  render() {
+    const { data, filters, classes } = this.props;
+    const { role, selected } = this.state;
+
+    return (
+      <>
+        <AdminNavbar title={role.description || ''} right={this.renderNavbar()} />
         <AdminContent>
           <Card>
             <CardBody className={classes.filterContent}>
               <FormControl className={classes.formControl}>
-                <Select onChange={this.handleChange} value="" displayEmpty disableUnderline>
+                <Select onChange={this.handleAddFilter} value="" displayEmpty disableUnderline>
                   <MenuItem value="">
                     Add Filter
                   </MenuItem>
@@ -302,7 +341,10 @@ class UsersFilterPage extends Component {
 UsersFilterPage.propTypes = {
   getUsersAction: PropTypes.func.isRequired,
   getFiltersAction: PropTypes.func.isRequired,
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
+  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   roles: PropTypes.arrayOf(PropTypes.any).isRequired,
+  filters: PropTypes.array,
   data: PropTypes.array,
   total: PropTypes.number
 };
@@ -315,7 +357,7 @@ const mapStateToProps = ({ users }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUsersAction: (data) => {
+  getUsersAction: data => {
     dispatch(getUsers(data));
   },
   getFiltersAction: data => {

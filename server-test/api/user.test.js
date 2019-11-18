@@ -148,7 +148,7 @@ describe('user apis', () => {
 
     res = await request(app)
       .get(path)
-      .query({ 'has-role': 'user' });
+      .query({ 'has-role': 'user', 'ignored-filter': 'ignored-value' });
     expect(res.body.total).toBe(1);
     expect(res.body.data[0].email).toBe('test@user.com');
     expect(res.body.data[0].roles[0].name).toBe('user');

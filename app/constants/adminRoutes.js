@@ -29,6 +29,15 @@ const dashboardRoutes = [
   // },
   {
     path: routes.FILTER,
+    link: routes.FILTER.replace(':role', 'admin'),
+    name: 'Admin',
+    icon: Person,
+    component: UsersFilterPage,
+    layout: routes.ADMIN,
+    visible: true
+  },
+  {
+    path: routes.FILTER,
     link: routes.FILTER.replace(':role', 'student'),
     name: 'Students',
     icon: Person,

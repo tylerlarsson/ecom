@@ -5,6 +5,7 @@ const validator = require('../validator');
 const createLogger = require('../logger');
 const logger = createLogger('web-server.course-route');
 const db = require('../db');
+const paginated = require('../middleware/page-request');
 
 /**
  * @swagger
@@ -76,6 +77,189 @@ router.post('/', async (req, res) => {
   const course = await db.model.Course.create(data);
   logger.info('course', course.title, 'has been created/updated, id', String(course._id));
   res.json(course);
+});
+
+/**
+ * @swagger
+ * definitions:
+ *   Section:
+ *     type: object
+ *     properties:
+ *       index:
+ *         type: number,
+ *         example: 0
+ *         description: index of section to update
+ *       title:
+ *         type: string,
+ *         example: Get started
+ *         required: true
+ * /course/{course}/section:
+ *   post:
+ *     description: updates or creates a new section
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: course
+ *         in: path
+ *       - name: section
+ *         description: New section
+ *         in:  body
+ *         required: true
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/Section'
+ *     responses:
+ *       200:
+ *         description: created a new course in DB
+ *       409:
+ *         description: course id does not exist
+ *       422:
+ *         description: model does not satisfy the expected schema
+ *
+ */
+router.post('/:course/section', async (req, res) => {
+  const { body, params } = req;
+  if (!validator.courseSection({ body, params })) {
+    logger.error('validation of create course section request failed', validator.courseSection.errors);
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseSection.errors });
+    return;
+  }
+
+  const course = await db.model.Course.findById(params.course);
+  if (!course) {
+    logger.error('course not found, id', params.course);
+    res
+      .status(HttpStatus.CONFLICT)
+      .json({ errors: [{ dataPath: 'course.id', message: 'course not found for provided id' }] });
+    return;
+  }
+  const sectionCount = await course.createSection(body);
+  res.json({ sectionCount });
+});
+
+/**
+ * @swagger
+ * definitions:
+ *   Lecture:
+ *     type: object
+ *     properties:
+ *       index:
+ *         type: number,
+ *         example: 0
+ *         description: index of lecture to update
+ *       title:
+ *         type: string,
+ *         example: Get started
+ *         required: true
+ *       file:
+ *         type: string,
+ *         example: file
+ *         required: true
+ *       image:
+ *         type: string,
+ *         example: image
+ *         required: true
+ *       text:
+ *         type: string,
+ *         example: lecture text
+ *         required: true
+ *       allowComments:
+ *         type: boolean,
+ *         example: true
+ *         required: true
+ *       state:
+ *         type: string,
+ *         enum: [active,draft]
+ *         required: true
+ * /course/{course}/section/{section}/lecture:
+ *   post:
+ *     description: updates or creates a new lecture
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: course
+ *         in: path
+ *       - name: section
+ *         in: path
+ *       - name: lecture
+ *         description: New lecture
+ *         in:  body
+ *         required: true
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/Lecture'
+ *     responses:
+ *       200:
+ *         description: created a new lecture in DB
+ *       409:
+ *         description: course id does not exist
+ *       422:
+ *         description: model does not satisfy the expected schema
+ *
+ */
+router.post('/:course/section/:section/lecture', async (req, res) => {
+  const { body, params } = req;
+  if (!validator.courseLecture({ body, params })) {
+    logger.error('validation of create course lecture request failed', validator.courseLecture.errors);
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseLecture.errors });
+    return;
+  }
+
+  const course = await db.model.Course.findById(params.course);
+  if (!course) {
+    logger.error('course not found, id', params.course);
+    res
+      .status(HttpStatus.CONFLICT)
+      .json({ errors: [{ dataPath: 'course.id', message: 'course not found for provided id' }] });
+    return;
+  }
+
+  if (params.section >= course.sections.length) {
+    logger.error('section does not exist, index', params.section);
+    res
+      .status(HttpStatus.CONFLICT)
+      .json({ errors: [{ dataPath: 'section.index', message: `section does not exist, index ${params.section}` }] });
+    return;
+  }
+
+  const lectureCount = await course.createLecture(params.section, body);
+  res.json({ lectureCount });
+});
+
+/**
+ * @swagger
+ * /course:
+ *   get:
+ *     parameters:
+ *       - name: pageNumber
+ *         in: query
+ *         required: false
+ *         default: 0
+ *       - name: pageSize
+ *         in: query
+ *         required: false
+ *         default: 20
+ *     description: Get all the courses
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: returns courses
+ *
+ */
+router.get('/', paginated(20), async (req, res) => {
+  const total = await db.model.Course.countDocuments(req.filter);
+  const data = await db.model.Course.find(req.filter)
+    .limit(req.page.limit)
+    .skip(req.page.skip);
+  res.json({
+    total,
+    data
+  });
 });
 
 module.exports = router;
