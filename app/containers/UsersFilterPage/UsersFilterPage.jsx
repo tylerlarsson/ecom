@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map, forEach, find } from 'lodash';
+import { map, forEach, find, filter } from 'lodash';
 import moment, * as moments from 'moment';
 // @material-ui/core components
+import 'date-fns';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
 import TextField from '@material-ui/core/TextField';
@@ -11,6 +12,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Link from '@material-ui/core/Link';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 import Close from "@material-ui/icons/Close";
 // core components
 import Modal from 'components/Modal/Modal';
@@ -65,6 +71,12 @@ const styles = {
   filterCard: {
     marginTop: 10,
     marginBottom: 10
+  },
+  closeBtn: {
+    cursor: 'pointer'
+  },
+  label: {
+    marginRight: 24
   }
 };
 
@@ -77,22 +89,38 @@ class UsersFilterPage extends Component {
     name: '',
     description: '',
     role: {},
-    selected: {}
+    selected: {},
+    filtersValues: {}
   };
 
   componentWillMount() {
     this.setRole();
     this.props.getFiltersAction();
-    this.props.getUsersAction();
+    this.getUsers();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const { roles } = this.props;
+    const { filtersValues } = this.state;
 
     if (prevProps.roles !== roles) {
       this.setRole();
     }
+    if (prevState.filtersValues !== filtersValues) {
+      this.getUsers();
+    }
   }
+
+  getUsers = () => {
+    const { match } = this.props;
+    const { filtersValues } = this.state;
+    const roleName = match && match.params && match.params.role;
+    if (roleName) {
+      const payload = { params: { ...filtersValues, 'has-role': roleName } };
+
+      this.props.getUsersAction(payload);
+    }
+  };
 
   setRole = () => {
     const { match, roles } = this.props;
@@ -113,21 +141,21 @@ class UsersFilterPage extends Component {
   };
 
   handleCloseFilter = name => () => {
-    console.log('handleCloseFilter', name);
-    const { selected } = this.state;
+    const { selected, filtersValues } = this.state;
     selected[name] = false;
-    this.setState({ selected });
+    filtersValues[name] = undefined;
+    this.setState({ selected, filtersValues });
   };
 
   handleChange = event => {
-    console.log('handleChange', event, event.target);
-    const { selected } = this.state;
+    const { selected, filtersValues } = this.state;
     selected[event.target.value] = true;
-    this.setState({ selected });
+    filtersValues[event.target.value] = '';
+    this.setState({ selected, filtersValues });
   };
 
   resetFilters = () => {
-    this.setState({ selected: {}});
+    this.setState({ selected: {}, filtersValues: {} });
   };
 
   prepareData = data =>
@@ -143,6 +171,63 @@ class UsersFilterPage extends Component {
       };
     });
 
+  prepareFilters = (data) => {
+    return filter(data, item => !!item.type);
+  };
+
+  handleDateChange = field => value => {
+    console.log('handleDateChange', field, value)
+    const { filtersValues } = this.state;
+    this.setState({ filtersValues: { ...filtersValues, [field]: value } });
+  };
+
+  handleInputChange = field => event => {
+    console.log('handleInputChange', field, event.target.value)
+    const { filtersValues } = this.state;
+    this.setState({ filtersValues: { ...filtersValues, [field]: event.target.value }});
+  };
+
+  renderControl = (item) => {
+    const { filtersValues } = this.state;
+    const value = filtersValues[item];
+    let control;
+
+    switch (item.type) {
+      case 'date':
+        control = (
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="date-picker-inline"
+              value={value}
+              onChange={this.handleDateChange(item.name)}
+              KeyboardButtonProps={{
+                'aria-label': 'change date'
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        );
+        break;
+      case 'string':
+        control = (
+          <TextField
+            name={item.name}
+            value={value}
+            onChange={this.handleInputChange(item.name)}
+            placeholder="Input text"
+          />
+        );
+        break;
+      default:
+        control = null;
+    }
+
+    return control;
+  };
+
   renderNavbar = classes => (
     <>
       <Fab variant="extended" size="medium" aria-label="like" color="secondary" onClick={this.handleExportCSV}>
@@ -156,11 +241,12 @@ class UsersFilterPage extends Component {
 
   render() {
     const { data, roles, filters, classes } = this.props;
-    const { role, selected } = this.state;
+    const { role, selected, filtersValues } = this.state;
 
     console.log('role', role, roles);
     console.log('filters', filters);
     console.log('selected', selected);
+    console.log('filtersValues', filtersValues);
     return (
       <>
         <AdminNavbar title={role.description || ''} right={this.renderNavbar(classes)} />
@@ -172,7 +258,7 @@ class UsersFilterPage extends Component {
                   <MenuItem value="">
                     Add Filter
                   </MenuItem>
-                  {map(filters, item => (<MenuItem key={item.name} value={item.name}>{item.label}</MenuItem>))}
+                  {map(this.prepareFilters(filters), item => (<MenuItem key={item.name} value={item.name}>{item.label}</MenuItem>))}
                 </Select>
               </FormControl>
               <Link onClick={this.resetFilters}>Reset Filters</Link>
@@ -184,9 +270,10 @@ class UsersFilterPage extends Component {
                 <Card className={classes.filterCard} key={item.name}>
                   <CardBody className={classes.filterContent}>
                     <div className={classes.filterContent}>
-                      <div>{item.label}</div>
+                      <div className={classes.label}>{item.label}</div>
+                      <div>{this.renderControl(item)}</div>
                     </div>
-                    <Close onClick={this.handleCloseFilter(item.name)} />
+                    <Close className={classes.closeBtn} onClick={this.handleCloseFilter(item.name)} />
                   </CardBody>
                 </Card>
               )
@@ -228,8 +315,8 @@ const mapStateToProps = ({ users }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUsersAction: () => {
-    dispatch(getUsers());
+  getUsersAction: (data) => {
+    dispatch(getUsers(data));
   },
   getFiltersAction: data => {
     dispatch(getFilters(data));

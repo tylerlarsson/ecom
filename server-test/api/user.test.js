@@ -1,3 +1,4 @@
+const HttpStatus = require('http-status-codes');
 const request = require('supertest');
 const config = require('../../server/config');
 const app = require('../../server/web-server');
@@ -25,7 +26,7 @@ describe('user apis', () => {
         description: 'integration test role'
       });
     testRole = res.body;
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     // user-role
     res = await request(app)
@@ -34,7 +35,7 @@ describe('user apis', () => {
         name: 'user',
         description: 'default user role'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
   });
 
   beforeEach(async () => {
@@ -48,7 +49,7 @@ describe('user apis', () => {
         email: 'test@usercom',
         description: 'wrong email'
       });
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
   test('should create a user by email as username with a role by name', async () => {
@@ -59,7 +60,7 @@ describe('user apis', () => {
         password: 'testpassword',
         roles: ['test-role']
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.email).toEqual('test@user.com');
     expect(res.body._id).toMatch(/^[a-z\d]{24}$/);
   });
@@ -72,7 +73,7 @@ describe('user apis', () => {
         password: 'testpassword',
         roles: [testRole.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.email).toEqual('test@user.com');
     expect(res.body._id).toMatch(/^[a-z\d]{24}$/);
 
@@ -92,7 +93,7 @@ describe('user apis', () => {
         password: 'testpassword',
         roles: [testRole.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app).get(path);
     expect(res.body.total).toBe(1);
@@ -106,7 +107,7 @@ describe('user apis', () => {
         password: 'testpassword',
         roles: [testRole.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.email).toEqual('test@user.com');
 
     res = await request(app)
@@ -116,7 +117,7 @@ describe('user apis', () => {
         password: 'testpassword',
         roles: [testRole.id]
       });
-    expect(res.status).toBe(409);
+    expect(res.status).toBe(HttpStatus.CONFLICT);
   });
 
   test('should create a user by email with default user role', async () => {
@@ -126,7 +127,7 @@ describe('user apis', () => {
         email: 'test@user.com',
         password: 'testpassword'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app)
       .get(path)
@@ -143,7 +144,7 @@ describe('user apis', () => {
         email: 'test@user.com',
         password: 'testpassword'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app)
       .get(path)
@@ -161,6 +162,6 @@ describe('user apis', () => {
         password: 'testpassword',
         roles: ['not-existing']
       });
-    expect(res.status).toBe(409);
+    expect(res.status).toBe(HttpStatus.CONFLICT);
   });
 });

@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "new course configuration schema",
+  "type": "object",
+  "required": ["title", "subtitle", "authors"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "#mongo-id"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "subtitle": {
+      "type": "string",
+      "minLength": 3
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "anyOf": [{ "$ref": "#mongo-id" }, { "$ref": "#name" }, { "type": "string", "format": "email" }]
+      },
+      "minItems": 1
+    }
+  }
+}

@@ -1,3 +1,4 @@
+const HttpStatus = require('http-status-codes');
 const express = require('express');
 const createLogger = require('../logger');
 const validator = require('../validator');
@@ -51,7 +52,7 @@ router.post('/', async (req, res) => {
   const data = req.body;
   if (!validator.newPermission(data)) {
     logger.error('validation of the new permission failed', validator.newPermission.errors);
-    res.status(422).json({ errors: validator.newPermission.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.newPermission.errors });
     return;
   }
 
@@ -60,7 +61,7 @@ router.post('/', async (req, res) => {
     const existing = await db.model.Permission.findOne({ name: data.name });
     if (existing) {
       logger.error('permission', data.name, 'already exists');
-      res.status(409).json({ errors: [{ dataPath: '.name', message: 'already exists' }] });
+      res.status(HttpStatus.CONFLICT).json({ errors: [{ dataPath: '.name', message: 'already exists' }] });
       return;
     }
   }
@@ -93,7 +94,7 @@ router.delete('/:name', async (req, res) => {
 
   if (!validator.name(data)) {
     logger.error('validation of permission delete request failed', validator.name.errors);
-    res.status(422).json({ errors: validator.name.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.name.errors });
     return;
   }
 
@@ -166,7 +167,7 @@ router.get('/:name', async (req, res) => {
 
   if (!validator.name(params)) {
     logger.error('validation of get request failed', validator.name.errors);
-    res.status(422).json({ errors: validator.name.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.name.errors });
     return;
   }
 

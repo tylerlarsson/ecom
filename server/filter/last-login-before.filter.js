@@ -3,6 +3,6 @@ module.exports = {
   type: 'date',
   order: 15,
   filter(date) {
-    return { loginLast: { $lt: new Date(Number(date)) } };
+    return { loginLast: { $lt: new Date(Number(date) * 1000) } };
   }
 };

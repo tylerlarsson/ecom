@@ -2,7 +2,7 @@
  * https://www.oauth.com/oauth2-servers/access-tokens/password-grant/
  *
  * */
-
+const HttpStatus = require('http-status-codes');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const ms = require('ms');
@@ -73,7 +73,7 @@ router.post('/token', async (req, res) => {
 
   if (!validator.tokenRequest(data)) {
     logger.error('validation of the token request failed', validator.tokenRequest.errors);
-    res.status(422).json({ errors: validator.tokenRequest.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.tokenRequest.errors });
     return;
   }
 
@@ -86,7 +86,7 @@ router.post('/token', async (req, res) => {
     user = await db.model.User.verify(username, password);
     if (!user) {
       logger.error('username/password are wrong');
-      return res.status(401).end();
+      return res.status(HttpStatus.UNAUTHORIZED).end();
     }
     await user.updateLoginStats();
     logger.info('user', user.email, 'authenticated successfully, creating tokens');
@@ -96,16 +96,16 @@ router.post('/token', async (req, res) => {
       const userData = jwt.verify(req.body.refresh_token, SECRET);
       if (userData.refreshToken !== 1) {
         logger.error('wrong token used to refresh!');
-        return res.status(401).end();
+        return res.status(HttpStatus.UNAUTHORIZED).end();
       }
       user = await db.model.User.verifyEmail(userData.email);
       if (!user) {
         logger.error('user permissions revoked');
-        return res.status(401).end();
+        return res.status(HttpStatus.UNAUTHORIZED).end();
       }
     } catch (e) {
       logger.error('refresh token is wrong');
-      return res.status(401).end();
+      return res.status(HttpStatus.UNAUTHORIZED).end();
     }
     logger.info('refresh token for user', user.email, 'verified successfully, refreshing access_token');
   }

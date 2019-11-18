@@ -15,6 +15,8 @@ const tokenRequestSchema = readJson('schema', 'token-request.schema.json');
 const pageRequestSchema = readJson('schema', 'page-request.schema.json');
 const assignFilterSchema = readJson('schema', 'assign-filter.schema.json');
 const filtersSchema = readJson('schema', 'filters.schema.json');
+const courseSchema = readJson('schema', 'new-course.schema.json');
+const pricingPlanSchema = readJson('schema', 'new-pricing-plan.schema.json');
 
 const name = ajv.compile(nameRequestSchema);
 const newUser = ajv.compile(newUserSchema);
@@ -25,6 +27,8 @@ const tokenRequest = ajv.compile(tokenRequestSchema);
 const pageRequest = ajv.compile(pageRequestSchema);
 const assignFilter = ajv.compile(assignFilterSchema);
 const filters = ajv.compile(filtersSchema);
+const course = ajv.compile(courseSchema);
+const pricingPlan = ajv.compile(pricingPlanSchema);
 
 module.exports = {
   newUser,
@@ -35,5 +39,7 @@ module.exports = {
   tokenRequest,
   pageRequest,
   assignFilter,
-  filters
+  filters,
+  course,
+  pricingPlan
 };

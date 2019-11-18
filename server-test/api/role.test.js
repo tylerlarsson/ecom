@@ -1,3 +1,4 @@
+const HttpStatus = require('http-status-codes');
 const request = require('supertest');
 const config = require('../../server/config');
 const app = require('../../server/web-server');
@@ -24,7 +25,7 @@ describe('role apis', () => {
         description: 'read write permission'
       });
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     permission = res.body;
 
     res = await request(app)
@@ -34,7 +35,7 @@ describe('role apis', () => {
         description: 'read only permission'
       });
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     permission2 = res.body;
 
     res = await request(app)
@@ -44,7 +45,7 @@ describe('role apis', () => {
         description: 'wildcard permission'
       });
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
   });
 
   beforeEach(async () => {
@@ -59,14 +60,14 @@ describe('role apis', () => {
         description: 'integration tests role'
       });
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     const { id } = res.body;
 
     res = await request(app)
       .get(path)
       .query({ pageNumber: 0, pageSize: 10 });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.total).toBe(1);
     expect(res.body.data.length).toBe(1);
     expect(res.body.data[0].id).toEqual(id);
@@ -82,10 +83,10 @@ describe('role apis', () => {
         name: 'test-role',
         description: 'integration tests role'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app).get(path);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.total).toBe(1);
     expect(res.body.data.length).toBe(1);
   });
@@ -98,10 +99,10 @@ describe('role apis', () => {
         description: 'integration tests role'
       });
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app).get(`${path}/WRONG!`);
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
   test('should fail on wrong data', async () => {
@@ -112,7 +113,7 @@ describe('role apis', () => {
         description: 'integration tests role'
       });
 
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
   test('should fail on creation with same name', async () => {
@@ -122,7 +123,7 @@ describe('role apis', () => {
         name: 'test-role',
         description: 'integration tests role'
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app)
       .post(path)
@@ -130,7 +131,7 @@ describe('role apis', () => {
         name: 'test-role',
         description: 'integration tests role'
       });
-    expect(res.status).toBe(409);
+    expect(res.status).toBe(HttpStatus.CONFLICT);
   });
 
   test('should create a role with a permissions by id', async () => {
@@ -142,7 +143,7 @@ describe('role apis', () => {
         permissions: [permission.id]
       });
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.id).toMatch(/^[\da-z]{24}$/);
 
     const { id } = res.body;
@@ -150,7 +151,7 @@ describe('role apis', () => {
     res = await request(app)
       .get(path)
       .query({ pageNumber: 0, pageSize: 10 });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.total).toBe(1);
     expect(res.body.data.length).toBe(1);
     expect(res.body.data[0].id).toEqual(id);
@@ -168,7 +169,7 @@ describe('role apis', () => {
         permissions: ['read-write', '*']
       });
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.id).toMatch(/^[\da-z]{24}$/);
 
     const { id } = res.body;
@@ -176,7 +177,7 @@ describe('role apis', () => {
     res = await request(app)
       .get(path)
       .query({ pageNumber: 0, pageSize: 10 });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.total).toBe(1);
     expect(res.body.data.length).toBe(1);
     expect(res.body.data[0].id).toEqual(id);
@@ -194,7 +195,7 @@ describe('role apis', () => {
         permissions: ['*']
       });
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.id).toMatch(/^[\da-z]{24}$/);
 
     const { id } = res.body;
@@ -207,12 +208,12 @@ describe('role apis', () => {
         description: 'new integration tests role',
         permissions: ['*']
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app)
       .get(path)
       .query({ pageNumber: 0, pageSize: 10 });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.total).toBe(1);
     expect(res.body.data.length).toBe(1);
     expect(res.body.data[0].id).toEqual(id);
@@ -231,7 +232,7 @@ describe('role apis', () => {
         permissions: [permission.id, 'asdasd1231asdasd123asdax']
       });
 
-    expect(res.status).toBe(409);
+    expect(res.status).toBe(HttpStatus.CONFLICT);
   });
 
   test('should update a role by id', async () => {
@@ -243,7 +244,7 @@ describe('role apis', () => {
         permissions: [permission.id]
       });
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.id).toMatch(/^[\da-z]{24}$/);
 
     const { id } = res.body;
@@ -257,12 +258,12 @@ describe('role apis', () => {
         permissions: [permission.id]
       });
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app)
       .get(path)
       .query({ pageNumber: 0, pageSize: 10 });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.total).toBe(1);
     expect(res.body.data.length).toBe(1);
     expect(res.body.data[0].id).toEqual(id);
@@ -281,7 +282,7 @@ describe('role apis', () => {
         permissions: [permission.id]
       });
 
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
   test('should add permission by name to a role by name', async () => {
@@ -292,14 +293,14 @@ describe('role apis', () => {
         description: 'integration tests role',
         permissions: [permission.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app).post(`${path}/test-role/permission/read-only`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.modified).toBe(1);
 
     res = await request(app).get(`${path}/test-role`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.name).toEqual('test-role');
     expect(res.body.description).toEqual('integration tests role');
     expect(res.body.permissions.map(({ name }) => name)).toEqual(['read-write', 'read-only']);
@@ -313,15 +314,15 @@ describe('role apis', () => {
         description: 'integration tests role',
         permissions: [permission.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     const { id } = res.body;
 
     res = await request(app).post(`${path}/${id}/permission/${permission2.id}`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.modified).toBe(1);
 
     res = await request(app).get(`${path}/test-role`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.name).toEqual('test-role');
     expect(res.body.description).toEqual('integration tests role');
     expect(res.body.permissions.map(({ name }) => name)).toEqual(['read-write', 'read-only']);
@@ -335,16 +336,16 @@ describe('role apis', () => {
         description: 'integration tests role',
         permissions: [permission.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app).post(`${path}/WRONG/permission/read-only`);
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
 
     res = await request(app).post(`${path}/test-role/permission/WRONG`);
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
 
     res = await request(app).post(`${path}/not-existing/permission/read-only`);
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
   test('should delete permission by name from a role by name', async () => {
@@ -355,14 +356,14 @@ describe('role apis', () => {
         description: 'integration tests role',
         permissions: [permission.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app).delete(`${path}/test-role/permission/read-write`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.modified).toBe(1);
 
     res = await request(app).get(`${path}/test-role`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.permissions).toEqual([]);
   });
 
@@ -374,16 +375,16 @@ describe('role apis', () => {
         description: 'integration tests role',
         permissions: [permission.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     const { id } = res.body;
 
     res = await request(app).delete(`${path}/${id}/permission/read-write`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.modified).toBe(1);
 
     res = await request(app).get(`${path}/test-role`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.permissions).toEqual([]);
   });
 
@@ -395,10 +396,10 @@ describe('role apis', () => {
         description: 'integration tests role',
         permissions: [permission.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app).delete(`${path}/WRONG/permission/WRONG-AGAIN`);
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
   test('should fail to delete from not existing role', async () => {
@@ -409,10 +410,10 @@ describe('role apis', () => {
         description: 'integration tests role',
         permissions: [permission.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app).delete(`${path}/not-existing/permission/read-write`);
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
   test('should delete role by name', async () => {
@@ -423,10 +424,10 @@ describe('role apis', () => {
         description: 'integration tests role',
         permissions: [permission.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app).delete(`${path}/test-role`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body).toEqual({ deleted: 1 });
   });
 
@@ -438,17 +439,17 @@ describe('role apis', () => {
         description: 'integration tests role',
         permissions: [permission.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     const { id } = res.body;
 
     res = await request(app).delete(`${path}/${id}`);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body).toEqual({ deleted: 1 });
   });
 
   test('should fail to delete role by wrong id', async () => {
     const res = await request(app).delete(`${path}/WRONG`);
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
   test('should assign filters to role', async () => {
@@ -459,12 +460,12 @@ describe('role apis', () => {
         description: 'integration tests role',
         permissions: [permission.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app)
       .post(`${path}/test-role/filter`)
       .send(['last-login-after', 'last-login-before']);
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body).toEqual({ modified: 1 });
   });
 
@@ -476,16 +477,16 @@ describe('role apis', () => {
         description: 'integration tests role',
         permissions: [permission.id]
       });
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(HttpStatus.OK);
 
     res = await request(app)
       .post(`${path}/test-role/filter`)
       .send(['wrong-NAME', 'NAME-again']);
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
 
     res = await request(app)
       .post(`${path}/test-role/filter`)
       .send(['wrong-filter', 'wrong-again']);
-    expect(res.status).toBe(409);
+    expect(res.status).toBe(HttpStatus.CONFLICT);
   });
 });

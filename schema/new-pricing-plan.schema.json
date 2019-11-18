@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "new course configuration schema",
+  "type": "object",
+  "required": ["amount", "title", "subtitle", "type"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "#mongo-id"
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 0.01
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "subtitle": {
+      "type": "string",
+      "minLength": 3
+    },
+    "description": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["free", "subscription", "one-time", "payment-plan"]
+    }
+  }
+}
