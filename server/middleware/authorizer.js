@@ -1,3 +1,4 @@
+const HttpStatus = require('http-status-codes');
 const expressJwt = require('express-jwt');
 const config = require('../config');
 const SECRET = config.get('web-app:secret');
@@ -10,7 +11,7 @@ function Role(...authorizedRoles) {
       if (authorizedRoles.some(authorizedRole => roles.includes(authorizedRole))) {
         return next();
       }
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Unauthorized' });
     }
   ];
 }
@@ -27,7 +28,7 @@ function Permission(...authorizedPermissions) {
       if (authorizedPermissions.some(authorizedPermission => permissions.includes(authorizedPermission))) {
         return next();
       }
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Unauthorized' });
     }
   ];
 }

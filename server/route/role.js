@@ -1,3 +1,4 @@
+const HttpStatus = require('http-status-codes');
 const express = require('express');
 const createLogger = require('../logger');
 const validator = require('../validator');
@@ -59,7 +60,7 @@ router.post('/', async (req, res) => {
 
   if (!validator.newRole(data)) {
     logger.error('validation of the new role failed', validator.newRole.errors);
-    res.status(422).json({ errors: validator.newRole.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.newRole.errors });
     return;
   }
 
@@ -68,7 +69,7 @@ router.post('/', async (req, res) => {
     const existing = await db.model.Role.findOne({ name: data.name });
     if (existing) {
       logger.error('role', data.name, 'already exists');
-      res.status(409).json({ errors: [{ dataPath: '.name', message: 'already exists' }] });
+      res.status(HttpStatus.CONFLICT).json({ errors: [{ dataPath: '.name', message: 'already exists' }] });
       return;
     }
   }
@@ -77,7 +78,9 @@ router.post('/', async (req, res) => {
   const allCreated = await db.model.Permission.isCreated(data.permissions);
   if (!allCreated) {
     logger.error('permissions', data.permissions, 'have not been created yet');
-    res.status(409).json({ errors: [{ dataPath: '.permissions', message: `not created: ${data.permissions}` }] });
+    res
+      .status(HttpStatus.CONFLICT)
+      .json({ errors: [{ dataPath: '.permissions', message: `not created: ${data.permissions}` }] });
     return;
   }
 
@@ -112,14 +115,16 @@ router.post('/:role/permission/:permission', async (req, res) => {
 
   if (!validator.assignPermission(data)) {
     logger.error('validation of the new permission failed', validator.assignPermission.errors);
-    res.status(422).json({ errors: validator.assignPermission.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.assignPermission.errors });
     return;
   }
 
   const roleId = await db.model.Role.mapOneToId(data.role);
   if (!roleId) {
     logger.error('role not found, id/name', data.role);
-    res.status(422).json({ errors: [{ dataPath: '.id', message: 'role not found for provided id' }] });
+    res
+      .status(HttpStatus.UNPROCESSABLE_ENTITY)
+      .json({ errors: [{ dataPath: '.id', message: 'role not found for provided id' }] });
     return;
   }
 
@@ -153,14 +158,16 @@ router.delete('/:role/permission/:permission', async (req, res) => {
 
   if (!validator.assignPermission(data)) {
     logger.error('validation of the permission failed', validator.assignPermission.errors);
-    res.status(422).json({ errors: validator.assignPermission.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.assignPermission.errors });
     return;
   }
 
   const roleId = await db.model.Role.mapOneToId(data.role);
   if (!roleId) {
     logger.error('role not found, id/name', data.role);
-    res.status(422).json({ errors: [{ dataPath: '.id', message: 'role not found for provided id' }] });
+    res
+      .status(HttpStatus.UNPROCESSABLE_ENTITY)
+      .json({ errors: [{ dataPath: '.id', message: 'role not found for provided id' }] });
     return;
   }
 
@@ -194,7 +201,7 @@ router.delete('/:name', async (req, res) => {
 
   if (!validator.name(data)) {
     logger.error('validation of role delete request failed', validator.name.errors);
-    res.status(422).json({ errors: validator.name.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.name.errors });
     return;
   }
 
@@ -265,7 +272,7 @@ router.get('/:name', async (req, res) => {
 
   if (!validator.name(params)) {
     logger.error('validation of role get request failed', validator.name.errors);
-    res.status(422).json({ errors: validator.name.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.name.errors });
     return;
   }
 
@@ -314,13 +321,15 @@ router.post('/:role/filter', async (req, res) => {
 
   if (!validator.assignFilter({ role, filters })) {
     logger.error('validation of assign filter request failed', validator.assignFilter.errors);
-    res.status(422).json({ errors: validator.assignFilter.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.assignFilter.errors });
     return;
   }
 
   if (!filter.exist(filters)) {
     logger.error('validation of filter name failed');
-    res.status(409).json({ errors: [{ dataPath: '.filters', message: 'some of filters do not exist' }] });
+    res
+      .status(HttpStatus.CONFLICT)
+      .json({ errors: [{ dataPath: '.filters', message: 'some of filters do not exist' }] });
     return;
   }
 

@@ -1,3 +1,4 @@
+const HttpStatus = require('http-status-codes');
 const filter = require('../filter');
 const validator = require('../validator');
 
@@ -5,7 +6,7 @@ module.exports = async (req, res, next) => {
   const paramNames = Object.keys(req.query);
 
   if (!validator.filters(req.query)) {
-    res.status(422).json({ errors: validator.filters.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.filters.errors });
     return;
   }
 
