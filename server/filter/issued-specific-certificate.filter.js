@@ -1,7 +1,7 @@
 module.exports = {
-  label: 'Src contains',
+  label: 'Issued specific certificate',
   type: 'string',
-  order: 35,
+  order: 55,
   filter(/* code */) {
     return false;
   }

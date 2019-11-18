@@ -12,6 +12,7 @@ const MIN_LAST_LOGIN_DATE = new Date('2019-10-01');
 const MAX_LAST_LOGIN_DATE = new Date('2019-11-01');
 
 const TEST_USER_ROLE = 'test-user';
+const STUDENT_ROLE = 'student';
 const USER_COUNT = 10;
 
 function randInt(max) {
@@ -47,7 +48,7 @@ function* UserGenerator() {
     const loginCount = randInt(MAX_LOGIN_COUNT);
     const loginLast = lastLoginDateGenerator.next().value;
     const created = signInDateGenerator.next().value;
-    const roles = ['user', TEST_USER_ROLE];
+    const roles = ['user', TEST_USER_ROLE, STUDENT_ROLE];
     yield {
       username: '',
       email,
