@@ -18,8 +18,16 @@ import tableStyle from 'assets/jss/material-dashboard-react/components/tableStyl
 
 function TableList({ ...props }) {
   const {
-    classes, tableHead, tableColumns, tableData, deleteAction, editAction, tableHeaderColor, onSelectAll,
-    onSelect, selected
+    classes,
+    tableHead,
+    tableColumns,
+    tableData,
+    deleteAction,
+    editAction,
+    tableHeaderColor,
+    onSelectAll,
+    onSelect,
+    selected
   } = props;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
@@ -127,10 +135,10 @@ function TableList({ ...props }) {
         rowsPerPage={rowsPerPage}
         page={page}
         backIconButtonProps={{
-          'aria-label': 'previous page',
+          'aria-label': 'previous page'
         }}
         nextIconButtonProps={{
-          'aria-label': 'next page',
+          'aria-label': 'next page'
         }}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
