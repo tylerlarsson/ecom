@@ -1,8 +1,5 @@
 const config = require('../config');
 const db = require('../db');
-const { readJson } = require('../file-util');
-
-const { data: rolesData = {} } = readJson('server', 'db-script', 'test-data', 'roles.json');
 
 const ADMIN = 'admin';
 const ADMIN_PASSWORD = 'masterpassword';
@@ -12,12 +9,7 @@ const ADMIN_EMAIL = 'admin@admin.admin';
   try {
     const defaultAdminPermissions = config.get('default-admin-permissions');
     const permissions = await Promise.all(defaultAdminPermissions.map(dp => db.model.Permission.createIfNotExists(dp)));
-    const role = await db.model.Role.createIfNotExists(
-      ADMIN,
-      permissions.map(({ _id }) => _id),
-      null,
-      rolesData[ADMIN] && rolesData[ADMIN].description
-    );
+    const role = await db.model.Role.createIfNotExists(ADMIN, permissions.map(({ _id }) => _id));
 
     const data = {
       username: ADMIN,

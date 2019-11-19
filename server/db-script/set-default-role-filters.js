@@ -1,18 +1,11 @@
 const config = require('../config');
 const db = require('../db');
-const { readJson } = require('../file-util');
 const roles = config.get('default-role-filters');
-const { data: rolesData = {} } = readJson('server', 'db-script', 'test-data', 'roles.json');
 
 (async function script() {
   try {
     for (const [name, filters] of Object.entries(roles)) {
-      const role = await db.model.Role.createIfNotExists(
-        name,
-        null,
-        filters,
-        rolesData[name] && rolesData[name].description
-      );
+      const role = await db.model.Role.createIfNotExists(name, null, filters);
       // eslint-disable-next-line no-console
       console.log('role', role.name, 'has been created/updated with filters', filters);
     }

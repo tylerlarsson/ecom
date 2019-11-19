@@ -13,6 +13,7 @@
   "SETTINGS": "/settings",
   "SALES": "/sales",
   "COURSES": "/courses",
+  "NEW_COURSE": "/courses/new",
   "PROFILE": "/profile",
   "FILTER": "/filter/:role"
 }

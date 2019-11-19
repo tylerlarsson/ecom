@@ -15,6 +15,7 @@ import Users from 'containers/Users/Users';
 import Roles from 'containers/Roles/Roles';
 import Role from 'containers/Roles/Role';
 import ProfilePage from 'containers/ProfilePage';
+import CoursesPage from 'containers/CoursesPage';
 import Permissions from 'containers/Permissions/Permissions';
 import routes from 'constants/routes.json';
 import UsersFilterPage from 'containers/UsersFilterPage/UsersFilterPage';
@@ -110,7 +111,7 @@ const dashboardRoutes = [
     path: routes.COURSES,
     name: 'Courses',
     icon: VideoLibrary,
-    component: HomePage,
+    component: CoursesPage,
     layout: routes.ADMIN,
     visible: true
   },
