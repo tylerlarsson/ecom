@@ -142,10 +142,6 @@ class UsersFilterPage extends Component {
     console.log('New Student');
   };
 
-  handleExportCSV = () => {
-    console.log('Export CSV');
-  };
-
   handleCloseFilter = name => () => {
     const { selected, filtersValues } = this.state;
     this.setState({ selected: { ...selected, [name]: false }, filtersValues: { ...filtersValues, [name]: undefined } });
@@ -270,13 +266,13 @@ class UsersFilterPage extends Component {
     return (
       <>
         <CSVLink data={this.prepareData(data)} filename={filename} className={classes.csvLink}>
-          <Fab variant="extended" size="medium" aria-label="like" color="secondary" onClick={this.handleExportCSV}>
+          <Fab variant="extended" size="medium" aria-label="like" color="secondary">
             Export CSV
           </Fab>
         </CSVLink>
 
         <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleAddNew}>
-          Add Student
+          Add {role.description}
         </Fab>
       </>
     );

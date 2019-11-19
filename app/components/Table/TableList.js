@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Checkbox from '@material-ui/core/Checkbox';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import TablePagination from '@material-ui/core/TablePagination';
 // core components
 import tableStyle from 'assets/jss/material-dashboard-react/components/tableStyle';
 
@@ -20,7 +21,18 @@ function TableList({ ...props }) {
     classes, tableHead, tableColumns, tableData, deleteAction, editAction, tableHeaderColor, onSelectAll,
     onSelect, selected
   } = props;
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+
   const numSelected = size(filter(selected, s => !!s));
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <div className={classes.tableResponsive}>
@@ -56,7 +68,7 @@ function TableList({ ...props }) {
           </TableHead>
         ) : null}
         <TableBody>
-          {map(tableData, (prop, key) => (
+          {map(tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage), (prop, key) => (
             <TableRow key={key}>
               {onSelect ? (
                 <TableCell className={classes.tableCell} key="edit" style={{ textAlign: 'right' }}>
@@ -108,6 +120,21 @@ function TableList({ ...props }) {
           ))}
         </TableBody>
       </Table>
+      <TablePagination
+        rowsPerPageOptions={[10, 20, 50, 100]}
+        component="div"
+        count={tableData.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        backIconButtonProps={{
+          'aria-label': 'previous page',
+        }}
+        nextIconButtonProps={{
+          'aria-label': 'next page',
+        }}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </div>
   );
 }
