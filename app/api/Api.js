@@ -218,12 +218,12 @@ export const getUsers = payload => {
     .get(`${API_ENDPOINT_URL}/user`, { params })
     .then(res => {
       if (res.data) {
-        return {success: true, data: res.data};
+        return { success: true, data: res.data };
       }
-      return {success: false, reason: res.message};
+      return { success: false, reason: res.message };
     })
-    .catch(err => ({success: false, reason: err.response.data.message}));
-}
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+};
 
 export const createUsers = payload => {
   const data = {
