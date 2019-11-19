@@ -9,5 +9,10 @@
   "PERMISSIONS": "/permissions",
   "DASHBOARD": "/dashboard",
   "USER": "/user",
+  "SITE": "/site",
+  "SETTINGS": "/settings",
+  "SALES": "/sales",
+  "COURSES": "/courses",
+  "PROFILE": "/profile",
   "FILTER": "/filter/:role"
 }
