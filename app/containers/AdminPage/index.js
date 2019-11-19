@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import PropTypes from "prop-types";
+import { map } from 'lodash';
 import { Switch, Route, Redirect } from "react-router-dom";
 import axios from "axios";
 // creates a beautiful scrollbar
@@ -23,7 +24,7 @@ const switchRoutes = (
   <Switch>
     {routes.map((prop, key) => {
       if (prop.layout === "/admin") {
-        return (
+        return [
           <Route
             exact
             path={prop.layout + prop.path}
@@ -32,8 +33,20 @@ const switchRoutes = (
               return <Component {...props} {...userInfo}/>
             }}
             key={key}
-          />
-        );
+          />,
+          map(prop.children, (item, index) => (
+            <Route
+              exact
+              path={item.layout + item.path}
+              component={props => {
+                const Component = item.component;
+                return <Component {...props} {...userInfo}/>
+              }}
+              key={`${key}${index}`}
+            />
+          ))
+
+        ];
       }
     })}
   </Switch>
