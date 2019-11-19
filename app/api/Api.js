@@ -108,20 +108,6 @@ export const updateAccount = payload => {
     }));
 };
 
-// // Users
-// export const getUsers = payload => {
-//   axios
-//     .get(`${API_ENDPOINT_URL}/user`)
-//     .then(res => {
-//       console.log('getUsers res', res)
-//       if (res.data.status) {
-//         return {success: true};
-//       }
-//       return {success: false, reason: res.message};
-//     })
-//     .catch(err => ({success: false, reason: err.response.data.message}));
-// };
-
 // Permissions
 export const getPermissions = () =>
   axios
@@ -225,16 +211,19 @@ export const deleteRole = payload =>
     .catch(err => ({ success: false, reason: err.response.data.message }));
 
 // Users
-export const getUsers = () =>
-  axios
-    .get(`${API_ENDPOINT_URL}/user`)
+export const getUsers = payload => {
+  const params = payload && payload.params;
+  console.log('getUsers', params);
+  return axios
+    .get(`${API_ENDPOINT_URL}/user`, { params })
     .then(res => {
       if (res.data) {
-        return { success: true, data: res.data };
+        return {success: true, data: res.data};
       }
-      return { success: false, reason: res.message };
+      return {success: false, reason: res.message};
     })
-    .catch(err => ({ success: false, reason: err.response.data.message }));
+    .catch(err => ({success: false, reason: err.response.data.message}));
+}
 
 export const createUsers = payload => {
   const data = {
