@@ -5,19 +5,28 @@ import { map } from 'lodash';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
-import TextField from '@material-ui/core/TextField';
 // core components
 import Modal from 'components/Modal/Modal';
-import GridItem from 'components/Grid/GridItem.jsx';
-import GridContainer from 'components/Grid/GridContainer.jsx';
-import TableList from 'components/Table/TableList';
-import Card from 'components/Card/Card.jsx';
-// import CardHeader from 'components/Card/CardHeader.jsx';
-import CardBody from 'components/Card/CardBody';
+import GridItem from 'components/Grid/GridItem';
+import GridContainer from 'components/Grid/GridContainer';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import routes from 'constants/routes.json';
 import { getRoles, createRole, deleteRole } from '../../redux/actions/users';
+import { getCourses } from 'redux/actions/courses';
+import CardMedia from 'components/Card/CardMedia';
+import image1 from 'assets/img/sidebar-1.jpg';
+import image2 from 'assets/img/sidebar-2.jpg';
+import image3 from 'assets/img/sidebar-3.jpg';
+import image4 from 'assets/img/sidebar-4.jpg';
+import defaultImage from 'assets/img/reactlogo.png';
+
+const testData = [
+  { id: 1, title: 'Course 1', sales: 13543.76, enrolled: 3000, image: image1 },
+  { id: 2, title: 'Course 2', sales: 44543.76, enrolled: 13000, image: image2 },
+  { id: 3, title: 'Course 3', sales: 543.76, enrolled: 20, image: image3 },
+  { id: 4, title: 'Course 4', sales: 0, enrolled: 0, image: image4 },
+];
 
 const styles = {
   cardCategoryWhite: {
@@ -54,80 +63,14 @@ const styles = {
 };
 
 class Courses extends Component {
-  state = {
-    open: false,
-    openConfirm: false,
-    editId: null,
-    deleteItem: null,
-    name: '',
-    description: ''
-  };
+  componentWillMount() {
+    const { getCoursesAction } = this.props;
+    getCoursesAction();
+  }
 
   handleAddNew = () => {
     const { history } = this.props;
     history.push(`${routes.ADMIN}${routes.NEW_COURSE}`);
-  };
-
-  handleClose = () => {
-    this.setState({ open: false, openConfirm: false, name: '', description: '', editId: null, deleteItem: null });
-  };
-
-  handleSubmit = () => {
-    const { name, description, editId } = this.state;
-    const { createRoleAction } = this.props;
-    const payload = { name, description };
-
-    if (editId) {
-      payload.id = editId;
-    }
-
-    createRoleAction(payload);
-    this.handleClose();
-  };
-
-  onChange = field => event => {
-    this.setState({ [field]: event.target.value });
-  };
-
-  handleDelete = item => {
-    this.setState({ openConfirm: true, deleteItem: item });
-  };
-
-  handleEdit = item => {
-    const { history } = this.props;
-
-    history.push(`${routes.ADMIN}${routes.ROLE}`.replace(':name', item.name));
-  };
-
-  handleDeleteConfirmed = () => {
-    const { deleteItem } = this.state;
-    const { deleteRoleAction } = this.props;
-    if (deleteItem) {
-      deleteRoleAction({ name: deleteItem.name });
-      this.handleClose();
-    }
-  };
-
-  prepareData = data =>
-    map(data, item => {
-      const { permissions, ...rest } = item;
-
-      return { ...rest, permissions: map(permissions, p => p.name).join(', ') };
-    });
-
-  renderConfirm = () => {
-    const { openConfirm } = this.state;
-
-    return (
-      <Modal
-        open={openConfirm}
-        maxWidth="md"
-        onClose={this.handleClose}
-        onSubmit={this.handleDeleteConfirmed}
-        description="Are you sure you want to delete this element?"
-        okTitle="Delete"
-      />
-    );
   };
 
   renderNavbar = classes => (
@@ -138,26 +81,23 @@ class Courses extends Component {
 
   render() {
     const { classes, data } = this.props;
+    const courses = [...data, ...testData];
 
     return (
       <>
         <AdminNavbar title="Courses" right={this.renderNavbar(classes)} />
         <AdminContent>
           <GridContainer>
-            <GridItem xs={12} sm={12} md={12}>
-              <Card>
-                <CardBody>
-                  <TableList
-                    tableHeaderColor="info"
-                    tableHead={['Name', 'Description', 'Permissions']}
-                    tableColumns={['name', 'description', 'permissions']}
-                    tableData={this.prepareData(data)}
-                    deleteAction={this.handleDelete}
-                    editAction={this.handleEdit}
-                  />
-                </CardBody>
-              </Card>
-            </GridItem>
+            {map(courses, item => (
+              <GridItem xs={12} sm={6} md={4} lg={3}>
+                <CardMedia
+                  defaultImage={defaultImage}
+                  image={item.image}
+                  title={item.title}
+                  content={<div><b>${item.sales}</b> sales <b>{item.enrolled}</b> enrolled</div>}
+                />
+              </GridItem>
+            ))}
           </GridContainer>
         </AdminContent>
       </>
@@ -166,30 +106,20 @@ class Courses extends Component {
 }
 
 Courses.propTypes = {
-  getRolesAction: PropTypes.func,
-  createRoleAction: PropTypes.func,
-  deleteRoleAction: PropTypes.func,
+  getCoursesAction: PropTypes.func.isRequired,
   data: PropTypes.array,
-  history: PropTypes.object
+  classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ users }) => ({
-  data: users.roles.data,
-  total: users.roles.total
+const mapStateToProps = ({ courses }) => ({
+  data: courses.courses.data,
+  total: courses.courses.total
 });
 
 const mapDispatchToProps = dispatch => ({
   getCoursesAction: () => {
     dispatch(getCourses());
-  },
-  getRolesAction: () => {
-    dispatch(getRoles());
-  },
-  createRoleAction: data => {
-    dispatch(createRole(data));
-  },
-  deleteRoleAction: data => {
-    dispatch(deleteRole(data));
   }
 });
 

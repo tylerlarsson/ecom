@@ -193,7 +193,8 @@ class UsersFilterPage extends Component {
     });
 
   prepareFilters = data => {
-    return filter(data, item => !!item.type);
+    const { selected } = this.state;
+    return filter(data, item => !!item.type && !selected[item.name]);
   };
 
   handleDateChange = field => value => {
