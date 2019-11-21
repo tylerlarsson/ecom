@@ -20,9 +20,9 @@ import {
 // and instructing the redux-saga middle ware on the next line of action,
 // for success or failure operation.
 /* eslint-disable no-use-before-define */
-export default function* watchAuthListener() {
+export default function* watchAuthListener(context = {}) {
   yield takeLatest(GET_COURSES_REQUEST, getCoursesRequestSaga);
-  yield takeLatest(CREATE_COURSES_REQUEST, createCoursesRequestSaga);
+  yield takeLatest(CREATE_COURSES_REQUEST, createCoursesRequestSaga, context);
   yield takeLatest(DELETE_COURSES_REQUEST, deleteCoursesRequestSaga);
 }
 
@@ -35,10 +35,14 @@ export function* getCoursesRequestSaga({ payload }) {
   }
 }
 
-export function* createCoursesRequestSaga({ payload }) {
+export function* createCoursesRequestSaga({ history }, { payload }) {
   try {
     const res = yield call(createCourses, payload);
     yield put({ type: CREATE_COURSES_SUCCESS, res });
+    console.log('createCoursesRequestSaga', history, payload.redirect, res);
+    if (history && payload.redirect && res && res.id) {
+      history.push(payload.redirect.replace(':course', res.id));
+    }
   } catch (error) {
     yield put({ type: CREATE_COURSES_FAILED, error });
   }

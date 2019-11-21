@@ -285,8 +285,9 @@ export const getCourses = payload => {
 
 export const createCourses = payload => {
   const data = {
-    name: payload.name,
-    description: payload.description
+    title: payload.title,
+    subtitle: payload.subtitle,
+    authors: payload.authors
   };
 
   if (payload.id) {

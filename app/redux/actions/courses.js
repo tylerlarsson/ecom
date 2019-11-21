@@ -9,12 +9,12 @@ export const getCourses = payload => ({
   payload
 });
 
-export const createCourses = payload => ({
+export const createCourse = payload => ({
   type: CREATE_COURSES_REQUEST,
   payload
 });
 
-export const deleteCourses = payload => ({
+export const deleteCourse = payload => ({
   type: DELETE_COURSES_REQUEST,
   payload
 });

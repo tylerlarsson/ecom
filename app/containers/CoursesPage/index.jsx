@@ -12,7 +12,6 @@ import GridContainer from 'components/Grid/GridContainer';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import routes from 'constants/routes.json';
-import { getRoles, createRole, deleteRole } from '../../redux/actions/users';
 import { getCourses } from 'redux/actions/courses';
 import CardMedia from 'components/Card/CardMedia';
 import image1 from 'assets/img/sidebar-1.jpg';
@@ -25,7 +24,7 @@ const testData = [
   { id: 1, title: 'Course 1', sales: 13543.76, enrolled: 3000, image: image1 },
   { id: 2, title: 'Course 2', sales: 44543.76, enrolled: 13000, image: image2 },
   { id: 3, title: 'Course 3', sales: 543.76, enrolled: 20, image: image3 },
-  { id: 4, title: 'Course 4', sales: 0, enrolled: 0, image: image4 },
+  { id: 4, title: 'Course 4', sales: 0, enrolled: 0, image: image4 }
 ];
 
 const styles = {
@@ -85,7 +84,7 @@ class Courses extends Component {
 
     return (
       <>
-        <AdminNavbar title="Courses" right={this.renderNavbar(classes)} />
+        <AdminNavbar title={`Courses (${courses.length})`} right={this.renderNavbar(classes)} />
         <AdminContent>
           <GridContainer>
             {map(courses, item => (
@@ -94,7 +93,7 @@ class Courses extends Component {
                   defaultImage={defaultImage}
                   image={item.image}
                   title={item.title}
-                  content={<div><b>${item.sales}</b> sales <b>{item.enrolled}</b> enrolled</div>}
+                  content={<div><span style={{marginRight: 24}}><b>${item.sales || 0}</b> sales</span> <span><b>{item.enrolled || 0}</b> enrolled</span></div>}
                 />
               </GridItem>
             ))}

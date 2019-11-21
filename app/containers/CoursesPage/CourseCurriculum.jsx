@@ -75,7 +75,7 @@ const styles = {
   }
 };
 
-class Course extends Component {
+class CourseCurriculum extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -90,6 +90,12 @@ class Course extends Component {
     // TODO check step and redirect
     this.props.getUsersAction();
   }
+
+  handleBack = () => {
+    const { history } = this.props;
+
+    history.push(`${routes.ADMIN}${routes.ROLES}`);
+  };
 
   handleSave = () => {
     const { id, name, description, selected } = this.state;
@@ -228,7 +234,7 @@ class Course extends Component {
   }
 }
 
-Course.propTypes = {
+CourseCurriculum.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   createCourseAction: PropTypes.func.isRequired,
   getUsersAction: PropTypes.func.isRequired,
@@ -252,4 +258,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Course));
+)(withStyles(styles)(CourseCurriculum));

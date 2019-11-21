@@ -14,6 +14,7 @@
   "SALES": "/sales",
   "COURSES": "/courses",
   "NEW_COURSE": "/courses/new",
+  "CURRICULUM": "/courses/:course/curriculum",
   "PROFILE": "/profile",
   "FILTER": "/filter/:role"
 }

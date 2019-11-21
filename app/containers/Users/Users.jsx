@@ -194,9 +194,9 @@ class Users extends Component {
 }
 
 Users.propTypes = {
-  getUsersAction: PropTypes.func,
-  createUserAction: PropTypes.func,
-  deleteUserAction: PropTypes.func,
+  getUsersAction: PropTypes.func.isRequired,
+  createUserAction: PropTypes.func.isRequired,
+  deleteUserAction: PropTypes.func.isRequired,
   data: PropTypes.array,
   total: PropTypes.number
 };
