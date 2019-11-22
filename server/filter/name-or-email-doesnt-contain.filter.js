@@ -3,13 +3,7 @@ module.exports = {
   type: 'string',
   order: 0,
   filter(inclusion) {
-    const re = new RegExp(inclusion);
-    return [
-      {
-        $not: {
-          $or: [{ firstname: re }, { lastname: re }, { email: re }]
-        }
-      }
-    ];
+    const re = new RegExp(`^((?!${inclusion}).)*$`);
+    return inclusion ? { $or: [{ firstname: re }, { lastname: re }, { email: re }] } : false;
   }
 };
