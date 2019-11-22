@@ -212,18 +212,23 @@ export const deleteRole = payload =>
 
 // Users
 export const getUsers = payload => {
-  const params = payload && payload.params;
+  const params = (payload && payload.params) || {};
+  const pagination = payload && payload.pagination;
+  if (pagination) {
+    params.pageNumber = pagination.page;
+    params.pageSize = pagination.rowsPerPage;
+  }
   console.log('getUsers', params);
   return axios
     .get(`${API_ENDPOINT_URL}/user`, { params })
     .then(res => {
       if (res.data) {
-        return {success: true, data: res.data};
+        return { success: true, data: res.data };
       }
-      return {success: false, reason: res.message};
+      return { success: false, reason: res.message };
     })
-    .catch(err => ({success: false, reason: err.response.data.message}));
-}
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+};
 
 export const createUsers = payload => {
   const data = {

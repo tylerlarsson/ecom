@@ -18,20 +18,33 @@ import tableStyle from 'assets/jss/material-dashboard-react/components/tableStyl
 
 function TableList({ ...props }) {
   const {
-    classes, tableHead, tableColumns, tableData, deleteAction, editAction, tableHeaderColor, onSelectAll,
-    onSelect, selected
+    classes,
+    tableHead,
+    tableColumns,
+    tableData,
+    deleteAction,
+    editAction,
+    tableHeaderColor,
+    onSelectAll,
+    onSelect,
+    selected,
+    onChangePage,
+    pagination,
+    total
   } = props;
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+  const [page, setPage] = React.useState((pagination && pagination.page) || 0);
+  const [rowsPerPage, setRowsPerPage] = React.useState((pagination && pagination.rowsPerPage) || 20);
 
   const numSelected = size(filter(selected, s => !!s));
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    onChangePage({ page: newPage, rowsPerPage });
   };
 
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    onChangePage({ page: 0, rowsPerPage });
   };
 
   return (
@@ -68,7 +81,7 @@ function TableList({ ...props }) {
           </TableHead>
         ) : null}
         <TableBody>
-          {map(tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage), (prop, key) => (
+          {map(tableData.slice(0, rowsPerPage), (prop, key) => (
             <TableRow key={key}>
               {onSelect ? (
                 <TableCell className={classes.tableCell} key="edit" style={{ textAlign: 'right' }}>
@@ -123,14 +136,14 @@ function TableList({ ...props }) {
       <TablePagination
         rowsPerPageOptions={[10, 20, 50, 100]}
         component="div"
-        count={tableData.length}
+        count={total || tableData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         backIconButtonProps={{
-          'aria-label': 'previous page',
+          'aria-label': 'previous page'
         }}
         nextIconButtonProps={{
-          'aria-label': 'next page',
+          'aria-label': 'next page'
         }}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
@@ -140,15 +153,18 @@ function TableList({ ...props }) {
 }
 
 TableList.defaultProps = {
-  tableHeaderColor: 'gray'
+  tableHeaderColor: 'gray',
+  total: 0
 };
 
 TableList.propTypes = {
   classes: PropTypes.object.isRequired,
+  onChangePage: PropTypes.func,
   onSelectAll: PropTypes.func,
   onSelect: PropTypes.func,
   deleteAction: PropTypes.func,
   editAction: PropTypes.func,
+  total: PropTypes.number,
   selected: PropTypes.objectOf(PropTypes.any),
   tableHeaderColor: PropTypes.oneOf(['warning', 'primary', 'danger', 'success', 'info', 'rose', 'gray']),
   tableHead: PropTypes.arrayOf(PropTypes.string),
