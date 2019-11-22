@@ -14,7 +14,7 @@ const ROLE = new mongoose.Schema(
 
 // used from DB seed
 /* istanbul ignore next */
-ROLE.statics.createIfNotExists = async (name, permissions, filters) => {
+ROLE.statics.createIfNotExists = async (name, permissions, filters, description = '') => {
   const role = await Role.findOne({ name });
   if (role) {
     if (permissions) {
@@ -25,7 +25,7 @@ ROLE.statics.createIfNotExists = async (name, permissions, filters) => {
     }
     return role.save();
   }
-  return Role.create({ name, description: '', permissions, filters });
+  return Role.create({ name, description, permissions, filters });
 };
 
 ROLE.statics.create = async ({ id, name, description, permissions, filters }) => {
