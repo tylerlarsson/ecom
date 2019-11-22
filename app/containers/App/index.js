@@ -18,11 +18,11 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import RequireAuth from 'components/RequireAuth';
 import RequireNoAuth from 'components/RequireNoAuth';
+import { getRoles, getPermissions } from 'redux/actions/users';
 import GlobalStyle from '../../global-styles';
 import LoginPage from '../LoginPage/LoginPage';
 import SignupPage from '../SignupPage/SignupPage';
 import AdminPage from '../AdminPage';
-import { getRoles, getPermissions } from 'redux/actions/users';
 
 class App extends Component {
   componentWillMount() {
