@@ -1,8 +1,4 @@
-import {
-  GET_COURSES_REQUEST,
-  CREATE_COURSES_REQUEST,
-  DELETE_COURSES_REQUEST
-} from 'constants/actionTypes';
+import { GET_COURSES_REQUEST, CREATE_COURSES_REQUEST, DELETE_COURSES_REQUEST } from 'constants/actionTypes';
 
 export const getCourses = payload => ({
   type: GET_COURSES_REQUEST,

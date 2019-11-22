@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -12,21 +13,17 @@ const useStyles = makeStyles({
     marginBottom: 24
   },
   media: {
-    height: 140,
-  },
+    height: 140
+  }
 });
 
-export default function MediaCard(props) {
+function MediaCard(props) {
   const classes = useStyles();
 
   return (
     <Card className={classes.card}>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={props.image || props.defaultImage}
-          title="Contemplative Reptile"
-        />
+        <CardMedia className={classes.media} image={props.image || props.defaultImage} title="Contemplative Reptile" />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {props.title}
@@ -39,3 +36,12 @@ export default function MediaCard(props) {
     </Card>
   );
 }
+
+MediaCard.propTypes = {
+  content: PropTypes.node.isRequired,
+  image: PropTypes.string,
+  defaultImage: PropTypes.string,
+  title: PropTypes.string
+};
+
+export default MediaCard;

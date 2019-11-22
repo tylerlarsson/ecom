@@ -165,6 +165,7 @@ TableList.propTypes = {
   deleteAction: PropTypes.func,
   editAction: PropTypes.func,
   total: PropTypes.number,
+  pagination: PropTypes.objectOf(PropTypes.any),
   selected: PropTypes.objectOf(PropTypes.any),
   tableHeaderColor: PropTypes.oneOf(['warning', 'primary', 'danger', 'success', 'info', 'rose', 'gray']),
   tableHead: PropTypes.arrayOf(PropTypes.string),

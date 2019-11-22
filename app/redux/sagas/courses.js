@@ -1,9 +1,5 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
-import {
-  getCourses,
-  createCourses,
-  deleteCourses
-} from 'api/Api';
+import { getCourses, createCourses, deleteCourses } from 'api/Api';
 import {
   GET_COURSES_REQUEST,
   GET_COURSES_SUCCESS,
@@ -39,7 +35,7 @@ export function* createCoursesRequestSaga({ history }, { payload }) {
   try {
     const res = yield call(createCourses, payload);
     yield put({ type: CREATE_COURSES_SUCCESS, res });
-    console.log('createCoursesRequestSaga', history, payload.redirect, res);
+
     if (history && payload.redirect && res && res.id) {
       history.push(payload.redirect.replace(':course', res.id));
     }

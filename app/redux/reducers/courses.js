@@ -4,7 +4,7 @@ import {
   CREATE_COURSES_SUCCESS,
   CREATE_COURSES_FAILED,
   DELETE_COURSES_SUCCESS,
-  DELETE_COURSES_FAILED,
+  DELETE_COURSES_FAILED
 } from 'constants/actionTypes';
 
 const initialState = {
@@ -16,7 +16,6 @@ const initialState = {
 let temp;
 export default function(state = initialState, action) {
   switch (action.type) {
-
     // Courses
     case GET_COURSES_SUCCESS:
       if (!action.res.success) {
