@@ -19,12 +19,14 @@ import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import Card from 'components/Card/Card';
 import CardBody from 'components/Card/CardBody';
-import CardFooter from 'components/Card/CardFooter';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import { createCourse } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
 import { getUsers } from 'redux/actions/users';
+import NewLectureButton from 'components/Lecture/NewLectureButton';
+import Section from 'components/Course/Section';
+import Lecture from 'components/Lecture/Lecture';
 
 const styles = {
   cardCategoryWhite: {
@@ -55,7 +57,8 @@ const styles = {
     }
   },
   fab: {
-    background: 'orange'
+    background: 'orange',
+    marginLeft: 16
   },
   subtitle: {
     marginTop: 24,
@@ -156,75 +159,58 @@ class CourseCurriculum extends Component {
     }
   };
 
+  renderNavbar = classes => (
+    <>
+      <Fab variant="extended" color="default" size="medium" aria-label="like" onClick={this.handleAddNew}>
+        preview
+      </Fab>
+      <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleAddNew}>
+        New Section
+      </Fab>
+    </>
+  );
+
+  onNewLecture = () => {
+    // TODO Create lecture
+    console.log('onNewLecture');
+  };
+
+  onCheckSection = () => {
+    // TODO
+    console.log('onCheckSection');
+  };
+
+  onChangeSection = () => {
+    // TODO
+    console.log('onChangeSection');
+  };
+
   render() {
     const { classes, users } = this.props;
     const { title, subtitle, author } = this.state;
 
     return (
       <>
-        <AdminNavbar title="New Course" />
+        <AdminNavbar title="Curriculum" right={this.renderNavbar(classes)} />
         <AdminContent>
           <GridContainer>
-            <GridItem xs={12} sm={3} md={4}>
-              <Typography component="div" classes={{ root: classes.subtitle }}>
-                <Box fontSize={18} fontWeight={500}>
-                  Information
-                </Box>
-              </Typography>
-              <Typography component="div">
-                <Box fontSize={16} fontFamily="fontFamily">
-                  Add basic information about the course and author name
-                </Box>
-              </Typography>
-            </GridItem>
-            <GridItem xs={12} sm={9} md={8}>
+            <GridItem xs={12} sm={12} md={12}>
               <Card className={classes.card}>
                 <CardBody>
-                  <FormControl variant="outlined" fullWidth className={classes.formControl}>
-                    <FormLabel component="legend">Course Title</FormLabel>
-                    <TextField
-                      autoFocus
-                      margin="normal"
-                      id="title"
-                      name="name"
-                      type="text"
-                      fullWidth
-                      value={title}
-                      variant="outlined"
-                      onChange={this.onChange('title')}
-                    />
-                  </FormControl>
-                  <FormControl variant="outlined" fullWidth className={classes.formControl}>
-                    <FormLabel component="legend">Course Subtitle</FormLabel>
-                    <TextField
-                      autoFocus
-                      margin="normal"
-                      id="description"
-                      name="subtitle"
-                      type="text"
-                      fullWidth
-                      variant="outlined"
-                      value={subtitle}
-                      onChange={this.onChange('subtitle')}
-                    />
-                  </FormControl>
-                  <FormControl variant="outlined" fullWidth className={classes.formControl}>
-                    <FormLabel component="legend" className={classes.selectLabel}>Select Author</FormLabel>
-                    <Select onChange={this.onChange('author')}>
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {map(users, item => (
-                        <MenuItem value={item.email}>{item.email}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                  <Section
+                    onChange={this.onChangeSection}
+                    title="First Section"
+                    checked={false}
+                    onCheck={this.onCheckSection}
+                  />
+                  <Lecture
+                    onChange={this.onChangeSection}
+                    title="First Lecture"
+                    checked={false}
+                    onCheck={this.onCheckSection}
+                  />
+                  <NewLectureButton onSelect={this.onNewLecture} />
                 </CardBody>
-                <CardFooter className={classes.footer}>
-                  <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleCreateCourse}>
-                    Create Course
-                  </Fab>
-                </CardFooter>
               </Card>
             </GridItem>
           </GridContainer>
