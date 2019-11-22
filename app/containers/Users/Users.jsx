@@ -14,10 +14,11 @@ import GridContainer from 'components/Grid/GridContainer.jsx';
 import TableList from 'components/Table/TableList';
 import Card from 'components/Card/Card.jsx';
 // import CardHeader from 'components/Card/CardHeader.jsx';
-import CardBody from 'components/Card/CardBody.jsx';
+import CardBody from 'components/Card/CardBody';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
-import { getUsers, createUsers, deleteUsers } from '../../redux/actions/users';
+import { getUsers, createUsers, deleteUsers } from 'redux/actions/users';
+import { PAGINATION } from 'constants/default';
 
 const styles = {
   cardCategoryWhite: {
@@ -60,11 +61,15 @@ class Users extends Component {
     editId: null,
     deleteItem: null,
     name: '',
-    description: ''
+    description: '',
+    pagination: PAGINATION
   };
 
   componentDidMount() {
-    this.props.getUsersAction();
+    const { pagination } = this.state;
+    const { getUsersAction } = this.props;
+
+    getUsersAction({ pagination });
   }
 
   handleAddNew = () => {
@@ -94,16 +99,25 @@ class Users extends Component {
 
   prepareData = data =>
     map(data, item => {
-      const { roles, created, loginLast, loginCount, ...rest } = item;
+      const { roles, created, loginLast, loginCount, firstname, lastname, ...rest } = item;
 
       return {
         ...rest,
+        firstname: firstname || '',
+        lastname: lastname || '',
         roles: map(roles, p => p.name).join(', '),
         created: created && moment(created).format('YYYY-MM-DD HH:mm:ss'),
         loginLast: loginLast && moment(loginLast).format('YYYY-MM-DD HH:mm:ss'),
         loginCount
       };
     });
+
+  changePage = pagination => {
+    const { getUsersAction } = this.props;
+
+    this.setState({ pagination });
+    getUsersAction({ pagination });
+  };
 
   renderConfirm = () => {
     const { openConfirm } = this.state;
@@ -165,7 +179,8 @@ class Users extends Component {
   };
 
   render() {
-    const { data } = this.props;
+    const { data, total } = this.props;
+    const { pagination } = this.state;
 
     return (
       <>
@@ -177,9 +192,12 @@ class Users extends Component {
                 <CardBody>
                   <TableList
                     tableHeaderColor="info"
-                    tableHead={['Email', 'Roles', 'Created', 'Last Login', 'Login Count']}
-                    tableColumns={['email', 'roles', 'created', 'loginLast', 'loginCount']}
+                    tableHead={['Email', 'First Name', 'Last Name', 'Roles', 'Created', 'Last Login', 'Login Count']}
+                    tableColumns={['email', 'firstname', 'lastname', 'roles', 'created', 'loginLast', 'loginCount']}
                     tableData={this.prepareData(data)}
+                    total={total}
+                    pagination={pagination}
+                    onChangePage={this.changePage}
                   />
                 </CardBody>
               </Card>
@@ -207,8 +225,8 @@ const mapStateToProps = ({ users }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUsersAction: () => {
-    dispatch(getUsers());
+  getUsersAction: data => {
+    dispatch(getUsers(data));
   },
   createUserAction: data => {
     dispatch(createUsers(data));

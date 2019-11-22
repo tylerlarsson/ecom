@@ -28,7 +28,8 @@ import Card from 'components/Card/Card';
 import CardBody from 'components/Card/CardBody';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
-import { getUsers, getFilters } from '../../redux/actions/users';
+import { getUsers, getFilters } from 'redux/actions/users';
+import { PAGINATION } from 'constants/default';
 
 const styles = {
   cardCategoryWhite: {
@@ -87,7 +88,8 @@ class UsersFilterPage extends Component {
   state = {
     role: {},
     selected: {},
-    filtersValues: {}
+    filtersValues: {},
+    pagination: PAGINATION
   };
 
   componentWillMount() {
@@ -110,7 +112,7 @@ class UsersFilterPage extends Component {
 
   getUsers = () => {
     const { match, filters } = this.props;
-    const { filtersValues, selected } = this.state;
+    const { filtersValues, selected, pagination } = this.state;
     const roleName = match && match.params && match.params.role;
     if (roleName) {
       const filtersPayload = {};
@@ -123,7 +125,7 @@ class UsersFilterPage extends Component {
           }
         }
       });
-      const payload = { params: { ...filtersPayload, 'has-role': roleName } };
+      const payload = { params: { ...filtersPayload, 'has-role': roleName }, pagination };
       this.props.getUsersAction(payload);
     }
   };
@@ -181,10 +183,12 @@ class UsersFilterPage extends Component {
 
   prepareData = data =>
     map(data, item => {
-      const { roles, created, loginLast, loginCount, ...rest } = item;
+      const { roles, created, loginLast, loginCount, firstname, lastname, ...rest } = item;
 
       return {
         ...rest,
+        firstname: firstname || '',
+        lastname: lastname || '',
         roles: map(roles, p => p.name).join(', '),
         created: created && moment(created).format('YYYY-MM-DD HH:mm:ss'),
         loginLast: loginLast && moment(loginLast).format('YYYY-MM-DD HH:mm:ss'),
@@ -204,6 +208,12 @@ class UsersFilterPage extends Component {
   handleInputChange = field => event => {
     const { filtersValues } = this.state;
     this.setState({ filtersValues: { ...filtersValues, [field]: event.target.value }});
+  };
+
+  changePage = pagination => {
+    this.setState({ pagination }, () => {
+      this.getUsers();
+    });
   };
 
   renderControl = item => {
@@ -279,8 +289,8 @@ class UsersFilterPage extends Component {
   }
 
   render() {
-    const { data, filters, classes } = this.props;
-    const { role, selected } = this.state;
+    const { data, filters, classes, total } = this.props;
+    const { role, selected, pagination } = this.state;
 
     return (
       <>
@@ -320,9 +330,12 @@ class UsersFilterPage extends Component {
                 <CardBody>
                   <TableList
                     tableHeaderColor="info"
-                    tableHead={['Email', 'Roles', 'Created', 'Last Login', 'Login Count']}
-                    tableColumns={['email', 'roles', 'created', 'loginLast', 'loginCount']}
+                    tableHead={['Email', 'First Name', 'Last Name', 'Roles', 'Created', 'Last Login', 'Login Count']}
+                    tableColumns={['email', 'firstname', 'lastname', 'roles', 'created', 'loginLast', 'loginCount']}
                     tableData={this.prepareData(data)}
+                    total={total}
+                    pagination={pagination}
+                    onChangePage={this.changePage}
                   />
                 </CardBody>
               </Card>

@@ -11,7 +11,7 @@ steps:
   - 'DB_USER=${_DB_USER}'
   - 'DB_PASSWORD=${_DB_PASSWORD}'
 - name: 'gcr.io/cloud-builders/npm'
-  args: ['run', 'db:create-admin:prod']
+  args: ['run', 'db:seed:prod']
 - name: 'gcr.io/cloud-builders/npm'
   args: ['test']
 - name: "gcr.io/cloud-builders/gcloud"
