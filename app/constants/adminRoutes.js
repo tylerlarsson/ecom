@@ -15,9 +15,12 @@ import Users from 'containers/Users/Users';
 import Roles from 'containers/Roles/Roles';
 import Role from 'containers/Roles/Role';
 import ProfilePage from 'containers/ProfilePage';
+// import CoursesPage from 'containers/CoursesPage';
+import NewCourse from 'containers/CoursesPage/Course';
 import Permissions from 'containers/Permissions/Permissions';
 import routes from 'constants/routes.json';
 import UsersFilterPage from 'containers/UsersFilterPage/UsersFilterPage';
+import CourseCurriculum from 'containers/CoursesPage/CourseCurriculum';
 
 const dashboardRoutes = [
   {
@@ -106,13 +109,29 @@ const dashboardRoutes = [
       }
     ]
   },
+  // {
+  //   path: routes.COURSES,
+  //   name: 'Courses',
+  //   icon: VideoLibrary,
+  //   component: CoursesPage,
+  //   layout: routes.ADMIN,
+  //   visible: true
+  // },
   {
-    path: routes.COURSES,
-    name: 'Courses',
+    path: routes.NEW_COURSE,
+    name: 'New Course',
     icon: VideoLibrary,
-    component: HomePage,
+    component: NewCourse,
     layout: routes.ADMIN,
-    visible: true
+    visible: false
+  },
+  {
+    path: routes.CURRICULUM,
+    name: 'Curriculum',
+    icon: VideoLibrary,
+    component: CourseCurriculum,
+    layout: routes.ADMIN,
+    visible: false
   },
   {
     path: routes.PROFILE,
