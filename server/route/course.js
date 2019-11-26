@@ -75,6 +75,8 @@ router.post('/', async (req, res) => {
 
   data.authors = await db.model.User.mapToId(data.authors);
   const course = await db.model.Course.create(data);
+  const sectionCount = await course.createSection({ title: 'First section' });
+  await course.createLecture(sectionCount - 1, { title: 'First lecture', status: 'draft' });
   logger.info('course', course.title, 'has been created/updated, id', String(course._id));
   res.json(course);
 });
