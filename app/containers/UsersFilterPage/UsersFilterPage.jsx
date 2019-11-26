@@ -219,7 +219,7 @@ class UsersFilterPage extends Component {
 
   renderControl = item => {
     const { filtersValues } = this.state;
-    const value = filtersValues[item];
+    const value = filtersValues[item.name];
     let control;
 
     switch (item.type) {
@@ -227,6 +227,7 @@ class UsersFilterPage extends Component {
         control = (
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
+              autoOk
               disableToolbar
               variant="inline"
               format="MM/dd/yyyy"
