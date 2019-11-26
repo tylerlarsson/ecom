@@ -1,6 +1,8 @@
 import {
   GET_COURSES_SUCCESS,
   GET_COURSES_FAILED,
+  GET_COURSE_SUCCESS,
+  GET_COURSE_FAILED,
   CREATE_COURSES_SUCCESS,
   CREATE_COURSES_FAILED,
   DELETE_COURSES_SUCCESS,
@@ -32,6 +34,22 @@ export default function(state = initialState, action) {
       return {
         ...state,
         courses: []
+      };
+    case GET_COURSE_SUCCESS:
+      if (!action.res.success) {
+        return {
+          ...state,
+          course: null
+        };
+      }
+      return {
+        ...state,
+        course: action.res.data
+      };
+    case GET_COURSE_FAILED:
+      return {
+        ...state,
+        course: null
       };
     case CREATE_COURSES_SUCCESS:
       if (!action.res.success) {

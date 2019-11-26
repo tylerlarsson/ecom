@@ -11,7 +11,7 @@ import {
   deleteUsers,
   getRole,
   getFilters
-} from 'api/Api';
+} from 'utils/api/users';
 import {
   GET_PERMISSIONS_REQUEST,
   GET_PERMISSIONS_SUCCESS,

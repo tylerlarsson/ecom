@@ -21,7 +21,7 @@ import Card from 'components/Card/Card';
 import CardBody from 'components/Card/CardBody';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
-import { createCourse } from 'redux/actions/courses';
+import { createCourse, getCourse } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
 import { getUsers } from 'redux/actions/users';
 import NewLectureButton from 'components/Lecture/NewLectureButton';
@@ -82,6 +82,7 @@ class CourseCurriculum extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      course: null,
       id: '',
       name: '',
       description: '',
@@ -90,9 +91,22 @@ class CourseCurriculum extends Component {
   }
 
   componentWillMount() {
-    // TODO check step and redirect
-    this.props.getUsersAction();
+    const { match } = this.props;
+    const courseId = match && match.params && match.params.course;
+    this.props.getCourseAction({ id: courseId });
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { course } = this.props;
+
+    if (course !== prevState.course) {
+      this.setCourse(course);
+    }
+  }
+
+  setCourse = course => {
+    this.setState({ course });
+  };
 
   handleBack = () => {
     const { history } = this.props;
@@ -187,7 +201,10 @@ class CourseCurriculum extends Component {
 
   render() {
     const { classes, users } = this.props;
-    const { title, subtitle, author } = this.state;
+    const { course } = this.state;
+
+    const sections = (course && course.sections) || [];
+    const lectures = (course && course.lectures) || [];
 
     return (
       <>
@@ -197,18 +214,22 @@ class CourseCurriculum extends Component {
             <GridItem xs={12} sm={12} md={12}>
               <Card className={classes.card}>
                 <CardBody>
-                  <Section
-                    onChange={this.onChangeSection}
-                    title="First Section"
-                    checked={false}
-                    onCheck={this.onCheckSection}
-                  />
-                  <Lecture
-                    onChange={this.onChangeSection}
-                    title="First Lecture"
-                    checked={false}
-                    onCheck={this.onCheckSection}
-                  />
+                  {map(sections, item => (
+                    <Section
+                      onChange={this.onChangeSection}
+                      title={item.title}
+                      checked={false}
+                      onCheck={this.onCheckSection}
+                    />
+                  ))}
+                  {map(lectures, item => (
+                    <Lecture
+                      onChange={this.onChangeSection}
+                      title={item.title}
+                      checked={false}
+                      onCheck={this.onCheckSection}
+                    />
+                  ))}
                   <NewLectureButton onSelect={this.onNewLecture} />
                 </CardBody>
               </Card>
@@ -222,6 +243,8 @@ class CourseCurriculum extends Component {
 
 CourseCurriculum.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
+  getCourseAction: PropTypes.func.isRequired,
   createCourseAction: PropTypes.func.isRequired,
   getUsersAction: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(PropTypes.any).isRequired,
@@ -238,6 +261,9 @@ const mapDispatchToProps = dispatch => ({
   },
   createCourseAction: data => {
     dispatch(createCourse(data));
+  },
+  getCourseAction: data => {
+    dispatch(getCourse(data));
   },
 });
 

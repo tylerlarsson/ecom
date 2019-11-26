@@ -1,11 +1,14 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
-import { getCourses, createCourses, deleteCourses } from 'api/Api';
+import { getCourses, createCourses, deleteCourses, getCourse } from 'utils/api/courses';
 import {
   GET_COURSES_REQUEST,
   GET_COURSES_SUCCESS,
   GET_COURSES_FAILED,
+  GET_COURSE_REQUEST,
+  GET_COURSE_SUCCESS,
+  GET_COURSE_FAILED,
   CREATE_COURSES_REQUEST,
-  CREATE_COURSES_SUCCESS,
+  // CREATE_COURSES_SUCCESS,
   CREATE_COURSES_FAILED,
   DELETE_COURSES_REQUEST,
   DELETE_COURSES_SUCCESS,
@@ -18,6 +21,7 @@ import {
 /* eslint-disable no-use-before-define */
 export default function* watchAuthListener(context = {}) {
   yield takeLatest(GET_COURSES_REQUEST, getCoursesRequestSaga);
+  yield takeLatest(GET_COURSE_REQUEST, getCourseRequestSaga);
   yield takeLatest(CREATE_COURSES_REQUEST, createCoursesRequestSaga, context);
   yield takeLatest(DELETE_COURSES_REQUEST, deleteCoursesRequestSaga);
 }
@@ -31,13 +35,22 @@ export function* getCoursesRequestSaga({ payload }) {
   }
 }
 
+export function* getCourseRequestSaga({ payload }) {
+  try {
+    const res = yield call(getCourse, payload);
+    yield put({ type: GET_COURSE_SUCCESS, res });
+  } catch (error) {
+    yield put({ type: GET_COURSE_FAILED, error });
+  }
+}
+
 export function* createCoursesRequestSaga({ history }, { payload }) {
   try {
     const res = yield call(createCourses, payload);
-    yield put({ type: CREATE_COURSES_SUCCESS, res });
-
-    if (history && payload.redirect && res && res.id) {
-      history.push(payload.redirect.replace(':course', res.id));
+    // yield put({ type: CREATE_COURSES_SUCCESS, res });
+    const id = res && res.data && res.data.id;
+    if (history && payload.redirect && id) {
+      return payload.history.push(payload.redirect.replace(':course', id));
     }
   } catch (error) {
     yield put({ type: CREATE_COURSES_FAILED, error });

@@ -6,7 +6,7 @@ import {
   updateAccount,
   signUpRequest,
   logOut
-} from 'api/Api';
+} from 'utils/api/auth';
 import * as types from 'constants/actionTypes';
 
 // Responsible for searching media library, making calls to the API

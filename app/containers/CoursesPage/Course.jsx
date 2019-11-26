@@ -134,7 +134,7 @@ class Course extends Component {
   };
 
   handleCreateCourse = () => {
-    const { createCourseAction } = this.props;
+    const { createCourseAction, history } = this.props;
     const { title, subtitle, author } = this.state;
 
     if (title && subtitle && author ) {
@@ -143,7 +143,9 @@ class Course extends Component {
         subtitle,
         authors: [
           author
-        ]
+        ],
+        redirect: `${routes.ADMIN}${routes.CURRICULUM}`,
+        history
       };
       console.log('payload', payload);
       createCourseAction(payload);

@@ -6,7 +6,6 @@ import { map } from 'lodash';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
 // core components
-import Modal from 'components/Modal/Modal';
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
