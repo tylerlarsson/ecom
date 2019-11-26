@@ -78,6 +78,12 @@ class Courses extends Component {
     </Fab>
   );
 
+  handleCoursePage = item => () => {
+    const { history } = this.props;
+    console.log('handleCoursePage', item);
+    history.push(`${routes.ADMIN}${routes.CURRICULUM.replace(':course', item.id)}`);
+  };
+
   render() {
     const { classes, data } = this.props;
     const courses = [...data, ...testData];
@@ -88,11 +94,12 @@ class Courses extends Component {
         <AdminContent>
           <GridContainer>
             {map(courses, item => (
-              <GridItem xs={12} sm={6} md={4} lg={3}>
+              <GridItem key={item.id} xs={12} sm={6} md={4} lg={3}>
                 <CardMedia
                   defaultImage={defaultImage}
                   image={item.image}
                   title={item.title}
+                  onClick={this.handleCoursePage(item)}
                   content={<div><span style={{marginRight: 24}}><b>${item.sales || 0}</b> sales</span> <span><b>{item.enrolled || 0}</b> enrolled</span></div>}
                 />
               </GridItem>
