@@ -19,9 +19,10 @@ const useStyles = makeStyles({
 
 function MediaCard(props) {
   const classes = useStyles();
+  const { onClick } = props;
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} onClick={onClick}>
       <CardActionArea>
         <CardMedia className={classes.media} image={props.image || props.defaultImage} title="Contemplative Reptile" />
         <CardContent>
@@ -38,6 +39,7 @@ function MediaCard(props) {
 }
 
 MediaCard.propTypes = {
+  onClick: PropTypes.func,
   content: PropTypes.node.isRequired,
   image: PropTypes.string,
   defaultImage: PropTypes.string,

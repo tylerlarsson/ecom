@@ -46,11 +46,11 @@ theme = responsiveFontSizes(theme);
 const render = () => {
   ReactDOM.render(
     <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <BrowserRouter history={history}>
+      <BrowserRouter>
+        <Provider store={store}>
           <App />
-        </BrowserRouter>
-      </Provider>
+        </Provider>
+      </BrowserRouter>
     </ThemeProvider>,
     MOUNT_NODE
   );
