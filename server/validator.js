@@ -19,6 +19,7 @@ const courseSchema = readJson('schema', 'new-course.schema.json');
 const pricingPlanSchema = readJson('schema', 'new-pricing-plan.schema.json');
 const courseSectionSchema = readJson('schema', 'new-section.schema.json');
 const courseLectureSchema = readJson('schema', 'new-lecture.schema.json');
+const getCourseSchema = readJson('schema', 'get-course.schema.json');
 
 const name = ajv.compile(nameRequestSchema);
 const newUser = ajv.compile(newUserSchema);
@@ -33,6 +34,7 @@ const course = ajv.compile(courseSchema);
 const pricingPlan = ajv.compile(pricingPlanSchema);
 const courseSection = ajv.compile(courseSectionSchema);
 const courseLecture = ajv.compile(courseLectureSchema);
+const getCourse = ajv.compile(getCourseSchema);
 
 module.exports = {
   newUser,
@@ -40,6 +42,7 @@ module.exports = {
   newPermission,
   name,
   assignPermission,
+  getCourse,
   tokenRequest,
   pageRequest,
   assignFilter,
