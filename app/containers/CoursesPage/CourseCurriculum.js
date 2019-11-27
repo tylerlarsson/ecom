@@ -137,9 +137,15 @@ class CourseCurriculum extends Component {
     console.log('onCheckSection');
   };
 
-  onChangeSection = () => {
-    // TODO
-    console.log('onChangeSection');
+  onChangeSection = index => title => {
+    const { createSectionAction } = this.props;
+    const { course } = this.state;
+    const payload = {
+      title,
+      index,
+      courseId: course && course.id
+    };
+    createSectionAction(payload);
   };
 
   handlePreview = () => {
@@ -180,7 +186,7 @@ class CourseCurriculum extends Component {
                   <CardBody>
                     <Section
                       key={section.id}
-                      onChange={this.onChangeSection}
+                      onChange={this.onChangeSection(index)}
                       title={section.title}
                       checked={false}
                       onCheck={this.onCheckSection}
@@ -188,7 +194,6 @@ class CourseCurriculum extends Component {
                     {map(section.lectures, lecture => (
                       <Lecture
                         key={lecture.id}
-                        onChange={this.onChangeSection}
                         title={lecture.title}
                         checked={false}
                         onCheck={this.onCheckSection}

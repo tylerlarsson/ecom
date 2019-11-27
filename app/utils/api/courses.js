@@ -67,7 +67,7 @@ export const deleteCourses = payload =>
 export const createSection = payload => {
   const data = {
     title: payload.title,
-    id: payload.id
+    index: payload.index
   };
 
   const { courseId } = payload;
