@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { forEach, map, size, filter } from 'lodash';
+import { map } from 'lodash';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
-import {
-  TextField,
-  Typography,
-  FormLabel,
-  FormControl,
-  Box,
-  Select,
-  MenuItem
-} from '@material-ui/core';
 // core components
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
@@ -21,9 +12,8 @@ import Card from 'components/Card/Card';
 import CardBody from 'components/Card/CardBody';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
-import { createSection, getCourse } from 'redux/actions/courses';
+import { createSection, getCourse, createLecture } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
-import { getUsers } from 'redux/actions/users';
 import NewLectureButton from 'components/Lecture/NewLectureButton';
 import Section from 'components/Course/Section';
 import Lecture from 'components/Lecture/Lecture';
@@ -68,7 +58,7 @@ const styles = {
     marginBottom: 24
   },
   footer: {
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   },
   card: {
     padding: 24
@@ -82,17 +72,14 @@ class CourseCurriculum extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      course: null,
-      id: '',
-      name: '',
-      description: '',
-      selected: {},
+      course: null
     };
   }
 
   componentWillMount() {
     const { match } = this.props;
     const courseId = match && match.params && match.params.course;
+    console.log('componentWillMount', courseId);
     this.props.getCourseAction({ id: courseId });
   }
 
@@ -114,60 +101,35 @@ class CourseCurriculum extends Component {
     history.push(`${routes.ADMIN}${routes.ROLES}`);
   };
 
-  handleSave = () => {
-    const { id, name, description, selected } = this.state;
-    const { createRoleAction } = this.props;
-    const permissions = [];
-
-    forEach(selected, (item, key) => {
-      console.log(item, key)
-      if (selected[key]) {
-        permissions.push(key);
-      }
-    })
-
-    const payload = { id, name, description, permissions };
-
-    console.log('handleSave', payload);
-    createRoleAction(payload);
-    this.handleBack();
-  };
-
-  onSelect = item => e => {
-    const { selected } = this.state;
-
-    this.setState({ selected: { ...selected, [item.name]: !!!selected[item.name] } });
-  };
-
-  onSelectAll = () => {
-    const { permissions } = this.props;
-    const { selected } = this.state;
-    const numSelected = size(filter(selected, s => !!s));
-    const value = numSelected !== permissions.length;
-    const newSelected = {};
-    forEach(permissions, p => {
-      newSelected[p.name] = value;
-    });
-    console.log('onSelectAll', numSelected, value, newSelected)
-    this.setState({ selected: newSelected });
-  };
-
   onChange = field => event => {
     this.setState({ [field]: event.target.value });
   };
 
   handleCreateSection = () => {
     const { createSectionAction } = this.props;
+    const { course } = this.state;
 
     const payload = {
-      title: 'New Section'
+      title: 'New Section',
+      courseId: course && course.id
     };
     createSectionAction(payload);
   };
 
-  onNewLecture = () => {
-    // TODO Create lecture
-    console.log('onNewLecture');
+  onNewLecture = sectionIndex => () => {
+    const { createLectureAction } = this.props;
+    const { course } = this.state;
+    const payload = {
+      title: 'New Lecture',
+      file: 'file',
+      image: 'image',
+      text: 'lecture text',
+      allowComments: false,
+      state: 'draft',
+      courseId: course && course.id,
+      section: sectionIndex
+    };
+    createLectureAction(payload);
   };
 
   onCheckSection = () => {
@@ -190,18 +152,22 @@ class CourseCurriculum extends Component {
       <Fab variant="extended" color="default" size="medium" aria-label="like" onClick={this.handlePreview}>
         preview
       </Fab>
-      <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleCreateSection}>
+      <Fab
+        variant="extended"
+        size="medium"
+        aria-label="like"
+        className={classes.fab}
+        onClick={this.handleCreateSection}
+      >
         New Section
       </Fab>
     </>
   );
 
   render() {
-    const { classes, users } = this.props;
+    const { classes } = this.props;
     const { course } = this.state;
-
     const sections = (course && course.sections) || [];
-    const lectures = (course && course.lectures) || [];
 
     return (
       <>
@@ -209,27 +175,29 @@ class CourseCurriculum extends Component {
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
-              <Card className={classes.card}>
-                <CardBody>
-                  {map(sections, item => (
+              {map(sections, (section, index) => (
+                <Card className={classes.card}>
+                  <CardBody>
                     <Section
+                      key={section.id}
                       onChange={this.onChangeSection}
-                      title={item.title}
+                      title={section.title}
                       checked={false}
                       onCheck={this.onCheckSection}
                     />
-                  ))}
-                  {map(lectures, item => (
-                    <Lecture
-                      onChange={this.onChangeSection}
-                      title={item.title}
-                      checked={false}
-                      onCheck={this.onCheckSection}
-                    />
-                  ))}
-                  <NewLectureButton onSelect={this.onNewLecture} />
-                </CardBody>
-              </Card>
+                    {map(section.lectures, lecture => (
+                      <Lecture
+                        key={lecture.id}
+                        onChange={this.onChangeSection}
+                        title={lecture.title}
+                        checked={false}
+                        onCheck={this.onCheckSection}
+                      />
+                    ))}
+                    <NewLectureButton onSelect={this.onNewLecture(index)} />
+                  </CardBody>
+                </Card>
+              ))}
             </GridItem>
           </GridContainer>
         </AdminContent>
@@ -241,27 +209,27 @@ class CourseCurriculum extends Component {
 CourseCurriculum.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  course: PropTypes.objectOf(PropTypes.any),
   getCourseAction: PropTypes.func.isRequired,
   createSectionAction: PropTypes.func.isRequired,
-  getUsersAction: PropTypes.func.isRequired,
-  users: PropTypes.arrayOf(PropTypes.any).isRequired,
+  createLectureAction: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
-const mapStateToProps = ({ users }) => ({
-  users: users.users.data
+const mapStateToProps = ({ courses }) => ({
+  course: courses.course
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUsersAction: () => {
-    dispatch(getUsers());
-  },
   createSectionAction: data => {
     dispatch(createSection(data));
   },
+  createLectureAction: data => {
+    dispatch(createLecture(data));
+  },
   getCourseAction: data => {
     dispatch(getCourse(data));
-  },
+  }
 });
 
 export default connect(

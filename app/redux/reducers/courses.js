@@ -13,7 +13,8 @@ const initialState = {
   courses: {
     data: [],
     total: 0
-  }
+  },
+  course: null
 };
 let temp;
 export default function(state = initialState, action) {
@@ -44,7 +45,7 @@ export default function(state = initialState, action) {
       }
       return {
         ...state,
-        course: action.res.data
+        course: action.res.data && action.res.data.course
       };
     case GET_COURSE_FAILED:
       return {

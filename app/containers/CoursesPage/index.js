@@ -99,7 +99,16 @@ class Courses extends Component {
                   image={item.image}
                   title={item.title}
                   onClick={this.handleCoursePage(item)}
-                  content={<div><span style={{marginRight: 24}}><b>${item.sales || 0}</b> sales</span> <span><b>{item.enrolled || 0}</b> enrolled</span></div>}
+                  content={
+                    <div>
+                      <span style={{ marginRight: 24 }}>
+                        <b>${item.sales || 0}</b> sales
+                      </span>{' '}
+                      <span>
+                        <b>{item.enrolled || 0}</b> enrolled
+                      </span>
+                    </div>
+                  }
                 />
               </GridItem>
             ))}

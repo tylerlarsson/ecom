@@ -17,9 +17,10 @@ export const getCourses = payload => {
 };
 
 export const getCourse = payload => {
+  console.log('getCourse', payload);
   const id = payload && payload.id;
   return axios
-    .get(`${API_ENDPOINT_URL}/course/${id}`, { params })
+    .get(`${API_ENDPOINT_URL}/course/${id}`)
     .then(res => {
       if (res.data) {
         return { success: true, data: res.data };
@@ -55,6 +56,73 @@ export const createCourses = payload => {
 export const deleteCourses = payload =>
   axios
     .delete(`${API_ENDPOINT_URL}/course/${payload.name}`)
+    .then(res => {
+      if (res.data) {
+        return { success: true };
+      }
+      return { success: false, reason: res.message };
+    })
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+
+export const createSection = payload => {
+  const data = {
+    title: payload.title,
+    id: payload.id
+  };
+
+  const { courseId } = payload;
+
+  return axios
+    .post(`${API_ENDPOINT_URL}/course/${courseId}/section`, data)
+    .then(res => {
+      console.log('createSection res', res);
+      if (res.data) {
+        return { success: true, data: res.data };
+      }
+      return { success: false, reason: res.message };
+    })
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+};
+
+export const deleteSection = payload =>
+  axios
+    .delete(`${API_ENDPOINT_URL}/course/${payload.name}/section`)
+    .then(res => {
+      if (res.data) {
+        return { success: true };
+      }
+      return { success: false, reason: res.message };
+    })
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+
+export const createLecture = payload => {
+  const data = {
+    id: payload.id,
+    title: payload.title,
+    file: payload.file,
+    image: payload.image,
+    text: payload.text,
+    allowComments: payload.allowComments,
+    state: payload.state
+  };
+
+  const { courseId } = payload;
+  const sectionId = payload.section;
+
+  return axios
+    .post(`${API_ENDPOINT_URL}/course/${courseId}/section/${sectionId}/lecture`, data)
+    .then(res => {
+      console.log('createLecture res', res);
+      if (res.data) {
+        return { success: true, data: res.data };
+      }
+      return { success: false, reason: res.message };
+    })
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+};
+export const deleteLecture = payload =>
+  axios
+    .delete(`${API_ENDPOINT_URL}/course/${payload.name}/section`)
     .then(res => {
       if (res.data) {
         return { success: true };

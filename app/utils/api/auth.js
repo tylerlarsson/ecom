@@ -92,6 +92,11 @@ export const updateAccount = payload => {
     }));
 };
 
+function setAccessToken(token) {
+  console.log('setAccessToken', token);
+  localStorage.setItem('authentication_token', token);
+}
+
 export const getAccessToken = () => localStorage.getItem('authentication_token');
 
 // function setUserID(id) {
