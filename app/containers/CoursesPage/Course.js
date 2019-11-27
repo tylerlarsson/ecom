@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { forEach, map, size, filter } from 'lodash';
+import { map } from 'lodash';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
-import {
-  TextField,
-  Typography,
-  FormLabel,
-  FormControl,
-  Box,
-  Select,
-  MenuItem
-} from '@material-ui/core';
+import { TextField, Typography, FormLabel, FormControl, Box, Select, MenuItem } from '@material-ui/core';
 // core components
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
@@ -65,7 +57,7 @@ const styles = {
     marginBottom: 24
   },
   footer: {
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   },
   card: {
     padding: 24
@@ -79,10 +71,9 @@ class Course extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
-      name: '',
-      description: '',
-      selected: {},
+      title: '',
+      subtitle: '',
+      selected: {}
     };
   }
 
@@ -91,42 +82,10 @@ class Course extends Component {
     this.props.getUsersAction();
   }
 
-  handleSave = () => {
-    const { id, name, description, selected } = this.state;
-    const { createRoleAction } = this.props;
-    const permissions = [];
-
-    forEach(selected, (item, key) => {
-      console.log(item, key)
-      if (selected[key]) {
-        permissions.push(key);
-      }
-    })
-
-    const payload = { id, name, description, permissions };
-
-    console.log('handleSave', payload);
-    createRoleAction(payload);
-    this.handleBack();
-  };
-
-  onSelect = item => e => {
+  onSelect = item => () => {
     const { selected } = this.state;
 
-    this.setState({ selected: { ...selected, [item.name]: !!!selected[item.name] } });
-  };
-
-  onSelectAll = () => {
-    const { permissions } = this.props;
-    const { selected } = this.state;
-    const numSelected = size(filter(selected, s => !!s));
-    const value = numSelected !== permissions.length;
-    const newSelected = {};
-    forEach(permissions, p => {
-      newSelected[p.name] = value;
-    });
-    console.log('onSelectAll', numSelected, value, newSelected)
-    this.setState({ selected: newSelected });
+    this.setState({ selected: { ...selected, [item.name]: !selected[item.name] } });
   };
 
   onChange = field => event => {
@@ -137,13 +96,11 @@ class Course extends Component {
     const { createCourseAction, history } = this.props;
     const { title, subtitle, author } = this.state;
 
-    if (title && subtitle && author ) {
+    if (title && subtitle && author) {
       const payload = {
         title,
         subtitle,
-        authors: [
-          author
-        ],
+        authors: [author],
         redirect: `${routes.ADMIN}${routes.CURRICULUM}`,
         history
       };
@@ -154,7 +111,7 @@ class Course extends Component {
 
   render() {
     const { classes, users } = this.props;
-    const { title, subtitle, author } = this.state;
+    const { title, subtitle } = this.state;
 
     return (
       <>
@@ -182,7 +139,7 @@ class Course extends Component {
                       autoFocus
                       margin="normal"
                       id="title"
-                      name="name"
+                      name="title"
                       type="text"
                       fullWidth
                       value={title}
@@ -195,7 +152,7 @@ class Course extends Component {
                     <TextField
                       autoFocus
                       margin="normal"
-                      id="description"
+                      id="subtitle"
                       name="subtitle"
                       type="text"
                       fullWidth
@@ -205,7 +162,9 @@ class Course extends Component {
                     />
                   </FormControl>
                   <FormControl variant="outlined" fullWidth className={classes.formControl}>
-                    <FormLabel component="legend" className={classes.selectLabel}>Select Author</FormLabel>
+                    <FormLabel component="legend" className={classes.selectLabel}>
+                      Select Author
+                    </FormLabel>
                     <Select onChange={this.onChange('author')}>
                       <MenuItem value="">
                         <em>None</em>
@@ -217,7 +176,13 @@ class Course extends Component {
                   </FormControl>
                 </CardBody>
                 <CardFooter className={classes.footer}>
-                  <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleCreateCourse}>
+                  <Fab
+                    variant="extended"
+                    size="medium"
+                    aria-label="like"
+                    className={classes.fab}
+                    onClick={this.handleCreateCourse}
+                  >
                     Create Course
                   </Fab>
                 </CardFooter>
@@ -248,7 +213,7 @@ const mapDispatchToProps = dispatch => ({
   },
   createCourseAction: data => {
     dispatch(createCourse(data));
-  },
+  }
 });
 
 export default connect(
