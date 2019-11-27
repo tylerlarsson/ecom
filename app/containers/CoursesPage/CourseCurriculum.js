@@ -192,12 +192,7 @@ class CourseCurriculum extends Component {
                       onCheck={this.onCheckSection}
                     />
                     {map(section.lectures, lecture => (
-                      <Lecture
-                        key={lecture.id}
-                        title={lecture.title}
-                        checked={false}
-                        onCheck={this.onCheckSection}
-                      />
+                      <Lecture key={lecture.id} title={lecture.title} checked={false} onCheck={this.onCheckSection} />
                     ))}
                     <NewLectureButton onSelect={this.onNewLecture(index)} />
                   </CardBody>
