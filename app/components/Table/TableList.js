@@ -42,9 +42,10 @@ function TableList({ ...props }) {
   };
 
   const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    setRowsPerPage(newRowsPerPage);
     setPage(0);
-    onChangePage({ page: 0, rowsPerPage });
+    onChangePage({ page: 0, rowsPerPage: newRowsPerPage });
   };
 
   return (
