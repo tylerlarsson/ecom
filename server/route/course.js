@@ -119,7 +119,33 @@ router.post('/', async (req, res) => {
  *         description: course id does not exist
  *       422:
  *         description: model does not satisfy the expected schema
- *
+ * /course/{course}/section/{section}:
+ *   delete:
+ *    description: delete section from a course
+ *    consumes:
+ *      - application/json
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - name: course
+ *        in: path
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/Course'
+ *      - name: section
+ *        in: path
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/Section'
+ *    responses:
+ *      202:
+ *        description: section is soft deleted
+ *      404:
+ *        description: section or course is not found by specified id
+ *      500:
+ *        description: internal server error
  */
 router.post('/:course/section', async (req, res) => {
   const { body, params } = req;
@@ -139,6 +165,28 @@ router.post('/:course/section', async (req, res) => {
   }
   const sectionCount = await course.createSection(body);
   res.json({ sectionCount });
+});
+
+router.delete('/:course/section/:section', async (req, res) => {
+  const { params } = req;
+  if (!validator.deleteSection({ params })) {
+    logger.error('validation of create course section request failed', validator.deleteSection.errors);
+    res.status(HttpStatus.BAD_REQUEST).json({ errors: validator.deleteSection.errors });
+  }
+
+  const course = await db.model.Course.findById(params.course);
+  if (!course) {
+    res.status(HttpStatus.NOT_FOUND).json({ errors: `Course with id ${params.course} is not found` });
+  }
+
+  try {
+    const _course = await course.deleteSection(params.section);
+    res.status(HttpStatus.ACCEPTED).json({
+      course: _course
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({ errors: error.message });
+  }
 });
 
 /**
@@ -201,7 +249,39 @@ router.post('/:course/section', async (req, res) => {
  *         description: course id does not exist
  *       422:
  *         description: model does not satisfy the expected schema
- *
+ * /course/{course}/section/{section}/lecture/{lecture}:
+ *   delete:
+ *    description: delete lecture from a section
+ *    consumes:
+ *      - application/json
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - name: course
+ *        in: path
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/Course'
+ *      - name: section
+ *        in: path
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/Section'
+ *      - name: lecture
+ *        in: path
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/Lecture'
+ *    responses:
+ *      202:
+ *        description: lecture is deleted
+ *      404:
+ *        description: section or lecture is not found by specified id
+ *      500:
+ *        description: internal server error
  */
 router.post('/:course/section/:section/lecture', async (req, res) => {
   const { body, params } = req;
@@ -230,6 +310,30 @@ router.post('/:course/section/:section/lecture', async (req, res) => {
 
   const lectureCount = await course.createLecture(params.section, body);
   res.json({ lectureCount });
+});
+
+router.delete('/:course/section/:section/lecture/:lecture', async (req, res) => {
+  const { params } = req;
+  if (!validator.deleteLecture({ params })) {
+    const { errors } = validator.deleteLecture;
+    logger.error('Validation of delete lecture request is failed', errors);
+    res.status(HttpStatus.BAD_REQUEST).json({ errors });
+  }
+
+  const course = await db.model.Course.findById(params.course);
+
+  if (!course) {
+    res.status(HttpStatus.NOT_FOUND).json({ errors: `Course with id ${params.course} is not found` });
+  }
+
+  try {
+    const _course = await course.deleteLecture(params.section, params.lecture);
+    res.status(HttpStatus.ACCEPTED).json({
+      course: _course
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({ errors: error.message });
+  }
 });
 
 /**
@@ -287,10 +391,29 @@ router.get('/', paginated(20), async (req, res) => {
  *        description: no course in url path
  *      404:
  *        description: no course in mongodb
+ *  delete:
+ *    description: delete course by mongo id
+ *    consumes:
+ *      - application/json
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - name: course
+ *        in: path
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/Course'
+ *    responses:
+ *      202:
+ *        description: course is deleted
+ *      404:
+ *        description: course is not found by specified id
+ *      500:
+ *        description: internal server error
  */
 router.get('/:course', async (req, res) => {
   const { params } = req;
-  logger.info('Here');
   if (!validator.getCourse({ params })) {
     const { errors } = validator.getCourse;
     logger.error('Validation of get course request is failed', errors);
@@ -307,6 +430,25 @@ router.get('/:course', async (req, res) => {
   res.json({
     course
   });
+});
+
+router.delete('/:course', async (req, res) => {
+  const { params } = req;
+  if (!validator.getCourse({ params })) {
+    const { errors } = validator.getCourse;
+    logger.error('Validation of get course request is failed', errors);
+    res.status(HttpStatus.BAD_REQUEST).json({ errors });
+  }
+  try {
+    const course = await db.model.Course.deleteCourse(params.course);
+    res.status(HttpStatus.ACCEPTED).json({
+      course
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      errors: error.message
+    });
+  }
 });
 
 module.exports = router;

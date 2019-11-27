@@ -20,6 +20,8 @@ const pricingPlanSchema = readJson('schema', 'new-pricing-plan.schema.json');
 const courseSectionSchema = readJson('schema', 'new-section.schema.json');
 const courseLectureSchema = readJson('schema', 'new-lecture.schema.json');
 const getCourseSchema = readJson('schema', 'get-course.schema.json');
+const deleteLectureSchema = readJson('schema', 'delete-lecture.schema.json');
+const deleteSectionSchema = readJson('schema', 'delete-section.schema.json');
 
 const name = ajv.compile(nameRequestSchema);
 const newUser = ajv.compile(newUserSchema);
@@ -30,6 +32,8 @@ const tokenRequest = ajv.compile(tokenRequestSchema);
 const pageRequest = ajv.compile(pageRequestSchema);
 const assignFilter = ajv.compile(assignFilterSchema);
 const filters = ajv.compile(filtersSchema);
+const deleteLecture = ajv.compile(deleteLectureSchema);
+const deleteSection = ajv.compile(deleteSectionSchema);
 const course = ajv.compile(courseSchema);
 const pricingPlan = ajv.compile(pricingPlanSchema);
 const courseSection = ajv.compile(courseSectionSchema);
@@ -42,8 +46,10 @@ module.exports = {
   newPermission,
   name,
   assignPermission,
+  deleteLecture,
   getCourse,
   tokenRequest,
+  deleteSection,
   pageRequest,
   assignFilter,
   filters,
