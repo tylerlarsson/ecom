@@ -178,7 +178,9 @@
     "webpack-hot-middleware": "2.24.3",
     "webpack-pwa-manifest": "4.0.0",
     "winston": "2.4.0",
-    "winston-daily-rotate-file": "3.10.0"
+    "winston-daily-rotate-file": "3.10.0",
+    "@google-cloud/storage": "latest",
+    "mime-types": "latest"
   },
   "devDependencies": {
     "compare-versions": "3.4.0",

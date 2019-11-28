@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
+const { generateUploadUrl } = require('../file-util');
 const { softDeletedMiddleware, removeNestedSoftDeleted } = require('../middleware/soft-deleted');
 
 const COURSE_STATE = {
@@ -120,7 +121,10 @@ COURSE.methods.createLecture = async function createLecture(
       });
     }
     await this.save();
-    return section.lectures.length;
+    return {
+      lectureCount: section.lectures.length,
+      image: image ? await generateUploadUrl(image) : null
+    };
   }
   return 0;
 };
@@ -132,7 +136,6 @@ COURSE.methods.deleteLecture = async function deleteLecture(section, lecture) {
     error.status = 404;
     throw error;
   } else {
-    // другого способа как доставать sub-sub documents нет
     const _lecture = _section.lectures.find(i => i._id.toString() === lecture);
     if (!_lecture) {
       const error = new Error(`Lecture for id ${lecture} is not found`);
@@ -147,7 +150,6 @@ COURSE.methods.deleteLecture = async function deleteLecture(section, lecture) {
 
 COURSE.methods.deleteSection = async function deleteSection(section) {
   const subDoc = this.sections.id(section);
-  console.log(this.sections, subDoc, section);
   if (!subDoc) {
     const error = new Error(`Section for id ${section} is not found.`);
     error.status = 404;

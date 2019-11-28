@@ -308,8 +308,8 @@ router.post('/:course/section/:section/lecture', async (req, res) => {
     return;
   }
 
-  const lectureCount = await course.createLecture(params.section, body);
-  res.json({ lectureCount });
+  const { lectureCount, image } = await course.createLecture(params.section, body);
+  res.json({ lectureCount, image });
 });
 
 router.delete('/:course/section/:section/lecture/:lecture', async (req, res) => {
