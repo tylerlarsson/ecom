@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { Storage } = require('@google-cloud/storage');
 const mimeTypes = require('mime-types');
+const request = require('./request');
 const SEPARATOR = path.sep;
 
 const p = __filename.split(SEPARATOR);
@@ -45,11 +46,27 @@ async function generateUploadUrl(filename, expires, bucket = 'course-images') {
   return getSignedUrl(filename, opts, bucket);
 }
 
+async function uploadVideo(file, apiPassword = 'test') {
+  const url = `https://upload.wistia.com?api_password=${apiPassword}`;
+  const {
+    data: { hashed_id: hashedId, url: _url }
+  } = await request({
+    method: 'POST',
+    payload: String(file.buffer),
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    url
+  });
+  return { url: _url, hashedId };
+}
+
 module.exports = {
   readFile,
   readJson,
   BASE_PATH,
   bucketFactory,
   generateUploadUrl,
-  getSignedUrl
+  getSignedUrl,
+  uploadVideo
 };
