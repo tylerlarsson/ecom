@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import { map, forEach, find } from 'lodash';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-import Fab from '@material-ui/core/Fab';
+import { Fab, Paper, Tabs, Tab } from '@material-ui/core';
 // core components
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import Card from 'components/Card/Card';
 import CardBody from 'components/Card/CardBody';
-import AdminNavbar from 'components/Navbars/AdminNavbar';
+import CustomNavbar from 'components/Navbars/CustomNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import { createSection, getCourse, createLecture } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
 import NewLectureButton from 'components/Lecture/NewLectureButton';
 import Section from 'components/Course/Section';
 import Lecture from 'components/Lecture/Lecture';
+import LectureTitle from 'components/Lecture/LectureTitle';
 
 const styles = {
   cardCategoryWhite: {
@@ -49,6 +50,9 @@ const styles = {
   fab: {
     background: 'orange',
     marginLeft: 16
+  },
+  btn: {
+    marginRight: 16
   },
   subtitle: {
     marginTop: 24,
@@ -92,7 +96,19 @@ class CourseCurriculum extends Component {
   }
 
   setCourse = course => {
-    this.setState({ course });
+    const { match } = this.props;
+    const lectureId = match && match.params && match.params.lecture;
+    let section = null;
+    let lecture = null;
+    forEach(course && course.sections, sectionItem => {
+      forEach(section && section.lectures, item => {
+        if (item._id === lectureId) {
+          lecture = item;
+          section = sectionItem;
+        }
+      });
+    });
+    this.setState({ course, section, lecture });
   };
 
   handleBack = () => {
@@ -105,7 +121,7 @@ class CourseCurriculum extends Component {
     this.setState({ [field]: event.target.value });
   };
 
-  handleCreateSection = () => {
+  handlePublish = () => {
     const { createSectionAction } = this.props;
     const { course } = this.state;
 
@@ -137,25 +153,14 @@ class CourseCurriculum extends Component {
     console.log('onCheckSection');
   };
 
-  onChangeSection = index => title => {
-    const { createSectionAction } = this.props;
-    const { course } = this.state;
-    const payload = {
-      title,
-      index,
-      courseId: course && course.id
-    };
-    createSectionAction(payload);
+  onChangeSection = () => {
+    // TODO
+    console.log('onChangeSection');
   };
 
-  onChangeLecture = lectureId => () => {
+  handleNewLecture = () => {
     // TODO
-    console.log('onChangeLecture', lectureId);
-    const { course } = this.state;
-    const { history } = this.props;
-    const lectureRoute = `${routes.ADMIN}${routes.NEW_LECTURE}`.replace(':course', course && course.id)
-      .replace(':lecture', lectureId)
-    history.push(lectureRoute);
+    console.log('handleNewLecture');
   };
 
   handlePreview = () => {
@@ -165,55 +170,55 @@ class CourseCurriculum extends Component {
 
   renderNavbar = classes => (
     <>
+      <Fab
+        className={classes.btn}
+        variant="extended"
+        color="default"
+        size="medium"
+        aria-label="like"
+        onClick={this.handleNewLecture}
+      >
+        New Lecture
+      </Fab>
       <Fab variant="extended" color="default" size="medium" aria-label="like" onClick={this.handlePreview}>
-        preview
+        Preview
       </Fab>
       <Fab
         variant="extended"
         size="medium"
         aria-label="like"
         className={classes.fab}
-        onClick={this.handleCreateSection}
+        onClick={this.handlePublish}
       >
-        New Section
+        Publish
       </Fab>
     </>
   );
 
   render() {
     const { classes } = this.props;
-    const { course } = this.state;
+    const { course, lecture } = this.state;
     const sections = (course && course.sections) || [];
 
     return (
       <>
-        <AdminNavbar title="Curriculum" right={this.renderNavbar(classes)} />
+        <CustomNavbar lecture={lecture} right={this.renderNavbar(classes)} />
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
-              {map(sections, (section, index) => (
-                <Card className={classes.card}>
-                  <CardBody>
-                    <Section
-                      key={section.id}
-                      onChange={this.onChangeSection(index)}
-                      title={section.title}
-                      checked={false}
-                      onCheck={this.onCheckSection}
-                    />
-                    {map(section.lectures, lecture => (
-                      <Lecture
-                        key={lecture.id}
-                        title={lecture.title}
-                        checked={false}
-                        onCheck={this.onCheckSection}
-                        onChange={this.onChangeLecture(lecture.id)}
-                      />
-                    ))}
-                    <NewLectureButton onSelect={this.onNewLecture(index)} />
-                  </CardBody>
-                </Card>
-              ))}
+              <Paper square>
+                <Tabs
+                  value={value}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  onChange={handleChange}
+                  aria-label="disabled tabs example"
+                >
+                  <Tab label="Active" />
+                  <Tab label="Disabled" disabled />
+                  <Tab label="Active" />
+                </Tabs>
+              </Paper>
             </GridItem>
           </GridContainer>
         </AdminContent>
