@@ -18,6 +18,7 @@ import NewLectureButton from 'components/Lecture/NewLectureButton';
 import Section from 'components/Course/Section';
 import Lecture from 'components/Lecture/Lecture';
 import LectureTitle from 'components/Lecture/LectureTitle';
+import TabPanel from 'components/Lecture/TabPanel';
 
 const styles = {
   cardCategoryWhite: {
@@ -76,7 +77,8 @@ class CourseCurriculum extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      course: null
+      course: null,
+      tab: 0
     };
   }
 
@@ -101,7 +103,7 @@ class CourseCurriculum extends Component {
     let section = null;
     let lecture = null;
     forEach(course && course.sections, sectionItem => {
-      forEach(section && section.lectures, item => {
+      forEach(sectionItem && sectionItem.lectures, item => {
         if (item._id === lectureId) {
           lecture = item;
           section = sectionItem;
@@ -146,6 +148,11 @@ class CourseCurriculum extends Component {
       section: sectionIndex
     };
     createLectureAction(payload);
+  };
+
+  onChangeTitle = title => {
+    // TODO
+    console.log('onChangeTitle', title);
   };
 
   onCheckSection = () => {
@@ -195,29 +202,46 @@ class CourseCurriculum extends Component {
     </>
   );
 
+  changeTab = (event, tab) => {
+    this.setState({ tab });
+  };
+
   render() {
     const { classes } = this.props;
-    const { course, lecture } = this.state;
+    const { course, lecture = {}, tab } = this.state;
     const sections = (course && course.sections) || [];
-
+    console.log('lecture page', lecture);
     return (
       <>
-        <CustomNavbar lecture={lecture} right={this.renderNavbar(classes)} />
+        <CustomNavbar component={<LectureTitle title={lecture.title} onChange={this.onChangeTitle} />} right={this.renderNavbar(classes)} />
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
               <Paper square>
                 <Tabs
-                  value={value}
+                  value={tab}
                   indicatorColor="primary"
                   textColor="primary"
-                  onChange={handleChange}
+                  onChange={this.changeTab}
                   aria-label="disabled tabs example"
                 >
-                  <Tab label="Active" />
-                  <Tab label="Disabled" disabled />
-                  <Tab label="Active" />
+                  <Tab label="Add File" />
+                  <Tab label="Add Text" />
+                  <Tab label="Add Quiz" />
+                  <Tab label="Add Code" />
                 </Tabs>
+                <TabPanel value={tab} index={0}>
+                  Page One
+                </TabPanel>
+                <TabPanel value={tab} index={1}>
+                  Page Two
+                </TabPanel>
+                <TabPanel value={tab} index={2}>
+                  Page Three
+                </TabPanel>
+                <TabPanel value={tab} index={3}>
+                  Page Three
+                </TabPanel>
               </Paper>
             </GridItem>
           </GridContainer>

@@ -1,51 +1,97 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import MoreVert from '@material-ui/icons/MoreVert';
-import Edit from '@material-ui/icons/Edit';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Button from '@material-ui/core/Button';
+import { Edit, ChevronLeft, Done, Close } from '@material-ui/icons';
+import { withStyles, FormControl, FormControlLabel, Checkbox, TextField, Typography } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const styles = {
   wrap: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+    height: 44
+  },
+  fieldWrap: {
     width: '100%',
     display: 'flex',
-    padding: 24,
-    background: '#eee',
-    borderLeft: '3px solid orange',
     alignItems: 'center',
-    marginBottom: 24,
-    cursor: 'pointer',
-    color: 'teal'
+    paddingBottom: 24,
+    cursor: 'pointer'
   },
   icon: {
     marginRight: 16,
     color: '#aaa'
+  },
+  iconEdit: {
+    marginLeft: 16,
+    color: '#aaa'
+  },
+  iconDone: {
+    marginLeft: 16,
+    color: 'green'
+  },
+  iconClose: {
+    marginLeft: 16,
+    color: 'red'
   }
-});
+};
 
-function LectureTitle(props) {
-  const classes = useStyles();
-  const { onChange, checked, onCheck, title } = props;
+class LectureTitle extends Component {
+  state = {
+    isEdit: false,
+    title: this.props.title
+  };
 
-  return (
-    <div className={classes.wrap}>
-      <MoreVert className={classes.icon} />
-      <FormControlLabel control={<Checkbox checked={checked} onChange={onCheck} value="checkedF" />} label={title} />
-      <Edit className={classes.icon} onClick={onChange} />
-      <Button variant="contained" disabled color="secondary">
-        Draft
-      </Button>
-    </div>
-  );
+  onHandleEdit = () => {
+    this.setState({ isEdit: true });
+  };
+
+  onHandleSave = () => {
+    const { title } = this.state;
+    this.setState({ isEdit: false });
+    this.props.onChange(title);
+  };
+
+  onHandleCancel = () => {
+    this.setState({ isEdit: false });
+  };
+
+  onChange = event => {
+    this.setState({ title: event.target.value });
+  };
+
+  render() {
+    const { classes } = this.props;
+    const { isEdit, title } = this.state;
+
+    return (
+      <div className={classes.wrap}>
+        <ChevronLeft className={classes.icon} />
+        {isEdit ? (
+          <>
+            <FormControl>
+              <TextField value={title} onChange={this.onChange} />
+            </FormControl>
+            <Done className={classes.iconDone} onClick={this.onHandleSave} />
+            <Close className={classes.iconClose} onClick={this.onHandleCancel} />
+          </>
+        ) : (
+          <>
+            <Typography>{title}</Typography>
+            <Edit className={classes.iconEdit} onClick={this.onHandleEdit} />
+          </>
+        )}
+      </div>
+    );
+  }
 }
 
 LectureTitle.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   title: PropTypes.string,
   checked: PropTypes.bool,
   onChange: PropTypes.func,
   onCheck: PropTypes.func
 };
 
-export default LectureTitle;
+export default withStyles(styles)(LectureTitle);
