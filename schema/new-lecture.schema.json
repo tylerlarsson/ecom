@@ -21,7 +21,7 @@
     },
     "body": {
       "type": "object",
-      "required": ["title", "file", "image", "text", "allowComments", "state"],
+      "required": ["title", "image", "text", "allowComments", "state"],
       "additionalProperties": false,
       "properties": {
         "index": {
@@ -29,9 +29,6 @@
           "minimum": 0
         },
         "title": {
-          "type": "string"
-        },
-        "file": {
           "type": "string"
         },
         "image": {
@@ -42,6 +39,9 @@
         },
         "allowComments": {
           "type": "boolean"
+        },
+        "file": {
+          "type": "string"
         },
         "state": {
           "type": "string",

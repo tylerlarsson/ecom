@@ -9,6 +9,7 @@ const roleRoute = require('./route/role');
 const permissionRoute = require('./route/permission');
 const oauthRoute = require('./route/oauth');
 const filterRoute = require('./route/filter');
+const fileRoute = require('./route/file');
 const courseRoute = require('./route/course');
 const pricingPlanRoute = require('./route/pricing-plan');
 
@@ -28,6 +29,7 @@ app.use(`${API}/oauth`, oauthRoute);
 app.use(`${API}/filter`, filterRoute);
 app.use(`${API}/course`, courseRoute);
 app.use(`${API}/pricing-plan`, pricingPlanRoute);
+app.use(`${API}/file`, fileRoute);
 
 const port = config.get('web-app:port');
 

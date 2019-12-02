@@ -13,6 +13,7 @@
     "token-expires-in": "30m",
     "refresh-token-expires-in": "1d"
   },
+  "gcs-project-id": "fleet-impact-256815",
   "base-path": "/api/v1",
   "default-admin-permissions": ["*"],
   "default-user-permissions": ["profile-view"],

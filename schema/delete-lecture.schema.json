@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "delete lecture configuration schema",
+  "type": "object",
+  "required": ["params"],
+  "additionalProperties": false,
+  "properties": {
+    "params": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["course", "section", "lecture"],
+      "properties": {
+        "course": {
+          "$ref": "#mongo-id"
+        },
+        "section": {
+          "$ref": "#mongo-id"
+        },
+        "lecture": {
+          "$ref": "#mongo-id"
+        }
+      }
+    }
+  }
+}

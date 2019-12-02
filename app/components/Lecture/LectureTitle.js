@@ -42,6 +42,14 @@ class LectureTitle extends Component {
     title: this.props.title
   };
 
+  componentDidUpdate(prevProps) {
+    const { title } = this.props;
+
+    if (prevProps.title !== title) {
+      this.setState({ title });
+    }
+  };
+
   onHandleEdit = () => {
     this.setState({ isEdit: true });
   };

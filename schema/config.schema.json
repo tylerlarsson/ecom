@@ -15,6 +15,9 @@
     "$schema": {
       "type": "string"
     },
+    "gcs-project-id": {
+      "type": "string"
+    },
     "mongo": {
       "additionalProperties": false,
       "type": "object",
