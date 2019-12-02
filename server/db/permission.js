@@ -3,10 +3,11 @@ const { DEFAULT_OPTIONS } = require('./common');
 
 const PERMISSION = new mongoose.Schema(
   {
+    _id: { type: String },
     name: { type: String, unique: true },
     description: String
   },
-  DEFAULT_OPTIONS
+  { ...DEFAULT_OPTIONS, _id: false }
 );
 
 // used from DB seed
@@ -19,14 +20,18 @@ PERMISSION.statics.createIfNotExists = async name => {
   return Permission.create({ name, description: '' });
 };
 
-PERMISSION.statics.create = async ({ id, name, description }) => {
-  let permission;
-  if (id) {
-    permission = await Permission.findById(id);
+PERMISSION.statics.create = async ({ name, description }) => {
+  let permission = await Permission.findOne({ name });
+  if (permission) {
+    permission._id = name;
     permission.name = name;
     permission.description = description;
   } else {
-    permission = new Permission({ name, description });
+    permission = new Permission({
+      _id: name,
+      name,
+      description
+    });
   }
   return permission.save();
 };

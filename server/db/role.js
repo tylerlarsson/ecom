@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
 
 const ROLE = new mongoose.Schema(
   {
+    _id: String,
     name: { type: String, unique: true },
     description: String,
-    permissions: [{ type: ObjectId, ref: 'permission' }],
+    permissions: [{ type: String, ref: 'permission' }],
     filters: [String]
   },
-  DEFAULT_OPTIONS
+  { ...DEFAULT_OPTIONS, _id: false }
 );
 
 // used from DB seed
@@ -28,10 +28,10 @@ ROLE.statics.createIfNotExists = async (name, permissions, filters, description 
   return Role.create({ name, description, permissions, filters });
 };
 
-ROLE.statics.create = async ({ id, name, description, permissions, filters }) => {
-  let role;
-  if (id) {
-    role = await Role.findById(id);
+ROLE.statics.create = async ({ name, description, permissions, filters }) => {
+  let role = await Role.findOne({ name });
+  if (role) {
+    role._id = name;
     role.name = name;
     role.description = description;
     if (permissions) {
@@ -40,14 +40,13 @@ ROLE.statics.create = async ({ id, name, description, permissions, filters }) =>
   } else {
     permissions = permissions || [];
     filters = filters || [];
-    role = new Role({ name, description, permissions, filters });
+    role = new Role({ _id: name, name, description, permissions, filters });
   }
   return role.save();
 };
 
 ROLE.statics.mapToId = async roles => {
-  const probableIds = roles.filter(r => mongoose.Types.ObjectId.isValid(r));
-  const select = await Role.find({ $or: [{ _id: { $in: probableIds } }, { name: { $in: roles } }] }).select({ _id: 1 });
+  const select = await Role.find({ $or: [{ _id: { $in: roles } }, { name: { $in: roles } }] }).select({ _id: 1 });
   return select.map(({ _id }) => String(_id));
 };
 

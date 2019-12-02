@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
 const Role = require('./role');
 
@@ -11,7 +10,7 @@ const USER = new mongoose.Schema(
     email: { type: String, unique: true },
     firstname: { type: String, index: true },
     lastname: { type: String, index: true },
-    roles: [{ type: ObjectId, ref: 'role' }],
+    roles: [{ type: String, ref: 'role' }],
     loginCount: { type: Number, default: 0 },
     loginLast: { type: Date, default: null },
     created: { type: Date, default: null }
