@@ -148,16 +148,6 @@ class CourseCurriculum extends Component {
     createSectionAction(payload);
   };
 
-  onChangeLecture = lecture => () => {
-    // TODO
-    console.log('onChangeLecture', lecture);
-    const { course } = this.state;
-    const { history } = this.props;
-    const lectureRoute = `${routes.ADMIN}${routes.NEW_LECTURE}`.replace(':course', course && course.id)
-      .replace(':lecture', lecture._id);
-    history.push(lectureRoute);
-  };
-
   handlePreview = () => {
     // TODO
     console.log('handlePreview');
@@ -202,13 +192,7 @@ class CourseCurriculum extends Component {
                       onCheck={this.onCheckSection}
                     />
                     {map(section.lectures, lecture => (
-                      <Lecture
-                        key={lecture.id}
-                        title={lecture.title}
-                        checked={false}
-                        onCheck={this.onCheckSection}
-                        onChange={this.onChangeLecture(lecture)}
-                      />
+                      <Lecture key={lecture.id} title={lecture.title} checked={false} onCheck={this.onCheckSection} />
                     ))}
                     <NewLectureButton onSelect={this.onNewLecture(index)} />
                   </CardBody>
