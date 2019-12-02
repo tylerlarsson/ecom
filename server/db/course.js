@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
-const { generateUploadUrl, uploadVideo } = require('../file-util');
+// const { generateUploadUrl, uploadVideo } = require('../file-util');
 const { softDeletedMiddleware, removeNestedSoftDeleted } = require('../middleware/soft-deleted');
 
 const COURSE_STATE = {
@@ -95,16 +95,16 @@ COURSE.methods.createSection = async function createSection({ index, title }) {
 
 COURSE.methods.createLecture = async function createLecture(
   sectionIndex,
-  { index, title, image, text, allowComments, state },
-  file
+  { index, title, image, text, allowComments, state, file }
 ) {
   if (sectionIndex < this.sections.length) {
     const section = this.sections[sectionIndex];
-    file = file ? await uploadVideo({ file }) : null;
+    // file = file ? await uploadVideo({ file }) : null;
 
     if (index < section.lectures.length) {
       Object.assign(section.lectures[index], {
-        file: file && file.url,
+        file,
+        // file && file.url,
         updatedAt: new Date(),
         title,
         image,
@@ -114,7 +114,8 @@ COURSE.methods.createLecture = async function createLecture(
       });
     } else {
       section.lectures.push({
-        file: file && file.url,
+        file,
+        // file && file.url,
         createdAt: new Date(),
         title,
         image,
@@ -125,9 +126,9 @@ COURSE.methods.createLecture = async function createLecture(
     }
     await this.save();
     return {
-      lectureCount: section.lectures.length,
-      image: image ? await generateUploadUrl(image) : null,
-      file
+      lectureCount: section.lectures.length
+      // image: image ? await generateUploadUrl(image) : null,
+      // file
     };
   }
   return 0;

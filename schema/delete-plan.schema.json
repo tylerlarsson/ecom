@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "delete plan configuration schema",
+  "type": "object",
+  "required": ["params"],
+  "additionalProperties": false,
+  "properties": {
+    "params": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pricingPlan"],
+      "properties": {
+        "pricingPlan": {
+          "$ref": "#mongo-id"
+        }
+      }
+    }
+  }
+}

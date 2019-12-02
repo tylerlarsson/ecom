@@ -14,7 +14,9 @@ const PRICING_PLAN = new mongoose.Schema(
     title: { type: String, index: true, required: true },
     subtitle: { type: String, index: true, required: true },
     description: { type: String, default: '' },
-    type: { type: String, enum: Object.values(PRICING_PLAN_TYPE), index: true, required: true }
+    type: { type: String, enum: Object.values(PRICING_PLAN_TYPE), index: true, required: true },
+    deleted: Boolean,
+    deletedAt: Date
   },
   DEFAULT_OPTIONS
 );
@@ -30,6 +32,19 @@ PRICING_PLAN.statics.create = async ({ id, amount, title, subtitle, description,
     plan.type = type;
   } else {
     plan = new PricingPlan({ amount, title, subtitle, description, type });
+  }
+  return plan.save();
+};
+
+PRICING_PLAN.statics.delete = async id => {
+  const plan = await PricingPlan.findById(id);
+  if (!plan) {
+    const error = new Error(`Plan with id ${id} is not found`);
+    error.status = 404;
+    throw error;
+  } else {
+    plan.deleted = true;
+    plan.deletedAt = new Date();
   }
   return plan.save();
 };

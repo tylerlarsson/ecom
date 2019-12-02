@@ -1,8 +1,6 @@
 const HttpStatus = require('http-status-codes');
 const express = require('express');
-const multer = require('multer');
 const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage() });
 const validator = require('../validator');
 const createLogger = require('../logger');
 const logger = createLogger('web-server.course-route');
@@ -286,8 +284,8 @@ router.delete('/:course/section/:section', async (req, res) => {
  *      500:
  *        description: internal server error
  */
-router.post('/:course/section/:section/lecture', upload.single('file'), async (req, res) => {
-  const { body, params, file } = req;
+router.post('/:course/section/:section/lecture', async (req, res) => {
+  const { body, params } = req;
   if (!validator.courseLecture({ body, params })) {
     logger.error('validation of create course lecture request failed', validator.courseLecture.errors);
     res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseLecture.errors });
@@ -310,8 +308,8 @@ router.post('/:course/section/:section/lecture', upload.single('file'), async (r
     return;
   }
 
-  const { lectureCount, image, file: uploadedVideo } = await course.createLecture(params.section, body, file);
-  res.json({ lectureCount, image, file: uploadedVideo });
+  const { lectureCount } = await course.createLecture(params.section, body);
+  res.json({ lectureCount });
 });
 
 router.delete('/:course/section/:section/lecture/:lecture', async (req, res) => {

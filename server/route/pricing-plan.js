@@ -55,7 +55,25 @@ const db = require('../db');
  *         description: created a new plan in DB
  *       422:
  *         description: model does not satisfy the expected schema
- *
+ * /pricing-plan/{plan}:
+ *   delete:
+ *     description: updates or creates a new pricing plan
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: plan
+ *         in:  path
+ *         required: true
+ *         type: string
+ *     responses:
+ *      202:
+ *        description: pricing-plan is soft deleted
+ *      404:
+ *        description: pricing-plan is not found by specified id
+ *      500:
+ *        description: internal server error
  */
 router.post('/', async (req, res) => {
   const data = req.body;
@@ -69,6 +87,20 @@ router.post('/', async (req, res) => {
   const plan = await db.model.PricingPlan.create(data);
   logger.info('pricing plan', plan.title, 'has been created/updated, id', String(plan._id));
   res.json(plan);
+});
+
+router.delete('/:pricingPlan', async (req, res) => {
+  const { params } = req;
+
+  if (!validator.deletePlan({ params })) {
+    logger.error('validation of create pricing plan request failed', validator.deletePlan.errors);
+    res.status(HttpStatus.BAD_REQUEST).json({ errors: validator.deletePlan.errors });
+    return;
+  }
+
+  const deleted = await db.model.PricingPlan.delete(params.pricingPlan);
+  logger.info('pricing plan', deleted.title, 'has been deleted, id', String(deleted._id));
+  res.json(deleted);
 });
 
 module.exports = router;

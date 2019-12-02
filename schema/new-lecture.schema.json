@@ -40,6 +40,9 @@
         "allowComments": {
           "type": "boolean"
         },
+        "file": {
+          "type": "string"
+        },
         "state": {
           "type": "string",
           "enum": ["active", "draft"]
