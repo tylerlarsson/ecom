@@ -114,9 +114,10 @@ class CourseCurriculum extends Component {
   };
 
   handleBack = () => {
-    const { history } = this.props;
+    const { match, history } = this.props;
+    const courseId = match && match.params && match.params.course;
 
-    history.push(`${routes.ADMIN}${routes.ROLES}`);
+    history.push(`${routes.ADMIN}${routes.CURRICULUM}`.replace(':course', courseId));
   };
 
   onChange = field => event => {
@@ -134,25 +135,22 @@ class CourseCurriculum extends Component {
     createSectionAction(payload);
   };
 
-  onNewLecture = sectionIndex => () => {
+  onChangeTitle = title => {
+    console.log('onChangeTitle', title);
     const { createLectureAction } = this.props;
     const { course } = this.state;
     const payload = {
-      title: 'New Lecture',
+      title,
       file: 'file',
       image: 'image',
       text: 'lecture text',
       allowComments: false,
       state: 'draft',
       courseId: course && course.id,
-      section: sectionIndex
+      section: course._id
     };
-    createLectureAction(payload);
-  };
-
-  onChangeTitle = title => {
-    // TODO
-    console.log('onChangeTitle', title);
+    console.log('onChangeTitle', payload, course);
+    // createLectureAction(payload);
   };
 
   onCheckSection = () => {
@@ -213,7 +211,12 @@ class CourseCurriculum extends Component {
     console.log('lecture page', lecture);
     return (
       <>
-        <CustomNavbar component={<LectureTitle title={lecture.title} onChange={this.onChangeTitle} />} right={this.renderNavbar(classes)} />
+        <CustomNavbar
+          component={
+            <LectureTitle title={lecture.title} onChange={this.onChangeTitle} onBack={this.handleBack} />
+          }
+          right={this.renderNavbar(classes)}
+        />
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>

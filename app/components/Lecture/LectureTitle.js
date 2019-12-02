@@ -69,12 +69,12 @@ class LectureTitle extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, onBack } = this.props;
     const { isEdit, title } = this.state;
 
     return (
       <div className={classes.wrap}>
-        <ChevronLeft className={classes.icon} />
+        <ChevronLeft className={classes.icon} onClick={onBack} />
         {isEdit ? (
           <>
             <FormControl>
@@ -96,10 +96,9 @@ class LectureTitle extends Component {
 
 LectureTitle.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
+  onBack: PropTypes.func,
   title: PropTypes.string,
-  checked: PropTypes.bool,
-  onChange: PropTypes.func,
-  onCheck: PropTypes.func
+  onChange: PropTypes.func
 };
 
 export default withStyles(styles)(LectureTitle);
