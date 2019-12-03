@@ -75,8 +75,8 @@ router.post('/', async (req, res) => {
 
   data.authors = await db.model.User.mapToId(data.authors);
   const course = await db.model.Course.create(data);
-  const sectionCount = await course.createSection({ title: 'First section' });
-  await course.createLecture(sectionCount - 1, { title: 'First lecture', status: 'draft' });
+  const section = await course.createSection({ title: 'First section' });
+  await course.createLecture({ title: 'First lecture', status: 'draft', section: section._id });
   logger.info('course', course.title, 'has been created/updated, id', String(course._id));
   res.json(course);
 });
@@ -84,6 +84,21 @@ router.post('/', async (req, res) => {
 /**
  * @swagger
  * definitions:
+ *   SectionUpdate:
+ *     type: object
+ *     properties:
+ *       index:
+ *         type: number,
+ *         example: 0
+ *         description: index of section to update
+ *       section:
+ *         type: string
+ *         example: 5de674f6b5e0a845f3c94b5d
+ *         description: mongo id of section
+ *       title:
+ *         type: string,
+ *         example: Get started
+ *         required: true
  *   Section:
  *     type: object
  *     properties:
@@ -111,7 +126,7 @@ router.post('/', async (req, res) => {
  *         required: true
  *         type: string
  *         schema:
- *           $ref: '#/definitions/Section'
+ *           $ref: '#/definitions/SectionUpdate'
  *     responses:
  *       200:
  *         description: created a new course in DB
@@ -223,6 +238,43 @@ router.delete('/:course/section/:section', async (req, res) => {
  *         type: string,
  *         enum: [active,draft]
  *         required: true
+ *   LecturePost:
+ *     type: object
+ *     properties:
+ *       index:
+ *         type: number,
+ *         example: 0
+ *         description: index of lecture to update
+ *       lecture:
+ *         type: string
+ *         example: 5de67523938486465bbfdc78
+ *         description: mongo id of lecture to update
+ *       title:
+ *         type: string,
+ *         example: Get started
+ *         required: true
+ *       file:
+ *         type: string,
+ *         example: file
+ *         required: true
+ *       image:
+ *         type: string,
+ *         example: image
+ *         required: true
+ *       text:
+ *         type: string,
+ *         example: lecture text
+ *         required: true
+ *       allowComments:
+ *         type: boolean,
+ *         example: true
+ *         required: true
+ *       content:
+ *         type: object
+ *       state:
+ *         type: string,
+ *         enum: [active,draft]
+ *         required: true
  * /course/{course}/section/{section}/lecture:
  *   post:
  *     description: updates or creates a new lecture
@@ -242,7 +294,7 @@ router.delete('/:course/section/:section', async (req, res) => {
  *         required: true
  *         type: string
  *         schema:
- *           $ref: '#/definitions/Lecture'
+ *           $ref: '#/definitions/LecturePost'
  *     responses:
  *       200:
  *         description: created a new lecture in DB
@@ -286,11 +338,11 @@ router.delete('/:course/section/:section', async (req, res) => {
  */
 router.post('/:course/section/:section/lecture', async (req, res) => {
   const { body, params } = req;
-  if (!validator.courseLecture({ body, params })) {
-    logger.error('validation of create course lecture request failed', validator.courseLecture.errors);
-    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseLecture.errors });
-    return;
-  }
+  // if (!validator.courseLecture({ body, params })) {
+  //   logger.error('validation of create course lecture request failed', validator.courseLecture.errors);
+  //   res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseLecture.errors });
+  //   return;
+  // }
 
   const course = await db.model.Course.findById(params.course);
   if (!course) {
@@ -308,7 +360,7 @@ router.post('/:course/section/:section/lecture', async (req, res) => {
     return;
   }
 
-  const { lectureCount } = await course.createLecture(params.section, body);
+  const { lectureCount } = await course.createLecture({ ...body, section: params.section });
   res.json({ lectureCount });
 });
 

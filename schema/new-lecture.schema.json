@@ -8,14 +8,13 @@
     "params": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["course"],
+      "required": ["course", "section"],
       "properties": {
         "course": {
           "$ref": "#mongo-id"
         },
         "section": {
-          "type": "string",
-          "pattern": "^\\d+$"
+          "$ref": "#mongo-id"
         }
       }
     },
@@ -27,6 +26,9 @@
         "index": {
           "type": "integer",
           "minimum": 0
+        },
+        "lecture": {
+          "$ref": "#mongo-id"
         },
         "title": {
           "type": "string"

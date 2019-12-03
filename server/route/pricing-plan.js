@@ -15,10 +15,20 @@ const db = require('../db');
  *       id:
  *         type: string
  *         example: 5db3f8d7075794205c8d1c31
- *       amount:
+ *       price:
  *         type: number
  *         example: 100
  *         required: true
+ *       courseId:
+ *         type: string
+ *         example: 5de5243b7c16184184e7fdcd
+ *         required: true
+ *       isRecurring:
+ *         type: boolean
+ *         example: false
+ *       purchaseUrl:
+ *         type: string
+ *         example: https://example.com
  *       title:
  *         type: string,
  *         example: Test pricing plan

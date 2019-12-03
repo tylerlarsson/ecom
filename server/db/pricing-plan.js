@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { Course } = require('./course');
+const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
 const { softDeletedMiddleware } = require('../middleware/soft-deleted');
 
@@ -11,28 +13,30 @@ const PRICING_PLAN_TYPE = {
 
 const PRICING_PLAN = new mongoose.Schema(
   {
-    amount: { type: Number, index: true },
+    price: { type: Number, index: true },
     title: { type: String, index: true, required: true },
     subtitle: { type: String, index: true, required: true },
     description: { type: String, default: '' },
     type: { type: String, enum: Object.values(PRICING_PLAN_TYPE), index: true, required: true },
+    courseId: { type: ObjectId, ref: 'course', required: true },
+    isRecurring: { type: Boolean, default: false },
+    purchaseUrl: { type: String, default: '' },
     deleted: Boolean,
     deletedAt: Date
   },
   DEFAULT_OPTIONS
 );
 
-PRICING_PLAN.statics.create = async ({ id, amount, title, subtitle, description, type }) => {
+PRICING_PLAN.statics.create = async args => {
+  const { id, ...rest } = args;
   let plan;
   if (id) {
-    plan = await PricingPlan.findById(id);
-    plan.amount = amount;
-    plan.title = title;
-    plan.subtitle = subtitle;
-    plan.description = description;
-    plan.type = type;
+    const [_plan, course] = await Promise.all([PricingPlan.findById(id), Course.findById(rest.courseId)]);
+    await course.addPricing();
+    plan = _plan;
+    Object.assign(plan, rest);
   } else {
-    plan = new PricingPlan({ amount, title, subtitle, description, type });
+    plan = new PricingPlan(rest);
   }
   return plan.save();
 };
