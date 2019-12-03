@@ -242,6 +242,7 @@ class CourseCurriculum extends Component {
     const { classes } = this.props;
     const { lecture = {}, tab, editorState, content } = this.state;
     console.log('lecture page', lecture);
+    const files = [];
     return (
       <>
         <CustomNavbar
@@ -267,16 +268,18 @@ class CourseCurriculum extends Component {
                   <Tab label="Add Code" />
                 </Tabs>
                 <TabPanel value={tab} index={0}>
-                  <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
-                    {({ getRootProps, getInputProps }) => (
-                      <section>
-                        <div {...getRootProps()}>
-                          <input {...getInputProps()} />
-                          <p>Drag 'n' drop some files here, or click to select files</p>
-                        </div>
-                      </section>
-                    )}
-                  </Dropzone>
+                  <div className={`dropzone dropzone--single${this.props.customHeight ? ' dropzone--custom-height' : ''}`}>
+                    <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+                      {({ getRootProps, getInputProps }) => (
+                        <section>
+                          <div {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            <p>Drag 'n' drop some files here, or click to select files</p>
+                          </div>
+                        </section>
+                      )}
+                    </Dropzone>
+                  </div>
                 </TabPanel>
                 <TabPanel value={tab} index={1}>
                   <Editor
