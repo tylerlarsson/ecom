@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { DEFAULT_OPTIONS } = require('./common');
+const { softDeletedMiddleware } = require('../middleware/soft-deleted');
 
 const PRICING_PLAN_TYPE = {
   FREE: 'free',
@@ -48,6 +49,12 @@ PRICING_PLAN.statics.delete = async id => {
   }
   return plan.save();
 };
+
+PRICING_PLAN.pre('find', softDeletedMiddleware);
+PRICING_PLAN.pre('findOne', softDeletedMiddleware);
+PRICING_PLAN.pre('count', softDeletedMiddleware);
+PRICING_PLAN.pre('countDocuments', softDeletedMiddleware);
+PRICING_PLAN.pre('findById', softDeletedMiddleware);
 
 const PricingPlan = mongoose.model('pricing-plan', PRICING_PLAN);
 
