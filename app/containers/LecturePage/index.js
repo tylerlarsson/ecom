@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map, forEach, find } from 'lodash';
+import { map, forEach, filter } from 'lodash';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Fab, Paper, Tabs, Tab } from '@material-ui/core';
+import { Fab, Paper, Tabs, Tab, Button } from '@material-ui/core';
 // core components
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
-import Card from 'components/Card/Card';
-import CardBody from 'components/Card/CardBody';
 import CustomNavbar from 'components/Navbars/CustomNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import { createSection, getCourse, createLecture } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
-import NewLectureButton from 'components/Lecture/NewLectureButton';
-import Section from 'components/Course/Section';
-import Lecture from 'components/Lecture/Lecture';
 import LectureTitle from 'components/Lecture/LectureTitle';
 import TabPanel from 'components/Lecture/TabPanel';
+import { EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import LectureContent from 'components/Lecture/LectureContent';
+import Dropzone from 'react-dropzone';
 
 const styles = {
   cardCategoryWhite: {
@@ -52,6 +52,12 @@ const styles = {
     background: 'orange',
     marginLeft: 16
   },
+  fabSave: {
+    background: 'orange',
+    margin: 'auto !important',
+    width: '60% !important',
+    display: 'block'
+  },
   btn: {
     marginRight: 16
   },
@@ -70,6 +76,9 @@ const styles = {
   },
   selectLabel: {
     marginBottom: 16
+  },
+  paperWrap: {
+    marginBottom: 60
   }
 };
 
@@ -78,7 +87,12 @@ class CourseCurriculum extends Component {
     super(props);
     this.state = {
       course: null,
-      tab: 0
+      tab: 0,
+      editorState: EditorState.createEmpty(),
+      content: [
+        {type: 'text', content: 'test'},
+        {type: 'image', url: 'http://google.com'},
+      ]
     };
   }
 
@@ -96,6 +110,12 @@ class CourseCurriculum extends Component {
       this.setCourse(course);
     }
   }
+
+  onEditorStateChange = (editorState) => {
+    this.setState({
+      editorState
+    });
+  };
 
   setCourse = course => {
     const { match } = this.props;
@@ -136,7 +156,6 @@ class CourseCurriculum extends Component {
   };
 
   onChangeTitle = title => {
-    console.log('onChangeTitle', title);
     const { createLectureAction } = this.props;
     const { course } = this.state;
     const payload = {
@@ -204,10 +223,24 @@ class CourseCurriculum extends Component {
     this.setState({ tab });
   };
 
+  handleAddText = () => {
+    const { editorState, content } = this.state;
+    this.setState({ content: [{ type: 'text', content: editorState }, ...content] });
+  };
+
+  onDeleteContent = index => () => {
+    const { content } = this.state;
+    const newContent = filter(content, (item, key) => index !== key);
+    this.setState({ content: newContent });
+  };
+
+  onEditContent = index => () => {
+    // TODO edit
+  };
+
   render() {
     const { classes } = this.props;
-    const { course, lecture = {}, tab } = this.state;
-    const sections = (course && course.sections) || [];
+    const { lecture = {}, tab, editorState, content } = this.state;
     console.log('lecture page', lecture);
     return (
       <>
@@ -220,7 +253,7 @@ class CourseCurriculum extends Component {
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
-              <Paper square>
+              <Paper square className={classes.paperWrap}>
                 <Tabs
                   value={tab}
                   indicatorColor="primary"
@@ -234,18 +267,41 @@ class CourseCurriculum extends Component {
                   <Tab label="Add Code" />
                 </Tabs>
                 <TabPanel value={tab} index={0}>
-                  Page One
+                  <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+                    {({ getRootProps, getInputProps }) => (
+                      <section>
+                        <div {...getRootProps()}>
+                          <input {...getInputProps()} />
+                          <p>Drag 'n' drop some files here, or click to select files</p>
+                        </div>
+                      </section>
+                    )}
+                  </Dropzone>
                 </TabPanel>
                 <TabPanel value={tab} index={1}>
-                  Page Two
+                  <Editor
+                    editorState={editorState}
+                    toolbarClassName="toolbarClassName"
+                    wrapperClassName={styles.wrapperClassName}
+                    editorClassName={styles.wrapperClassName}
+                    onEditorStateChange={this.onEditorStateChange}
+                    editorStyle={{ height: 200, border: '1px solid #eee' }}
+                    wrapperStyle={{ minHeight: 200, width: '60%', margin: 'auto', marginBottom: 24 }}
+                  />
+                  <Fab className={classes.fabSave} variant="extended" color="default" size="medium" aria-label="like" onClick={this.handleAddText}>
+                    Save
+                  </Fab>
                 </TabPanel>
                 <TabPanel value={tab} index={2}>
-                  Page Three
+                  Quiz form
                 </TabPanel>
                 <TabPanel value={tab} index={3}>
-                  Page Three
+                  Code form
                 </TabPanel>
               </Paper>
+              {map(content, (item, index) => (
+                <LectureContent data={item} onEdit={this.onEditContent(index)} onDelete={this.onDeleteContent(index)} />
+              ))}
             </GridItem>
           </GridContainer>
         </AdminContent>
