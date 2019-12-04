@@ -52,7 +52,7 @@ import {
 // and instructing the redux-saga middle ware on the next line of action,
 // for success or failure operation.
 /* eslint-disable no-use-before-define */
-export default function* watchAuthListener() {
+export default function* watchUsersListener() {
   yield takeLatest(GET_PERMISSIONS_REQUEST, getPermissionsRequestSaga);
   yield takeLatest(CREATE_PERMISSIONS_REQUEST, createPermissionsRequestSaga);
   yield takeLatest(DELETE_PERMISSIONS_REQUEST, deletePermissionsRequestSaga);

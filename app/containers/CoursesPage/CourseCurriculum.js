@@ -95,12 +95,6 @@ class CourseCurriculum extends Component {
     this.setState({ course });
   };
 
-  handleBack = () => {
-    const { history } = this.props;
-
-    history.push(`${routes.ADMIN}${routes.ROLES}`);
-  };
-
   onChange = field => event => {
     this.setState({ [field]: event.target.value });
   };
@@ -137,15 +131,26 @@ class CourseCurriculum extends Component {
     console.log('onCheckSection');
   };
 
-  onChangeSection = index => title => {
+  onChangeSection = id => title => {
     const { createSectionAction } = this.props;
     const { course } = this.state;
     const payload = {
       title,
-      index,
+      id,
       courseId: course && course.id
     };
+    console.log('onChangeSection', id, payload);
     createSectionAction(payload);
+  };
+
+  onChangeLecture = lecture => () => {
+    // TODO
+    console.log('onChangeLecture', lecture);
+    const { course } = this.state;
+    const { history } = this.props;
+    const lectureRoute = `${routes.ADMIN}${routes.NEW_LECTURE}`.replace(':course', course && course.id)
+      .replace(':lecture', lecture._id);
+    history.push(lectureRoute);
   };
 
   handlePreview = () => {
@@ -186,13 +191,19 @@ class CourseCurriculum extends Component {
                   <CardBody>
                     <Section
                       key={section.id}
-                      onChange={this.onChangeSection(index)}
+                      onChange={this.onChangeSection(section._id)}
                       title={section.title}
                       checked={false}
                       onCheck={this.onCheckSection}
                     />
                     {map(section.lectures, lecture => (
-                      <Lecture key={lecture.id} title={lecture.title} checked={false} onCheck={this.onCheckSection} />
+                      <Lecture
+                        key={lecture.id}
+                        title={lecture.title}
+                        checked={false}
+                        onCheck={this.onCheckSection}
+                        onChange={this.onChangeLecture(lecture)}
+                      />
                     ))}
                     <NewLectureButton onSelect={this.onNewLecture(index)} />
                   </CardBody>

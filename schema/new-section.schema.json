@@ -18,9 +18,8 @@
       "type": "object",
       "required": ["title"],
       "properties": {
-        "index": {
-          "type": "number",
-          "minimum": 0
+        "section": {
+          "$ref": "#mongo-id"
         },
         "title": {
           "type": "string"

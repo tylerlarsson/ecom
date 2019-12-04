@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
+const Course = require('./course');
+const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
+const { softDeletedMiddleware } = require('../middleware/soft-deleted');
 
 const PRICING_PLAN_TYPE = {
   FREE: 'free',
@@ -10,29 +13,55 @@ const PRICING_PLAN_TYPE = {
 
 const PRICING_PLAN = new mongoose.Schema(
   {
-    amount: { type: Number, index: true },
+    price: { type: Number, index: true },
     title: { type: String, index: true, required: true },
     subtitle: { type: String, index: true, required: true },
     description: { type: String, default: '' },
-    type: { type: String, enum: Object.values(PRICING_PLAN_TYPE), index: true, required: true }
+    type: { type: String, enum: Object.values(PRICING_PLAN_TYPE), index: true, required: true },
+    courseId: { type: ObjectId, ref: 'course', required: true },
+    isRecurring: { type: Boolean, default: false },
+    purchaseUrl: { type: String, default: '' },
+    deleted: Boolean,
+    deletedAt: Date
   },
   DEFAULT_OPTIONS
 );
 
-PRICING_PLAN.statics.create = async ({ id, amount, title, subtitle, description, type }) => {
+PRICING_PLAN.statics.create = async args => {
+  const { id, ...rest } = args;
   let plan;
   if (id) {
+    // const _plan = await PricingPlan.findById(id);
     plan = await PricingPlan.findById(id);
-    plan.amount = amount;
-    plan.title = title;
-    plan.subtitle = subtitle;
-    plan.description = description;
-    plan.type = type;
+    Object.assign(plan, rest);
   } else {
-    plan = new PricingPlan({ amount, title, subtitle, description, type });
+    plan = new PricingPlan(rest);
+  }
+  const saved = await plan.save();
+  const course = await Course.findById(rest.courseId);
+  await course.addPricing(saved._id);
+  return saved;
+};
+
+PRICING_PLAN.statics.delete = async (id, course) => {
+  const [plan, _course] = await Promise.all([PricingPlan.findById(id), Course.findById(course)]);
+  if (!plan || !_course) {
+    const error = new Error(`Plan or course is not found`);
+    error.status = 404;
+    throw error;
+  } else {
+    plan.deleted = true;
+    plan.deletedAt = new Date();
+    await _course.removePricing(course);
   }
   return plan.save();
 };
+
+PRICING_PLAN.pre('find', softDeletedMiddleware);
+PRICING_PLAN.pre('findOne', softDeletedMiddleware);
+PRICING_PLAN.pre('count', softDeletedMiddleware);
+PRICING_PLAN.pre('countDocuments', softDeletedMiddleware);
+PRICING_PLAN.pre('findById', softDeletedMiddleware);
 
 const PricingPlan = mongoose.model('pricing-plan', PRICING_PLAN);
 
