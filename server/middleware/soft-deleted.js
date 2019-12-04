@@ -6,6 +6,9 @@ const handleCourse = course => {
 
     for (const _course of course.sections) {
       _course.lectures = filterByDeleted(_course.lectures);
+      if (_course && Object.prototype.hasOwnProperty.call(_course, 'pricingPlans')) {
+        _course.pricingPlans = filterByDeleted(_course.pricingPlans);
+      }
     }
   }
 };

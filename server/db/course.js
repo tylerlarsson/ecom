@@ -1,13 +1,20 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
-// const { generateUploadUrl, uploadVideo } = require('../file-util');
 const { softDeletedMiddleware, removeNestedSoftDeleted } = require('../middleware/soft-deleted');
+const { populatePricing } = require('../middleware/course-populate');
 
 const COURSE_STATE = {
   DRAFT: 'draft',
   ACTIVE: 'active'
 };
+
+const CONTENT = new mongoose.Schema({
+  index: { type: Number },
+  type: { type: String, required: true },
+  content: { type: String },
+  url: { type: String }
+});
 
 const LECTURE = new mongoose.Schema({
   title: { type: String, index: true },
@@ -16,6 +23,7 @@ const LECTURE = new mongoose.Schema({
   text: { type: String, index: true },
   allowComments: Boolean,
   state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
+  content: [CONTENT],
   createdAt: Date,
   updatedAt: Date,
   deletedAt: Date,
@@ -34,6 +42,7 @@ const COURSE = new mongoose.Schema(
     title: { type: String, index: true },
     subtitle: { type: String, index: true },
     authors: [{ type: ObjectId, ref: 'user' }],
+    // pricingPlans: [{ type: ObjectId, ref: 'pricing-plan' }],
     state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
     sections: [SECTION],
     deletedAt: Date,
@@ -42,11 +51,11 @@ const COURSE = new mongoose.Schema(
   DEFAULT_OPTIONS
 );
 
-COURSE.pre('find', softDeletedMiddleware);
-COURSE.pre('findOne', softDeletedMiddleware);
-COURSE.pre('count', softDeletedMiddleware);
-COURSE.pre('countDocuments', softDeletedMiddleware);
-COURSE.pre('findById', softDeletedMiddleware);
+COURSE.pre('find', populatePricing, softDeletedMiddleware);
+COURSE.pre('findOne', populatePricing, softDeletedMiddleware);
+COURSE.pre('count', populatePricing, softDeletedMiddleware);
+COURSE.pre('countDocuments', populatePricing, softDeletedMiddleware);
+COURSE.pre('findById', populatePricing, softDeletedMiddleware);
 
 COURSE.post('find', removeNestedSoftDeleted);
 COURSE.post('findOne', removeNestedSoftDeleted);
@@ -80,44 +89,58 @@ COURSE.statics.deleteCourse = async course => {
   }
 };
 
-COURSE.methods.createSection = async function createSection({ index, title }) {
+COURSE.methods.createSection = async function createSection({ section, title }) {
   if (!this.sections) {
     this.sections = [];
   }
-  if (index < this.sections.length) {
-    this.sections[index].title = title;
+  if (section) {
+    const _section = this.sections.id(section);
+    _section.title = title;
   } else {
     this.sections.push({ title, lectures: [] });
   }
-  await this.save();
-  return this.sections.length;
+  // if (index < this.sections.length) {
+  //   this.sections[index].title = title;
+  // } else {
+  //   this.sections.push({ title, lectures: [] });
+  // }
+  const course = await this.save();
+  return course.sections.find(s => s.title === title);
 };
 
-COURSE.methods.createLecture = async function createLecture(
-  sectionIndex,
-  { index, title, image, text, allowComments, state, file }
-) {
-  if (sectionIndex < this.sections.length) {
-    const section = this.sections[sectionIndex];
-    // file = file ? await uploadVideo({ file }) : null;
+COURSE.methods.createLecture = async function createLecture({
+  section,
+  lecture,
+  title,
+  image,
+  text,
+  allowComments,
+  state,
+  file,
+  content
+}) {
+  if (this.sections && this.sections.length) {
+    const _section = this.sections.id(section);
 
-    if (index < section.lectures.length) {
-      Object.assign(section.lectures[index], {
+    if (lecture && _section.lectures && _section.lectures.length) {
+      const _lecture = _section.lectures.id(lecture);
+      Object.assign(_lecture, {
         file,
-        // file && file.url,
         updatedAt: new Date(),
         title,
         image,
         text,
+        content,
         allowComments,
         state
       });
     } else {
-      section.lectures.push({
+      _section.lectures.push({
         file,
         // file && file.url,
         createdAt: new Date(),
         title,
+        content,
         image,
         text,
         allowComments,
@@ -126,9 +149,7 @@ COURSE.methods.createLecture = async function createLecture(
     }
     await this.save();
     return {
-      lectureCount: section.lectures.length
-      // image: image ? await generateUploadUrl(image) : null,
-      // file
+      lectureCount: _section.lectures.length
     };
   }
   return 0;
@@ -164,6 +185,22 @@ COURSE.methods.deleteSection = async function deleteSection(section) {
     subDoc.deletedAt = new Date();
     return this.save();
   }
+};
+
+COURSE.methods.addPricing = async function addPricing(pricing) {
+  this.pricingPlans.push(pricing);
+  return this.save();
+};
+
+COURSE.methods.removePricing = async function removePricing(pricing) {
+  const _pricing = this.pricingPlans.findIndex(_id => _id === pricing);
+  if (!_pricing) {
+    const error = new Error(`Pricing plan with id ${pricing} is not found in Course model.`);
+    error.status = 404;
+    throw error;
+  }
+  this.pricingPlans = this.pricingPlans.slice(_pricing, 1);
+  return this.save();
 };
 
 const Course = mongoose.model('course', COURSE);

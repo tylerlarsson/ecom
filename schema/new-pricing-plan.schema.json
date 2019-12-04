@@ -2,15 +2,24 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "new course configuration schema",
   "type": "object",
-  "required": ["amount", "title", "subtitle", "type"],
+  "required": ["price", "title", "subtitle", "type", "courseId"],
   "additionalProperties": false,
   "properties": {
     "id": {
       "$ref": "#mongo-id"
     },
-    "amount": {
+    "price": {
       "type": "number",
       "minimum": 0.01
+    },
+    "courseId": {
+      "$ref": "#mongo-id"
+    },
+    "isRecurring": {
+      "type": "boolean"
+    },
+    "purchaseUrl": {
+      "type": "string"
     },
     "title": {
       "type": "string",
