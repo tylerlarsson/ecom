@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Edit, Delete, Reorder, Image, OpenInNew, CloudDownload } from '@material-ui/icons';
 import { Paper } from '@material-ui/core';
 
-var HtmlToReactParser = require('html-to-react').Parser;
-var htmlToReactParser = new HtmlToReactParser();
+const HtmlToReactParser = require('html-to-react').Parser;
+const htmlToReactParser = new HtmlToReactParser();
 
 const useStyles = makeStyles({
   wrap: {
@@ -66,7 +66,7 @@ function LectureContent(props) {
       <div className={classes.content}>
         {data.type === 'text' ?
           htmlToReactParser.parse(data.content)
-          : <a target="_blank" href={data.url} className={classes.url}><OpenInNew className={classes.newIcon} /> {data.url}</a>
+          : <a target="_blank" href={data.url} className={classes.url}><OpenInNew className={classes.newIcon} /> {data.name}</a>
         }
       </div>
       {data.type === 'text' ?

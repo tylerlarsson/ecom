@@ -20,6 +20,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import LectureContent from 'components/Lecture/LectureContent';
 import Dropzone from 'react-dropzone';
 import draftToHtml from 'draftjs-to-html';
+import { getGignUrl } from 'redux/actions/files';
 
 const styles = {
   cardCategoryWhite: {
@@ -80,6 +81,14 @@ const styles = {
   },
   paperWrap: {
     marginBottom: 60
+  },
+  dropzone: {
+    width: '100%',
+    height: 300,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: '2px dashed #ddd'
   }
 };
 
@@ -92,22 +101,26 @@ class CourseCurriculum extends Component {
       tab: 0,
       editorState: EditorState.createEmpty(),
       content: [],
-      files: []
+      files: [],
+      file: null
     };
   }
 
   componentWillMount() {
     const { match } = this.props;
     const courseId = match && match.params && match.params.course;
-    console.log('componentWillMount', courseId);
     this.props.getCourseAction({ id: courseId });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { course } = this.props;
+    const { course, signUrl } = this.props;
 
     if (course !== prevState.course) {
       this.setCourse(course);
+    }
+
+    if (signUrl && signUrl !== prevProps.signUrl) {
+      this.uploadFile(signUrl);
     }
   }
 
@@ -115,6 +128,38 @@ class CourseCurriculum extends Component {
     this.setState({
       editorState
     });
+  };
+
+  uploadFile = signUrl => {
+    const { files } = this.state;
+    const file = files && files[0];
+
+    if (file && signUrl) {
+      const xhr = new XMLHttpRequest();
+      xhr.open('PUT', signUrl, true);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        const status = xhr.status;
+        if (status === 200) {
+          console.log('File is uploaded');
+          const fileDate = signUrl && signUrl.split('?');
+          const url = fileDate && fileDate[0];
+          const { content } = this.state;
+          const contentNew = [{ type: 'image', url, name: file.name }, ...content];
+          this.setState({ content: contentNew, files: [] }, () => {
+            this.onChangeLecture({ text: JSON.stringify(contentNew) });
+          });
+        } else {
+          console.log('Something went wrong!', xhr.status);
+        }
+      };
+
+      xhr.onerror = (error) => {
+        console.log('Upload error', error);
+      };
+      xhr.setRequestHeader('Content-Type', file.type);
+      xhr.send(file);
+    }
   };
 
   setCourse = course => {
@@ -177,7 +222,6 @@ class CourseCurriculum extends Component {
       courseId: course && course.id,
       section: section._id
     };
-    console.log('onChangeTitle', payload, course);
     createLectureAction(payload);
   };
 
@@ -225,6 +269,10 @@ class CourseCurriculum extends Component {
 
   dropFiles = acceptedFiles => {
     console.log('dropFiles', acceptedFiles);
+    const { getGignUrlAction } = this.props;
+    this.setState({ files: acceptedFiles })
+    const filename = acceptedFiles && acceptedFiles[0] && acceptedFiles[0].name;
+    getGignUrlAction({ file: filename });
   };
 
   renderNavbar = classes => (
@@ -256,8 +304,7 @@ class CourseCurriculum extends Component {
 
   render() {
     const { classes } = this.props;
-    const { lecture = {}, tab, editorState, content, files } = this.state;
-    console.log('lecture page', lecture);
+    const { lecture = {}, tab, editorState, content } = this.state;
 
     return (
       <>
@@ -284,18 +331,16 @@ class CourseCurriculum extends Component {
                   <Tab label="Add Code" />
                 </Tabs>
                 <TabPanel value={tab} index={0}>
-                  <div className="dropzone dropzone--single">
-                    <Dropzone onDrop={acceptedFiles => {this.dropFiles(acceptedFiles)} }>
-                      {({ getRootProps, getInputProps }) => (
-                        <section>
-                          <div {...getRootProps()}>
-                            <input {...getInputProps()} />
-                            <p>Drag 'n' drop some files here, or click to select files</p>
-                          </div>
-                        </section>
-                      )}
-                    </Dropzone>
-                  </div>
+                  <Dropzone onDrop={acceptedFiles => {this.dropFiles(acceptedFiles)} }>
+                    {({ getRootProps, getInputProps }) => (
+                      <section>
+                        <div {...getRootProps()} className={classes.dropzone}>
+                          <input {...getInputProps()} />
+                          <p>Drag 'n' drop some files here, or click to select files</p>
+                        </div>
+                      </section>
+                    )}
+                  </Dropzone>
                 </TabPanel>
                 <TabPanel value={tab} index={1}>
                   <Editor
@@ -332,6 +377,7 @@ class CourseCurriculum extends Component {
 CourseCurriculum.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  signUrl: PropTypes.string,
   course: PropTypes.objectOf(PropTypes.any),
   getCourseAction: PropTypes.func.isRequired,
   createSectionAction: PropTypes.func.isRequired,
@@ -339,11 +385,15 @@ CourseCurriculum.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
-const mapStateToProps = ({ courses }) => ({
-  course: courses.course
+const mapStateToProps = ({ courses, files }) => ({
+  course: courses.course,
+  signUrl: files.signUrl
 });
 
 const mapDispatchToProps = dispatch => ({
+  getGignUrlAction: data => {
+    dispatch(getGignUrl(data));
+  },
   createSectionAction: data => {
     dispatch(createSection(data));
   },
