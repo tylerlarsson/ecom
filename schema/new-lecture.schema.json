@@ -33,6 +33,12 @@
         "title": {
           "type": "string"
         },
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#lecture-content"
+          }
+        },
         "image": {
           "type": "string"
         },

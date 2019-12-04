@@ -8,9 +8,12 @@
     "params": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["pricingPlan"],
+      "required": ["pricingPlan", "course"],
       "properties": {
         "pricingPlan": {
+          "$ref": "#mongo-id"
+        },
+        "course": {
           "$ref": "#mongo-id"
         }
       }

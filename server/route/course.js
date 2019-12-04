@@ -207,6 +207,23 @@ router.delete('/:course/section/:section', async (req, res) => {
 /**
  * @swagger
  * definitions:
+ *   Content:
+ *     type: object
+ *     properties:
+ *       index:
+ *         type: number
+ *         example: 0
+ *         description: index of content in lecture
+ *       type:
+ *         type: string
+ *         description: type of content
+ *         required: true
+ *       content:
+ *         type: string
+ *         description: content of txt type
+ *       url:
+ *         type: string
+ *         description: link for img type
  *   Lecture:
  *     type: object
  *     properties:
@@ -242,7 +259,7 @@ router.delete('/:course/section/:section', async (req, res) => {
  *     type: object
  *     properties:
  *       index:
- *         type: number,
+ *         type: number
  *         example: 0
  *         description: index of lecture to update
  *       lecture:
@@ -250,29 +267,31 @@ router.delete('/:course/section/:section', async (req, res) => {
  *         example: 5de67523938486465bbfdc78
  *         description: mongo id of lecture to update
  *       title:
- *         type: string,
+ *         type: string
  *         example: Get started
  *         required: true
  *       file:
- *         type: string,
+ *         type: string
  *         example: file
  *         required: true
  *       image:
- *         type: string,
+ *         type: string
  *         example: image
  *         required: true
  *       text:
- *         type: string,
+ *         type: string
  *         example: lecture text
  *         required: true
  *       allowComments:
- *         type: boolean,
+ *         type: boolean
  *         example: true
  *         required: true
  *       content:
- *         type: object
+ *         type: array
+ *         items:
+ *           $ref: '#/definitions/Content'
  *       state:
- *         type: string,
+ *         type: string
  *         enum: [active,draft]
  *         required: true
  * /course/{course}/section/{section}/lecture:
@@ -338,11 +357,11 @@ router.delete('/:course/section/:section', async (req, res) => {
  */
 router.post('/:course/section/:section/lecture', async (req, res) => {
   const { body, params } = req;
-  // if (!validator.courseLecture({ body, params })) {
-  //   logger.error('validation of create course lecture request failed', validator.courseLecture.errors);
-  //   res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseLecture.errors });
-  //   return;
-  // }
+  if (!validator.courseLecture({ body, params })) {
+    logger.error('validation of create course lecture request failed', validator.courseLecture.errors);
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseLecture.errors });
+    return;
+  }
 
   const course = await db.model.Course.findById(params.course);
   if (!course) {

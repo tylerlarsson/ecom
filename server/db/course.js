@@ -9,9 +9,14 @@ const COURSE_STATE = {
   ACTIVE: 'active'
 };
 
+const CONTENT_TYPE = {
+  TEXT: 'text',
+  IMAGE: 'image'
+};
+
 const CONTENT = new mongoose.Schema({
   index: { type: Number },
-  type: { type: String, required: true },
+  type: { type: String, enum: Object.values(CONTENT_TYPE), required: true },
   content: { type: String },
   url: { type: String }
 });
@@ -42,7 +47,7 @@ const COURSE = new mongoose.Schema(
     title: { type: String, index: true },
     subtitle: { type: String, index: true },
     authors: [{ type: ObjectId, ref: 'user' }],
-    // pricingPlans: [{ type: ObjectId, ref: 'pricing-plan' }],
+    pricingPlans: [{ type: ObjectId, ref: 'pricing-plan' }],
     state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
     sections: [SECTION],
     deletedAt: Date,

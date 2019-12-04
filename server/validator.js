@@ -4,6 +4,7 @@ const { readJson } = require('./file-util');
 const ajv = new Ajv({ schemaId: 'auto', allErrors: true });
 ajv.addSchema(readJson('schema', 'mongo-id.schema.json'));
 ajv.addSchema(readJson('schema', 'name.schema.json'));
+ajv.addSchema(readJson('schema', 'lecture-content.schema.json'));
 ajv.addSchema(readJson('schema', 'filter.schema.json'));
 
 const nameRequestSchema = readJson('schema', 'name-request.schema.json');
