@@ -14,11 +14,12 @@ import { createSection, getCourse, createLecture } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
 import LectureTitle from 'components/Lecture/LectureTitle';
 import TabPanel from 'components/Lecture/TabPanel';
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import LectureContent from 'components/Lecture/LectureContent';
 import Dropzone from 'react-dropzone';
+import draftToHtml from 'draftjs-to-html';
 
 const styles = {
   cardCategoryWhite: {
@@ -87,12 +88,11 @@ class CourseCurriculum extends Component {
     super(props);
     this.state = {
       course: null,
+      section: null,
       tab: 0,
       editorState: EditorState.createEmpty(),
-      content: [
-        {type: 'text', content: 'test'},
-        {type: 'image', url: 'http://google.com'},
-      ]
+      content: [],
+      files: []
     };
   }
 
@@ -130,7 +130,14 @@ class CourseCurriculum extends Component {
         }
       });
     });
-    this.setState({ course, section, lecture });
+    let content = [];
+    try {
+      content = JSON.parse(lecture.text);
+    } catch (e) {
+      console.log('content parse error', e);
+      content = [];
+    }
+    this.setState({ course, section, lecture, content });
   };
 
   handleBack = () => {
@@ -156,20 +163,22 @@ class CourseCurriculum extends Component {
   };
 
   onChangeTitle = title => {
-    const { createLectureAction } = this.props;
-    const { course } = this.state;
+    this.onChangeLecture({ title });
+  };
+
+  onChangeLecture = (data = {}) => {
+    const { createLectureAction, match } = this.props;
+    const lectureId = match && match.params && match.params.lecture;
+    const { course, section, lecture } = this.state;
     const payload = {
-      title,
-      file: 'file',
-      image: 'image',
-      text: 'lecture text',
-      allowComments: false,
-      state: 'draft',
+      ...lecture,
+      ...data,
+      id: lectureId,
       courseId: course && course.id,
-      section: course._id
+      section: section._id
     };
     console.log('onChangeTitle', payload, course);
-    // createLectureAction(payload);
+    createLectureAction(payload);
   };
 
   onCheckSection = () => {
@@ -190,6 +199,32 @@ class CourseCurriculum extends Component {
   handlePreview = () => {
     // TODO
     console.log('handlePreview');
+  };
+
+  changeTab = (event, tab) => {
+    this.setState({ tab });
+  };
+
+  handleAddText = () => {
+    const { editorState, content } = this.state;
+    const contentNew = [{ type: 'text', content: draftToHtml(convertToRaw(editorState.getCurrentContent())) }, ...content];
+    this.setState({ content: contentNew, tab: 0, editorState: EditorState.createEmpty() });
+    this.onChangeLecture({ text: JSON.stringify(contentNew) });
+  };
+
+  onDeleteContent = index => () => {
+    const { content } = this.state;
+    const newContent = filter(content, (item, key) => index !== key);
+    this.setState({ content: newContent });
+    this.onChangeLecture({ text: JSON.stringify(newContent) });
+  };
+
+  onEditContent = index => () => {
+    // TODO edit
+  };
+
+  dropFiles = acceptedFiles => {
+    console.log('dropFiles', acceptedFiles);
   };
 
   renderNavbar = classes => (
@@ -219,30 +254,11 @@ class CourseCurriculum extends Component {
     </>
   );
 
-  changeTab = (event, tab) => {
-    this.setState({ tab });
-  };
-
-  handleAddText = () => {
-    const { editorState, content } = this.state;
-    this.setState({ content: [{ type: 'text', content: editorState }, ...content] });
-  };
-
-  onDeleteContent = index => () => {
-    const { content } = this.state;
-    const newContent = filter(content, (item, key) => index !== key);
-    this.setState({ content: newContent });
-  };
-
-  onEditContent = index => () => {
-    // TODO edit
-  };
-
   render() {
     const { classes } = this.props;
-    const { lecture = {}, tab, editorState, content } = this.state;
+    const { lecture = {}, tab, editorState, content, files } = this.state;
     console.log('lecture page', lecture);
-    const files = [];
+
     return (
       <>
         <CustomNavbar
@@ -268,8 +284,8 @@ class CourseCurriculum extends Component {
                   <Tab label="Add Code" />
                 </Tabs>
                 <TabPanel value={tab} index={0}>
-                  <div className={`dropzone dropzone--single${this.props.customHeight ? ' dropzone--custom-height' : ''}`}>
-                    <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+                  <div className="dropzone dropzone--single">
+                    <Dropzone onDrop={acceptedFiles => {this.dropFiles(acceptedFiles)} }>
                       {({ getRootProps, getInputProps }) => (
                         <section>
                           <div {...getRootProps()}>

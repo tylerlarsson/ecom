@@ -95,12 +95,6 @@ class CourseCurriculum extends Component {
     this.setState({ course });
   };
 
-  handleBack = () => {
-    const { history } = this.props;
-
-    history.push(`${routes.ADMIN}${routes.ROLES}`);
-  };
-
   onChange = field => event => {
     this.setState({ [field]: event.target.value });
   };
@@ -137,14 +131,15 @@ class CourseCurriculum extends Component {
     console.log('onCheckSection');
   };
 
-  onChangeSection = index => title => {
+  onChangeSection = id => title => {
     const { createSectionAction } = this.props;
     const { course } = this.state;
     const payload = {
       title,
-      index,
+      id,
       courseId: course && course.id
     };
+    console.log('onChangeSection', id, payload);
     createSectionAction(payload);
   };
 
@@ -196,7 +191,7 @@ class CourseCurriculum extends Component {
                   <CardBody>
                     <Section
                       key={section.id}
-                      onChange={this.onChangeSection(index)}
+                      onChange={this.onChangeSection(section._id)}
                       title={section.title}
                       checked={false}
                       onCheck={this.onCheckSection}

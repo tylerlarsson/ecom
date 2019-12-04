@@ -4,6 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Edit, Delete, Reorder, Image, OpenInNew, CloudDownload } from '@material-ui/icons';
 import { Paper } from '@material-ui/core';
 
+var HtmlToReactParser = require('html-to-react').Parser;
+var htmlToReactParser = new HtmlToReactParser();
+
 const useStyles = makeStyles({
   wrap: {
     width: '100%',
@@ -56,13 +59,13 @@ function LectureContent(props) {
     <Paper className={classes.wrap}>
       <div className={classes.type}>
         {data.type === 'text' ?
-          [<Reorder className={classes.icon} />, 'Text']
+          [ <Reorder className={classes.icon} />, 'Text' ]
           : [<Image className={classes.icon} />, 'Image']
         }
       </div>
       <div className={classes.content}>
         {data.type === 'text' ?
-          data.content
+          htmlToReactParser.parse(data.content)
           : <a target="_blank" href={data.url} className={classes.url}><OpenInNew className={classes.newIcon} /> {data.url}</a>
         }
       </div>
