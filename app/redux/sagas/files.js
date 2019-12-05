@@ -1,18 +1,12 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
-import {
-  getImageSignUrl,
-} from 'utils/api/files';
-import {
-  GET_SIGN_URL_REQUEST,
-  GET_SIGN_URL_SUCCESS,
-  GET_SIGN_URL_FAILED,
-} from 'constants/actionTypes';
+import { getImageSignUrl } from 'utils/api/files';
+import { GET_SIGN_URL_REQUEST, GET_SIGN_URL_SUCCESS, GET_SIGN_URL_FAILED } from 'constants/actionTypes';
 
 // Responsible for searching media library, making calls to the API
 // and instructing the redux-saga middle ware on the next line of action,
 // for success or failure operation.
 /* eslint-disable no-use-before-define */
-export default function* watchFilesListener(context = {}) {
+export default function* watchFilesListener() {
   yield takeLatest(GET_SIGN_URL_REQUEST, getSignUrlRequestSaga);
 }
 

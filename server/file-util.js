@@ -40,7 +40,7 @@ async function generateUploadUrl(filename, expires, bucket = 'course-images') {
   const opts = {
     version: 'v4',
     action: 'write',
-    expires: expires || Date.now() + 15 * 60 * 1000,
+    expires: expires || Date.now() + 15 * 60 * 1000
   };
   return getSignedUrl(filename, opts, bucket);
 }

@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     padding: 24,
     background: '#fff',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 8
   },
   editIcon: {
     marginRight: 16,
@@ -58,31 +58,33 @@ function LectureContent(props) {
   return (
     <Paper className={classes.wrap}>
       <div className={classes.type}>
-        {data.type === 'text' ?
-          [ <Reorder className={classes.icon} />, 'Text' ]
-          : [<Image className={classes.icon} />, 'Image']
-        }
+        {data.type === 'text'
+          ? [<Reorder className={classes.icon} />, 'Text']
+          : [<Image className={classes.icon} />, 'Image']}
       </div>
       <div className={classes.content}>
-        {data.type === 'text' ?
+        {data.type === 'text' ? (
           htmlToReactParser.parse(data.content)
-          : <a target="_blank" href={data.url} className={classes.url}><OpenInNew className={classes.newIcon} /> {data.name}</a>
-        }
+        ) : (
+          <a target="_blank" href={data.url} className={classes.url}>
+            <OpenInNew className={classes.newIcon} /> {data.name}
+          </a>
+        )}
       </div>
-      {data.type === 'text' ?
+      {data.type === 'text' ? (
         <Edit className={classes.editIcon} onClick={onEdit} />
-        : <CloudDownload className={classes.icon} />
-      }
+      ) : (
+        <CloudDownload className={classes.icon} />
+      )}
       <Delete className={classes.deleteIcon} onClick={onDelete} />
     </Paper>
   );
 }
 
 LectureContent.propTypes = {
-  title: PropTypes.string,
-  checked: PropTypes.bool,
-  onChange: PropTypes.func,
-  onCheck: PropTypes.func
+  data: PropTypes.objectOf(PropTypes.any),
+  onEdit: PropTypes.func,
+  onDelete: PropTypes.func
 };
 
 export default LectureContent;
