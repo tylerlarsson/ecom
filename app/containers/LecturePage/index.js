@@ -14,12 +14,13 @@ import { createSection, getCourse, createLecture } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
 import LectureTitle from 'components/Lecture/LectureTitle';
 import TabPanel from 'components/Lecture/TabPanel';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import LectureContent from 'components/Lecture/LectureContent';
 import Dropzone from 'react-dropzone';
 import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import { getGignUrl } from 'redux/actions/files';
 
 const styles = {
@@ -101,7 +102,8 @@ class CourseCurriculum extends Component {
       tab: 0,
       editorState: EditorState.createEmpty(),
       content: [],
-      files: []
+      files: [],
+      editIndex: null
     };
   }
 
@@ -249,12 +251,16 @@ class CourseCurriculum extends Component {
   };
 
   handleAddText = () => {
-    const { editorState, content } = this.state;
-    const contentNew = [
-      { type: 'text', content: draftToHtml(convertToRaw(editorState.getCurrentContent())) },
-      ...content
-    ];
-    this.setState({ content: contentNew, tab: 0, editorState: EditorState.createEmpty() });
+    const { editorState, content, editIndex } = this.state;
+    let contentNew;
+    if (editIndex !== null) {
+      contentNew = [...content];
+      contentNew[editIndex] = { type: 'text', content: draftToHtml(convertToRaw(editorState.getCurrentContent())) };
+    } else {
+      contentNew = [{ type: 'text', content: draftToHtml(convertToRaw(editorState.getCurrentContent())) }, ...content];
+    }
+
+    this.setState({ content: contentNew, tab: 0, editorState: EditorState.createEmpty(), editIndex: null });
     this.onChangeLecture({ text: JSON.stringify(contentNew) });
   };
 
@@ -266,12 +272,19 @@ class CourseCurriculum extends Component {
   };
 
   onEditContent = index => () => {
-    // TODO edit
-    console.log('onEditContent', index);
+    const { content } = this.state;
+    const node = content && content[index] && content[index].content;
+    const blocksFromHtml = htmlToDraft(node);
+    const { contentBlocks, entityMap } = blocksFromHtml;
+    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+    this.setState({
+      editorState: EditorState.createWithContent(contentState),
+      tab: 1,
+      editIndex: index
+    });
   };
 
   dropFiles = acceptedFiles => {
-    console.log('dropFiles', acceptedFiles);
     const { getGignUrlAction } = this.props;
     this.setState({ files: acceptedFiles });
     const filename = acceptedFiles && acceptedFiles[0] && acceptedFiles[0].name;
@@ -370,7 +383,12 @@ class CourseCurriculum extends Component {
                 </TabPanel>
               </Paper>
               {map(content, (item, index) => (
-                <LectureContent data={item} onEdit={this.onEditContent(index)} onDelete={this.onDeleteContent(index)} />
+                <LectureContent
+                  key={index}
+                  data={item}
+                  onEdit={this.onEditContent(index)}
+                  onDelete={this.onDeleteContent(index)}
+                />
               ))}
             </GridItem>
           </GridContainer>
