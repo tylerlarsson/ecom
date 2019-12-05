@@ -1,5 +1,5 @@
 function populatePricing(next) {
-  this.populate('pricingPlans');
+  // this.populate('pricingPlans');
   next();
 }
 

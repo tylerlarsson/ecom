@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Course } = require('./course');
+const Course = require('./course');
 const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
 const { softDeletedMiddleware } = require('../middleware/soft-deleted');
@@ -31,25 +31,28 @@ PRICING_PLAN.statics.create = async args => {
   const { id, ...rest } = args;
   let plan;
   if (id) {
-    const [_plan, course] = await Promise.all([PricingPlan.findById(id), Course.findById(rest.courseId)]);
-    await course.addPricing();
-    plan = _plan;
+    // const _plan = await PricingPlan.findById(id);
+    plan = await PricingPlan.findById(id);
     Object.assign(plan, rest);
   } else {
     plan = new PricingPlan(rest);
   }
-  return plan.save();
+  const saved = await plan.save();
+  const course = await Course.findById(rest.courseId);
+  await course.addPricing(saved._id);
+  return saved;
 };
 
-PRICING_PLAN.statics.delete = async id => {
-  const plan = await PricingPlan.findById(id);
-  if (!plan) {
-    const error = new Error(`Plan with id ${id} is not found`);
+PRICING_PLAN.statics.delete = async (id, course) => {
+  const [plan, _course] = await Promise.all([PricingPlan.findById(id), Course.findById(course)]);
+  if (!plan || !_course) {
+    const error = new Error(`Plan or course is not found`);
     error.status = 404;
     throw error;
   } else {
     plan.deleted = true;
     plan.deletedAt = new Date();
+    await _course.removePricing(course);
   }
   return plan.save();
 };

@@ -65,7 +65,7 @@ const db = require('../db');
  *         description: created a new plan in DB
  *       422:
  *         description: model does not satisfy the expected schema
- * /pricing-plan/{plan}:
+ * /pricing-plan/{course}/{plan}:
  *   delete:
  *     description: updates or creates a new pricing plan
  *     consumes:
@@ -73,6 +73,10 @@ const db = require('../db');
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: course
+ *         in: path
+ *         required: true
+ *         type: string
  *       - name: plan
  *         in:  path
  *         required: true
@@ -99,7 +103,7 @@ router.post('/', async (req, res) => {
   res.json(plan);
 });
 
-router.delete('/:pricingPlan', async (req, res) => {
+router.delete('/:course/:pricingPlan', async (req, res) => {
   const { params } = req;
 
   if (!validator.deletePlan({ params })) {
@@ -108,7 +112,7 @@ router.delete('/:pricingPlan', async (req, res) => {
     return;
   }
 
-  const deleted = await db.model.PricingPlan.delete(params.pricingPlan);
+  const deleted = await db.model.PricingPlan.delete(params.pricingPlan, params.course);
   logger.info('pricing plan', deleted.title, 'has been deleted, id', String(deleted._id));
   res.json(deleted);
 });
