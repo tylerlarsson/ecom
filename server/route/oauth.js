@@ -69,71 +69,77 @@ const GRANT_TYPE = {
  *         description: login
  */
 router.post('/token', async (req, res) => {
-  const data = req.body;
+  try {
+    const data = req.body;
 
-  if (!validator.tokenRequest(data)) {
-    logger.error('validation of the token request failed', validator.tokenRequest.errors);
-    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.tokenRequest.errors });
-    return;
-  }
-
-  const grantType = data.grant_type;
-
-  let user;
-  if (grantType === GRANT_TYPE.PASSWORD) {
-    logger.info('grant type: password');
-    const { username, password } = req.body;
-    user = await db.model.User.verify(username, password);
-    if (!user) {
-      logger.error('username/password are wrong');
-      return res.status(HttpStatus.UNAUTHORIZED).end();
+    if (!validator.tokenRequest(data)) {
+      logger.error('validation of the token request failed', validator.tokenRequest.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.tokenRequest.errors });
+      return;
     }
-    await user.updateLoginStats();
-    logger.info('user', user.email, 'authenticated successfully, creating tokens');
-  } else if (grantType === GRANT_TYPE.REFRESH_TOKEN) {
-    logger.info('grant type: refresh token');
-    try {
-      const userData = jwt.verify(req.body.refresh_token, SECRET);
-      if (userData.refreshToken !== 1) {
-        logger.error('wrong token used to refresh!');
-        return res.status(HttpStatus.UNAUTHORIZED).end();
-      }
-      user = await db.model.User.verifyEmail(userData.email);
+
+    const grantType = data.grant_type;
+
+    let user;
+    if (grantType === GRANT_TYPE.PASSWORD) {
+      console.info('grant type: password', data);
+      const { username, password } = req.body;
+      user = await db.model.User.verify(username, password);
+      console.log('grips here');
       if (!user) {
-        logger.error('user permissions revoked');
+        logger.error('username/password are wrong');
         return res.status(HttpStatus.UNAUTHORIZED).end();
       }
-    } catch (e) {
-      logger.error('refresh token is wrong');
-      return res.status(HttpStatus.UNAUTHORIZED).end();
+      await user.updateLoginStats();
+      logger.info('user', user.email, 'authenticated successfully, creating tokens');
+    } else if (grantType === GRANT_TYPE.REFRESH_TOKEN) {
+      logger.info('grant type: refresh token');
+      try {
+        const userData = jwt.verify(req.body.refresh_token, SECRET);
+        if (userData.refreshToken !== 1) {
+          logger.error('wrong token used to refresh!');
+          return res.status(HttpStatus.UNAUTHORIZED).end();
+        }
+        user = await db.model.User.verifyEmail(userData.email);
+        if (!user) {
+          logger.error('user permissions revoked');
+          return res.status(HttpStatus.UNAUTHORIZED).end();
+        }
+      } catch (e) {
+        logger.error('refresh token is wrong');
+        return res.status(HttpStatus.UNAUTHORIZED).end();
+      }
+      logger.info('refresh token for user', user.email, 'verified successfully, refreshing access_token');
     }
-    logger.info('refresh token for user', user.email, 'verified successfully, refreshing access_token');
+    console.log('here');
+    const userData = {
+      username: user.username,
+      email: user.email,
+      roles: await user.roleNames,
+      permissions: await user.permissionNames
+    };
+    const token = jwt.sign(userData, SECRET, {
+      expiresIn: config.get('web-app:token-expires-in')
+    });
+    console.log(token);
+
+    let refreshToken;
+    if (grantType === GRANT_TYPE.REFRESH_TOKEN) {
+      refreshToken = req.body.refresh_token;
+    } else if (grantType === GRANT_TYPE.PASSWORD) {
+      userData.refreshToken = 1;
+      refreshToken = jwt.sign(userData, SECRET, { expiresIn: config.get('web-app:refresh-token-expires-in') });
+    }
+
+    return res.json({
+      access_token: token,
+      expires_in: ms(config.get('web-app:token-expires-in')) / 1000,
+      token_type: 'bearer',
+      refresh_token: refreshToken
+    });
+  } catch (error) {
+    console.error(error);
   }
-
-  const userData = {
-    username: user.username,
-    email: user.email,
-    roles: await user.roleNames,
-    permissions: await user.permissionNames
-  };
-  const token = jwt.sign(userData, SECRET, {
-    expiresIn: config.get('web-app:token-expires-in')
-  });
-
-  let refreshToken;
-  if (grantType === GRANT_TYPE.REFRESH_TOKEN) {
-    refreshToken = req.body.refresh_token;
-  } else if (grantType === GRANT_TYPE.PASSWORD) {
-    userData.refreshToken = 1;
-    refreshToken = jwt.sign(userData, SECRET, { expiresIn: config.get('web-app:refresh-token-expires-in') });
-  }
-
-  return res.json({
-    access_token: token,
-    expires_in: ms(config.get('web-app:token-expires-in')) / 1000,
-    token_type: 'bearer',
-    refresh_token: refreshToken
-  });
 });
 
 module.exports = router;

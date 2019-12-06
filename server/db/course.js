@@ -114,11 +114,11 @@ COURSE.methods.createSection = async function createSection({ section, title }) 
 };
 
 COURSE.methods.createLecture = async function createLecture(args) {
-  const { section, lecture, ...rest } = args;
+  const { section, id: _id, ...rest } = args;
   if (this.sections && this.sections.length) {
     const _section = this.sections.id(section);
-    if (lecture && _section.lectures && _section.lectures.length) {
-      const _lecture = _section.lectures.id(lecture);
+    if (_id && _section.lectures && _section.lectures.length) {
+      const _lecture = _section.lectures.id(_id);
       Object.assign(_lecture, {
         updatedAt: new Date(),
         ...rest

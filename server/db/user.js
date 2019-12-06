@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const { DEFAULT_OPTIONS } = require('./common');
 const Role = require('./role');
 
+mongoose.Promise = Promise;
+
 const USER = new mongoose.Schema(
   {
     username: { type: String, unique: true },
@@ -18,6 +20,7 @@ const USER = new mongoose.Schema(
   {
     toJSON: {
       transform(doc, ret) {
+        console.log(doc, ret);
         DEFAULT_OPTIONS.toJSON.transform(doc, ret);
         delete ret.hash;
       }
@@ -27,19 +30,27 @@ const USER = new mongoose.Schema(
 
 // eslint-disable-next-line func-names
 USER.virtual('roleNames').get(async function() {
-  const roles = await Role.find({ _id: { $in: this.roles } }).select({ name: 1 });
-  return roles.map(({ name }) => name);
+  try {
+    const roles = await Role.find({ _id: { $in: this.roles } }).select({ name: 1 });
+    return roles.map(({ name }) => name);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 // eslint-disable-next-line func-names
 USER.virtual('permissionNames').get(async function() {
-  const roles = await Role.find({ _id: { $in: this.roles } })
-    .populate('permissions')
-    .select({ permissions: 1 });
-  const r = new Set();
-  // eslint-disable-next-line no-return-assign
-  roles.forEach(({ permissions }) => permissions.forEach(({ name }) => r.add(name)));
-  return Array.from(r);
+  try {
+    const roles = await Role.find({ _id: { $in: this.roles } })
+      .populate('permissions')
+      .select({ permissions: 1 });
+    const r = new Set();
+    // eslint-disable-next-line no-return-assign
+    roles.forEach(({ permissions }) => permissions.forEach(({ name }) => r.add(name)));
+    return Array.from(r);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 USER.statics.create = async ({
@@ -87,14 +98,20 @@ USER.statics.verifyEmail = async email => {
 };
 
 USER.statics.verify = async (email, password) => {
-  const user = await User.findOne({ email });
-  if (!user) {
+  try {
+    console.log('grips here');
+    const user = await User.find({});
+    console.log(user);
+    if (!user) {
+      return false;
+    }
+    if (await bcrypt.compare(password, user.hash)) {
+      return user;
+    }
     return false;
+  } catch (error) {
+    console.error(error);
   }
-  if (await bcrypt.compare(password, user.hash)) {
-    return user;
-  }
-  return false;
 };
 
 // eslint-disable-next-line func-names

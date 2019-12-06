@@ -262,7 +262,7 @@ router.delete('/:course/section/:section', async (req, res) => {
  *         type: number
  *         example: 0
  *         description: index of lecture to update
- *       lecture:
+ *       id:
  *         type: string
  *         example: 5de67523938486465bbfdc78
  *         description: mongo id of lecture to update

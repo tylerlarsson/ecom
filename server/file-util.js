@@ -43,7 +43,25 @@ async function generateUploadUrl(filename, expires, bucket = 'course-images') {
     expires: expires || Date.now() + 15 * 60 * 1000,
     contentType
   };
-  return getSignedUrl(filename, opts, bucket);
+  const hashedFilename =
+    crypto
+      .randomBytes(16)
+      .digest('hex')
+      .toString() + filename;
+  return getSignedUrl(hashedFilename, opts, bucket);
+}
+
+async function deleteFileGcs(url, _bucket = 'course-images') {
+  try {
+    const split_ = url.split('/');
+    const filename = split_[split_.length - 1];
+    console.log(filename);
+    const bucket = await bucketFactory(_bucket);
+    return bucket.file(filename).delete();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }
 
 async function uploadVideo(file, apiPassword = 'test') {
@@ -66,6 +84,7 @@ module.exports = {
   readJson,
   BASE_PATH,
   bucketFactory,
+  deleteFileGcs,
   generateUploadUrl,
   getSignedUrl,
   uploadVideo
