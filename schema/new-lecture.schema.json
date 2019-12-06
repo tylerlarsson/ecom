@@ -27,9 +27,6 @@
           "type": "integer",
           "minimum": 0
         },
-        "id": {
-          "$ref": "#mongo-id"
-        },
         "title": {
           "type": "string"
         },

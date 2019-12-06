@@ -255,6 +255,31 @@ router.delete('/:course/section/:section', async (req, res) => {
  *         type: string,
  *         enum: [active,draft]
  *         required: true
+ *   LecturePut:
+ *     type: object
+ *     properties:
+ *       index:
+ *         type: number,
+ *         example: 0
+ *         description: index of lecture to update
+ *       title:
+ *         type: string,
+ *         example: Get started
+ *       file:
+ *         type: string,
+ *         example: file
+ *       image:
+ *         type: string,
+ *         example: image
+ *       text:
+ *         type: string,
+ *         example: lecture text
+ *       allowComments:
+ *         type: boolean,
+ *         example: true
+ *       state:
+ *         type: string,
+ *         enum: [active,draft]
  *   LecturePost:
  *     type: object
  *     properties:
@@ -347,6 +372,13 @@ router.delete('/:course/section/:section', async (req, res) => {
  *        type: string
  *        schema:
  *          $ref: '#/definitions/Lecture'
+ *      - name: lecture
+ *        description: New lecture
+ *        in:  body
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/LecturePut'
  *   delete:
  *    description: delete lecture from a section
  *    consumes:
@@ -381,7 +413,7 @@ router.delete('/:course/section/:section', async (req, res) => {
  *        description: internal server error
  *
  */
-router.post('/:course/section/:section/:lecture', async (req, res) => {
+router.post('/:course/section/:section/lecture', async (req, res) => {
   const { body, params } = req;
   if (!validator.courseLecture({ body, params })) {
     logger.error('validation of create course lecture request failed', validator.courseLecture.errors);

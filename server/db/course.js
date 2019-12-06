@@ -118,8 +118,9 @@ COURSE.methods.createLecture = async function createLecture(args) {
   const { section, id: _id, ...rest } = args;
   if (this.sections && this.sections.length) {
     const _section = this.sections.id(section);
-    if (_id && _section.lectures && _section.lectures.length) {
-      const _lecture = _section.lectures.id(_id);
+    const lectureId = _id || args.lecture;
+    if (lectureId && _section.lectures && _section.lectures.length) {
+      const _lecture = _section.lectures.id(lectureId);
       Object.assign(_lecture, {
         updatedAt: new Date(),
         ...rest
