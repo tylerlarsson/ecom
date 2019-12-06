@@ -118,7 +118,10 @@ export const createLecture = payload => {
   const { courseId } = payload;
   const sectionId = payload.section;
 
-  return method(`${API_ENDPOINT_URL}/course/${courseId}/section/${sectionId}/lecture${payload.id ? `/${payload.id}` : ''}`, data)
+  return method(
+    `${API_ENDPOINT_URL}/course/${courseId}/section/${sectionId}/lecture${payload.id ? `/${payload.id}` : ''}`,
+    data
+  )
     .then(res => {
       console.log('createLecture res', res);
       if (res.data) {
