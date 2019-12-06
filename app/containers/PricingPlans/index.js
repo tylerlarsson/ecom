@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { map } from 'lodash';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-import Fab from '@material-ui/core/Fab';
+import { Paper, Typography } from '@material-ui/core';
 // core components
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
@@ -12,8 +12,6 @@ import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import routes from 'constants/routes.json';
 import { getCourses } from 'redux/actions/courses';
-import CardMedia from 'components/Card/CardMedia';
-import defaultImage from 'assets/img/reactlogo.png';
 
 const styles = {
   cardCategoryWhite: {
@@ -46,10 +44,23 @@ const styles = {
   fab: {
     background: 'orange',
     elevation: 1
+  },
+  title: {
+    textAlign: 'center'
+  },
+  wrapper: {
+    wisth: '100%'
   }
 };
 
-class Courses extends Component {
+const planTypes = [
+  { id: 1, type: 'free', name: 'Free', description: 'No Payments' },
+  { id: 2, type: 'subscription', name: 'Subscription', description: 'Montly or Annual Billing' },
+  { id: 3, type: 'one-time ', name: 'One-Time Purchase', description: 'A Single Payment' },
+  { id: 4, type: 'plan', name: 'Payment Plan', description: 'A Fixed Number of Payments' }
+];
+
+class PricingPlans extends Component {
   componentWillMount() {
     const { getCoursesAction } = this.props;
     getCoursesAction();
@@ -59,12 +70,6 @@ class Courses extends Component {
     const { history } = this.props;
     history.push(`${routes.ADMIN}${routes.NEW_COURSE}`);
   };
-
-  renderNavbar = classes => (
-    <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handleAddNew}>
-      Add Course
-    </Fab>
-  );
 
   handleCoursePage = item => () => {
     const { history } = this.props;
@@ -78,29 +83,18 @@ class Courses extends Component {
 
     return (
       <>
-        <AdminNavbar title={`Courses (${courses.length})`} right={this.renderNavbar(classes)} />
+        <AdminNavbar title="Pricing" />
         <AdminContent>
           <GridContainer>
-            {map(courses, item => (
-              <GridItem key={item.id} xs={12} sm={6} md={4} lg={3}>
-                <CardMedia
-                  defaultImage={defaultImage}
-                  image={item.image}
-                  title={item.title}
-                  onClick={this.handleCoursePage(item)}
-                  content={
-                    <div>
-                      <span style={{ marginRight: 24 }}>
-                        <b>${item.sales || 0}</b> sales
-                      </span>{' '}
-                      <span>
-                        <b>{item.enrolled || 0}</b> enrolled
-                      </span>
-                    </div>
-                  }
-                />
-              </GridItem>
-            ))}
+            <Paper classes={{ root: classes.wrapper }}>
+              <Typography className={classes.title}>New Pricing Plan</Typography>
+              {map(planTypes, item => (
+                <GridItem key={item.id} xs={12} sm={6} md={4} lg={3}>
+                  <Typography>{item.name}</Typography>
+                  <Typography>{item.description}</Typography>
+                </GridItem>
+              ))}
+            </Paper>
           </GridContainer>
         </AdminContent>
       </>
@@ -108,7 +102,7 @@ class Courses extends Component {
   }
 }
 
-Courses.propTypes = {
+PricingPlans.propTypes = {
   getCoursesAction: PropTypes.func.isRequired,
   data: PropTypes.array,
   classes: PropTypes.object.isRequired,
@@ -129,4 +123,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Courses));
+)(withStyles(styles)(PricingPlans));
