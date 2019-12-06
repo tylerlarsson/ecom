@@ -6,6 +6,16 @@ const createLogger = require('../logger');
 const logger = createLogger('web-server.page-route');
 const db = require('../db');
 
+/**
+ * @swagger
+ * definitions:
+ *    Page:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: string
+ *          example:
+ */
 router.post('/', async (req, res) => {
   try {
     if (!validator.newPage(req.body)) {
@@ -51,6 +61,18 @@ router.delete('/:page', async (req, res) => {
   const deleted = await db.model.Page.delete(req.params.page);
   res.json({
     page: deleted
+  });
+});
+
+router.get('/:course', async (req, res) => {
+  if (!validator.getCourse({ params: req.params })) {
+    logger.error('validation of delete page request failed', validator.getCourse.errors);
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.getCourse.errors });
+    return;
+  }
+  const pages = await db.model.Page.find({ course: req.params.course });
+  res.json({
+    pages
   });
 });
 

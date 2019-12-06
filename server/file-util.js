@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { Storage } = require('@google-cloud/storage');
 const mimeTypes = require('mime-types');
 const request = require('./request');
@@ -40,13 +41,10 @@ async function generateUploadUrl(filename, expires, bucket = 'course-images') {
   const opts = {
     version: 'v4',
     action: 'write',
-    expires: expires || Date.now() + 15 * 60 * 1000
+    expires: expires || Date.now() + 15 * 60 * 1000,
+    contentType
   };
-  const hashedFilename =
-    crypto
-      .randomBytes(16)
-      .digest('hex')
-      .toString() + filename;
+  const hashedFilename = crypto.randomBytes(16).toString('hex') + filename;
   return getSignedUrl(hashedFilename, opts, bucket);
 }
 
