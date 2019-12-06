@@ -3,8 +3,6 @@ const bcrypt = require('bcryptjs');
 const { DEFAULT_OPTIONS } = require('./common');
 const Role = require('./role');
 
-mongoose.Promise = Promise;
-
 const USER = new mongoose.Schema(
   {
     username: { type: String, unique: true },
@@ -30,12 +28,7 @@ const USER = new mongoose.Schema(
 
 // eslint-disable-next-line func-names
 USER.virtual('roleNames').get(async function() {
-  try {
-    const roles = await Role.find({ _id: { $in: this.roles } }).select({ name: 1 });
-    return roles.map(({ name }) => name);
-  } catch (error) {
-    console.error(error);
-  }
+  return this.roles;
 });
 
 // eslint-disable-next-line func-names
@@ -99,8 +92,7 @@ USER.statics.verifyEmail = async email => {
 
 USER.statics.verify = async (email, password) => {
   try {
-    console.log('grips here');
-    const user = await User.find({});
+    const user = await User.findOne({ email });
     console.log(user);
     if (!user) {
       return false;

@@ -48,6 +48,7 @@ const COURSE = new mongoose.Schema(
     subtitle: { type: String, index: true },
     authors: [{ type: ObjectId, ref: 'user' }],
     pricingPlans: [{ type: ObjectId, ref: 'pricing-plan' }],
+    pages: [{ type: ObjectId, ref: 'page' }],
     state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
     sections: [SECTION],
     deletedAt: Date,
@@ -182,6 +183,11 @@ COURSE.methods.removePricing = async function removePricing(pricing) {
     throw error;
   }
   this.pricingPlans = this.pricingPlans.slice(_pricing, 1);
+  return this.save();
+};
+
+COURSE.methods.addPage = function addPage(page) {
+  this.pages.push(page);
   return this.save();
 };
 
