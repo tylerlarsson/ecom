@@ -70,7 +70,6 @@ const GRANT_TYPE = {
  */
 router.post('/token', async (req, res) => {
   const data = req.body;
-
   if (!validator.tokenRequest(data)) {
     logger.error('validation of the token request failed', validator.tokenRequest.errors);
     res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.tokenRequest.errors });
@@ -81,7 +80,6 @@ router.post('/token', async (req, res) => {
 
   let user;
   if (grantType === GRANT_TYPE.PASSWORD) {
-    logger.info('grant type: password');
     const { username, password } = req.body;
     user = await db.model.User.verify(username, password);
     if (!user) {
@@ -109,7 +107,6 @@ router.post('/token', async (req, res) => {
     }
     logger.info('refresh token for user', user.email, 'verified successfully, refreshing access_token');
   }
-
   const userData = {
     username: user.username,
     email: user.email,

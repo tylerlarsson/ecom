@@ -1,7 +1,7 @@
 {
   "$schema": "../schema/config.schema.json",
   "mongo": {
-    "protocol": "mongodb+srv",
+    "protocol": "mongodb",
     "host": "127.0.0.1",
     "user": "",
     "password": "",

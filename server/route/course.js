@@ -255,6 +255,31 @@ router.delete('/:course/section/:section', async (req, res) => {
  *         type: string,
  *         enum: [active,draft]
  *         required: true
+ *   LecturePut:
+ *     type: object
+ *     properties:
+ *       index:
+ *         type: number
+ *         example: 0
+ *         description: index of lecture to update
+ *       title:
+ *         type: string,
+ *         example: Get started
+ *       file:
+ *         type: string,
+ *         example: file
+ *       image:
+ *         type: string,
+ *         example: image
+ *       text:
+ *         type: string,
+ *         example: lecture text
+ *       allowComments:
+ *         type: boolean,
+ *         example: true
+ *       state:
+ *         type: string,
+ *         enum: [active,draft]
  *   LecturePost:
  *     type: object
  *     properties:
@@ -262,7 +287,7 @@ router.delete('/:course/section/:section', async (req, res) => {
  *         type: number
  *         example: 0
  *         description: index of lecture to update
- *       lecture:
+ *       id:
  *         type: string
  *         example: 5de67523938486465bbfdc78
  *         description: mongo id of lecture to update
@@ -322,6 +347,38 @@ router.delete('/:course/section/:section', async (req, res) => {
  *       422:
  *         description: model does not satisfy the expected schema
  * /course/{course}/section/{section}/lecture/{lecture}:
+ *   put:
+ *    description: update lecture dynamically
+ *    consumes:
+ *      - application/json
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - name: course
+ *        in: path
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/Course'
+ *      - name: section
+ *        in: path
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/Section'
+ *      - name: lecture
+ *        in: path
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/Lecture'
+ *      - name: lecture
+ *        description: New lecture
+ *        in:  body
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/LecturePut'
  *   delete:
  *    description: delete lecture from a section
  *    consumes:
@@ -354,6 +411,7 @@ router.delete('/:course/section/:section', async (req, res) => {
  *        description: section or lecture is not found by specified id
  *      500:
  *        description: internal server error
+ *
  */
 router.post('/:course/section/:section/lecture', async (req, res) => {
   const { body, params } = req;
@@ -400,6 +458,30 @@ router.delete('/:course/section/:section/lecture/:lecture', async (req, res) => 
   try {
     const _course = await course.deleteLecture(params.section, params.lecture);
     res.status(HttpStatus.ACCEPTED).json({
+      course: _course
+    });
+  } catch (error) {
+    res.status(error.status || 500).json({ errors: error.message });
+  }
+});
+
+router.put('/:course/section/:section/lecture/:lecture', async (req, res) => {
+  const { params, body } = req;
+  if (!validator.putLecture({ params, body })) {
+    const { errors } = validator.putLecture;
+    logger.error('Validation of delete lecture request is failed', errors);
+    res.status(HttpStatus.BAD_REQUEST).json({ errors });
+  }
+
+  const course = await db.model.Course.findById(params.course);
+
+  if (!course) {
+    res.status(HttpStatus.NOT_FOUND).json({ errors: `Course with id ${params.course} is not found` });
+  }
+
+  try {
+    const _course = await course.createLecture({ ...params, ...body });
+    res.status(HttpStatus.OK).json({
       course: _course
     });
   } catch (error) {

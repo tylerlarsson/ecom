@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { map, forEach, filter } from 'lodash';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Fab, Paper, Tabs, Tab, Button } from '@material-ui/core';
+import { Fab, Paper, Tabs, Tab } from '@material-ui/core';
 // core components
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
@@ -14,12 +14,13 @@ import { createSection, getCourse, createLecture } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
 import LectureTitle from 'components/Lecture/LectureTitle';
 import TabPanel from 'components/Lecture/TabPanel';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import LectureContent from 'components/Lecture/LectureContent';
 import Dropzone from 'react-dropzone';
 import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import { getGignUrl } from 'redux/actions/files';
 
 const styles = {
@@ -102,7 +103,7 @@ class CourseCurriculum extends Component {
       editorState: EditorState.createEmpty(),
       content: [],
       files: [],
-      file: null
+      editIndex: null
     };
   }
 
@@ -124,7 +125,7 @@ class CourseCurriculum extends Component {
     }
   }
 
-  onEditorStateChange = (editorState) => {
+  onEditorStateChange = editorState => {
     this.setState({
       editorState
     });
@@ -139,7 +140,7 @@ class CourseCurriculum extends Component {
       xhr.open('PUT', signUrl, true);
       xhr.responseType = 'json';
       xhr.onload = () => {
-        const status = xhr.status;
+        const { status } = xhr;
         if (status === 200) {
           console.log('File is uploaded');
           const fileDate = signUrl && signUrl.split('?');
@@ -154,7 +155,7 @@ class CourseCurriculum extends Component {
         }
       };
 
-      xhr.onerror = (error) => {
+      xhr.onerror = error => {
         console.log('Upload error', error);
       };
       xhr.setRequestHeader('Content-Type', file.type);
@@ -250,9 +251,16 @@ class CourseCurriculum extends Component {
   };
 
   handleAddText = () => {
-    const { editorState, content } = this.state;
-    const contentNew = [{ type: 'text', content: draftToHtml(convertToRaw(editorState.getCurrentContent())) }, ...content];
-    this.setState({ content: contentNew, tab: 0, editorState: EditorState.createEmpty() });
+    const { editorState, content, editIndex } = this.state;
+    let contentNew;
+    if (editIndex !== null) {
+      contentNew = [...content];
+      contentNew[editIndex] = { type: 'text', content: draftToHtml(convertToRaw(editorState.getCurrentContent())) };
+    } else {
+      contentNew = [{ type: 'text', content: draftToHtml(convertToRaw(editorState.getCurrentContent())) }, ...content];
+    }
+
+    this.setState({ content: contentNew, tab: 0, editorState: EditorState.createEmpty(), editIndex: null });
     this.onChangeLecture({ text: JSON.stringify(contentNew) });
   };
 
@@ -264,13 +272,21 @@ class CourseCurriculum extends Component {
   };
 
   onEditContent = index => () => {
-    // TODO edit
+    const { content } = this.state;
+    const node = content && content[index] && content[index].content;
+    const blocksFromHtml = htmlToDraft(node);
+    const { contentBlocks, entityMap } = blocksFromHtml;
+    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+    this.setState({
+      editorState: EditorState.createWithContent(contentState),
+      tab: 1,
+      editIndex: index
+    });
   };
 
   dropFiles = acceptedFiles => {
-    console.log('dropFiles', acceptedFiles);
     const { getGignUrlAction } = this.props;
-    this.setState({ files: acceptedFiles })
+    this.setState({ files: acceptedFiles });
     const filename = acceptedFiles && acceptedFiles[0] && acceptedFiles[0].name;
     getGignUrlAction({ file: filename });
   };
@@ -290,13 +306,7 @@ class CourseCurriculum extends Component {
       <Fab variant="extended" color="default" size="medium" aria-label="like" onClick={this.handlePreview}>
         Preview
       </Fab>
-      <Fab
-        variant="extended"
-        size="medium"
-        aria-label="like"
-        className={classes.fab}
-        onClick={this.handlePublish}
-      >
+      <Fab variant="extended" size="medium" aria-label="like" className={classes.fab} onClick={this.handlePublish}>
         Publish
       </Fab>
     </>
@@ -309,9 +319,7 @@ class CourseCurriculum extends Component {
     return (
       <>
         <CustomNavbar
-          component={
-            <LectureTitle title={lecture.title} onChange={this.onChangeTitle} onBack={this.handleBack} />
-          }
+          component={<LectureTitle title={lecture.title} onChange={this.onChangeTitle} onBack={this.handleBack} />}
           right={this.renderNavbar(classes)}
         />
         <AdminContent>
@@ -331,12 +339,16 @@ class CourseCurriculum extends Component {
                   <Tab label="Add Code" />
                 </Tabs>
                 <TabPanel value={tab} index={0}>
-                  <Dropzone onDrop={acceptedFiles => {this.dropFiles(acceptedFiles)} }>
+                  <Dropzone
+                    onDrop={acceptedFiles => {
+                      this.dropFiles(acceptedFiles);
+                    }}
+                  >
                     {({ getRootProps, getInputProps }) => (
                       <section>
                         <div {...getRootProps()} className={classes.dropzone}>
                           <input {...getInputProps()} />
-                          <p>Drag 'n' drop some files here, or click to select files</p>
+                          <p>Drag n drop some files here, or click to select files</p>
                         </div>
                       </section>
                     )}
@@ -352,7 +364,14 @@ class CourseCurriculum extends Component {
                     editorStyle={{ height: 200, border: '1px solid #eee' }}
                     wrapperStyle={{ minHeight: 200, width: '60%', margin: 'auto', marginBottom: 24 }}
                   />
-                  <Fab className={classes.fabSave} variant="extended" color="default" size="medium" aria-label="like" onClick={this.handleAddText}>
+                  <Fab
+                    className={classes.fabSave}
+                    variant="extended"
+                    color="default"
+                    size="medium"
+                    aria-label="like"
+                    onClick={this.handleAddText}
+                  >
                     Save
                   </Fab>
                 </TabPanel>
@@ -364,7 +383,12 @@ class CourseCurriculum extends Component {
                 </TabPanel>
               </Paper>
               {map(content, (item, index) => (
-                <LectureContent data={item} onEdit={this.onEditContent(index)} onDelete={this.onDeleteContent(index)} />
+                <LectureContent
+                  key={index}
+                  data={item}
+                  onEdit={this.onEditContent(index)}
+                  onDelete={this.onDeleteContent(index)}
+                />
               ))}
             </GridItem>
           </GridContainer>
@@ -380,6 +404,7 @@ CourseCurriculum.propTypes = {
   signUrl: PropTypes.string,
   course: PropTypes.objectOf(PropTypes.any),
   getCourseAction: PropTypes.func.isRequired,
+  getGignUrlAction: PropTypes.func.isRequired,
   createSectionAction: PropTypes.func.isRequired,
   createLectureAction: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired

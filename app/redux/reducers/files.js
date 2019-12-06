@@ -1,7 +1,4 @@
-import {
-  GET_SIGN_URL_SUCCESS,
-  GET_SIGN_URL_FAILED
-} from 'constants/actionTypes';
+import { GET_SIGN_URL_SUCCESS, GET_SIGN_URL_FAILED } from 'constants/actionTypes';
 
 const initialState = {
   signUrl: null,
@@ -12,7 +9,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
     // Courses
     case GET_SIGN_URL_SUCCESS:
-      console.log('GET_SIGN_URL_SUCCESS', action.res)
+      console.log('GET_SIGN_URL_SUCCESS', action.res);
       if (!action.res.success) {
         return {
           ...state,

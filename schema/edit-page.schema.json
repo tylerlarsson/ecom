@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "dynamically edit page configuration schema",
+  "type": "object",
+  "required": ["id", "course"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "#mongo-id"
+    },
+    "course": {
+      "$ref": "#mongo-id"
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "enum": ["active", "draft"],
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    }
+  }
+}

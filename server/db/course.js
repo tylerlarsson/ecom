@@ -48,6 +48,7 @@ const COURSE = new mongoose.Schema(
     subtitle: { type: String, index: true },
     authors: [{ type: ObjectId, ref: 'user' }],
     pricingPlans: [{ type: ObjectId, ref: 'pricing-plan' }],
+    pages: [{ type: ObjectId, ref: 'page' }],
     state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
     sections: [SECTION],
     deletedAt: Date,
@@ -113,43 +114,21 @@ COURSE.methods.createSection = async function createSection({ section, title }) 
   return course.sections.find(s => s.title === title);
 };
 
-COURSE.methods.createLecture = async function createLecture({
-  section,
-  lecture,
-  title,
-  image,
-  text,
-  allowComments,
-  state,
-  file,
-  content
-}) {
+COURSE.methods.createLecture = async function createLecture(args) {
+  const { section, id: _id, ...rest } = args;
   if (this.sections && this.sections.length) {
     const _section = this.sections.id(section);
-
-    if (lecture && _section.lectures && _section.lectures.length) {
-      const _lecture = _section.lectures.id(lecture);
+    const lectureId = _id || args.lecture;
+    if (lectureId && _section.lectures && _section.lectures.length) {
+      const _lecture = _section.lectures.id(lectureId);
       Object.assign(_lecture, {
-        file,
         updatedAt: new Date(),
-        title,
-        image,
-        text,
-        content,
-        allowComments,
-        state
+        ...rest
       });
     } else {
       _section.lectures.push({
-        file,
-        // file && file.url,
         createdAt: new Date(),
-        title,
-        content,
-        image,
-        text,
-        allowComments,
-        state
+        ...rest
       });
     }
     await this.save();
@@ -205,6 +184,11 @@ COURSE.methods.removePricing = async function removePricing(pricing) {
     throw error;
   }
   this.pricingPlans = this.pricingPlans.slice(_pricing, 1);
+  return this.save();
+};
+
+COURSE.methods.addPage = function addPage(page) {
+  this.pages.push(page);
   return this.save();
 };
 

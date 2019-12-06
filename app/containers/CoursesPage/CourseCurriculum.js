@@ -148,7 +148,8 @@ class CourseCurriculum extends Component {
     console.log('onChangeLecture', lecture);
     const { course } = this.state;
     const { history } = this.props;
-    const lectureRoute = `${routes.ADMIN}${routes.NEW_LECTURE}`.replace(':course', course && course.id)
+    const lectureRoute = `${routes.ADMIN}${routes.NEW_LECTURE}`
+      .replace(':course', course && course.id)
       .replace(':lecture', lecture._id);
     history.push(lectureRoute);
   };

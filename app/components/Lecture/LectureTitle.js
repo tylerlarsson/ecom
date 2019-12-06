@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Edit, ChevronLeft, Done, Close } from '@material-ui/icons';
-import { withStyles, FormControl, FormControlLabel, Checkbox, TextField, Typography } from '@material-ui/core';
+import { withStyles, FormControl, TextField, Typography } from '@material-ui/core';
 
 const styles = {
   wrap: {
@@ -46,8 +46,12 @@ class LectureTitle extends Component {
     const { title } = this.props;
 
     if (prevProps.title !== title) {
-      this.setState({ title });
+      this.setTitle(title);
     }
+  }
+
+  setTitle = title => {
+    this.setState({ title });
   };
 
   onHandleEdit = () => {
