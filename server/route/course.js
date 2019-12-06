@@ -259,7 +259,7 @@ router.delete('/:course/section/:section', async (req, res) => {
  *     type: object
  *     properties:
  *       index:
- *         type: number,
+ *         type: number
  *         example: 0
  *         description: index of lecture to update
  *       title:

@@ -40,8 +40,7 @@ async function generateUploadUrl(filename, expires, bucket = 'course-images') {
   const opts = {
     version: 'v4',
     action: 'write',
-    expires: expires || Date.now() + 15 * 60 * 1000,
-    contentType
+    expires: expires || Date.now() + 15 * 60 * 1000
   };
   const hashedFilename =
     crypto

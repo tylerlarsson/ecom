@@ -67,8 +67,12 @@ export const deleteCourses = payload =>
 export const createSection = payload => {
   const data = {
     title: payload.title,
-    id: payload.id
+    index: payload.index
   };
+
+  if (payload.id) {
+    data.section = payload.id;
+  }
 
   const { courseId } = payload;
 
@@ -97,7 +101,6 @@ export const deleteSection = payload =>
 
 export const createLecture = payload => {
   const data = {
-    id: payload.id,
     title: payload.title,
     file: payload.file,
     image: payload.image,
@@ -105,6 +108,10 @@ export const createLecture = payload => {
     allowComments: payload.allowComments,
     state: payload.state
   };
+
+  if (payload.id) {
+    data.lecture = payload.id;
+  }
 
   const { courseId } = payload;
   const sectionId = payload.section;
