@@ -109,15 +109,16 @@ export const createLecture = payload => {
     state: payload.state
   };
 
+  let method = axios.post;
+
   if (payload.id) {
-    data.lecture = payload.id;
+    method = axios.put;
   }
 
   const { courseId } = payload;
   const sectionId = payload.section;
 
-  return axios
-    .post(`${API_ENDPOINT_URL}/course/${courseId}/section/${sectionId}/lecture`, data)
+  return method(`${API_ENDPOINT_URL}/course/${courseId}/section/${sectionId}/lecture${payload.id ? `/${payload.id}` : ''}`, data)
     .then(res => {
       console.log('createLecture res', res);
       if (res.data) {

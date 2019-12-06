@@ -15,6 +15,7 @@
   "COURSES": "/courses",
   "NEW_COURSE": "/courses/new",
   "CURRICULUM": "/courses/:course/curriculum",
+  "PRICING": "/courses/:course/pricing",
   "NEW_LECTURE": "/courses/:course/curriculum/lecture/:lecture",
   "PROFILE": "/profile",
   "FILTER": "/filter/:role"

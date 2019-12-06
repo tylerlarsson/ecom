@@ -21,6 +21,7 @@ import Permissions from 'containers/Permissions/Permissions';
 import routes from 'constants/routes.json';
 import UsersFilterPage from 'containers/UsersFilterPage/UsersFilterPage';
 import CourseCurriculum from 'containers/CoursesPage/CourseCurriculum';
+import PricingPlans from 'containers/PricingPlans';
 import LecturePage from 'containers/LecturePage';
 
 const dashboardRoutes = [
@@ -131,6 +132,14 @@ const dashboardRoutes = [
     name: 'Curriculum',
     icon: VideoLibrary,
     component: CourseCurriculum,
+    layout: routes.ADMIN,
+    visible: false
+  },
+  {
+    path: routes.PRICING,
+    name: 'Pricing',
+    icon: VideoLibrary,
+    component: PricingPlans,
     layout: routes.ADMIN,
     visible: false
   },
