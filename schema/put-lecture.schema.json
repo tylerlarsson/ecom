@@ -8,19 +8,21 @@
     "params": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["course", "section"],
+      "required": ["course", "section", "lecture"],
       "properties": {
         "course": {
           "$ref": "#mongo-id"
         },
         "section": {
           "$ref": "#mongo-id"
+        },
+        "lecture": {
+          "$ref": "#mongo-id"
         }
       }
     },
     "body": {
       "type": "object",
-      "required": ["title", "image", "text", "allowComments", "state"],
       "additionalProperties": false,
       "properties": {
         "index": {

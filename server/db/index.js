@@ -11,6 +11,7 @@ module.exports = {
     Role: require('./role'),
     Permission: require('./permission'),
     Course: require('./course'),
-    PricingPlan: require('./pricing-plan')
+    PricingPlan: require('./pricing-plan'),
+    Page: require('./page')
   }
 };
