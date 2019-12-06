@@ -28,8 +28,7 @@
           "minLength": 7
         },
         "host": {
-          "type": "string",
-          "format": "ipv4"
+          "type": "string"
         },
         "db": {
           "type": "string"
