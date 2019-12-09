@@ -143,8 +143,7 @@ router.get('/', paginated(20), filtered, async (req, res) => {
   const total = await db.model.User.countDocuments(req.filter);
   const data = await db.model.User.find(req.filter)
     .limit(req.page.limit)
-    .skip(req.page.skip)
-    .populate({ path: 'roles', populate: { path: 'permissions', model: 'permission' } });
+    .skip(req.page.skip);
   res.json({
     total,
     data
