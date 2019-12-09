@@ -95,6 +95,12 @@ class CourseCurriculum extends Component {
     this.setState({ course });
   };
 
+  handleBack = () => {
+    const { history } = this.props;
+
+    history.push(`${routes.ADMIN}${routes.ROLES}`);
+  };
+
   onChange = field => event => {
     this.setState({ [field]: event.target.value });
   };
@@ -131,27 +137,9 @@ class CourseCurriculum extends Component {
     console.log('onCheckSection');
   };
 
-  onChangeSection = id => title => {
-    const { createSectionAction } = this.props;
-    const { course } = this.state;
-    const payload = {
-      title,
-      id,
-      courseId: course && course.id
-    };
-    console.log('onChangeSection', id, payload);
-    createSectionAction(payload);
-  };
-
-  onChangeLecture = lecture => () => {
+  onChangeSection = () => {
     // TODO
-    console.log('onChangeLecture', lecture);
-    const { course } = this.state;
-    const { history } = this.props;
-    const lectureRoute = `${routes.ADMIN}${routes.NEW_LECTURE}`
-      .replace(':course', course && course.id)
-      .replace(':lecture', lecture._id);
-    history.push(lectureRoute);
+    console.log('onChangeSection');
   };
 
   handlePreview = () => {
@@ -192,7 +180,7 @@ class CourseCurriculum extends Component {
                   <CardBody>
                     <Section
                       key={section.id}
-                      onChange={this.onChangeSection(section._id)}
+                      onChange={this.onChangeSection}
                       title={section.title}
                       checked={false}
                       onCheck={this.onCheckSection}
@@ -200,10 +188,10 @@ class CourseCurriculum extends Component {
                     {map(section.lectures, lecture => (
                       <Lecture
                         key={lecture.id}
+                        onChange={this.onChangeSection}
                         title={lecture.title}
                         checked={false}
                         onCheck={this.onCheckSection}
-                        onChange={this.onChangeLecture(lecture)}
                       />
                     ))}
                     <NewLectureButton onSelect={this.onNewLecture(section._id)} />

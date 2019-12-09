@@ -13,7 +13,18 @@ import AdminContent from 'components/Content/AdminContent';
 import routes from 'constants/routes.json';
 import { getCourses } from 'redux/actions/courses';
 import CardMedia from 'components/Card/CardMedia';
+import image1 from 'assets/img/sidebar-1.jpg';
+import image2 from 'assets/img/sidebar-2.jpg';
+import image3 from 'assets/img/sidebar-3.jpg';
+import image4 from 'assets/img/sidebar-4.jpg';
 import defaultImage from 'assets/img/reactlogo.png';
+
+const testData = [
+  { id: 1, title: 'Course 1', sales: 13543.76, enrolled: 3000, image: image1 },
+  { id: 2, title: 'Course 2', sales: 44543.76, enrolled: 13000, image: image2 },
+  { id: 3, title: 'Course 3', sales: 543.76, enrolled: 20, image: image3 },
+  { id: 4, title: 'Course 4', sales: 0, enrolled: 0, image: image4 }
+];
 
 const styles = {
   cardCategoryWhite: {
@@ -74,7 +85,7 @@ class Courses extends Component {
 
   render() {
     const { classes, data } = this.props;
-    const courses = [...data];
+    const courses = [...data, ...testData];
 
     return (
       <>
