@@ -116,18 +116,18 @@ class CourseCurriculum extends Component {
     createSectionAction(payload);
   };
 
-  onNewLecture = sectionIndex => () => {
+  onNewLecture = sectionId => () => {
     const { createLectureAction } = this.props;
     const { course } = this.state;
     const payload = {
       title: 'New Lecture',
       file: 'file',
       image: 'image',
-      text: 'lecture text',
+      text: '',
       allowComments: false,
       state: 'draft',
       courseId: course && course.id,
-      section: sectionIndex
+      section: sectionId
     };
     createLectureAction(payload);
   };
@@ -194,7 +194,7 @@ class CourseCurriculum extends Component {
                         onCheck={this.onCheckSection}
                       />
                     ))}
-                    <NewLectureButton onSelect={this.onNewLecture(index)} />
+                    <NewLectureButton onSelect={this.onNewLecture(section._id)} />
                   </CardBody>
                 </Card>
               ))}
