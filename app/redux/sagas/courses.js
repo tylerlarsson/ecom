@@ -40,7 +40,7 @@ import {
 // and instructing the redux-saga middle ware on the next line of action,
 // for success or failure operation.
 /* eslint-disable no-use-before-define */
-export default function* watchCoursesListener(context = {}) {
+export default function* watchAuthListener(context = {}) {
   yield takeLatest(GET_COURSES_REQUEST, getCoursesRequestSaga);
   yield takeLatest(GET_COURSE_REQUEST, getCourseRequestSaga);
   yield takeLatest(CREATE_COURSES_REQUEST, createCoursesRequestSaga, context);
@@ -62,7 +62,9 @@ export function* getCoursesRequestSaga({ payload }) {
 
 export function* getCourseRequestSaga({ payload }) {
   try {
+    console.log('getCourseRequestSaga payload', payload);
     const res = yield call(getCourse, payload);
+    console.log('getCourseRequestSaga', res);
     yield put({ type: GET_COURSE_SUCCESS, res });
   } catch (error) {
     yield put({ type: GET_COURSE_FAILED, error });

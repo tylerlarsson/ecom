@@ -14,7 +14,156 @@ const db = require('../db');
  *      properties:
  *        id:
  *          type: string
- *          example:
+ *          example: 5de67523938486465bbfdc78
+ *        title:
+ *          type: string
+ *          example: Welcome Page
+ *        content:
+ *          type: string
+ *          example: content example
+ *        url:
+ *          type: string
+ *          example: https://example.com
+ *        course:
+ *          type: string
+ *          example: 5de67523938486465bbfdc76
+ *        status:
+ *          type: string
+ *          enum: [active,draft]
+ *    PagePost:
+ *      type: object
+ *      properties:
+ *        title:
+ *          type: string
+ *          example: Welcome Page
+ *        content:
+ *          type: string
+ *          example: content example
+ *        url:
+ *          type: string
+ *          required: true
+ *          example: https://example.com
+ *        course:
+ *          type: string
+ *          required: true
+ *          example: 5de67523938486465bbfdc76
+ *        status:
+ *          type: string
+ *          enum: [active,draft]
+ *    PagePut:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: string
+ *          required: true
+ *          example: 5de67523938486465bbfdc78
+ *        title:
+ *          type: string
+ *          example: Welcome Page
+ *        content:
+ *          type: string
+ *          example: content example
+ *        url:
+ *          type: string
+ *          example: https://example.com
+ *        course:
+ *          type: string
+ *          required: true
+ *          example: 5de67523938486465bbfdc76
+ *        status:
+ *          type: string
+ *          enum: [active,draft]
+ * /page:
+ *   post:
+ *     description: creates a new page
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: page
+ *         in: body
+ *         description: New page
+ *         required: true
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/PagePost'
+ *     responses:
+ *       200:
+ *         description: created a new page in DB
+ *       404:
+ *         description: course is not found in DB
+ *       422:
+ *         description: model does not satisfy the expected schema
+ *   put:
+ *     description: update page by provided mongo id
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: page
+ *         in: path
+ *       - name: page
+ *         in: body
+ *         required: true
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/PagePut'
+ *     responses:
+ *       200:
+ *         description: created a new page in DB
+ *       404:
+ *         description: course is not found in DB
+ *       422:
+ *         description: model does not satisfy the expected schema
+
+ * /page/{page}:
+ *   delete:
+ *     description: delete page by specified id
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: page
+ *         in: path
+ *     responses:
+ *       200:
+ *         description: deleted page from DB
+ *       422:
+ *         description: model does not satisfy the expected schema
+ *   get:
+ *     description: get page by specified id
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: page
+ *         in: path
+ *     responses:
+ *       200:
+ *         description: course is found in DB
+ *       404:
+ *         description: course is not found
+ *       422:
+ *         description: model does not satisfy the expected schema
+ * /page/course/{course}:
+ *   get:
+ *     description: get pages by specified course id
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: course
+ *         in: path
+ *     responses:
+ *       200:
+ *         description: courses by course id
+ *       422:
+ *         description: model does not satisfy the expected schema
  */
 router.post('/', async (req, res) => {
   try {
@@ -34,7 +183,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:page', async (req, res) => {
+router.put('/', async (req, res) => {
   try {
     if (!validator.editPage(req.body)) {
       logger.error('validation of create course request failed', validator.editPage.errors);
@@ -58,21 +207,9 @@ router.delete('/:page', async (req, res) => {
     res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.deletePage.errors });
     return;
   }
-  const deleted = await db.model.Page.delete(req.params.page);
+  const deleted = await db.model.Page.findByIdAndDelete(req.params.page);
   res.json({
     page: deleted
-  });
-});
-
-router.get('/:course', async (req, res) => {
-  if (!validator.getCourse({ params: req.params })) {
-    logger.error('validation of delete page request failed', validator.getCourse.errors);
-    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.getCourse.errors });
-    return;
-  }
-  const pages = await db.model.Page.find({ course: req.params.course });
-  res.json({
-    pages
   });
 });
 
@@ -83,9 +220,23 @@ router.get('/:page', async (req, res) => {
     res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: getPage.errors });
     return;
   }
-  const page = await db.model.Page.delete(req.params.page);
-  res.json({
+  const page = await db.model.Page.findById(req.params.page);
+  let status = HttpStatus.OK;
+  if (!page) status = HttpStatus.NOT_FOUND;
+  res.status(status).json({
     page
+  });
+});
+
+router.get('/course/:course', async (req, res) => {
+  if (!validator.getCourse({ params: req.params })) {
+    logger.error('validation of delete page request failed', validator.getCourse.errors);
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.getCourse.errors });
+    return;
+  }
+  const pages = await db.model.Page.find({ course: req.params.course });
+  res.json({
+    pages
   });
 });
 
