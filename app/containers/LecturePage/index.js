@@ -22,6 +22,7 @@ import Dropzone from 'react-dropzone';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import { getGignUrl } from 'redux/actions/files';
+import {toDataURL} from "../../utils/files";
 
 const styles = {
   cardCategoryWhite: {
@@ -276,6 +277,15 @@ class CourseCurriculum extends Component {
     this.onChangeLecture({ text: JSON.stringify(newContent) });
   };
 
+  onDownloadFile = item => async () => {
+    const a = document.createElement('a');
+    a.href = await toDataURL(item.url);
+    a.download = item.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   onEditContent = index => () => {
     const { content } = this.state;
     const node = content && content[index] && content[index].content;
@@ -394,6 +404,7 @@ class CourseCurriculum extends Component {
                 <LectureContent
                   key={index}
                   data={item}
+                  onDownload={this.onDownloadFile(item)}
                   onEdit={this.onEditContent(index)}
                   onDelete={this.onDeleteContent(index)}
                 />

@@ -53,7 +53,7 @@ const useStyles = makeStyles({
 
 function LectureContent(props) {
   const classes = useStyles();
-  const { onEdit, onDelete, data } = props;
+  const { onEdit, onDelete, onDownload, data } = props;
 
   return (
     <Paper className={classes.wrap}>
@@ -74,7 +74,7 @@ function LectureContent(props) {
       {data.type === 'text' ? (
         <Edit className={classes.editIcon} onClick={onEdit} />
       ) : (
-        <CloudDownload className={classes.icon} />
+        <CloudDownload className={classes.icon} onClick={onDownload} />
       )}
       <Delete className={classes.deleteIcon} onClick={onDelete} />
     </Paper>
@@ -83,6 +83,7 @@ function LectureContent(props) {
 
 LectureContent.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
+  onDownload: PropTypes.func,
   onEdit: PropTypes.func,
   onDelete: PropTypes.func
 };
