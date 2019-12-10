@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Edit, MoreVert, Done, Close } from '@material-ui/icons';
-import { withStyles, FormControl, FormControlLabel, Checkbox, TextField } from '@material-ui/core';
+import { Edit, ChevronLeft, Done, Close } from '@material-ui/icons';
+import { withStyles, FormControl, TextField, Typography } from '@material-ui/core';
 
 const styles = {
   wrap: {
-    width: '100%',
+    flex: 1,
     display: 'flex',
     alignItems: 'center',
-    paddingBottom: 24,
     cursor: 'pointer',
     height: 44
   },
@@ -20,6 +19,10 @@ const styles = {
     cursor: 'pointer'
   },
   icon: {
+    marginRight: 16,
+    color: '#aaa'
+  },
+  iconEdit: {
     marginLeft: 16,
     color: '#aaa'
   },
@@ -33,10 +36,22 @@ const styles = {
   }
 };
 
-class Section extends Component {
+class LectureTitle extends Component {
   state = {
     isEdit: false,
     title: this.props.title
+  };
+
+  componentDidUpdate(prevProps) {
+    const { title } = this.props;
+
+    if (prevProps.title !== title) {
+      this.setTitle(title);
+    }
+  }
+
+  setTitle = title => {
+    this.setState({ title });
   };
 
   onHandleEdit = () => {
@@ -58,12 +73,12 @@ class Section extends Component {
   };
 
   render() {
-    const { classes, checked, onCheck } = this.props;
+    const { classes, onBack } = this.props;
     const { isEdit, title } = this.state;
 
     return (
       <div className={classes.wrap}>
-        <MoreVert className={classes.icon} />
+        <ChevronLeft className={classes.icon} onClick={onBack} />
         {isEdit ? (
           <>
             <FormControl>
@@ -74,11 +89,8 @@ class Section extends Component {
           </>
         ) : (
           <>
-            <FormControlLabel
-              control={<Checkbox checked={checked} onChange={onCheck} value="checkedF" />}
-              label={title}
-            />
-            <Edit className={classes.icon} onClick={this.onHandleEdit} />
+            <Typography>{title}</Typography>
+            <Edit className={classes.iconEdit} onClick={this.onHandleEdit} />
           </>
         )}
       </div>
@@ -86,12 +98,11 @@ class Section extends Component {
   }
 }
 
-Section.propTypes = {
+LectureTitle.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
+  onBack: PropTypes.func,
   title: PropTypes.string,
-  checked: PropTypes.bool,
-  onChange: PropTypes.func,
-  onCheck: PropTypes.func
+  onChange: PropTypes.func
 };
 
-export default withStyles(styles)(Section);
+export default withStyles(styles)(LectureTitle);

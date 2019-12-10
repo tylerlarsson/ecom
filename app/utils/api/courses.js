@@ -65,8 +65,12 @@ export const deleteCourses = payload =>
 export const createSection = payload => {
   const data = {
     title: payload.title,
-    id: payload.id
+    index: payload.index
   };
+
+  if (payload.id) {
+    data.section = payload.id;
+  }
 
   const { courseId } = payload;
 
@@ -95,7 +99,6 @@ export const deleteSection = payload =>
 
 export const createLecture = payload => {
   const data = {
-    id: payload.id,
     title: payload.title,
     file: payload.file,
     image: payload.image,
@@ -103,6 +106,12 @@ export const createLecture = payload => {
     allowComments: payload.allowComments,
     state: payload.state
   };
+
+  let method = axios.post;
+
+  if (payload.id) {
+    method = axios.put;
+  }
 
   const { courseId } = payload;
   const sectionId = payload.section;
@@ -118,7 +127,10 @@ export const createLecture = payload => {
       }
       return { success: false, reason: res.message };
     })
-    .catch(err => ({ success: false, reason: err.response.data.message }));
+    .catch(err => {
+      console.log('createLecture err', err, err.response);
+      return { success: false, reason: err.response.data.message }
+    });
 };
 export const deleteLecture = payload =>
   axios
