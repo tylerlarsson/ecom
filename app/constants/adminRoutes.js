@@ -135,6 +135,14 @@ const dashboardRoutes = [
     layout: routes.ADMIN,
     visible: false
   },
+  // {
+  //   path: routes.PRICING,
+  //   name: 'Pricing',
+  //   icon: VideoLibrary,
+  //   component: PricingPlans,
+  //   layout: routes.ADMIN,
+  //   visible: false
+  // },
   {
     path: routes.NEW_LECTURE,
     name: 'Lecture',

@@ -177,12 +177,16 @@ class CourseCurriculum extends Component {
       });
     });
     let content = [];
-    try {
-      content = JSON.parse(lecture.text);
-    } catch (e) {
-      console.log('content parse error', e);
-      content = [];
+
+    if (lecture.text) {
+      try {
+        content = JSON.parse(lecture.text);
+      } catch (e) {
+        console.log('content parse error', e);
+        content = [];
+      }
     }
+
     this.setState({ course, section, lecture, content });
   };
 
@@ -223,7 +227,7 @@ class CourseCurriculum extends Component {
       courseId: course && course.id,
       section: section._id
     };
-    console.log('onChangeLecture', payload, payload.text);
+
     createLectureAction(payload);
   };
 
