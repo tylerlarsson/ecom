@@ -4,7 +4,6 @@ import { API_ENDPOINT_URL } from 'constants/default';
 // Courses
 export const getCourses = payload => {
   const params = payload && payload.params;
-  console.log('getCourses', params);
   return axios
     .get(`${API_ENDPOINT_URL}/course`, { params })
     .then(res => {
@@ -17,7 +16,6 @@ export const getCourses = payload => {
 };
 
 export const getCourse = payload => {
-  console.log('getCourse', payload);
   const id = payload && payload.id;
   return axios
     .get(`${API_ENDPOINT_URL}/course/${id}`)
@@ -67,8 +65,12 @@ export const deleteCourses = payload =>
 export const createSection = payload => {
   const data = {
     title: payload.title,
-    id: payload.id
+    index: payload.index
   };
+
+  if (payload.id) {
+    data.section = payload.id;
+  }
 
   const { courseId } = payload;
 
@@ -97,7 +99,6 @@ export const deleteSection = payload =>
 
 export const createLecture = payload => {
   const data = {
-    id: payload.id,
     title: payload.title,
     file: payload.file,
     image: payload.image,
@@ -106,11 +107,19 @@ export const createLecture = payload => {
     state: payload.state
   };
 
+  let method = axios.post;
+
+  if (payload.id) {
+    method = axios.put;
+  }
+
   const { courseId } = payload;
   const sectionId = payload.section;
 
-  return axios
-    .post(`${API_ENDPOINT_URL}/course/${courseId}/section/${sectionId}/lecture`, data)
+  return method(
+    `${API_ENDPOINT_URL}/course/${courseId}/section/${sectionId}/lecture${payload.id ? `/${payload.id}` : ''}`,
+    data
+  )
     .then(res => {
       console.log('createLecture res', res);
       if (res.data) {

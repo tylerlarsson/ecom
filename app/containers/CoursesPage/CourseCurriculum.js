@@ -95,12 +95,6 @@ class CourseCurriculum extends Component {
     this.setState({ course });
   };
 
-  handleBack = () => {
-    const { history } = this.props;
-
-    history.push(`${routes.ADMIN}${routes.ROLES}`);
-  };
-
   onChange = field => event => {
     this.setState({ [field]: event.target.value });
   };
@@ -116,18 +110,18 @@ class CourseCurriculum extends Component {
     createSectionAction(payload);
   };
 
-  onNewLecture = sectionIndex => () => {
+  onNewLecture = sectionId => () => {
     const { createLectureAction } = this.props;
     const { course } = this.state;
     const payload = {
       title: 'New Lecture',
       file: 'file',
       image: 'image',
-      text: 'lecture text',
+      text: '',
       allowComments: false,
       state: 'draft',
       courseId: course && course.id,
-      section: sectionIndex
+      section: sectionId
     };
     createLectureAction(payload);
   };
@@ -137,9 +131,27 @@ class CourseCurriculum extends Component {
     console.log('onCheckSection');
   };
 
-  onChangeSection = () => {
+  onChangeSection = id => title => {
+    const { createSectionAction } = this.props;
+    const { course } = this.state;
+    const payload = {
+      title,
+      id,
+      courseId: course && course.id
+    };
+    console.log('onChangeSection', id, payload);
+    createSectionAction(payload);
+  };
+
+  onChangeLecture = lecture => () => {
     // TODO
-    console.log('onChangeSection');
+    console.log('onChangeLecture', lecture);
+    const { course } = this.state;
+    const { history } = this.props;
+    const lectureRoute = `${routes.ADMIN}${routes.NEW_LECTURE}`
+      .replace(':course', course && course.id)
+      .replace(':lecture', lecture._id);
+    history.push(lectureRoute);
   };
 
   handlePreview = () => {
@@ -175,12 +187,12 @@ class CourseCurriculum extends Component {
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
-              {map(sections, (section, index) => (
+              {map(sections, section => (
                 <Card className={classes.card}>
                   <CardBody>
                     <Section
                       key={section.id}
-                      onChange={this.onChangeSection}
+                      onChange={this.onChangeSection(section._id)}
                       title={section.title}
                       checked={false}
                       onCheck={this.onCheckSection}
@@ -188,13 +200,13 @@ class CourseCurriculum extends Component {
                     {map(section.lectures, lecture => (
                       <Lecture
                         key={lecture.id}
-                        onChange={this.onChangeSection}
                         title={lecture.title}
                         checked={false}
                         onCheck={this.onCheckSection}
+                        onChange={this.onChangeLecture(lecture)}
                       />
                     ))}
-                    <NewLectureButton onSelect={this.onNewLecture(index)} />
+                    <NewLectureButton onSelect={this.onNewLecture(section._id)} />
                   </CardBody>
                 </Card>
               ))}
