@@ -324,7 +324,6 @@ router.delete('/:course/section/:section', async (req, res) => {
  *     description: updates or creates a new lecture
  *     consumes:
  *       - application/json
- *       - multipart/form-data
  *     produces:
  *       - application/json
  *     parameters:

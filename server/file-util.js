@@ -38,6 +38,9 @@ async function generateUploadUrl(filename, expires, bucket = 'course-images') {
   if (!contentType) {
     throw new Error(`Can't lookup mime-type for ${filename}`);
   }
+  if (!/image\/.*/.test(contentType)) {
+    throw new Error(`Content type is not allowed.`);
+  }
   const opts = {
     version: 'v4',
     action: 'write',
@@ -49,16 +52,10 @@ async function generateUploadUrl(filename, expires, bucket = 'course-images') {
 }
 
 async function deleteFileGcs(url, _bucket = 'course-images') {
-  try {
-    const split_ = url.split('/');
-    const filename = split_[split_.length - 1];
-    console.log(filename);
-    const bucket = await bucketFactory(_bucket);
-    return bucket.file(filename).delete();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  const split_ = url.split('/');
+  const filename = split_[split_.length - 1];
+  const bucket = await bucketFactory(_bucket);
+  return bucket.file(filename).delete();
 }
 
 async function uploadVideo(file, apiPassword = 'test') {

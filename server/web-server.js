@@ -13,6 +13,7 @@ const pageRoute = require('./route/page');
 const fileRoute = require('./route/file');
 const courseRoute = require('./route/course');
 const pricingPlanRoute = require('./route/pricing-plan');
+const navigationRoute = require('./route/navigation');
 
 const config = require('./config');
 
@@ -32,6 +33,7 @@ app.use(`${API}/page`, pageRoute);
 app.use(`${API}/course`, courseRoute);
 app.use(`${API}/pricing-plan`, pricingPlanRoute);
 app.use(`${API}/file`, fileRoute);
+app.use(`${API}/navigation`, navigationRoute);
 
 const port = config.get('web-app:port');
 

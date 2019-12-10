@@ -25,7 +25,7 @@ const LECTURE = new mongoose.Schema({
   title: { type: String, index: true },
   file: String,
   image: String,
-  text: { type: String, index: true },
+  text: { type: String },
   allowComments: Boolean,
   state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
   content: [CONTENT],
@@ -49,6 +49,7 @@ const COURSE = new mongoose.Schema(
     authors: [{ type: ObjectId, ref: 'user' }],
     pricingPlans: [{ type: ObjectId, ref: 'pricing-plan' }],
     pages: [{ type: ObjectId, ref: 'page' }],
+    navigation: [{ type: ObjectId, ref: 'navigation' }],
     state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
     sections: [SECTION],
     deletedAt: Date,
@@ -171,19 +172,35 @@ COURSE.methods.deleteSection = async function deleteSection(section) {
   }
 };
 
-COURSE.methods.addPricing = async function addPricing(pricing) {
+COURSE.methods.addNavigation = function addNavigation(navigation) {
+  this.navigation.push(navigation);
+  return this.save();
+};
+
+COURSE.methods.removeNavigation = function removeNavigation(navigation) {
+  const _nav = this.navigation.id(navigation);
+  if (!_nav) {
+    const error = new Error(`No nav with id ${navigation} is found.`);
+    error.status = 404;
+    throw error;
+  }
+  _nav.remove();
+  return this.save();
+};
+
+COURSE.methods.addPricing = function addPricing(pricing) {
   this.pricingPlans.push(pricing);
   return this.save();
 };
 
 COURSE.methods.removePricing = async function removePricing(pricing) {
-  const _pricing = this.pricingPlans.findIndex(_id => _id === pricing);
+  const _pricing = this.pricingPlans.id(pricing);
   if (!_pricing) {
     const error = new Error(`Pricing plan with id ${pricing} is not found in Course model.`);
     error.status = 404;
     throw error;
   }
-  this.pricingPlans = this.pricingPlans.slice(_pricing, 1);
+  _pricing.remove();
   return this.save();
 };
 
