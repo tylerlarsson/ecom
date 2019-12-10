@@ -12,6 +12,7 @@ module.exports = {
     Permission: require('./permission'),
     Course: require('./course'),
     PricingPlan: require('./pricing-plan'),
-    Page: require('./page')
+    Page: require('./page'),
+    Navigation: require('./navigation')
   }
 };

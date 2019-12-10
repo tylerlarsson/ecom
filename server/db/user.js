@@ -91,19 +91,14 @@ USER.statics.verifyEmail = async email => {
 };
 
 USER.statics.verify = async (email, password) => {
-  try {
-    const user = await User.findOne({ email });
-    console.log(user);
-    if (!user) {
-      return false;
-    }
-    if (await bcrypt.compare(password, user.hash)) {
-      return user;
-    }
+  const user = await User.findOne({ email });
+  if (!user) {
     return false;
-  } catch (error) {
-    console.error(error);
   }
+  if (await bcrypt.compare(password, user.hash)) {
+    return user;
+  }
+  return false;
 };
 
 // eslint-disable-next-line func-names
