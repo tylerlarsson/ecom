@@ -178,13 +178,13 @@ COURSE.methods.addNavigation = function addNavigation(navigation) {
 };
 
 COURSE.methods.removeNavigation = function removeNavigation(navigation) {
-  const _nav = this.navigation.id(navigation);
-  if (!_nav) {
+  const idxNav = this.navigation.findIndex(i => i._id === navigation);
+  if (!idxNav) {
     const error = new Error(`No nav with id ${navigation} is found.`);
     error.status = 404;
     throw error;
   }
-  _nav.remove();
+  this.navigation = this.navigation.splice(idxNav, 1);
   return this.save();
 };
 

@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "delete link configuration schema",
+  "type": "object",
+  "required": ["navigation", "link"],
+  "additionalProperties": false,
+  "properties": {
+    "navigation": {
+      "$ref": "#mongo-id"
+    },
+    "link": {
+      "$ref": "#mongo-id"
+    }
+  }
+}

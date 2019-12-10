@@ -29,6 +29,13 @@ const deletePlanSchema = readJson('schema', 'delete-plan.schema.json');
 const putLectureSchema = readJson('schema', 'put-lecture.schema.json');
 const editPageSchema = readJson('schema', 'edit-page.schema.json');
 const deletePageSchema = readJson('schema', 'delete-page.schema.json');
+const getNavigationSchema = readJson('schema', 'get-navigation.schema.json');
+const createNavigationSchema = readJson('schema', 'create-navigation.schema.json');
+const editNavigationSchema = readJson('schema', 'edit-navigation.schema.json');
+const deleteNavigationSchema = readJson('schema', 'delete-navigation.schema.json');
+const deleteLinkSchema = readJson('schema', 'delete-link.schema.json');
+const createLinkSchema = readJson('schema', 'create-link.schema.json');
+const editLinkSchema = readJson('schema', 'edit-link.schema.json');
 
 const name = ajv.compile(nameRequestSchema);
 const newUser = ajv.compile(newUserSchema);
@@ -43,6 +50,13 @@ const assignFilter = ajv.compile(assignFilterSchema);
 const filters = ajv.compile(filtersSchema);
 const deleteLecture = ajv.compile(deleteLectureSchema);
 const newPage = ajv.compile(newPageSchema);
+const createNavigation = ajv.compile(createNavigationSchema);
+const editNavigation = ajv.compile(editNavigationSchema);
+const getNavigation = ajv.compile(getNavigationSchema);
+const deleteNavigation = ajv.compile(deleteNavigationSchema);
+const deleteLink = ajv.compile(deleteLinkSchema);
+const createLink = ajv.compile(createLinkSchema);
+const editLink = ajv.compile(editLinkSchema);
 const deleteSection = ajv.compile(deleteSectionSchema);
 const course = ajv.compile(courseSchema);
 const pricingPlan = ajv.compile(pricingPlanSchema);
@@ -60,8 +74,15 @@ module.exports = {
   deletePlan,
   deletePage,
   assignPermission,
+  createNavigation,
   deleteLecture,
+  getNavigation,
+  editNavigation,
   editPage,
+  deleteNavigation,
+  deleteLink,
+  createLink,
+  editLink,
   newPage,
   getCourse,
   tokenRequest,

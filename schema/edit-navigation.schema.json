@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "edit navigation configuration schema",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "#mongo-id"
+    },
+    "title": {
+      "type": "string"
+    },
+    "course": {
+      "$ref": "#mongo-id"
+    },
+    "location": {
+      "enum": ["top", "bottom"],
+      "type": "string"
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "visibleTo": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
