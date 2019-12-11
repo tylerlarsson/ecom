@@ -96,9 +96,26 @@ COURSE.statics.deleteCourse = async course => {
   }
 };
 
-COURSE.methods.createSection = async function createSection({ section, title }) {
+COURSE.methods.createSection = async function createSection(args) {
+  const { section, title, sections = [] } = args;
   if (!this.sections) {
     this.sections = [];
+  }
+  if (section && sections.length) {
+    for (const { section: secId, title: secTitle } of sections) {
+      if (secId) {
+        const _section = this.sections.id(secId);
+        if (!section) {
+          const error = new Error(`Section with id ${secId} is not found.`);
+          error.status = 404;
+          throw error;
+        }
+        _section.title = secTitle;
+      } else {
+        this.sections.push({ title: secTitle, lectures: [] });
+      }
+    }
+    return this.save();
   }
   if (section) {
     const _section = this.sections.id(section);
@@ -106,11 +123,6 @@ COURSE.methods.createSection = async function createSection({ section, title }) 
   } else {
     this.sections.push({ title, lectures: [] });
   }
-  // if (index < this.sections.length) {
-  //   this.sections[index].title = title;
-  // } else {
-  //   this.sections.push({ title, lectures: [] });
-  // }
   const course = await this.save();
   return course.sections.find(s => s.title === title);
 };

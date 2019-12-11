@@ -24,7 +24,39 @@
         "title": {
           "type": "string"
         }
-      }
+      },
+      "anyOf": [
+        {
+          "properties": {
+            "section": {
+              "$ref": "#mongo-id"
+            },
+            "title": {
+              "type": "string"
+            }
+          },
+          "required": ["title"]
+        },
+        {
+          "properties": {
+            "sections": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["title"],
+                "properties": {
+                  "section": {
+                    "$ref": "#mongo-id"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }
