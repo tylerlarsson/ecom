@@ -129,7 +129,7 @@ export const createLecture = payload => {
     })
     .catch(err => {
       console.log('createLecture err', err, err.response);
-      return { success: false, reason: err.response.data.message }
+      return { success: false, reason: err.response.data.message };
     });
 };
 export const deleteLecture = payload =>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { map } from 'lodash';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import arrayMove from 'array-move';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
@@ -17,6 +19,7 @@ import routes from 'constants/routes.json';
 import NewLectureButton from 'components/Lecture/NewLectureButton';
 import Section from 'components/Course/Section';
 import Lecture from 'components/Lecture/Lecture';
+import { DND_DELAY } from 'constants/default';
 
 const styles = {
   cardCategoryWhite: {
@@ -67,6 +70,42 @@ const styles = {
     marginBottom: 16
   }
 };
+
+const SortableItem = SortableElement(({ value }) => {
+  const { classes, onChangeSection, onChangeLecture, onCheckSection, onNewLecture, ...section } = value;
+
+  return (
+    <Card className={classes.card}>
+      <CardBody>
+        <Section
+          key={section._id}
+          onChange={onChangeSection}
+          title={section.title}
+          checked={false}
+          onCheck={onCheckSection}
+        />
+        {map(section.lectures, lecture => (
+          <Lecture
+            key={lecture.id}
+            title={lecture.title}
+            checked={false}
+            onCheck={onCheckSection}
+            onChange={onChangeLecture(lecture)}
+          />
+        ))}
+        <NewLectureButton onSelect={onNewLecture(section._id)} />
+      </CardBody>
+    </Card>
+  )
+});
+
+const SortableList = SortableContainer(({ items }) => (
+  <div>
+    {items.map((value, index) => (
+      <SortableItem key={`item-${value}`} index={index} value={value} />
+    ))}
+  </div>
+));
 
 class CourseCurriculum extends Component {
   constructor(props) {
@@ -139,13 +178,10 @@ class CourseCurriculum extends Component {
       id,
       courseId: course && course.id
     };
-    console.log('onChangeSection', id, payload);
     createSectionAction(payload);
   };
 
   onChangeLecture = lecture => () => {
-    // TODO
-    console.log('onChangeLecture', lecture);
     const { course } = this.state;
     const { history } = this.props;
     const lectureRoute = `${routes.ADMIN}${routes.NEW_LECTURE}`
@@ -157,6 +193,13 @@ class CourseCurriculum extends Component {
   handlePreview = () => {
     // TODO
     console.log('handlePreview');
+  };
+
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    const course = { ...this.state.course };
+    course.sections = arrayMove(course.sections, oldIndex, newIndex);
+    this.setState({ course });
+    // TODO update dbase
   };
 
   renderNavbar = classes => (
@@ -181,35 +224,21 @@ class CourseCurriculum extends Component {
     const { course } = this.state;
     const sections = (course && course.sections) || [];
 
+    const contentItems = map(sections, (item, index) => ({
+      ...item,
+      onCheckSection: this.onCheckSection,
+      onChangeLecture: this.onChangeLecture,
+      onNewLecture: this.onNewLecture,
+      classes
+    }));
+
     return (
       <>
         <AdminNavbar title="Curriculum" right={this.renderNavbar(classes)} />
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
-              {map(sections, section => (
-                <Card className={classes.card}>
-                  <CardBody>
-                    <Section
-                      key={section.id}
-                      onChange={this.onChangeSection(section._id)}
-                      title={section.title}
-                      checked={false}
-                      onCheck={this.onCheckSection}
-                    />
-                    {map(section.lectures, lecture => (
-                      <Lecture
-                        key={lecture.id}
-                        title={lecture.title}
-                        checked={false}
-                        onCheck={this.onCheckSection}
-                        onChange={this.onChangeLecture(lecture)}
-                      />
-                    ))}
-                    <NewLectureButton onSelect={this.onNewLecture(section._id)} />
-                  </CardBody>
-                </Card>
-              ))}
+              <SortableList items={contentItems} onSortEnd={this.onSortEnd} pressDelay={DND_DELAY} />
             </GridItem>
           </GridContainer>
         </AdminContent>
