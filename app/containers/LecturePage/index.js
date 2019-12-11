@@ -21,6 +21,8 @@ import LectureContent from 'components/Lecture/LectureContent';
 import Dropzone from 'react-dropzone';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import arrayMove from 'array-move';
 import { getGignUrl } from 'redux/actions/files';
 import {toDataURL} from "../../utils/files";
 
@@ -94,6 +96,29 @@ const styles = {
   }
 };
 
+const SortableItem = SortableElement(({ value }) => {
+  const { onDownload, onEdit, onDelete, ...rest } = value;
+
+  return (
+    <LectureContent
+      data={rest}
+      onDownload={onDownload}
+      onEdit={onEdit}
+      onDelete={onDelete}
+    />
+  )
+});
+
+const SortableList = SortableContainer(({ items }) => {
+  return (
+    <div>
+      {items.map((value, index) => (
+        <SortableItem key={`item-${value}`} index={index} value={value} />
+      ))}
+    </div>
+  );
+});
+
 class CourseCurriculum extends Component {
   constructor(props) {
     super(props);
@@ -104,7 +129,8 @@ class CourseCurriculum extends Component {
       editorState: EditorState.createEmpty(),
       content: [],
       files: [],
-      editIndex: null
+      editIndex: null,
+      items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6'],
     };
   }
 
@@ -306,6 +332,17 @@ class CourseCurriculum extends Component {
     getGignUrlAction({ file: filename });
   };
 
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    const { content } = this.state;
+    const newContent = arrayMove(content, oldIndex, newIndex)
+    this.setState({ content: newContent });
+    this.onChangeLecture({ text: JSON.stringify(newContent) });
+
+    // this.setState(({ content }) => ({
+    //   content: arrayMove(content, oldIndex, newIndex),
+    // }));
+  };
+
   renderNavbar = classes => (
     <>
       <Fab
@@ -331,6 +368,12 @@ class CourseCurriculum extends Component {
     const { classes } = this.props;
     const { lecture = {}, tab, editorState, content } = this.state;
 
+    const contentItems = map(content, (item, index) => ({
+      ...item,
+      onDownload: this.onDownloadFile(item),
+      onEdit: this.onEditContent(index),
+      onDelete: this.onDeleteContent(index)
+    }))
     return (
       <>
         <CustomNavbar
@@ -400,15 +443,7 @@ class CourseCurriculum extends Component {
                   Code form
                 </TabPanel>
               </Paper>
-              {map(content, (item, index) => (
-                <LectureContent
-                  key={index}
-                  data={item}
-                  onDownload={this.onDownloadFile(item)}
-                  onEdit={this.onEditContent(index)}
-                  onDelete={this.onDeleteContent(index)}
-                />
-              ))}
+              <SortableList items={contentItems} onSortEnd={this.onSortEnd} pressDelay={200} />
             </GridItem>
           </GridContainer>
         </AdminContent>
