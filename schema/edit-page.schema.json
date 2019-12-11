@@ -19,6 +19,33 @@
       "type": "string"
     },
     "content": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["index", "content"],
+        "additionalProperties": false,
+        "properties": {
+          "index": {
+            "type": "number",
+            "minimum": 0
+          },
+          "content": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["video", "image", "text"]
+          }
+        }
+      }
+    },
+    "showFooter": {
+      "type": "boolean"
+    },
+    "showNavigation": {
+      "type": "boolean"
+    },
+    "description": {
       "type": "string"
     },
     "url": {

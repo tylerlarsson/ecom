@@ -36,6 +36,9 @@ const deleteNavigationSchema = readJson('schema', 'delete-navigation.schema.json
 const deleteLinkSchema = readJson('schema', 'delete-link.schema.json');
 const createLinkSchema = readJson('schema', 'create-link.schema.json');
 const editLinkSchema = readJson('schema', 'edit-link.schema.json');
+const createContentSchema = readJson('schema', 'create-content.schema.json');
+const editContentSchema = readJson('schema', 'edit-content.schema.json');
+const deleteContentSchema = readJson('schema', 'delete-content.schema.json');
 
 const name = ajv.compile(nameRequestSchema);
 const newUser = ajv.compile(newUserSchema);
@@ -51,6 +54,9 @@ const filters = ajv.compile(filtersSchema);
 const deleteLecture = ajv.compile(deleteLectureSchema);
 const newPage = ajv.compile(newPageSchema);
 const createNavigation = ajv.compile(createNavigationSchema);
+const createContent = ajv.compile(createContentSchema);
+const editContent = ajv.compile(editContentSchema);
+const deleteContent = ajv.compile(deleteContentSchema);
 const editNavigation = ajv.compile(editNavigationSchema);
 const getNavigation = ajv.compile(getNavigationSchema);
 const deleteNavigation = ajv.compile(deleteNavigationSchema);
@@ -75,6 +81,9 @@ module.exports = {
   deletePage,
   assignPermission,
   createNavigation,
+  createContent,
+  editContent,
+  deleteContent,
   deleteLecture,
   getNavigation,
   editNavigation,

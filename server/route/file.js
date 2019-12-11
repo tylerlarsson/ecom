@@ -1,9 +1,7 @@
 // const HttpStatus = require('http-status-codes');
 const express = require('express');
-const multer = require('multer');
 const router = express.Router();
 const { generateUploadUrl, deleteFileGcs } = require('../file-util');
-multer({ storage: multer.memoryStorage() });
 
 /**
  * @swagger

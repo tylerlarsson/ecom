@@ -9,6 +9,35 @@ const db = require('../db');
 /**
  * @swagger
  * definitions:
+ *    Content:
+ *      type: object
+ *      properties:
+ *        index:
+ *          type: number
+ *          example: 0
+ *          required: true
+ *        type:
+ *          type: string
+ *          enum: [video,image,text]
+ *        content:
+ *          type: string
+ *          required: true
+ *    ContentPut:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: string
+ *          example: 5de67523938486465bbfdc78
+ *        index:
+ *          type: number
+ *          example: 0
+ *          required: true
+ *        type:
+ *          type: string
+ *          enum: [video,image,text]
+ *        content:
+ *          type: string
+ *          required: true
  *    Page:
  *      type: object
  *      properties:
@@ -19,8 +48,9 @@ const db = require('../db');
  *          type: string
  *          example: Welcome Page
  *        content:
- *          type: string
- *          example: content example
+ *          type: array
+ *          items:
+ *            $ref: '#/definitions/Content'
  *        url:
  *          type: string
  *          example: https://example.com
@@ -29,7 +59,16 @@ const db = require('../db');
  *          example: 5de67523938486465bbfdc76
  *        status:
  *          type: string
- *          enum: [active,draft]
+ *          enum: [active,published]
+ *        showFooter:
+ *          type: boolean
+ *          example: true
+ *        showNavigation:
+ *          type: boolean
+ *          example: false
+ *        description:
+ *          type: string
+ *          example: I'm description
  *    PagePost:
  *      type: object
  *      properties:
@@ -37,8 +76,9 @@ const db = require('../db');
  *          type: string
  *          example: Welcome Page
  *        content:
- *          type: string
- *          example: content example
+ *          type: array
+ *          items:
+ *            $ref: '#/definitions/Content'
  *        url:
  *          type: string
  *          required: true
@@ -49,7 +89,16 @@ const db = require('../db');
  *          example: 5de67523938486465bbfdc76
  *        status:
  *          type: string
- *          enum: [active,draft]
+ *          enum: [active,published]
+ *        showFooter:
+ *          type: boolean
+ *          example: true
+ *        showNavigation:
+ *          type: boolean
+ *          example: false
+ *        description:
+ *          type: string
+ *          example: I'm description
  *    PagePut:
  *      type: object
  *      properties:
@@ -61,8 +110,9 @@ const db = require('../db');
  *          type: string
  *          example: Welcome Page
  *        content:
- *          type: string
- *          example: content example
+ *          type: array
+ *          items:
+ *            $ref: '#/definitions/ContentPut'
  *        url:
  *          type: string
  *          example: https://example.com
@@ -72,7 +122,16 @@ const db = require('../db');
  *          example: 5de67523938486465bbfdc76
  *        status:
  *          type: string
- *          enum: [active,draft]
+ *          enum: [active,published]
+ *        showFooter:
+ *          type: boolean
+ *          example: true
+ *        showNavigation:
+ *          type: boolean
+ *          example: false
+ *        description:
+ *          type: string
+ *          example: I'm description
  * /page:
  *   post:
  *     description: creates a new page
@@ -164,6 +223,80 @@ const db = require('../db');
  *         description: courses by course id
  *       422:
  *         description: model does not satisfy the expected schema
+ * /page/{page}/content:
+ *   post:
+ *     description: add new content to page model
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: page
+ *         in: path
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/Page'
+ *       - name: content
+ *         in: body
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/Content'
+ *     responses:
+ *       201:
+ *         description: new content created in DB
+ *       422:
+ *         description: model does not satisfy the expected schema
+ *       404:
+ *         description: page is not found in DB
+ *   put:
+ *     description: edit content inside page model
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: page
+ *         in: path
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/Page'
+ *       - name: content
+ *         in: body
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/ContentPut'
+ *     responses:
+ *       200:
+ *         description: new content created in DB
+ *       422:
+ *         description: model does not satisfy the expected schema
+ *       404:
+ *         description: page or content is not found in DB
+ * /page/{page}/content/{content}:
+ *   delete:
+ *     description: deletes content from page model
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: page
+ *         in: path
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/Page'
+ *       - name: content
+ *         in: path
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/Content'
+ *     responses:
+ *       200:
+ *         description: content deleted from page model
+ *       422:
+ *         description: model does not satisfy the expected schema
+ *       404:
+ *         description: page or content is not found in DB
  */
 router.post('/', async (req, res) => {
   try {
@@ -193,6 +326,66 @@ router.put('/', async (req, res) => {
     const edited = await db.model.Page.editPage(req.body);
     res.json({
       page: edited
+    });
+  } catch (error) {
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
+  }
+});
+
+router.post('/:page/content', async (req, res) => {
+  try {
+    const { params, body } = req;
+
+    const page = await db.model.Page.findById(params.page);
+    if (!page) {
+      const error = new Error(`Page with id ${params.page} is not found.`);
+      error.status = HttpStatus.NOT_FOUND;
+      throw error;
+    }
+    const updated = await page.addContent(body);
+    res.status(HttpStatus.CREATED).json({
+      page: updated
+    });
+  } catch (error) {
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
+  }
+});
+
+router.put('/:page/content', async (req, res) => {
+  try {
+    const { params, body } = req;
+    const page = await db.model.Page.findById(params.page);
+    if (!page) {
+      const error = new Error(`Page with id ${params.page} is not found.`);
+      error.status = HttpStatus.NOT_FOUND;
+      throw error;
+    }
+    const updated = await page.editContent(body);
+    res.status(HttpStatus.OK).json({
+      page: updated
+    });
+  } catch (error) {
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
+  }
+});
+
+router.delete('/:page/content/:content', async (req, res) => {
+  try {
+    const page = await db.model.Page.findById(req.params.page);
+    if (!page) {
+      const error = new Error(`Page with id ${req.params.page} is not found.`);
+      error.status = HttpStatus.NOT_FOUND;
+      throw error;
+    }
+    const updated = await page.removeContent(req.params.content);
+    res.json({
+      page: updated
     });
   } catch (error) {
     res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({

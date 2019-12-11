@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "edit content inside page configuration schema",
+  "type": "object",
+  "required": ["params", "body"],
+  "additionalProperties": false,
+  "properties": {
+    "params": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page"],
+      "properties": {
+        "page": {
+          "$ref": "#mongo-id"
+        }
+      }
+    },
+    "body": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#mongo-id"
+        },
+        "index": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["video", "image", "text"]
+        },
+        "content": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
