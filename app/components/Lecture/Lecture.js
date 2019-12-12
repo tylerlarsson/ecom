@@ -7,8 +7,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
 
-import './styles.css';
-
 const useStyles = makeStyles({
   wrap: {
     width: '100%',
