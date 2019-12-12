@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "delete navigation configuration schema",
+  "type": "object",
+  "required": ["course", "navigation"],
+  "additionalProperties": false,
+  "properties": {
+    "course": {
+      "$ref": "#mongo-id"
+    },
+    "navigation": {
+      "$ref": "#mongo-id"
+    }
+  }
+}
