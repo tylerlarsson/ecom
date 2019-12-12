@@ -32,16 +32,14 @@ const NAVIGATION = new mongoose.Schema(
 );
 
 NAVIGATION.statics.createNavigation = async args => {
-  const { course, ...rest } = args;
-  const _course = await Course.findById(course);
+  const _course = await Course.findById(args.course);
   if (!_course) {
-    const error = new Error(`No course with id ${course} is found.`);
+    const error = new Error(`No course with id ${args.course} is found.`);
     error.status = 404;
     throw error;
   } else {
-    const props = { ...rest };
-    const _new = new Navigation(props);
-    await Course.addNavigation(_new._id);
+    const _new = new Navigation(args);
+    await _course.addNavigation(_new._id);
     return _new.save();
   }
 };
@@ -104,9 +102,9 @@ NAVIGATION.statics.addLink = async args => {
   return _navigation.save();
 };
 
-NAVIGATION.methods.deleteLink = async args => {
+NAVIGATION.methods.deleteLink = async function deleteLink(args) {
   const _link = this.links.id(args.link);
-  if (_link) {
+  if (!_link) {
     const error = new Error(`No link with id ${args.link} is found.`);
     error.status = 404;
     throw error;

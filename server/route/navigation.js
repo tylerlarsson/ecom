@@ -1,9 +1,9 @@
 const HttpStatus = require('http-status-codes');
 const express = require('express');
 const router = express.Router();
-// const validator = require('../validator');
-// const createLogger = require('../logger');
-// const logger = createLogger('web-server.page-route');
+const validator = require('../validator');
+const createLogger = require('../logger');
+const logger = createLogger('web-server.page-route');
 const db = require('../db');
 
 /**
@@ -170,7 +170,7 @@ const db = require('../db');
  *         description: navigation id does not exist
  *       422:
  *         description: model does not satisfy the expected schema
- * /navigation/links/{link}:
+ * /navigation/links/{navigation}/{link}:
  *   delete:
  *     description: delete a link from DB
  *     consumes:
@@ -184,6 +184,12 @@ const db = require('../db');
  *         type: string
  *         schema:
  *           $ref: '#/definitions/Link'
+ *       - name: navigation
+ *         in: path
+ *         required: true
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/Navigation'
  *     responses:
  *       200:
  *         description: deleted a link in DB
@@ -240,6 +246,11 @@ const db = require('../db');
  */
 router.post('/', async (req, res) => {
   try {
+    if (!validator.createNavigation(req.body)) {
+      logger.error('validation of create navigation request failed', validator.createNavigation.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.createNavigation.errors });
+      return;
+    }
     const created = await db.model.Navigation.createNavigation(req.body);
     res.status(HttpStatus.CREATED).json({
       navigation: created
@@ -253,6 +264,11 @@ router.post('/', async (req, res) => {
 
 router.put('/', async (req, res) => {
   try {
+    if (!validator.editNavigation(req.body)) {
+      logger.error('validation of edit navigation request failed', validator.editNavigation.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.editNavigation.errors });
+      return;
+    }
     const updated = await db.model.Navigation.editNavigation(req.body);
     res.status(HttpStatus.OK).json({
       navigation: updated
@@ -264,36 +280,14 @@ router.put('/', async (req, res) => {
   }
 });
 
-router.get('/:course', async (req, res) => {
-  try {
-    const navigations = await db.model.Navigation.find({ course: req.params.course });
-    res.json({
-      navigations
-    });
-  } catch (error) {
-    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
-      errors: error.message
-    });
-  }
-});
-
-router.delete('/:course/:navigation', async (req, res) => {
-  try {
-    const { navigation: id, ...rest } = req.params;
-    const deleted = await db.model.Navigation.deleteNavigation({ id, ...rest });
-    res.status(HttpStatus.OK).json({
-      deleted
-    });
-  } catch (error) {
-    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
-      errors: error.message
-    });
-  }
-});
-
 router.put('/links/:navigation', async (req, res) => {
   try {
     const { params, body } = req;
+    if (!validator.editLink({ params, body })) {
+      logger.error('validation of edit link request failed', validator.editLink.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.editLink.errors });
+      return;
+    }
     const updated = await db.model.Navigation.editLink({ ...params, ...body });
     res.status(HttpStatus.OK).json({
       navigation: updated
@@ -308,6 +302,11 @@ router.put('/links/:navigation', async (req, res) => {
 router.post('/links/:navigation', async (req, res) => {
   try {
     const { params, body } = req;
+    if (!validator.createLink({ params, body })) {
+      logger.error('validation of create link request failed', validator.createLink.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.createLink.errors });
+      return;
+    }
     const updated = await db.model.Navigation.addLink({ navigation: params.navigation, ...body });
     res.status(HttpStatus.CREATED).json({
       navigation: updated
@@ -319,10 +318,58 @@ router.post('/links/:navigation', async (req, res) => {
   }
 });
 
-router.delete('/links/:link', async (req, res) => {
+router.delete('/links/:navigation/:link', async (req, res) => {
   try {
     const { params } = req;
-    const deleted = await db.model.Navigation.deleteLink({ ...params });
+    if (!validator.deleteLink(params)) {
+      logger.error('validation of delete link request failed', validator.deleteLink.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.deleteLink.errors });
+      return;
+    }
+    const nav = await db.model.Navigation.findById(params.navigation);
+    if (!nav) {
+      const error = new Error(`No nav with id ${params.navigation} id found.`);
+      error.status = HttpStatus.NOT_FOUND;
+      throw error;
+    }
+    const deleted = await nav.deleteLink({ link: params.link });
+    res.status(HttpStatus.OK).json({
+      deleted
+    });
+  } catch (error) {
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
+  }
+});
+
+router.get('/:course', async (req, res) => {
+  try {
+    if (!validator.getNavigation(req.params)) {
+      logger.error('validation of edit navigation request failed', validator.getNavigation.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.getNavigation.errors });
+      return;
+    }
+    const navigations = await db.model.Navigation.find({ course: req.params.course });
+    res.json({
+      navigations
+    });
+  } catch (error) {
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
+  }
+});
+
+router.delete('/:course/:navigation', async (req, res) => {
+  try {
+    if (!validator.deleteNavigation(req.params)) {
+      logger.error('validation of delete navigation request failed', validator.deleteNavigation.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.deleteNavigation.errors });
+      return;
+    }
+    const { navigation: id, ...rest } = req.params;
+    const deleted = await db.model.Navigation.deleteNavigation({ id, ...rest });
     res.status(HttpStatus.OK).json({
       deleted
     });
