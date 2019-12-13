@@ -14,33 +14,43 @@ const CONTENT_TYPE = {
   IMAGE: 'image'
 };
 
-const CONTENT = new mongoose.Schema({
-  index: { type: Number },
-  type: { type: String, enum: Object.values(CONTENT_TYPE), required: true },
-  content: { type: String },
-  url: { type: String }
-});
+const CONTENT = new mongoose.Schema(
+  {
+    index: { type: Number },
+    type: { type: String, enum: Object.values(CONTENT_TYPE), required: true },
+    content: { type: String },
+    url: { type: String }
+  },
+  DEFAULT_OPTIONS
+);
 
-const LECTURE = new mongoose.Schema({
-  title: { type: String, index: true },
-  file: String,
-  image: String,
-  text: { type: String },
-  allowComments: Boolean,
-  state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
-  content: [CONTENT],
-  createdAt: Date,
-  updatedAt: Date,
-  deletedAt: Date,
-  deleted: { type: Boolean, default: false }
-});
+const LECTURE = new mongoose.Schema(
+  {
+    title: { type: String, index: true },
+    file: String,
+    image: String,
+    text: { type: String },
+    allowComments: Boolean,
+    state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
+    content: [CONTENT],
+    createdAt: Date,
+    updatedAt: Date,
+    deletedAt: Date,
+    deleted: { type: Boolean, default: false }
+  },
+  DEFAULT_OPTIONS
+);
 
-const SECTION = new mongoose.Schema({
-  title: { type: String, index: true },
-  lectures: [LECTURE],
-  deletedAt: Date,
-  deleted: { type: Boolean, default: false }
-});
+const SECTION = new mongoose.Schema(
+  {
+    index: { type: Number, required: true },
+    title: { type: String, index: true },
+    lectures: [LECTURE],
+    deletedAt: Date,
+    deleted: { type: Boolean, default: false }
+  },
+  DEFAULT_OPTIONS
+);
 
 const COURSE = new mongoose.Schema(
   {
@@ -115,7 +125,8 @@ COURSE.methods.createSection = async function createSection(args) {
         this.sections.push({ lectures: [], ...rest });
       }
     }
-    return this.save();
+    await this.save();
+    return this && this.sections;
   }
   if (id) {
     const _section = this.sections.id(id);

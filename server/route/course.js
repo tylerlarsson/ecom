@@ -180,8 +180,8 @@ router.post('/:course/section', async (req, res) => {
         .json({ errors: [{ dataPath: 'course.id', message: 'course not found for provided id' }] });
       return;
     }
-    const sectionCount = await course.createSection(body);
-    res.json({ sectionCount });
+    const sections = await course.createSection(body);
+    res.json({ sections });
   } catch (error) {
     res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
       errors: error.message
@@ -435,7 +435,7 @@ router.post('/:course/section/:section/lecture', async (req, res) => {
       .json({ errors: [{ dataPath: 'course.id', message: 'course not found for provided id' }] });
     return;
   }
-  if (params.section >= course.sections.length) {
+  if (!course.sections.id(params.section)) {
     logger.error('section does not exist, index', params.section);
     res
       .status(HttpStatus.CONFLICT)
@@ -443,8 +443,8 @@ router.post('/:course/section/:section/lecture', async (req, res) => {
     return;
   }
 
-  const { lectureCount } = await course.createLecture({ ...body, section: params.section });
-  res.json({ lectureCount });
+  const lectures = await course.createLecture({ ...body, section: params.section });
+  res.status(HttpStatus.CREATED).json({ lectures });
 });
 
 router.delete('/:course/section/:section/lecture/:lecture', async (req, res) => {
@@ -452,7 +452,7 @@ router.delete('/:course/section/:section/lecture/:lecture', async (req, res) => 
   if (!validator.deleteLecture({ params })) {
     const { errors } = validator.deleteLecture;
     logger.error('Validation of delete lecture request is failed', errors);
-    res.status(HttpStatus.BAD_REQUEST).json({ errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
   }
 
   const course = await db.model.Course.findById(params.course);
@@ -486,9 +486,9 @@ router.put('/:course/section/:section/lecture/:lecture', async (req, res) => {
   }
 
   try {
-    const _course = await course.createLecture({ ...params, ...body });
+    const lectures = await course.createLecture({ ...params, ...body });
     res.status(HttpStatus.OK).json({
-      course: _course
+      lectures
     });
   } catch (error) {
     res.status(error.status || 500).json({ errors: error.message });

@@ -22,6 +22,9 @@
             "id": {
               "$ref": "#mongo-id"
             },
+            "index": {
+              "type": "number"
+            },
             "title": {
               "type": "string"
             },
@@ -81,6 +84,9 @@
                   },
                   "title": {
                     "type": "string"
+                  },
+                  "index": {
+                    "type": "number"
                   },
                   "lectures": {
                     "type": "array",

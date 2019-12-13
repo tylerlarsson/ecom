@@ -16,8 +16,7 @@ module.exports = {
   },
   mocks: {
     mockSection: {
-      index: 0,
-      text: '12345'
+      title: 'test title'
     },
     mockCourse: {
       title: 'Mock title course',
@@ -49,6 +48,17 @@ module.exports = {
   async navigationFactory() {
     const course = await this.courseFactory();
     return this.model.Navigation.createNavigation({ ...this.mocks.mockNav, course: course._id });
+  },
+
+  async sectionFactory() {
+    const course = await this.courseFactory();
+    const [section] = await course.createSection(this.mocks.mockSection);
+    return { section, course: course._id.toString() };
+  },
+
+  async lectureFactory() {
+    // const course = await this.courseFactory();
+    // const [ section ] = await course.createSection(this.mocks.mockSection);
   },
 
   beforeAll(done) {
