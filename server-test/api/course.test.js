@@ -15,6 +15,10 @@ describe('course api test', () => {
     await db.model.User.deleteMany({});
   });
 
+  afterEach(async () => {
+    await db.model.Course.deleteMany({});
+  });
+
   beforeAll(async () => {
     // test-role
     let res = await request(app)
@@ -118,14 +122,18 @@ describe('course api test', () => {
     expect(res.status).toBe(HttpStatus.OK);
     let { sections } = res.body;
     const editTitle = 'edit';
-    sections = sections.map(s => ({ id: s._id, title: editTitle }));
+    sections = sections.map(s => ({ id: s.id, title: editTitle }));
     res = await request(app)
       .post(`${path}/${course._id.toString()}/section`)
       .send({ sections });
+    sections = res.body.sections;
+
+    console.log('After edit sections ->', sections);
+
     expect(res.status).toBe(HttpStatus.OK);
-    expect(res.body.sections[0].title).toBe(editTitle);
-    expect(res.body.sections[1].title).toBe(editTitle);
-    expect(res.body.sections[2].title).toBe(editTitle);
+    expect(sections[0].title).toBe(editTitle);
+    expect(sections[1].title).toBe(editTitle);
+    expect(sections[2].title).toBe(editTitle);
   });
   test(`should edit section`, async () => {
     const course = await db.courseFactory();
@@ -139,7 +147,7 @@ describe('course api test', () => {
     res = await request(app)
       .post(`${path}/${course._id.toString()}/section`)
       .send({
-        id: section._id,
+        id: section.id,
         title: 'edit'
       });
     expect(res.status).toBe(HttpStatus.OK);
@@ -248,28 +256,28 @@ describe('course api test', () => {
       });
     expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
+
   test(`should raise error if course is not found`, async () => {
     const res = await request(app)
       .post(`${path}/${db.mocks.mockId}/section/${db.mocks.mockId}/lecture`)
       .send({
-        section: db.mocks.mockId,
-        id: db.mocks.mockId
+        title: 'test title',
+        file: 'test file'
       });
-    expect(res.status).toBe(HttpStatus.CONFLICT);
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
   });
+
   test(`should raise error if section is not found`, async () => {
     const course = await db.courseFactory();
     const res = await request(app)
-      .post(`${path}/${course._id.toString()}/section/${db.mocks.mockId}/lecture`)
+      .post(`${path}/${course._id.toString()}/section/${course._id.toString()}/lecture`)
       .send({
-        section: db.mocks.mockId,
-        id: db.mocks.mockId,
         title: 'test title',
-        file: 'test file',
-        allowComments: false
+        file: 'test file'
       });
-    expect(res.status).toBe(HttpStatus.CONFLICT);
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
   });
+
   test(`should create lecture`, async () => {
     const { course, section } = await db.sectionFactory();
     const res = await request(app)
@@ -310,5 +318,64 @@ describe('course api test', () => {
     expect(res.status).toBe(HttpStatus.NOT_FOUND);
   });
 
-  test(`should delete lecture`, async () => {});
+  test(`should delete lecture`, async () => {
+    const { course, section, lecture } = await db.lectureFactory();
+    console.log(course, section, lecture);
+    const res = await request(app).delete(`${path}/${course}/section/${section}/lecture/${lecture._id}`);
+    expect(res.status).toBe(HttpStatus.ACCEPTED);
+    expect(res.body.lectures[0].deleted).toBe(true);
+  });
+
+  // PUT /course/:course/section/:section/lecture/:lecture
+  test(`should raise error if schema is invalid`, async () => {
+    const _m = db.mocks.mockId;
+    const res = await request(app)
+      .put(`${path}/12345/section/${_m}/lecture/${_m}`)
+      .send({ test: 123 });
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+  });
+
+  test(`should raise error if course is not found`, async () => {
+    const _m = db.mocks.mockId;
+    const res = await request(app)
+      .put(`${path}/${_m}/section/${_m}/lecture/${_m}`)
+      .send({
+        title: 'edit'
+      });
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
+  });
+
+  test(`should raise error if section is not found`, async () => {
+    const _m = db.mocks.mockId;
+    const course = await db.courseFactory();
+    const res = await request(app)
+      .put(`${path}/${course._id}/section/${_m}/lecture/${_m}`)
+      .send({
+        title: 'edit'
+      });
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
+  });
+
+  test(`should raise error if lecture is not found`, async () => {
+    const { course, section } = await db.sectionFactory();
+    const res = await request(app)
+      .put(`${path}/${course}/section/${section._id}/lecture/${db.mocks.mockId}`)
+      .send({
+        title: 'edit'
+      });
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
+  });
+
+  test(`should edit lecture`, async () => {
+    const { course, section, lecture } = await db.lectureFactory();
+    const res = await request(app)
+      .put(`${path}/${course}/section/${section}/lecture/${lecture._id}`)
+      .send({
+        title: 'edit'
+      });
+    console.log(res.body);
+    // const [edited] = res.body.lectures;
+    expect(res.status).toBe(HttpStatus.OK);
+    // expect(edited.title).toBe('edit');
+  });
 });

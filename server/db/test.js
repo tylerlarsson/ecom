@@ -57,8 +57,10 @@ module.exports = {
   },
 
   async lectureFactory() {
-    // const course = await this.courseFactory();
-    // const [ section ] = await course.createSection(this.mocks.mockSection);
+    const course = await this.courseFactory();
+    const [section] = await course.createSection(this.mocks.mockSection);
+    const lecture = await course.createLecture({ section: section._id, title: 'test title', file: 'test file' });
+    return { course: course._id || course.id, section: section._id || section.id, lecture };
   },
 
   beforeAll(done) {

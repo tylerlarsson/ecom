@@ -167,7 +167,7 @@ router.post('/', async (req, res) => {
 router.post('/:course/section', async (req, res) => {
   const { body, params } = req;
   if (!validator.courseSection({ body, params })) {
-    logger.error('validation of create course section request failed', validator.courseSection.errors);
+    console.error('validation of create course section request failed', validator.courseSection.errors);
     res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseSection.errors });
     return;
   }
@@ -193,20 +193,22 @@ router.delete('/:course/section/:section', async (req, res) => {
   const { params } = req;
   if (!validator.deleteSection({ params })) {
     logger.error('validation of create course section request failed', validator.deleteSection.errors);
-    res.status(HttpStatus.BAD_REQUEST).json({ errors: validator.deleteSection.errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.deleteSection.errors });
+    return;
   }
-
-  const course = await db.model.Course.findById(params.course);
-  if (!course) {
-    res.status(HttpStatus.NOT_FOUND).json({ errors: `Course with id ${params.course} is not found` });
-  }
-
   try {
+    const course = await db.model.Course.findById(params.course);
+    if (!course) {
+      const error = new Error(`Course with id ${params.course} is not found`);
+      error.status = HttpStatus.NOT_FOUND;
+      throw error;
+    }
     const _course = await course.deleteSection(params.section);
     res.status(HttpStatus.ACCEPTED).json({
       course: _course
     });
   } catch (error) {
+    console.error(error);
     res.status(error.status || 500).json({ errors: error.message });
   }
 });
@@ -420,31 +422,24 @@ router.delete('/:course/section/:section', async (req, res) => {
  *
  */
 router.post('/:course/section/:section/lecture', async (req, res) => {
-  const { body, params } = req;
-  if (!validator.courseLecture({ body, params })) {
-    logger.error('validation of create course lecture request failed', validator.courseLecture.errors);
-    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseLecture.errors });
-    return;
+  try {
+    const { body, params } = req;
+    if (!validator.courseLecture({ body, params })) {
+      logger.error('validation of create course lecture request failed', validator.courseLecture.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseLecture.errors });
+      return;
+    }
+    const course = await db.model.Course.findById(params.course);
+    if (!course) {
+      const error = new Error(`Course with id ${params.course} is not found`);
+      error.status = HttpStatus.NOT_FOUND;
+      throw error;
+    }
+    const lectures = await course.createLecture({ ...body, ...params });
+    res.status(HttpStatus.CREATED).json({ lectures });
+  } catch (error) {
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({ errors: error.message });
   }
-
-  const course = await db.model.Course.findById(params.course);
-  if (!course) {
-    logger.error('course not found, id', params.course);
-    res
-      .status(HttpStatus.CONFLICT)
-      .json({ errors: [{ dataPath: 'course.id', message: 'course not found for provided id' }] });
-    return;
-  }
-  if (!course.sections.id(params.section)) {
-    logger.error('section does not exist, index', params.section);
-    res
-      .status(HttpStatus.CONFLICT)
-      .json({ errors: [{ dataPath: 'section.index', message: `section does not exist, index ${params.section}` }] });
-    return;
-  }
-
-  const lectures = await course.createLecture({ ...body, section: params.section });
-  res.status(HttpStatus.CREATED).json({ lectures });
 });
 
 router.delete('/:course/section/:section/lecture/:lecture', async (req, res) => {
@@ -453,21 +448,21 @@ router.delete('/:course/section/:section/lecture/:lecture', async (req, res) => 
     const { errors } = validator.deleteLecture;
     logger.error('Validation of delete lecture request is failed', errors);
     res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
+    return;
   }
-
-  const course = await db.model.Course.findById(params.course);
-
-  if (!course) {
-    res.status(HttpStatus.NOT_FOUND).json({ errors: `Course with id ${params.course} is not found` });
-  }
-
   try {
-    const _course = await course.deleteLecture(params.section, params.lecture);
+    const course = await db.model.Course.findById(params.course);
+    if (!course) {
+      const error = new Error(`Course with id ${params.course} is not found`);
+      error.status = HttpStatus.NOT_FOUND;
+      throw error;
+    }
+    const lectures = await course.deleteLecture(params.section, params.lecture);
     res.status(HttpStatus.ACCEPTED).json({
-      course: _course
+      lectures
     });
   } catch (error) {
-    res.status(error.status || 500).json({ errors: error.message });
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({ errors: error.message });
   }
 });
 
@@ -476,22 +471,24 @@ router.put('/:course/section/:section/lecture/:lecture', async (req, res) => {
   if (!validator.putLecture({ params, body })) {
     const { errors } = validator.putLecture;
     logger.error('Validation of delete lecture request is failed', errors);
-    res.status(HttpStatus.BAD_REQUEST).json({ errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
+    return;
   }
-
-  const course = await db.model.Course.findById(params.course);
-
-  if (!course) {
-    res.status(HttpStatus.NOT_FOUND).json({ errors: `Course with id ${params.course} is not found` });
-  }
-
   try {
-    const lectures = await course.createLecture({ ...params, ...body });
+    const course = await db.model.Course.findById(params.course);
+    if (!course) {
+      const error = new Error(`Course with id ${params.course} is not found`);
+      error.status = HttpStatus.NOT_FOUND;
+      throw error;
+    }
+    const lectures = await course.editLecture({ ...params, ...body });
     res.status(HttpStatus.OK).json({
       lectures
     });
   } catch (error) {
-    res.status(error.status || 500).json({ errors: error.message });
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
   }
 });
 
@@ -573,22 +570,27 @@ router.get('/', paginated(20), async (req, res) => {
  */
 router.get('/:course', async (req, res) => {
   const { params } = req;
-  if (!validator.getCourse({ params })) {
-    const { errors } = validator.getCourse;
-    logger.error('Validation of get course request is failed', errors);
-    res.status(HttpStatus.BAD_REQUEST).json({ errors });
-  }
-  const course = await db.model.Course.findById(params.course);
-
-  if (!course) {
-    res.status(HttpStatus.NOT_FOUND).json({
-      error: `Course with id ${params.course} is not found`
+  try {
+    if (!validator.getCourse({ params })) {
+      const { errors } = validator.getCourse;
+      logger.error('Validation of get course request is failed', errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
+      return;
+    }
+    const course = await db.model.Course.findById(params.course);
+    if (!course) {
+      const error = new Error(`Course with id ${params.course} is not found`);
+      error.status = HttpStatus.NOT_FOUND;
+      throw error;
+    }
+    res.json({
+      course
+    });
+  } catch (error) {
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
     });
   }
-
-  res.json({
-    course
-  });
 });
 
 router.delete('/:course', async (req, res) => {
@@ -596,7 +598,8 @@ router.delete('/:course', async (req, res) => {
   if (!validator.getCourse({ params })) {
     const { errors } = validator.getCourse;
     logger.error('Validation of get course request is failed', errors);
-    res.status(HttpStatus.BAD_REQUEST).json({ errors });
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
+    return;
   }
   try {
     const course = await db.model.Course.deleteCourse(params.course);
@@ -604,7 +607,7 @@ router.delete('/:course', async (req, res) => {
       course
     });
   } catch (error) {
-    res.status(error.status || 500).json({
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
       errors: error.message
     });
   }

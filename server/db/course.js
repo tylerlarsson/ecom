@@ -43,7 +43,7 @@ const LECTURE = new mongoose.Schema(
 
 const SECTION = new mongoose.Schema(
   {
-    index: { type: Number, required: true },
+    index: { type: Number },
     title: { type: String, index: true },
     lectures: [LECTURE],
     deletedAt: Date,
@@ -144,28 +144,43 @@ COURSE.methods.createSection = async function createSection(args) {
 };
 
 COURSE.methods.createLecture = async function createLecture(args) {
-  const { section, id: _id, ...rest } = args;
+  const { section, ...rest } = args;
   if (this.sections && this.sections.length) {
     const _section = this.sections.id(section);
-    const lectureId = _id || args.lecture;
-    if (lectureId && _section.lectures && _section.lectures.length) {
-      const _lecture = _section.lectures.id(lectureId);
-      Object.assign(_lecture, {
-        updatedAt: new Date(),
-        ...rest
-      });
-    } else {
-      _section.lectures.push({
-        createdAt: new Date(),
-        ...rest
-      });
+    console.log(section, _section);
+    if (!_section) {
+      const error = new Error(`No section with id ${section} is found`);
+      error.status = 404;
+      throw error;
     }
+    _section.lectures.push({
+      createdAt: new Date(),
+      ...rest
+    });
     await this.save();
-    return {
-      lectureCount: _section.lectures.length
-    };
+    return this.sections.id(section).lectures;
   }
-  return 0;
+};
+
+COURSE.methods.editLecture = async function editLecture(args) {
+  const { lecture, section, ...rest } = args;
+  if (this.sections && this.sections.length) {
+    const _section = this.sections.id(section);
+    if (!_section) {
+      const error = new Error(`No section with id ${section} is found`);
+      error.status = 404;
+      throw error;
+    }
+    const _lecture = _section.lectures.id(lecture);
+    if (!_lecture) {
+      const error = new Error(`No lecture with id ${lecture} is found`);
+      error.status = 404;
+      throw error;
+    }
+    Object.assign(_lecture, { ...rest, updatedAt: new Date() });
+    await this.save();
+    return this.sections.id(section).lectures;
+  }
 };
 
 COURSE.methods.deleteLecture = async function deleteLecture(section, lecture) {
@@ -183,7 +198,7 @@ COURSE.methods.deleteLecture = async function deleteLecture(section, lecture) {
     }
     _lecture.deleted = true;
     _lecture.deletedAt = new Date();
-    return this.save();
+    return this.sections.id(section).lectures;
   }
 };
 
