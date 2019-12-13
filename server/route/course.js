@@ -73,12 +73,14 @@ router.post('/', async (req, res) => {
     return;
   }
 
-  data.authors = await db.model.User.mapToId(data.authors);
-  const course = await db.model.Course.create(data);
-  const section = await course.createSection({ title: 'First section' });
-  await course.createLecture({ title: 'First lecture', status: 'draft', section: section._id });
-  logger.info('course', course.title, 'has been created/updated, id', String(course._id));
-  res.json(course);
+  try {
+    data.authors = await db.model.User.mapToId(data.authors);
+    const course = await db.model.Course.create(data);
+    logger.info('course', course.title, 'has been created/updated, id', String(course._id));
+    res.json(course);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 /**
@@ -169,17 +171,22 @@ router.post('/:course/section', async (req, res) => {
     res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseSection.errors });
     return;
   }
-
-  const course = await db.model.Course.findById(params.course);
-  if (!course) {
-    logger.error('course not found, id', params.course);
-    res
-      .status(HttpStatus.CONFLICT)
-      .json({ errors: [{ dataPath: 'course.id', message: 'course not found for provided id' }] });
-    return;
+  try {
+    const course = await db.model.Course.findById(params.course);
+    if (!course) {
+      logger.error('course not found, id', params.course);
+      res
+        .status(HttpStatus.NOT_FOUND)
+        .json({ errors: [{ dataPath: 'course.id', message: 'course not found for provided id' }] });
+      return;
+    }
+    const sectionCount = await course.createSection(body);
+    res.json({ sectionCount });
+  } catch (error) {
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
   }
-  const sectionCount = await course.createSection(body);
-  res.json({ sectionCount });
 });
 
 router.delete('/:course/section/:section', async (req, res) => {

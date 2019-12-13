@@ -16,23 +16,54 @@
     },
     "body": {
       "type": "object",
-      "required": ["title"],
-      "properties": {
-        "section": {
-          "$ref": "#mongo-id"
-        },
-        "title": {
-          "type": "string"
-        }
-      },
       "anyOf": [
         {
           "properties": {
-            "section": {
+            "id": {
               "$ref": "#mongo-id"
             },
             "title": {
               "type": "string"
+            },
+            "lectures": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "index": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#lecture-content"
+                    }
+                  },
+                  "image": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "allowComments": {
+                    "type": "boolean"
+                  },
+                  "file": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string",
+                    "enum": ["active", "draft"]
+                  }
+                }
+              }
+            },
+            "deleted": {
+              "type": "boolean"
             }
           },
           "required": ["title"]
@@ -45,11 +76,51 @@
                 "type": "object",
                 "required": ["title"],
                 "properties": {
-                  "section": {
+                  "id": {
                     "$ref": "#mongo-id"
                   },
                   "title": {
                     "type": "string"
+                  },
+                  "lectures": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "index": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "content": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#lecture-content"
+                          }
+                        },
+                        "image": {
+                          "type": "string"
+                        },
+                        "text": {
+                          "type": "string"
+                        },
+                        "allowComments": {
+                          "type": "boolean"
+                        },
+                        "file": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string",
+                          "enum": ["active", "draft"]
+                        }
+                      }
+                    }
+                  },
+                  "deleted": {
+                    "type": "boolean"
                   }
                 }
               }

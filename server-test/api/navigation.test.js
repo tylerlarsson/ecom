@@ -91,7 +91,6 @@ describe('navigation api test', () => {
       .put(`${path}/links/${navigation._id}`)
       .send({ id: navId, text: 'test text' });
     expect(res.status).toBe(HttpStatus.OK);
-    console.log(res.body);
     expect(res.body.navigation.links[0].text).toBe('test text');
   });
 

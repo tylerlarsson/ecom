@@ -37,7 +37,7 @@ const PAGE = new mongoose.Schema(
 );
 
 PAGE.statics.editPage = async args => {
-  const { id, course, ...rest } = args;
+  const { id, ...rest } = args;
   const page = await Page.findById(args.id);
 
   if (!page) {

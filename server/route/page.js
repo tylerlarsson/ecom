@@ -306,7 +306,7 @@ router.post('/', async (req, res) => {
       return;
     }
     const page = await db.model.Page.createPage(req.body);
-    res.json({
+    res.status(HttpStatus.CREATED).json({
       page
     });
   } catch (error) {

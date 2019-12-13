@@ -58,11 +58,11 @@ const COURSE = new mongoose.Schema(
   DEFAULT_OPTIONS
 );
 
-COURSE.pre('find', populatePricing, softDeletedMiddleware);
-COURSE.pre('findOne', populatePricing, softDeletedMiddleware);
-COURSE.pre('count', populatePricing, softDeletedMiddleware);
-COURSE.pre('countDocuments', populatePricing, softDeletedMiddleware);
-COURSE.pre('findById', populatePricing, softDeletedMiddleware);
+COURSE.pre('find', softDeletedMiddleware, populatePricing);
+COURSE.pre('findOne', softDeletedMiddleware, populatePricing);
+COURSE.pre('count', softDeletedMiddleware, populatePricing);
+COURSE.pre('countDocuments', softDeletedMiddleware, populatePricing);
+COURSE.pre('findById', softDeletedMiddleware, populatePricing);
 
 COURSE.post('find', removeNestedSoftDeleted);
 COURSE.post('findOne', removeNestedSoftDeleted);
@@ -97,34 +97,39 @@ COURSE.statics.deleteCourse = async course => {
 };
 
 COURSE.methods.createSection = async function createSection(args) {
-  const { section, title, sections = [] } = args;
+  const { id, sections = [], ...rest } = args;
   if (!this.sections) {
     this.sections = [];
   }
-  if (section && sections.length) {
-    for (const { section: secId, title: secTitle } of sections) {
+  if (sections && sections.length) {
+    for (const { id: secId, ...rest } of sections) {
       if (secId) {
         const _section = this.sections.id(secId);
-        if (!section) {
+        if (!_section) {
           const error = new Error(`Section with id ${secId} is not found.`);
           error.status = 404;
           throw error;
         }
-        _section.title = secTitle;
+        Object.assign(_section, rest);
       } else {
-        this.sections.push({ title: secTitle, lectures: [] });
+        this.sections.push({ lectures: [], ...rest });
       }
     }
     return this.save();
   }
-  if (section) {
-    const _section = this.sections.id(section);
-    _section.title = title;
+  if (id) {
+    const _section = this.sections.id(id);
+    if (!_section) {
+      const error = new Error(`Section with id ${id} is not found.`);
+      error.status = 404;
+      throw error;
+    }
+    Object.assign(_section, { ...rest });
   } else {
-    this.sections.push({ title, lectures: [] });
+    this.sections.push({ ...rest });
   }
   const course = await this.save();
-  return course.sections.find(s => s.title === title);
+  return course && course.sections;
 };
 
 COURSE.methods.createLecture = async function createLecture(args) {

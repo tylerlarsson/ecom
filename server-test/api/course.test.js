@@ -74,4 +74,36 @@ describe('course api test', () => {
     expect(res.body.title).toBe('angular 8');
     expect(res.body.subtitle).toBe('angular 8 tips and tricks');
   });
+
+  // POST /course/:course/section
+  test(`should raise error if schema is invalid`, async () => {
+    const res = await request(app).post(`${path}/12345/section`);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+  });
+  test(`should raise error if course is not found`, async () => {
+    const res = await request(app)
+      .post(`${path}/${db.mocks.mockId}/section`)
+      .send({
+        index: 0,
+        title: 'Test title'
+      });
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
+  });
+  test(`should save several sections`, async () => {
+    const course = await db.courseFactory();
+    const res = await request(app)
+      .post(`${path}/${course._id.toString()}/section`)
+      .send({
+        sections: [db.mocks.mockSection, db.mocks.mockSection]
+      });
+    expect(res.status).toBe(HttpStatus.OK);
+  });
+  test(`should save section`, async () => {
+    // const coures = await db.courseFactory();
+    // const res = await request(app)
+    //   .post(`${path}/${course._id.toSTring()}/section`)
+    //   .send({
+    //     title: 'test title'
+    //   });
+  });
 });

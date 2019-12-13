@@ -90,7 +90,9 @@ describe('page api test', () => {
     expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
   test(`shouldn't create with non-existing course`, async () => {
-    const res = await request(app).post(`${path}`, { course: '5de67523938486465bbfdc76', ...mockPage });
+    const res = await request(app)
+      .post(path)
+      .send({ course: '5de67523938486465bbfdc76', ...mockPage });
     expect(res.status).toBe(HttpStatus.NOT_FOUND);
   });
   test('should create a new page', async () => {
@@ -100,7 +102,7 @@ describe('page api test', () => {
       .send({ course: course._id, ...mockPage });
     expect(res.status).toBe(HttpStatus.CREATED);
     const { page } = res.body;
-    expect(page.course).toBe(course._id);
+    expect(page.course).toBe(course._id.toString());
     expect(page.url).toBe(mockPage.url);
     expect(page.description).toBe(mockPage.description);
     expect(page.showFooter).toBe(mockPage.showFooter);
@@ -113,15 +115,6 @@ describe('page api test', () => {
       .put(`${path}`)
       .send(mockPage);
     expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
-  });
-  test(`shouldn't edit with non-existing course`, async () => {
-    const course = await db.model.Course.create(mockCourse);
-    const page = await db.model.Page.createPage({ course: course._id, ...mockPage });
-
-    const res = await request(app)
-      .put(path)
-      .send({ course: db.mocks.mockId, id: page._id, ...mockPage });
-    expect(res.status).toBe(HttpStatus.NOT_FOUND);
   });
   test(`shouldn't edit with non-existing page`, async () => {
     const course = await db.model.Course.create(mockCourse);

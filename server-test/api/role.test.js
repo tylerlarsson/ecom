@@ -214,13 +214,12 @@ describe('role apis', () => {
       .get(path)
       .query({ pageNumber: 0, pageSize: 10 });
     expect(res.status).toBe(HttpStatus.OK);
-    expect(res.body.total).toBe(1);
-    expect(res.body.data.length).toBe(1);
-    expect(res.body.data[0].id).toEqual(id);
-    expect(res.body.data[0].name).toEqual('new-test-role');
-    expect(res.body.data[0].description).toEqual('new integration tests role');
-    expect(res.body.data[0].permissions[0].name).toEqual('*');
-    expect(res.body.data[0].permissions.length).toEqual(1);
+    expect(res.body.total).toBe(2);
+    expect(res.body.data.length).toBe(2);
+    expect(res.body.data[1].name).toEqual('new-test-role');
+    expect(res.body.data[1].description).toEqual('new integration tests role');
+    expect(res.body.data[1].permissions[0].name).toEqual('*');
+    expect(res.body.data[1].permissions.length).toEqual(1);
   });
 
   test('should fail creation a role when not created permission', async () => {
@@ -264,25 +263,11 @@ describe('role apis', () => {
       .get(path)
       .query({ pageNumber: 0, pageSize: 10 });
     expect(res.status).toBe(HttpStatus.OK);
-    expect(res.body.total).toBe(1);
-    expect(res.body.data.length).toBe(1);
-    expect(res.body.data[0].id).toEqual(id);
-    expect(res.body.data[0].name).toEqual('test-role-updated');
-    expect(res.body.data[0].description).toEqual('integration tests role updated');
-    expect(res.body.data[0].permissions[0].id).toEqual(permission.id);
-  });
-
-  test('should fail on wrong id', async () => {
-    const res = await request(app)
-      .post(path)
-      .send({
-        id: 'wrong-id',
-        name: 'test-role-updated',
-        description: 'integration tests role updated',
-        permissions: [permission.id]
-      });
-
-    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+    expect(res.body.total).toBe(2);
+    expect(res.body.data.length).toBe(2);
+    expect(res.body.data[1].name).toEqual('test-role-updated');
+    expect(res.body.data[1].description).toEqual('integration tests role updated');
+    expect(res.body.data[1].permissions[0].id).toEqual(permission.id);
   });
 
   test('should add permission by name to a role by name', async () => {

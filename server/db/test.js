@@ -15,6 +15,10 @@ module.exports = {
     Navigation: require('./navigation')
   },
   mocks: {
+    mockSection: {
+      index: 0,
+      text: '12345'
+    },
     mockCourse: {
       title: 'Mock title course',
       subtitle: 'Mock subtitle course',
