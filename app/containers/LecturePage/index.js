@@ -27,8 +27,6 @@ import { getGignUrl } from 'redux/actions/files';
 import { toDataURL } from '../../utils/files';
 import { DND_DELAY } from 'constants/default';
 
-import './styles.css';
-
 const styles = {
   cardCategoryWhite: {
     '&,& a,& a:hover,& a:focus': {
@@ -187,10 +185,10 @@ class CourseCurriculum extends Component {
     const { match } = this.props;
     const lectureId = match && match.params && match.params.lecture;
     let section = null;
-    let lecture = null;
+    let lecture = {};
     forEach(course && course.sections, sectionItem => {
       forEach(sectionItem && sectionItem.lectures, item => {
-        if (item._id === lectureId) {
+        if (item._id === lectureId || item.id === lectureId) {
           lecture = item;
           section = sectionItem;
         }
@@ -245,7 +243,7 @@ class CourseCurriculum extends Component {
       ...data,
       id: lectureId,
       courseId: course && course.id,
-      section: section._id
+      section: section._id || section.id
     };
 
     createLectureAction(payload);
@@ -366,7 +364,7 @@ class CourseCurriculum extends Component {
     return (
       <>
         <CustomNavbar
-          component={<LectureTitle title={lecture.title} onChange={this.onChangeTitle} onBack={this.handleBack} />}
+          component={<LectureTitle title={lecture && lecture.title} onChange={this.onChangeTitle} onBack={this.handleBack} />}
           right={this.renderNavbar(classes)}
         />
         <AdminContent>

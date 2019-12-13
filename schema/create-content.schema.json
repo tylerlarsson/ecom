@@ -21,7 +21,8 @@
       "additionalProperties": false,
       "properties": {
         "index": {
-          "type": "string"
+          "type": "number",
+          "minimum": 0
         },
         "type": {
           "type": "string",

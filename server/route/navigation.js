@@ -312,6 +312,7 @@ router.post('/links/:navigation', async (req, res) => {
       navigation: updated
     });
   } catch (error) {
+    console.error('POST LINK ERROR:', error);
     res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
       errors: error.message
     });

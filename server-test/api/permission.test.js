@@ -29,7 +29,7 @@ describe('permissions apis', () => {
     description = res.body.description;
 
     expect(res.status).toBe(HttpStatus.OK);
-    expect(id).toMatch(/^[\da-z]{24}$/);
+    expect(id).toMatch('read-write');
     expect(name).toBe('read-write');
     expect(description).toBe('read write permission');
   });
@@ -88,9 +88,13 @@ describe('permissions apis', () => {
       .get(path)
       .query({ pageNumber: 0, pageSize: 10 });
     expect(res.status).toBe(HttpStatus.OK);
-    expect(res.body.total).toBe(1);
-    expect(res.body.data.length).toBe(1);
-    expect(res.body.data[0]).toEqual({ id, name: 'read-write-changed', description: 'read write changed permission' });
+    expect(res.body.total).toBe(2);
+    expect(res.body.data.length).toBe(2);
+    expect(res.body.data[1]).toEqual({
+      id: 'read-write-changed',
+      name: 'read-write-changed',
+      description: 'read write changed permission'
+    });
   });
 
   test('should delete the permission by id', async () => {
@@ -119,7 +123,7 @@ describe('permissions apis', () => {
     const res = await request(app)
       .post(path)
       .send({
-        id: 'wrong-id',
+        id: 12345,
         name: 'read-write-updated',
         description: 'updated'
       });

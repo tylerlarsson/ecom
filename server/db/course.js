@@ -14,33 +14,43 @@ const CONTENT_TYPE = {
   IMAGE: 'image'
 };
 
-const CONTENT = new mongoose.Schema({
-  index: { type: Number },
-  type: { type: String, enum: Object.values(CONTENT_TYPE), required: true },
-  content: { type: String },
-  url: { type: String }
-});
+const CONTENT = new mongoose.Schema(
+  {
+    index: { type: Number },
+    type: { type: String, enum: Object.values(CONTENT_TYPE), required: true },
+    content: { type: String },
+    url: { type: String }
+  },
+  DEFAULT_OPTIONS
+);
 
-const LECTURE = new mongoose.Schema({
-  title: { type: String, index: true },
-  file: String,
-  image: String,
-  text: { type: String },
-  allowComments: Boolean,
-  state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
-  content: [CONTENT],
-  createdAt: Date,
-  updatedAt: Date,
-  deletedAt: Date,
-  deleted: { type: Boolean, default: false }
-});
+const LECTURE = new mongoose.Schema(
+  {
+    title: { type: String, index: true },
+    file: String,
+    image: String,
+    text: { type: String },
+    allowComments: Boolean,
+    state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
+    content: [CONTENT],
+    createdAt: Date,
+    updatedAt: Date,
+    deletedAt: Date,
+    deleted: { type: Boolean, default: false }
+  },
+  DEFAULT_OPTIONS
+);
 
-const SECTION = new mongoose.Schema({
-  title: { type: String, index: true },
-  lectures: [LECTURE],
-  deletedAt: Date,
-  deleted: { type: Boolean, default: false }
-});
+const SECTION = new mongoose.Schema(
+  {
+    index: { type: Number },
+    title: { type: String, index: true },
+    lectures: [LECTURE],
+    deletedAt: Date,
+    deleted: { type: Boolean, default: false }
+  },
+  DEFAULT_OPTIONS
+);
 
 const COURSE = new mongoose.Schema(
   {
@@ -58,11 +68,11 @@ const COURSE = new mongoose.Schema(
   DEFAULT_OPTIONS
 );
 
-COURSE.pre('find', populatePricing, softDeletedMiddleware);
-COURSE.pre('findOne', populatePricing, softDeletedMiddleware);
-COURSE.pre('count', populatePricing, softDeletedMiddleware);
-COURSE.pre('countDocuments', populatePricing, softDeletedMiddleware);
-COURSE.pre('findById', populatePricing, softDeletedMiddleware);
+COURSE.pre('find', softDeletedMiddleware, populatePricing);
+COURSE.pre('findOne', softDeletedMiddleware, populatePricing);
+COURSE.pre('count', softDeletedMiddleware, populatePricing);
+COURSE.pre('countDocuments', softDeletedMiddleware, populatePricing);
+COURSE.pre('findById', softDeletedMiddleware, populatePricing);
 
 COURSE.post('find', removeNestedSoftDeleted);
 COURSE.post('findOne', removeNestedSoftDeleted);
@@ -97,59 +107,80 @@ COURSE.statics.deleteCourse = async course => {
 };
 
 COURSE.methods.createSection = async function createSection(args) {
-  const { section, title, sections = [] } = args;
+  const { id, sections = [], ...rest } = args;
   if (!this.sections) {
     this.sections = [];
   }
-  if (section && sections.length) {
-    for (const { section: secId, title: secTitle } of sections) {
+  if (sections && sections.length) {
+    for (const { id: secId, ...rest } of sections) {
       if (secId) {
         const _section = this.sections.id(secId);
-        if (!section) {
+        if (!_section) {
           const error = new Error(`Section with id ${secId} is not found.`);
           error.status = 404;
           throw error;
         }
-        _section.title = secTitle;
+        Object.assign(_section, rest);
       } else {
-        this.sections.push({ title: secTitle, lectures: [] });
+        this.sections.push({ lectures: [], ...rest });
       }
     }
-    return this.save();
+    await this.save();
+    return this && this.sections;
   }
-  if (section) {
-    const _section = this.sections.id(section);
-    _section.title = title;
+  if (id) {
+    const _section = this.sections.id(id);
+    if (!_section) {
+      const error = new Error(`Section with id ${id} is not found.`);
+      error.status = 404;
+      throw error;
+    }
+    Object.assign(_section, { ...rest });
   } else {
-    this.sections.push({ title, lectures: [] });
+    this.sections.push({ ...rest });
   }
   const course = await this.save();
-  return course.sections.find(s => s.title === title);
+  return course && course.sections;
 };
 
 COURSE.methods.createLecture = async function createLecture(args) {
-  const { section, id: _id, ...rest } = args;
+  const { section, ...rest } = args;
   if (this.sections && this.sections.length) {
     const _section = this.sections.id(section);
-    const lectureId = _id || args.lecture;
-    if (lectureId && _section.lectures && _section.lectures.length) {
-      const _lecture = _section.lectures.id(lectureId);
-      Object.assign(_lecture, {
-        updatedAt: new Date(),
-        ...rest
-      });
-    } else {
-      _section.lectures.push({
-        createdAt: new Date(),
-        ...rest
-      });
+    console.log(section, _section);
+    if (!_section) {
+      const error = new Error(`No section with id ${section} is found`);
+      error.status = 404;
+      throw error;
     }
+    _section.lectures.push({
+      createdAt: new Date(),
+      ...rest
+    });
     await this.save();
-    return {
-      lectureCount: _section.lectures.length
-    };
+    return this.sections.id(section).lectures;
   }
-  return 0;
+};
+
+COURSE.methods.editLecture = async function editLecture(args) {
+  const { lecture, section, ...rest } = args;
+  if (this.sections && this.sections.length) {
+    const _section = this.sections.id(section);
+    if (!_section) {
+      const error = new Error(`No section with id ${section} is found`);
+      error.status = 404;
+      throw error;
+    }
+    const _lecture = _section.lectures.id(lecture);
+    if (!_lecture) {
+      const error = new Error(`No lecture with id ${lecture} is found`);
+      error.status = 404;
+      throw error;
+    }
+    Object.assign(_lecture, { ...rest, updatedAt: new Date() });
+    await this.save();
+    return this.sections.id(section).lectures;
+  }
 };
 
 COURSE.methods.deleteLecture = async function deleteLecture(section, lecture) {
@@ -167,7 +198,7 @@ COURSE.methods.deleteLecture = async function deleteLecture(section, lecture) {
     }
     _lecture.deleted = true;
     _lecture.deletedAt = new Date();
-    return this.save();
+    return this.sections.id(section).lectures;
   }
 };
 

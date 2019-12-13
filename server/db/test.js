@@ -14,6 +14,54 @@ module.exports = {
     Page: require('./page'),
     Navigation: require('./navigation')
   },
+  mocks: {
+    mockSection: {
+      title: 'test title'
+    },
+    mockCourse: {
+      title: 'Mock title course',
+      subtitle: 'Mock subtitle course',
+      authors: []
+    },
+    mockLink: {
+      text: 'test text',
+      url: '/test',
+      visibleTo: 'all'
+    },
+    mockNav: {
+      title: 'Mock title',
+      location: 'top',
+      links: [
+        {
+          text: 'test text',
+          url: '/test',
+          visibleTo: 'all'
+        }
+      ]
+    },
+    mockId: mongoose.Types.ObjectId()
+  },
+  courseFactory() {
+    return this.model.Course.create(this.mocks.mockCourse);
+  },
+
+  async navigationFactory() {
+    const course = await this.courseFactory();
+    return this.model.Navigation.createNavigation({ ...this.mocks.mockNav, course: course._id });
+  },
+
+  async sectionFactory() {
+    const course = await this.courseFactory();
+    const [section] = await course.createSection(this.mocks.mockSection);
+    return { section, course: course._id.toString() };
+  },
+
+  async lectureFactory() {
+    const course = await this.courseFactory();
+    const [section] = await course.createSection(this.mocks.mockSection);
+    const lecture = await course.createLecture({ section: section._id, title: 'test title', file: 'test file' });
+    return { course: course._id || course.id, section: section._id || section.id, lecture };
+  },
 
   beforeAll(done) {
     function clearDB() {

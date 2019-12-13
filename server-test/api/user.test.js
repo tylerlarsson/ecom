@@ -62,7 +62,6 @@ describe('user apis', () => {
       });
     expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.email).toEqual('test@user.com');
-    expect(res.body._id).toMatch(/^[a-z\d]{24}$/);
   });
 
   test('should create a user by email as username with a role by id', async () => {
@@ -75,14 +74,13 @@ describe('user apis', () => {
       });
     expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.email).toEqual('test@user.com');
-    expect(res.body._id).toMatch(/^[a-z\d]{24}$/);
 
     res = await request(app)
       .get(path)
       .query({ pageNumber: 0, pageSize: 10 });
     expect(res.body.total).toBe(1);
     expect(res.body.data[0].email).toBe('test@user.com');
-    expect(res.body.data[0].roles[0].id).toBe(testRole.id);
+    expect(res.body.data[0].roles[0]).toBe(testRole.name);
   });
 
   test('should create a user and read without pagination', async () => {
@@ -134,7 +132,7 @@ describe('user apis', () => {
       .query({ pageNumber: 0, pageSize: 10 });
     expect(res.body.total).toBe(1);
     expect(res.body.data[0].email).toBe('test@user.com');
-    expect(res.body.data[0].roles[0].name).toBe('user');
+    expect(res.body.data[0].roles[0]).toBe('user');
   });
 
   test('should create a user and find by role', async () => {
@@ -151,7 +149,7 @@ describe('user apis', () => {
       .query({ 'has-role': 'user', 'ignored-filter': 'ignored-value' });
     expect(res.body.total).toBe(1);
     expect(res.body.data[0].email).toBe('test@user.com');
-    expect(res.body.data[0].roles[0].name).toBe('user');
+    expect(res.body.data[0].roles[0]).toBe('user');
   });
 
   test('should failt to create a user by email with a not existing user role', async () => {

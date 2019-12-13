@@ -3,7 +3,7 @@ import React from "react";
 import classNames from "classnames";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
-
+import { map, filter } from 'lodash';
 // material-ui components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Tabs from "@material-ui/core/Tabs";
@@ -52,8 +52,8 @@ class CustomTabs extends React.Component {
             variant="scrollable"
             scrollButtons="auto"
           >
-            {tabs.map((prop, key) => {
-              var icon = {};
+            {map(tabs, (prop, key) => {
+              let icon = {};
               if (prop.tabIcon) {
                 icon = {
                   icon: <prop.tabIcon />
@@ -77,12 +77,9 @@ class CustomTabs extends React.Component {
           </Tabs>
         </CardHeader>
         <CardBody>
-          {tabs.map((prop, key) => {
-            if (key === this.state.value) {
-              return <div key={key}>{prop.tabContent}</div>;
-            }
-            return null;
-          })}
+          {map(filter(tabs, (tab, key) => key === this.state.value), (prop, key) => (
+            <div key={key}>{prop.tabContent}</div>
+          ))}
         </CardBody>
       </Card>
     );
