@@ -20,6 +20,7 @@ import NewLectureButton from 'components/Lecture/NewLectureButton';
 import Section from 'components/Course/Section';
 import Lecture from 'components/Lecture/Lecture';
 import { DND_DELAY } from 'constants/default';
+import CourseSteps from 'components/Course/CourseSteps';
 
 const styles = {
   cardCategoryWhite: {
@@ -242,6 +243,7 @@ class CourseCurriculum extends Component {
             </GridItem>
           </GridContainer>
         </AdminContent>
+        <CourseSteps active={2} />
       </>
     );
   }
