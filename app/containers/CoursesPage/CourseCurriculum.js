@@ -20,6 +20,7 @@ import NewLectureButton from 'components/Lecture/NewLectureButton';
 import Section from 'components/Course/Section';
 import Lecture from 'components/Lecture/Lecture';
 import { DND_DELAY } from 'constants/default';
+import CourseSteps from 'components/Course/CourseSteps';
 
 const styles = {
   cardCategoryWhite: {
@@ -72,11 +73,9 @@ const styles = {
 };
 
 const SortableItem = SortableElement(({ value }) => {
-
   const { classes, onChangeSection, onChangeLecture, onCheckSection, onNewLecture, sortIndex, ...section } = value;
 
   console.log('SortableItem', section)
-
   return (
     <Card className={classes.card}>
       <CardBody>

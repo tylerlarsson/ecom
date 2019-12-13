@@ -27,6 +27,8 @@ import { getGignUrl } from 'redux/actions/files';
 import { toDataURL } from '../../utils/files';
 import { DND_DELAY } from 'constants/default';
 
+import './styles.css';
+
 const styles = {
   cardCategoryWhite: {
     '&,& a,& a:hover,& a:focus': {
