@@ -72,9 +72,11 @@ const styles = {
 };
 
 const SortableItem = SortableElement(({ value }) => {
+
   const { classes, onChangeSection, onChangeLecture, onCheckSection, onNewLecture, sortIndex, ...section } = value;
 
   console.log('SortableItem', section)
+
   return (
     <Card className={classes.card}>
       <CardBody>
@@ -260,6 +262,7 @@ class CourseCurriculum extends Component {
             </GridItem>
           </GridContainer>
         </AdminContent>
+        <CourseSteps active={2} />
       </>
     );
   }

@@ -48,6 +48,11 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     width: '25%'
+  },
+  text: {
+    '& span': {
+      lineHeight: '100%'
+    }
   }
 });
 
@@ -64,7 +69,7 @@ function LectureContent(props) {
       </div>
       <div className={classes.content}>
         {data.type === 'text' ? (
-          htmlToReactParser.parse(data.content)
+          <div className={classes.text}>{htmlToReactParser.parse(data.content)}</div>
         ) : (
           <a target="_blank" href={data.url} className={classes.url}>
             <OpenInNew className={classes.newIcon} /> {data.name}

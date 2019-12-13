@@ -81,6 +81,10 @@ export const createSection = payload => {
     data.section = payload.id;
   }
 
+  if (payload.id) {
+    data.section = payload.id;
+  }
+
   const { courseId } = payload;
 
   console.log('createSection', data)
