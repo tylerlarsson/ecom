@@ -337,7 +337,11 @@ router.put('/', async (req, res) => {
 router.post('/:page/content', async (req, res) => {
   try {
     const { params, body } = req;
-
+    if (!validator.createContent({ params, body })) {
+      logger.error('validation of delete create request failed', validator.createContent.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.createContent.errors });
+      return;
+    }
     const page = await db.model.Page.findById(params.page);
     if (!page) {
       const error = new Error(`Page with id ${params.page} is not found.`);
@@ -358,6 +362,11 @@ router.post('/:page/content', async (req, res) => {
 router.put('/:page/content', async (req, res) => {
   try {
     const { params, body } = req;
+    if (!validator.editContent({ params, body })) {
+      logger.error('validation of delete create request failed', validator.editContent.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.editContent.errors });
+      return;
+    }
     const page = await db.model.Page.findById(params.page);
     if (!page) {
       const error = new Error(`Page with id ${params.page} is not found.`);
@@ -377,6 +386,11 @@ router.put('/:page/content', async (req, res) => {
 
 router.delete('/:page/content/:content', async (req, res) => {
   try {
+    if (!validator.deleteContent(req.params)) {
+      logger.error('validation of delete content request failed', validator.deleteContent.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.deleteContent.errors });
+      return;
+    }
     const page = await db.model.Page.findById(req.params.page);
     if (!page) {
       const error = new Error(`Page with id ${req.params.page} is not found.`);

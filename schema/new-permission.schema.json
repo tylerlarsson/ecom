@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "properties": {
     "id": {
-      "$ref": "#mongo-id"
+      "type": "string"
     },
     "name": {
       "oneOf": [

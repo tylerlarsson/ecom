@@ -144,7 +144,7 @@ describe('role apis', () => {
       });
 
     expect(res.status).toBe(HttpStatus.OK);
-    expect(res.body.id).toMatch(/^[\da-z]{24}$/);
+    expect(res.body.id).toBe('test-role');
 
     const { id } = res.body;
 
@@ -170,7 +170,7 @@ describe('role apis', () => {
       });
 
     expect(res.status).toBe(HttpStatus.OK);
-    expect(res.body.id).toMatch(/^[\da-z]{24}$/);
+    expect(res.body.id).toBe('test-role');
 
     const { id } = res.body;
 
@@ -196,7 +196,7 @@ describe('role apis', () => {
       });
 
     expect(res.status).toBe(HttpStatus.OK);
-    expect(res.body.id).toMatch(/^[\da-z]{24}$/);
+    expect(res.body.id).toBe('test-role');
 
     const { id } = res.body;
 
@@ -245,7 +245,7 @@ describe('role apis', () => {
       });
 
     expect(res.status).toBe(HttpStatus.OK);
-    expect(res.body.id).toMatch(/^[\da-z]{24}$/);
+    expect(res.body.name).toMatch('test-role');
 
     const { id } = res.body;
 
