@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import { map, filter } from 'lodash';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
@@ -113,6 +113,8 @@ class Course extends Component {
     const { classes, users } = this.props;
     const { title, subtitle } = this.state;
 
+    const admins = filter(users, user => user.roles.includes('admin'));
+
     return (
       <>
         <AdminNavbar title="New Course" />
@@ -169,7 +171,7 @@ class Course extends Component {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      {map(users, item => (
+                      {map(admins, item => (
                         <MenuItem value={item.email}>{item.email}</MenuItem>
                       ))}
                     </Select>

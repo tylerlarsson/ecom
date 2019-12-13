@@ -1,10 +1,10 @@
 import axios from 'axios';
+import { map } from 'lodash';
 import { API_ENDPOINT_URL } from 'constants/default';
 
 // Courses
 export const getCourses = payload => {
   const params = payload && payload.params;
-  console.log('getCourses', params);
   return axios
     .get(`${API_ENDPOINT_URL}/course`, { params })
     .then(res => {
@@ -17,7 +17,6 @@ export const getCourses = payload => {
 };
 
 export const getCourse = payload => {
-  console.log('getCourse', payload);
   const id = payload && payload.id;
   return axios
     .get(`${API_ENDPOINT_URL}/course/${id}`)
@@ -65,13 +64,26 @@ export const deleteCourses = payload =>
     .catch(err => ({ success: false, reason: err.response.data.message }));
 
 export const createSection = payload => {
-  const data = {
-    title: payload.title,
-    id: payload.id
-  };
+  console.log('createSection', payload);
+  let data = {}
+  if (payload.sections) {
+    data = {
+      sections: map(payload.sections, (item, index) => ({ ...item, id: item.id, index }))
+    };
+  } else {
+    data = {
+      title: payload.title,
+      index: payload.index
+    };
+  }
+
+  if (payload.id) {
+    data.section = payload.id;
+  }
 
   const { courseId } = payload;
 
+  console.log('createSection', data)
   return axios
     .post(`${API_ENDPOINT_URL}/course/${courseId}/section`, data)
     .then(res => {
@@ -81,7 +93,10 @@ export const createSection = payload => {
       }
       return { success: false, reason: res.message };
     })
-    .catch(err => ({ success: false, reason: err.response.data.message }));
+    .catch(err => {
+      console.log('createSection error', err, err.response, err.response.data.message);
+      return { success: false, reason: err.response.data.message };
+    });
 };
 
 export const deleteSection = payload =>
@@ -97,7 +112,6 @@ export const deleteSection = payload =>
 
 export const createLecture = payload => {
   const data = {
-    id: payload.id,
     title: payload.title,
     file: payload.file,
     image: payload.image,
@@ -106,11 +120,19 @@ export const createLecture = payload => {
     state: payload.state
   };
 
+  let method = axios.post;
+
+  if (payload.id) {
+    method = axios.put;
+  }
+
   const { courseId } = payload;
   const sectionId = payload.section;
 
-  return axios
-    .post(`${API_ENDPOINT_URL}/course/${courseId}/section/${sectionId}/lecture`, data)
+  return method(
+    `${API_ENDPOINT_URL}/course/${courseId}/section/${sectionId}/lecture${payload.id ? `/${payload.id}` : ''}`,
+    data
+  )
     .then(res => {
       console.log('createLecture res', res);
       if (res.data) {
@@ -118,7 +140,10 @@ export const createLecture = payload => {
       }
       return { success: false, reason: res.message };
     })
-    .catch(err => ({ success: false, reason: err.response.data.message }));
+    .catch(err => {
+      console.log('createLecture err', err, err.response);
+      return { success: false, reason: err.response.data.message };
+    });
 };
 export const deleteLecture = payload =>
   axios
