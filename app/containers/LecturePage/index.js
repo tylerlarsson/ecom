@@ -21,7 +21,13 @@ import LectureContent from 'components/Lecture/LectureContent';
 import Dropzone from 'react-dropzone';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import arrayMove from 'array-move';
 import { getGignUrl } from 'redux/actions/files';
+import { DND_DELAY } from 'constants/default';
+import { toDataURL } from '../../utils/files';
+
+import './styles.css';
 
 const styles = {
   cardCategoryWhite: {
@@ -92,6 +98,20 @@ const styles = {
     border: '2px dashed #ddd'
   }
 };
+
+const SortableItem = SortableElement(({ value }) => {
+  const { onDownload, onEdit, onDelete, ...rest } = value;
+
+  return <LectureContent data={rest} onDownload={onDownload} onEdit={onEdit} onDelete={onDelete} />;
+});
+
+const SortableList = SortableContainer(({ items }) => (
+  <div>
+    {items.map((value, index) => (
+      <SortableItem key={`item-${value}`} index={index} value={value} />
+    ))}
+  </div>
+));
 
 class CourseCurriculum extends Component {
   constructor(props) {
@@ -167,22 +187,26 @@ class CourseCurriculum extends Component {
     const { match } = this.props;
     const lectureId = match && match.params && match.params.lecture;
     let section = null;
-    let lecture = null;
+    let lecture = {};
     forEach(course && course.sections, sectionItem => {
       forEach(sectionItem && sectionItem.lectures, item => {
-        if (item._id === lectureId) {
+        if (item._id === lectureId || item.id === lectureId) {
           lecture = item;
           section = sectionItem;
         }
       });
     });
     let content = [];
-    try {
-      content = JSON.parse(lecture.text);
-    } catch (e) {
-      console.log('content parse error', e);
-      content = [];
+
+    if (lecture.text) {
+      try {
+        content = JSON.parse(lecture.text);
+      } catch (e) {
+        console.log('content parse error', e);
+        content = [];
+      }
     }
+
     this.setState({ course, section, lecture, content });
   };
 
@@ -221,8 +245,9 @@ class CourseCurriculum extends Component {
       ...data,
       id: lectureId,
       courseId: course && course.id,
-      section: section._id
+      section: section._id || section.id
     };
+
     createLectureAction(payload);
   };
 
@@ -271,6 +296,15 @@ class CourseCurriculum extends Component {
     this.onChangeLecture({ text: JSON.stringify(newContent) });
   };
 
+  onDownloadFile = item => async () => {
+    const a = document.createElement('a');
+    a.href = await toDataURL(item.url);
+    a.download = item.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   onEditContent = index => () => {
     const { content } = this.state;
     const node = content && content[index] && content[index].content;
@@ -289,6 +323,13 @@ class CourseCurriculum extends Component {
     this.setState({ files: acceptedFiles });
     const filename = acceptedFiles && acceptedFiles[0] && acceptedFiles[0].name;
     getGignUrlAction({ file: filename });
+  };
+
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    const { content } = this.state;
+    const newContent = arrayMove(content, oldIndex, newIndex);
+    this.setState({ content: newContent });
+    this.onChangeLecture({ text: JSON.stringify(newContent) });
   };
 
   renderNavbar = classes => (
@@ -316,10 +357,18 @@ class CourseCurriculum extends Component {
     const { classes } = this.props;
     const { lecture = {}, tab, editorState, content } = this.state;
 
+    const contentItems = map(content, (item, index) => ({
+      ...item,
+      onDownload: this.onDownloadFile(item),
+      onEdit: this.onEditContent(index),
+      onDelete: this.onDeleteContent(index)
+    }));
     return (
       <>
         <CustomNavbar
-          component={<LectureTitle title={lecture.title} onChange={this.onChangeTitle} onBack={this.handleBack} />}
+          component={
+            <LectureTitle title={lecture && lecture.title} onChange={this.onChangeTitle} onBack={this.handleBack} />
+          }
           right={this.renderNavbar(classes)}
         />
         <AdminContent>
@@ -340,6 +389,8 @@ class CourseCurriculum extends Component {
                 </Tabs>
                 <TabPanel value={tab} index={0}>
                   <Dropzone
+                    accept="image/*"
+                    multiple={false}
                     onDrop={acceptedFiles => {
                       this.dropFiles(acceptedFiles);
                     }}
@@ -356,6 +407,7 @@ class CourseCurriculum extends Component {
                 </TabPanel>
                 <TabPanel value={tab} index={1}>
                   <Editor
+                    stripPastedStyles
                     editorState={editorState}
                     toolbarClassName="toolbarClassName"
                     wrapperClassName={styles.wrapperClassName}
@@ -382,14 +434,7 @@ class CourseCurriculum extends Component {
                   Code form
                 </TabPanel>
               </Paper>
-              {map(content, (item, index) => (
-                <LectureContent
-                  key={index}
-                  data={item}
-                  onEdit={this.onEditContent(index)}
-                  onDelete={this.onDeleteContent(index)}
-                />
-              ))}
+              <SortableList items={contentItems} onSortEnd={this.onSortEnd} pressDelay={DND_DELAY} />
             </GridItem>
           </GridContainer>
         </AdminContent>

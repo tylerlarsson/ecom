@@ -19,12 +19,16 @@ function softDeletedMiddleware(next) {
 }
 
 function removeNestedSoftDeleted(doc, next) {
-  if (Array.isArray(doc)) {
-    doc = doc.map(i => handleCourse(i));
-  } else {
-    doc = handleCourse(doc);
+  try {
+    if (Array.isArray(doc)) {
+      doc = doc.map(i => handleCourse(i));
+    } else {
+      doc = handleCourse(doc);
+    }
+    next();
+  } catch (error) {
+    console.error(error);
   }
-  next();
 }
 
 module.exports = { softDeletedMiddleware, removeNestedSoftDeleted };

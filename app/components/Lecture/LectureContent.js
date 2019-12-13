@@ -48,12 +48,17 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     width: '25%'
+  },
+  text: {
+    '& span': {
+      lineHeight: '100%'
+    }
   }
 });
 
 function LectureContent(props) {
   const classes = useStyles();
-  const { onEdit, onDelete, data } = props;
+  const { onEdit, onDelete, onDownload, data } = props;
 
   return (
     <Paper className={classes.wrap}>
@@ -64,7 +69,7 @@ function LectureContent(props) {
       </div>
       <div className={classes.content}>
         {data.type === 'text' ? (
-          htmlToReactParser.parse(data.content)
+          <div className={classes.text}>{htmlToReactParser.parse(data.content)}</div>
         ) : (
           <a target="_blank" href={data.url} className={classes.url}>
             <OpenInNew className={classes.newIcon} /> {data.name}
@@ -74,7 +79,7 @@ function LectureContent(props) {
       {data.type === 'text' ? (
         <Edit className={classes.editIcon} onClick={onEdit} />
       ) : (
-        <CloudDownload className={classes.icon} />
+        <CloudDownload className={classes.icon} onClick={onDownload} />
       )}
       <Delete className={classes.deleteIcon} onClick={onDelete} />
     </Paper>
@@ -83,6 +88,7 @@ function LectureContent(props) {
 
 LectureContent.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
+  onDownload: PropTypes.func,
   onEdit: PropTypes.func,
   onDelete: PropTypes.func
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import { map, filter } from 'lodash';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import Fab from '@material-ui/core/Fab';
@@ -17,6 +17,7 @@ import AdminContent from 'components/Content/AdminContent';
 import { createCourse } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
 import { getUsers } from 'redux/actions/users';
+import CourseSteps from 'components/Course/CourseSteps';
 
 const styles = {
   cardCategoryWhite: {
@@ -113,6 +114,8 @@ class Course extends Component {
     const { classes, users } = this.props;
     const { title, subtitle } = this.state;
 
+    const admins = filter(users, user => user.roles.includes('admin'));
+
     return (
       <>
         <AdminNavbar title="New Course" />
@@ -169,7 +172,7 @@ class Course extends Component {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      {map(users, item => (
+                      {map(admins, item => (
                         <MenuItem value={item.email}>{item.email}</MenuItem>
                       ))}
                     </Select>
@@ -190,6 +193,7 @@ class Course extends Component {
             </GridItem>
           </GridContainer>
         </AdminContent>
+        <CourseSteps active={1} />
       </>
     );
   }

@@ -20,7 +20,7 @@
     },
     "body": {
       "type": "object",
-      "required": ["title", "image", "text", "allowComments", "state"],
+      "required": ["title"],
       "additionalProperties": false,
       "properties": {
         "index": {

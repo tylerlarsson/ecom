@@ -1,0 +1,1003 @@
+{
+  "numFailedTestSuites": 4,
+  "numFailedTests": 33,
+  "numPassedTestSuites": 3,
+  "numPassedTests": 71,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 7,
+  "numTotalTests": 104,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "didUpdate": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1576144422626,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should create a role without permissions",
+          "location": null,
+          "status": "passed",
+          "title": "should create a role without permissions"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should create a role and read without pagination",
+          "location": null,
+          "status": "passed",
+          "title": "should create a role and read without pagination"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should fail to read when wrong id",
+          "location": null,
+          "status": "passed",
+          "title": "should fail to read when wrong id"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should fail on wrong data",
+          "location": null,
+          "status": "passed",
+          "title": "should fail on wrong data"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should fail on creation with same name",
+          "location": null,
+          "status": "passed",
+          "title": "should fail on creation with same name"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"test-role\"\u001b[39m\n    at _callee8$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/role.test.js:147:25)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "role apis should create a role with a permissions by id",
+          "location": null,
+          "status": "failed",
+          "title": "should create a role with a permissions by id"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"test-role\"\u001b[39m\n    at _callee9$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/role.test.js:173:25)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "role apis should create a role with a permissions by name",
+          "location": null,
+          "status": "failed",
+          "title": "should create a role with a permissions by name"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"test-role\"\u001b[39m\n    at _callee10$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/role.test.js:199:25)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "role apis should update a role with a permission by name",
+          "location": null,
+          "status": "failed",
+          "title": "should update a role with a permission by name"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should fail creation a role when not created permission",
+          "location": null,
+          "status": "passed",
+          "title": "should fail creation a role when not created permission"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"test-role\"\u001b[39m\n    at _callee12$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/role.test.js:248:25)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "role apis should update a role by id",
+          "location": null,
+          "status": "failed",
+          "title": "should update a role by id"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should fail on wrong id",
+          "location": null,
+          "status": "passed",
+          "title": "should fail on wrong id"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should add permission by name to a role by name",
+          "location": null,
+          "status": "passed",
+          "title": "should add permission by name to a role by name"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should add permission by id to a role by id",
+          "location": null,
+          "status": "passed",
+          "title": "should add permission by id to a role by id"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should fail adding permission by name to a role by name when wrong ids",
+          "location": null,
+          "status": "passed",
+          "title": "should fail adding permission by name to a role by name when wrong ids"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should delete permission by name from a role by name",
+          "location": null,
+          "status": "passed",
+          "title": "should delete permission by name from a role by name"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should delete permission by id from a role by id",
+          "location": null,
+          "status": "passed",
+          "title": "should delete permission by id from a role by id"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should fail to delete permission by wrong id",
+          "location": null,
+          "status": "passed",
+          "title": "should fail to delete permission by wrong id"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should fail to delete from not existing role",
+          "location": null,
+          "status": "passed",
+          "title": "should fail to delete from not existing role"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should delete role by name",
+          "location": null,
+          "status": "passed",
+          "title": "should delete role by name"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should delete role by id",
+          "location": null,
+          "status": "passed",
+          "title": "should delete role by id"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should fail to delete role by wrong id",
+          "location": null,
+          "status": "passed",
+          "title": "should fail to delete role by wrong id"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should assign filters to role",
+          "location": null,
+          "status": "passed",
+          "title": "should assign filters to role"
+        },
+        {
+          "ancestorTitles": ["role apis"],
+          "failureMessages": [],
+          "fullName": "role apis should fail to assign filters to role when wrong filters",
+          "location": null,
+          "status": "passed",
+          "title": "should fail to assign filters to role when wrong filters"
+        }
+      ],
+      "endTime": 1576144424983,
+      "message": "\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mrole apis › should create a role with a permissions by id\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"test-role\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 145 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 146 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 147 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mid)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                        \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 148 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 149 | \u001b[39m    \u001b[36mconst\u001b[39m { id } \u001b[33m=\u001b[39m res\u001b[33m.\u001b[39mbody\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 150 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee8$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/role.test.js\u001b[39m\u001b[0m\u001b[2m:147:25)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mrole apis › should create a role with a permissions by name\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"test-role\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 171 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 172 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 173 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mid)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                        \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 174 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 175 | \u001b[39m    \u001b[36mconst\u001b[39m { id } \u001b[33m=\u001b[39m res\u001b[33m.\u001b[39mbody\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 176 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee9$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/role.test.js\u001b[39m\u001b[0m\u001b[2m:173:25)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mrole apis › should update a role with a permission by name\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"test-role\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 197 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 198 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 199 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mid)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                        \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 200 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 201 | \u001b[39m    \u001b[36mconst\u001b[39m { id } \u001b[33m=\u001b[39m res\u001b[33m.\u001b[39mbody\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 202 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee10$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/role.test.js\u001b[39m\u001b[0m\u001b[2m:199:25)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mrole apis › should update a role by id\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"test-role\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 246 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 247 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 248 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mid)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                        \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 249 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 250 | \u001b[39m    \u001b[36mconst\u001b[39m { id } \u001b[33m=\u001b[39m res\u001b[33m.\u001b[39mbody\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 251 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee12$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/role.test.js\u001b[39m\u001b[0m\u001b[2m:248:25)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n",
+      "name": "/home/yungcat/workSpace/ecomfreedom/server-test/api/role.test.js",
+      "startTime": 1576144422646,
+      "status": "failed",
+      "summary": ""
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should raise error if schema is invalid.",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if schema is invalid."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should raise error if course is not found.",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if course is not found."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"5df20e29276c733f938c4db7\"\u001b[39m\nReceived: serializes to the same string\n    at _callee5$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/navigation.test.js:38:40)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "navigation api test should create new nav.",
+          "location": null,
+          "status": "failed",
+          "title": "should create new nav."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should raise error if schema is invalid.",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if schema is invalid."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should raise error if navigation is not found.",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if navigation is not found."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should edit navigation.",
+          "location": null,
+          "status": "passed",
+          "title": "should edit navigation."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should raise error if schema is invalid.",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if schema is invalid."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m404\u001b[39m\nReceived: \u001b[31m422\u001b[39m\n    at _callee10$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/navigation.test.js:79:24)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "navigation api test should raise error if navigation is not found.",
+          "location": null,
+          "status": "failed",
+          "title": "should raise error if navigation is not found."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m404\u001b[39m\nReceived: \u001b[31m422\u001b[39m\n    at _callee11$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/navigation.test.js:86:24)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "navigation api test should raise error if link is not found.",
+          "location": null,
+          "status": "failed",
+          "title": "should raise error if link is not found."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m422\u001b[39m\n    at _callee12$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/navigation.test.js:94:24)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "navigation api test should edit link inside of a navigation.",
+          "location": null,
+          "status": "failed",
+          "title": "should edit link inside of a navigation."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should raise error if schema is invalid.",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if schema is invalid."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m404\u001b[39m\nReceived: \u001b[31m422\u001b[39m\n    at _callee14$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/navigation.test.js:107:24)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "navigation api test should raise error if navigation is not found.",
+          "location": null,
+          "status": "failed",
+          "title": "should raise error if navigation is not found."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should create new link.",
+          "location": null,
+          "status": "passed",
+          "title": "should create new link."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should raise error if schema is invalid.",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if schema is invalid."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should raise error if navigation is not found.",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if navigation is not found."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should return nothing if link is not found.",
+          "location": null,
+          "status": "passed",
+          "title": "should return nothing if link is not found."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [
+            "TypeError: Cannot read property 'links' of undefined\n    at _callee19$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/navigation.test.js:140:32)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "navigation api test should delete link",
+          "location": null,
+          "status": "failed",
+          "title": "should delete link"
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should raise error if schema is invalid.",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if schema is invalid."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should return empty array if no links found.",
+          "location": null,
+          "status": "passed",
+          "title": "should return empty array if no links found."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"5df20e29276c733f938c4dcf\"\u001b[39m\nReceived: \u001b[31mundefined\u001b[39m\n    at _callee22$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/navigation.test.js:157:41)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "navigation api test should return links by existing course id.",
+          "location": null,
+          "status": "failed",
+          "title": "should return links by existing course id."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should raise error if schema is invalid.",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if schema is invalid."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should raise error if course is not found.",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if course is not found."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [],
+          "fullName": "navigation api test should return nothing if nothing is deleted.",
+          "location": null,
+          "status": "passed",
+          "title": "should return nothing if nothing is deleted."
+        },
+        {
+          "ancestorTitles": ["navigation api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"5df20e29276c733f938c4dd3\"\u001b[39m\nReceived: \u001b[31mundefined\u001b[39m\n    at _callee26$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/navigation.test.js:180:34)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "navigation api test should return deleted object if successful.",
+          "location": null,
+          "status": "failed",
+          "title": "should return deleted object if successful."
+        }
+      ],
+      "endTime": 1576144425706,
+      "message": "\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mnavigation api test › should create new nav.\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m\"5df20e29276c733f938c4db7\"\u001b[39m\n    Received: serializes to the same string\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 36 | \u001b[39m      \u001b[33m.\u001b[39msend({ \u001b[33m...\u001b[39mdb\u001b[33m.\u001b[39mmocks\u001b[33m.\u001b[39mmockNav\u001b[33m,\u001b[39m course\u001b[33m:\u001b[39m course\u001b[33m.\u001b[39m_id })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 37 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mCREATED\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 38 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mnavigation\u001b[33m.\u001b[39mcourse)\u001b[33m.\u001b[39mtoBe(course\u001b[33m.\u001b[39m_id)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m                                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 39 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mnavigation\u001b[33m.\u001b[39mtitle)\u001b[33m.\u001b[39mtoBe(db\u001b[33m.\u001b[39mmocks\u001b[33m.\u001b[39mmockNav\u001b[33m.\u001b[39mtitle)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 40 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mnavigation\u001b[33m.\u001b[39mlocation)\u001b[33m.\u001b[39mtoBe(db\u001b[33m.\u001b[39mmocks\u001b[33m.\u001b[39mmockNav\u001b[33m.\u001b[39mlocation)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 41 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mnavigation\u001b[33m.\u001b[39mlinks\u001b[33m.\u001b[39mlength)\u001b[33m.\u001b[39mtoEqual(db\u001b[33m.\u001b[39mmocks\u001b[33m.\u001b[39mmockNav\u001b[33m.\u001b[39mlinks\u001b[33m.\u001b[39mlength)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee5$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/navigation.test.js\u001b[39m\u001b[0m\u001b[2m:38:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mnavigation api test › should raise error if navigation is not found.\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m404\u001b[39m\n    Received: \u001b[31m422\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 77 | \u001b[39m      \u001b[33m.\u001b[39mput(\u001b[32m`${path}/links/${db.mocks.mockId}`\u001b[39m)\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 78 | \u001b[39m      \u001b[33m.\u001b[39msend({ id\u001b[33m:\u001b[39m db\u001b[33m.\u001b[39mmocks\u001b[33m.\u001b[39mmockId\u001b[33m,\u001b[39m \u001b[33m...\u001b[39mdb\u001b[33m.\u001b[39mmocks\u001b[33m.\u001b[39mmockNav })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 79 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mNOT_FOUND\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 80 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 81 | \u001b[39m  test(\u001b[32m`should raise error if link is not found.`\u001b[39m\u001b[33m,\u001b[39m async () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 82 | \u001b[39m    \u001b[36mconst\u001b[39m navigation \u001b[33m=\u001b[39m await db\u001b[33m.\u001b[39mnavigationFactory()\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee10$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/navigation.test.js\u001b[39m\u001b[0m\u001b[2m:79:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mnavigation api test › should raise error if link is not found.\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m404\u001b[39m\n    Received: \u001b[31m422\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 84 | \u001b[39m      \u001b[33m.\u001b[39mput(\u001b[32m`${path}/links/${navigation._id}`\u001b[39m)\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 85 | \u001b[39m      \u001b[33m.\u001b[39msend({ id\u001b[33m:\u001b[39m db\u001b[33m.\u001b[39mmocks\u001b[33m.\u001b[39mmockId\u001b[33m,\u001b[39m \u001b[33m...\u001b[39mdb\u001b[33m.\u001b[39mmocks\u001b[33m.\u001b[39mmockNav })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 86 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mNOT_FOUND\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 87 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 88 | \u001b[39m  test(\u001b[32m`should edit link inside of a navigation.`\u001b[39m\u001b[33m,\u001b[39m async () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 89 | \u001b[39m    \u001b[36mconst\u001b[39m navigation \u001b[33m=\u001b[39m await db\u001b[33m.\u001b[39mnavigationFactory()\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee11$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/navigation.test.js\u001b[39m\u001b[0m\u001b[2m:86:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mnavigation api test › should edit link inside of a navigation.\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m200\u001b[39m\n    Received: \u001b[31m422\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 92 | \u001b[39m      \u001b[33m.\u001b[39mput(\u001b[32m`${path}/links/${navigation._id}`\u001b[39m)\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 93 | \u001b[39m      \u001b[33m.\u001b[39msend({ id\u001b[33m:\u001b[39m navId\u001b[33m,\u001b[39m title\u001b[33m:\u001b[39m \u001b[32m'test title'\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 94 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 95 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mnavigation\u001b[33m.\u001b[39mlinks[\u001b[35m0\u001b[39m]\u001b[33m.\u001b[39mtitle)\u001b[33m.\u001b[39mtoBe(\u001b[32m'test title'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 96 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 97 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee12$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/navigation.test.js\u001b[39m\u001b[0m\u001b[2m:94:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mnavigation api test › should raise error if navigation is not found.\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m404\u001b[39m\n    Received: \u001b[31m422\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 105 | \u001b[39m      \u001b[33m.\u001b[39mpost(\u001b[32m`${path}/links/${db.mocks.mockId}`\u001b[39m)\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 106 | \u001b[39m      \u001b[33m.\u001b[39msend(db\u001b[33m.\u001b[39mmocks\u001b[33m.\u001b[39mmockNav)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 107 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mNOT_FOUND\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 108 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 109 | \u001b[39m  test(\u001b[32m`should create new link.`\u001b[39m\u001b[33m,\u001b[39m async () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 110 | \u001b[39m    \u001b[36mconst\u001b[39m nav \u001b[33m=\u001b[39m await db\u001b[33m.\u001b[39mnavigationFactory()\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee14$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/navigation.test.js\u001b[39m\u001b[0m\u001b[2m:107:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mnavigation api test › should delete link\u001b[39m\u001b[22m\n\n    TypeError: Cannot read property 'links' of undefined\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 138 | \u001b[39m    \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m await request(app)\u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[32m`${path}/links/${nav._id}/${linkId}`\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 139 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 140 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mnavigation\u001b[33m.\u001b[39mlinks\u001b[33m.\u001b[39mlength)\u001b[33m.\u001b[39mtoBe(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 141 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 142 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 143 | \u001b[39m  \u001b[90m// GET /navigation/:course\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee19$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/navigation.test.js\u001b[39m\u001b[0m\u001b[2m:140:32)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mnavigation api test › should return links by existing course id.\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m\"5df20e29276c733f938c4dcf\"\u001b[39m\n    Received: \u001b[31mundefined\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 155 | \u001b[39m    \u001b[36mconst\u001b[39m { course } \u001b[33m=\u001b[39m nav\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 156 | \u001b[39m    \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m await request(app)\u001b[33m.\u001b[39mget(\u001b[32m`${path}/${course}`\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 157 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mnavigations[\u001b[35m0\u001b[39m]\u001b[33m.\u001b[39m_id)\u001b[33m.\u001b[39mtoBe(nav\u001b[33m.\u001b[39m_id)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                                        \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 158 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 159 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 160 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee22$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/navigation.test.js\u001b[39m\u001b[0m\u001b[2m:157:41)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mnavigation api test › should return deleted object if successful.\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m\"5df20e29276c733f938c4dd3\"\u001b[39m\n    Received: \u001b[31mundefined\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 178 | \u001b[39m    \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m await request(app)\u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[32m`${path}/${nav.course}/${nav._id}`\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 179 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 180 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mdeleted\u001b[33m.\u001b[39m_id)\u001b[33m.\u001b[39mtoBe(nav\u001b[33m.\u001b[39m_id)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                                 \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 181 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 182 | \u001b[39m})\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 183 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee26$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/navigation.test.js\u001b[39m\u001b[0m\u001b[2m:180:34)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n",
+      "name": "/home/yungcat/workSpace/ecomfreedom/server-test/api/navigation.test.js",
+      "startTime": 1576144424992,
+      "status": "failed",
+      "summary": ""
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should raise error if invalid schema",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if invalid schema"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should return 404 if no page is found",
+          "location": null,
+          "status": "passed",
+          "title": "should return 404 if no page is found"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"5df20e2ab0db703f93f8e9c0\"\u001b[39m\nReceived: \u001b[31mundefined\u001b[39m\n    at _callee5$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/page.test.js:62:19)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "page api test should return page",
+          "location": null,
+          "status": "failed",
+          "title": "should return page"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should raise error if invalid schema",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if invalid schema"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"5df20e2ab0db703f93f8e9c2\"\u001b[39m\nReceived: \u001b[31mundefined\u001b[39m\n    at _callee7$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/page.test.js:78:23)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "page api test should return pages by course id",
+          "location": null,
+          "status": "failed",
+          "title": "should return pages by course id"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should raise error if invalid schema",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if invalid schema"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test shouldn't create without url or course",
+          "location": null,
+          "status": "passed",
+          "title": "shouldn't create without url or course"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m404\u001b[39m\nReceived: \u001b[31m422\u001b[39m\n    at _callee10$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/page.test.js:101:24)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "page api test shouldn't create with non-existing course",
+          "location": null,
+          "status": "failed",
+          "title": "shouldn't create with non-existing course"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n    at _callee11$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/page.test.js:108:24)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "page api test should create a new page",
+          "location": null,
+          "status": "failed",
+          "title": "should create a new page"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should raise error if invalid schema",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if invalid schema"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m404\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n    at _callee13$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/page.test.js:131:24)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "page api test shouldn't edit with non-existing course",
+          "location": null,
+          "status": "failed",
+          "title": "shouldn't edit with non-existing course"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test shouldn't edit with non-existing page",
+          "location": null,
+          "status": "passed",
+          "title": "shouldn't edit with non-existing page"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should edit a page",
+          "location": null,
+          "status": "passed",
+          "title": "should edit a page"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should raise error if invalid schema",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if invalid schema"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should return nothing if no page is found",
+          "location": null,
+          "status": "passed",
+          "title": "should return nothing if no page is found"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"5df20e2ab0db703f93f8e9cc\"\u001b[39m\nReceived: \u001b[31mundefined\u001b[39m\n    at _callee18$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/page.test.js:171:31)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "page api test should return page if deleted from DB",
+          "location": null,
+          "status": "failed",
+          "title": "should return page if deleted from DB"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at _callee19$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/page.test.js:177:24)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "page api test should raise error if invalid schema",
+          "location": null,
+          "status": "failed",
+          "title": "should raise error if invalid schema"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should raise error if page id doesn't exist",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if page id doesn't exist"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should add content to page model",
+          "location": null,
+          "status": "passed",
+          "title": "should add content to page model"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at _callee22$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/page.test.js:202:24)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "page api test should raise error if invalid schema",
+          "location": null,
+          "status": "failed",
+          "title": "should raise error if invalid schema"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should raise error if page id doesn't exist",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if page id doesn't exist"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should raise error if content id doesn't exist",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if content id doesn't exist"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should edit content inside page model",
+          "location": null,
+          "status": "passed",
+          "title": "should edit content inside page model"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m422\u001b[39m\nReceived: \u001b[31m500\u001b[39m\n    at _callee26$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/page.test.js:238:24)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "page api test should raise if invalid schema",
+          "location": null,
+          "status": "failed",
+          "title": "should raise if invalid schema"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should raise error if page id or content id doesn't exist",
+          "location": null,
+          "status": "passed",
+          "title": "should raise error if page id or content id doesn't exist"
+        },
+        {
+          "ancestorTitles": ["page api test"],
+          "failureMessages": [],
+          "fullName": "page api test should remove content from page model",
+          "location": null,
+          "status": "passed",
+          "title": "should remove content from page model"
+        }
+      ],
+      "endTime": 1576144426423,
+      "message": "\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpage api test › should return page\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m\"5df20e2ab0db703f93f8e9c0\"\u001b[39m\n    Received: \u001b[31mundefined\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 60 | \u001b[39m      page\u001b[33m:\u001b[39m { _id\u001b[33m:\u001b[39m resId }\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 61 | \u001b[39m    } \u001b[33m=\u001b[39m res\u001b[33m.\u001b[39mbody\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 62 | \u001b[39m    expect(resId)\u001b[33m.\u001b[39mtoBe(page\u001b[33m.\u001b[39m_id)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m                  \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 63 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 64 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 65 | \u001b[39m  \u001b[90m// GET /page/course/:course\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee5$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/page.test.js\u001b[39m\u001b[0m\u001b[2m:62:19)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpage api test › should return pages by course id\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m\"5df20e2ab0db703f93f8e9c2\"\u001b[39m\n    Received: \u001b[31mundefined\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 76 | \u001b[39m      pages\u001b[33m:\u001b[39m [_page]\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 77 | \u001b[39m    } \u001b[33m=\u001b[39m res\u001b[33m.\u001b[39mbody\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 78 | \u001b[39m    expect(_page\u001b[33m.\u001b[39m_id)\u001b[33m.\u001b[39mtoBe(page\u001b[33m.\u001b[39m_id)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m                      \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 79 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 80 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 81 | \u001b[39m  \u001b[90m// POST /page\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee7$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/page.test.js\u001b[39m\u001b[0m\u001b[2m:78:23)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpage api test › shouldn't create with non-existing course\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m404\u001b[39m\n    Received: \u001b[31m422\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m  99 | \u001b[39m  test(\u001b[32m`shouldn't create with non-existing course`\u001b[39m\u001b[33m,\u001b[39m async () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 100 | \u001b[39m    \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m await request(app)\u001b[33m.\u001b[39mpost(\u001b[32m`${path}`\u001b[39m\u001b[33m,\u001b[39m { course\u001b[33m:\u001b[39m \u001b[32m'5de67523938486465bbfdc76'\u001b[39m\u001b[33m,\u001b[39m \u001b[33m...\u001b[39mmockPage })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 101 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mNOT_FOUND\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 102 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 103 | \u001b[39m  test(\u001b[32m'should create a new page'\u001b[39m\u001b[33m,\u001b[39m async () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 104 | \u001b[39m    \u001b[36mconst\u001b[39m course \u001b[33m=\u001b[39m await db\u001b[33m.\u001b[39mmodel\u001b[33m.\u001b[39m\u001b[33mCourse\u001b[39m\u001b[33m.\u001b[39mcreate(mockCourse)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee10$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/page.test.js\u001b[39m\u001b[0m\u001b[2m:101:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpage api test › should create a new page\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m201\u001b[39m\n    Received: \u001b[31m200\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 106 | \u001b[39m      \u001b[33m.\u001b[39mpost(path)\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 107 | \u001b[39m      \u001b[33m.\u001b[39msend({ course\u001b[33m:\u001b[39m course\u001b[33m.\u001b[39m_id\u001b[33m,\u001b[39m \u001b[33m...\u001b[39mmockPage })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 108 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mCREATED\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 109 | \u001b[39m    \u001b[36mconst\u001b[39m { page } \u001b[33m=\u001b[39m res\u001b[33m.\u001b[39mbody\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 110 | \u001b[39m    expect(page\u001b[33m.\u001b[39mcourse)\u001b[33m.\u001b[39mtoBe(course\u001b[33m.\u001b[39m_id)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 111 | \u001b[39m    expect(page\u001b[33m.\u001b[39murl)\u001b[33m.\u001b[39mtoBe(mockPage\u001b[33m.\u001b[39murl)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee11$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/page.test.js\u001b[39m\u001b[0m\u001b[2m:108:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpage api test › shouldn't edit with non-existing course\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m404\u001b[39m\n    Received: \u001b[31m200\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 129 | \u001b[39m      \u001b[33m.\u001b[39mput(path)\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 130 | \u001b[39m      \u001b[33m.\u001b[39msend({ course\u001b[33m:\u001b[39m \u001b[32m'5de67523938486465bbfdc76'\u001b[39m\u001b[33m,\u001b[39m id\u001b[33m:\u001b[39m page\u001b[33m.\u001b[39m_id\u001b[33m,\u001b[39m \u001b[33m...\u001b[39mmockPage })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 131 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mNOT_FOUND\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 132 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 133 | \u001b[39m  test(\u001b[32m`shouldn't edit with non-existing page`\u001b[39m\u001b[33m,\u001b[39m async () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 134 | \u001b[39m    \u001b[36mconst\u001b[39m course \u001b[33m=\u001b[39m await db\u001b[33m.\u001b[39mmodel\u001b[33m.\u001b[39m\u001b[33mCourse\u001b[39m\u001b[33m.\u001b[39mcreate(mockCourse)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee13$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/page.test.js\u001b[39m\u001b[0m\u001b[2m:131:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpage api test › should return page if deleted from DB\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m\"5df20e2ab0db703f93f8e9cc\"\u001b[39m\n    Received: \u001b[31mundefined\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 169 | \u001b[39m    \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m await request(app)\u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[32m`${path}/${page._id}`\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 170 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 171 | \u001b[39m    expect(res\u001b[33m.\u001b[39mbody\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39m_id)\u001b[33m.\u001b[39mtoBe(page\u001b[33m.\u001b[39m_id)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                              \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 172 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 173 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 174 | \u001b[39m  \u001b[90m// POST /page/:page/content\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee18$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/page.test.js\u001b[39m\u001b[0m\u001b[2m:171:31)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpage api test › should raise error if invalid schema\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m422\u001b[39m\n    Received: \u001b[31m500\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 175 | \u001b[39m  test(\u001b[32m`should raise error if invalid schema`\u001b[39m\u001b[33m,\u001b[39m async () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 176 | \u001b[39m    \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m await request(app)\u001b[33m.\u001b[39mpost(\u001b[32m`${path}/12345/content`\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 177 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mUNPROCESSABLE_ENTITY\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 178 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 179 | \u001b[39m  test(\u001b[32m`should raise error if page id doesn't exist`\u001b[39m\u001b[33m,\u001b[39m async () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 180 | \u001b[39m    \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m await request(app)\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee19$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/page.test.js\u001b[39m\u001b[0m\u001b[2m:177:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpage api test › should raise error if invalid schema\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m422\u001b[39m\n    Received: \u001b[31m500\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 200 | \u001b[39m  test(\u001b[32m`should raise error if invalid schema`\u001b[39m\u001b[33m,\u001b[39m async () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 201 | \u001b[39m    \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m await request(app)\u001b[33m.\u001b[39mput(\u001b[32m`${path}/12345/content`\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 202 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mUNPROCESSABLE_ENTITY\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 203 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 204 | \u001b[39m  test(\u001b[32m`should raise error if page id doesn't exist`\u001b[39m\u001b[33m,\u001b[39m async () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 205 | \u001b[39m    \u001b[36mconst\u001b[39m course \u001b[33m=\u001b[39m await db\u001b[33m.\u001b[39mmodel\u001b[33m.\u001b[39m\u001b[33mCourse\u001b[39m\u001b[33m.\u001b[39mcreate(mockCourse)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee22$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/page.test.js\u001b[39m\u001b[0m\u001b[2m:202:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpage api test › should raise if invalid schema\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m422\u001b[39m\n    Received: \u001b[31m500\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 236 | \u001b[39m    \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m await request(app)\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 237 | \u001b[39m      \u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[32m`${path}/12345/content/12345`\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 238 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mUNPROCESSABLE_ENTITY\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m     | \u001b[39m                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 239 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 240 | \u001b[39m  test(\u001b[32m`should raise error if page id or content id doesn't exist`\u001b[39m\u001b[33m,\u001b[39m async () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 241 | \u001b[39m    \u001b[36mconst\u001b[39m res \u001b[33m=\u001b[39m await request(app)\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee26$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/page.test.js\u001b[39m\u001b[0m\u001b[2m:238:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n",
+      "name": "/home/yungcat/workSpace/ecomfreedom/server-test/api/page.test.js",
+      "startTime": 1576144425715,
+      "status": "failed",
+      "summary": ""
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should create and read a permission",
+          "location": null,
+          "status": "failed",
+          "title": "should create and read a permission"
+        },
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should create and read a permission without pagination",
+          "location": null,
+          "status": "failed",
+          "title": "should create and read a permission without pagination"
+        },
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should create and read by name a permission",
+          "location": null,
+          "status": "failed",
+          "title": "should create and read by name a permission"
+        },
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should fail to read when wrong id",
+          "location": null,
+          "status": "failed",
+          "title": "should fail to read when wrong id"
+        },
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)",
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m422\u001b[39m\n    at _callee6$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:85:24)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should update the permission by id",
+          "location": null,
+          "status": "failed",
+          "title": "should update the permission by id"
+        },
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should delete the permission by id",
+          "location": null,
+          "status": "failed",
+          "title": "should delete the permission by id"
+        },
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should delete the permission by name",
+          "location": null,
+          "status": "failed",
+          "title": "should delete the permission by name"
+        },
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should fail on wrong id",
+          "location": null,
+          "status": "failed",
+          "title": "should fail on wrong id"
+        },
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should fail on creation with same name",
+          "location": null,
+          "status": "failed",
+          "title": "should fail on creation with same name"
+        },
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should delete permission by name",
+          "location": null,
+          "status": "failed",
+          "title": "should delete permission by name"
+        },
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should delete permission by id",
+          "location": null,
+          "status": "failed",
+          "title": "should delete permission by id"
+        },
+        {
+          "ancestorTitles": ["permissions apis"],
+          "failureMessages": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\nReceived string:  \u001b[31m\"read-write\"\u001b[39m\n    at _callee$ (/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js:32:16)\n    at tryCatch (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:45:40)\n    at Generator.invoke [as _invoke] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:271:22)\n    at Generator.prototype.<computed> [as next] (/home/yungcat/workSpace/ecomfreedom/node_modules/regenerator-runtime/runtime.js:97:21)\n    at asyncGeneratorStep (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)\n    at _next (/home/yungcat/workSpace/ecomfreedom/node_modules/@babel/runtime/helpers/asyncToGenerator.js:25:9)\n    at processTicksAndRejections (internal/process/task_queues.js:85:5)"
+          ],
+          "fullName": "permissions apis should fail delete when wrong param",
+          "location": null,
+          "status": "failed",
+          "title": "should fail delete when wrong param"
+        }
+      ],
+      "endTime": 1576144427069,
+      "message": "\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should create and read a permission\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should create and read a permission without pagination\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should create and read by name a permission\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should fail to read when wrong id\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should update the permission by id\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should update the permission by id\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\n    Expected: \u001b[32m200\u001b[39m\n    Received: \u001b[31m422\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 83 | \u001b[39m      \u001b[33m.\u001b[39mpost(path)\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 84 | \u001b[39m      \u001b[33m.\u001b[39msend({ id\u001b[33m,\u001b[39m name\u001b[33m:\u001b[39m \u001b[32m'read-write-changed'\u001b[39m\u001b[33m,\u001b[39m description\u001b[33m:\u001b[39m \u001b[32m'read write changed permission'\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 85 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m                       \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 86 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 87 | \u001b[39m    res \u001b[33m=\u001b[39m await request(app)\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 88 | \u001b[39m      \u001b[33m.\u001b[39mget(path)\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee6$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:85:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should delete the permission by id\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should delete the permission by name\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should fail on wrong id\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should fail on creation with same name\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should delete permission by name\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should delete permission by id\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[1mpermissions apis › should fail delete when wrong param\u001b[39m\u001b[22m\n\n    \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n    Expected pattern: \u001b[32m/^[\\da-z]{24}$/\u001b[39m\n    Received string:  \u001b[31m\"read-write\"\u001b[39m\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 30 | \u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 31 | \u001b[39m    expect(res\u001b[33m.\u001b[39mstatus)\u001b[33m.\u001b[39mtoBe(\u001b[33mHttpStatus\u001b[39m\u001b[33m.\u001b[39m\u001b[33mOK\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[2m\u001b[39m\u001b[90m 32 | \u001b[39m    expect(id)\u001b[33m.\u001b[39mtoMatch(\u001b[35m/^[\\da-z]{24}$/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    | \u001b[39m               \u001b[31m\u001b[1m^\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 33 | \u001b[39m    expect(name)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read-write'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 34 | \u001b[39m    expect(description)\u001b[33m.\u001b[39mtoBe(\u001b[32m'read write permission'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 35 | \u001b[39m  })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _callee$ (\u001b[2m\u001b[0m\u001b[36mserver-test/api/permission.test.js\u001b[39m\u001b[0m\u001b[2m:32:16)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat tryCatch (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:45:40)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.invoke [as _invoke] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:271:22)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Generator.prototype.<computed> [as next] (\u001b[2mnode_modules/regenerator-runtime/runtime.js\u001b[2m:97:21)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat asyncGeneratorStep (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:3:24)\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat _next (\u001b[2mnode_modules/@babel/runtime/helpers/asyncToGenerator.js\u001b[2m:25:9)\u001b[2m\u001b[22m\n",
+      "name": "/home/yungcat/workSpace/ecomfreedom/server-test/api/permission.test.js",
+      "startTime": 1576144426434,
+      "status": "failed",
+      "summary": ""
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["oauth apis"],
+          "failureMessages": [],
+          "fullName": "oauth apis should fail request is not correct",
+          "location": null,
+          "status": "passed",
+          "title": "should fail request is not correct"
+        },
+        {
+          "ancestorTitles": ["oauth apis"],
+          "failureMessages": [],
+          "fullName": "oauth apis should fail when password is wrong",
+          "location": null,
+          "status": "passed",
+          "title": "should fail when password is wrong"
+        },
+        {
+          "ancestorTitles": ["oauth apis"],
+          "failureMessages": [],
+          "fullName": "oauth apis should authorize and get tokens",
+          "location": null,
+          "status": "passed",
+          "title": "should authorize and get tokens"
+        },
+        {
+          "ancestorTitles": ["oauth apis"],
+          "failureMessages": [],
+          "fullName": "oauth apis should authorize, get tokens and get 401 when expired",
+          "location": null,
+          "status": "passed",
+          "title": "should authorize, get tokens and get 401 when expired"
+        },
+        {
+          "ancestorTitles": ["oauth apis"],
+          "failureMessages": [],
+          "fullName": "oauth apis should authorize, refresh tokens and when expired",
+          "location": null,
+          "status": "passed",
+          "title": "should authorize, refresh tokens and when expired"
+        },
+        {
+          "ancestorTitles": ["oauth apis"],
+          "failureMessages": [],
+          "fullName": "oauth apis should authorize and fail when refresh token is wrong",
+          "location": null,
+          "status": "passed",
+          "title": "should authorize and fail when refresh token is wrong"
+        },
+        {
+          "ancestorTitles": ["oauth apis"],
+          "failureMessages": [],
+          "fullName": "oauth apis should authorize and fail when refresh token is expired",
+          "location": null,
+          "status": "passed",
+          "title": "should authorize and fail when refresh token is expired"
+        },
+        {
+          "ancestorTitles": ["oauth apis"],
+          "failureMessages": [],
+          "fullName": "oauth apis should authorize and fail to refresh when user is revoked",
+          "location": null,
+          "status": "passed",
+          "title": "should authorize and fail to refresh when user is revoked"
+        }
+      ],
+      "endTime": 1576144436597,
+      "message": "",
+      "name": "/home/yungcat/workSpace/ecomfreedom/server-test/api/oauth.test.js",
+      "startTime": 1576144427095,
+      "status": "passed",
+      "summary": ""
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["user apis"],
+          "failureMessages": [],
+          "fullName": "user apis should fail to create when wrong values",
+          "location": null,
+          "status": "passed",
+          "title": "should fail to create when wrong values"
+        },
+        {
+          "ancestorTitles": ["user apis"],
+          "failureMessages": [],
+          "fullName": "user apis should create a user by email as username with a role by name",
+          "location": null,
+          "status": "passed",
+          "title": "should create a user by email as username with a role by name"
+        },
+        {
+          "ancestorTitles": ["user apis"],
+          "failureMessages": [],
+          "fullName": "user apis should create a user by email as username with a role by id",
+          "location": null,
+          "status": "passed",
+          "title": "should create a user by email as username with a role by id"
+        },
+        {
+          "ancestorTitles": ["user apis"],
+          "failureMessages": [],
+          "fullName": "user apis should create a user and read without pagination",
+          "location": null,
+          "status": "passed",
+          "title": "should create a user and read without pagination"
+        },
+        {
+          "ancestorTitles": ["user apis"],
+          "failureMessages": [],
+          "fullName": "user apis should fail to create a user on same email",
+          "location": null,
+          "status": "passed",
+          "title": "should fail to create a user on same email"
+        },
+        {
+          "ancestorTitles": ["user apis"],
+          "failureMessages": [],
+          "fullName": "user apis should create a user by email with default user role",
+          "location": null,
+          "status": "passed",
+          "title": "should create a user by email with default user role"
+        },
+        {
+          "ancestorTitles": ["user apis"],
+          "failureMessages": [],
+          "fullName": "user apis should create a user and find by role",
+          "location": null,
+          "status": "passed",
+          "title": "should create a user and find by role"
+        },
+        {
+          "ancestorTitles": ["user apis"],
+          "failureMessages": [],
+          "fullName": "user apis should failt to create a user by email with a not existing user role",
+          "location": null,
+          "status": "passed",
+          "title": "should failt to create a user by email with a not existing user role"
+        }
+      ],
+      "endTime": 1576144437635,
+      "message": "",
+      "name": "/home/yungcat/workSpace/ecomfreedom/server-test/api/user.test.js",
+      "startTime": 1576144436603,
+      "status": "passed",
+      "summary": ""
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["course api test"],
+          "failureMessages": [],
+          "fullName": "course api test should not create a course without authors",
+          "location": null,
+          "status": "passed",
+          "title": "should not create a course without authors"
+        },
+        {
+          "ancestorTitles": ["course api test"],
+          "failureMessages": [],
+          "fullName": "course api test should not create a course without not existing authors",
+          "location": null,
+          "status": "passed",
+          "title": "should not create a course without not existing authors"
+        },
+        {
+          "ancestorTitles": ["course api test"],
+          "failureMessages": [],
+          "fullName": "course api test should create a course",
+          "location": null,
+          "status": "passed",
+          "title": "should create a course"
+        }
+      ],
+      "endTime": 1576144438177,
+      "message": "",
+      "name": "/home/yungcat/workSpace/ecomfreedom/server-test/api/course.test.js",
+      "startTime": 1576144437642,
+      "status": "passed",
+      "summary": ""
+    }
+  ],
+  "wasInterrupted": false
+}

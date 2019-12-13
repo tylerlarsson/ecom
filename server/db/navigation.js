@@ -92,7 +92,7 @@ NAVIGATION.statics.editLink = async args => {
 NAVIGATION.statics.addLink = async args => {
   const { navigation, ...rest } = args;
   const _navigation = await Navigation.findById(navigation);
-  if (!navigation) {
+  if (!_navigation) {
     const error = new Error(`No navigation with id ${navigation} is found.`);
     error.status = 404;
     throw error;
