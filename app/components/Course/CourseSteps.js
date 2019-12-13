@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { map } from 'lodash';
@@ -54,10 +54,10 @@ const styles = {
   }
 };
 
-class CourseSteps extends Component {
-  onChange = event => {
-    this.setState({ title: event.target.value });
-  };
+class CourseSteps extends PureComponent {
+  // onChange = event => {
+  //   this.setState({ title: event.target.value });
+  // };
 
   render() {
     const { classes, active, history, courseId } = this.props;
@@ -68,15 +68,18 @@ class CourseSteps extends Component {
       <AppBar elevation={1} position="sticky" className={classes.wrap}>
         {map(COURSE_STEPS, (item, index) => (
           <Toolbar
-            className={`${classes.step} ${parseInt(active) === parseInt(index) ? 'active' : ''}`}
+            className={`${classes.step} ${parseInt(active, 10) === parseInt(index, 10) ? 'active' : ''}`}
             onClick={urls[index] ? history && history.push(urls[index]) : null}
           >
-            {index < 4 ?
-              ((parseInt(index) === 1 && parseInt(active) > 1) ?
-                <Done /> :
-                <div className={`${classes.circle} ${parseInt(active) === parseInt(index) ? 'active' : ''}`}>
+            {index < 4 ? ( // eslint-disable-line
+              parseInt(index, 10) === 1 && parseInt(active, 10) > 1 ? (
+                <Done />
+              ) : (
+                <div className={`${classes.circle} ${parseInt(active, 10) === parseInt(index, 10) ? 'active' : ''}`}>
                   <Typography>{index}</Typography>
-                </div>) : null}
+                </div>
+              )
+            ) : null}
             <Typography className={classes.title}>{item}</Typography> {index >= 4 ? <ChevronRight /> : null}
           </Toolbar>
         ))}
@@ -86,7 +89,10 @@ class CourseSteps extends Component {
 }
 
 CourseSteps.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
+  active: PropTypes.number,
+  courseId: PropTypes.number
 };
 
 export default connect(null)(withStyles(styles)(CourseSteps));

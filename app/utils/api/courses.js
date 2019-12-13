@@ -65,7 +65,7 @@ export const deleteCourses = payload =>
 
 export const createSection = payload => {
   console.log('createSection', payload);
-  let data = {}
+  let data = {};
   if (payload.sections) {
     data = {
       sections: map(payload.sections, (item, index) => ({ ...item, id: item.id, index }))
@@ -83,7 +83,7 @@ export const createSection = payload => {
 
   const { courseId } = payload;
 
-  console.log('createSection', data)
+  console.log('createSection', data);
   return axios
     .post(`${API_ENDPOINT_URL}/course/${courseId}/section`, data)
     .then(res => {

@@ -75,7 +75,7 @@ const styles = {
 const SortableItem = SortableElement(({ value }) => {
   const { classes, onChangeSection, onChangeLecture, onCheckSection, onNewLecture, sortIndex, ...section } = value;
 
-  console.log('SortableItem', section)
+  console.log('SortableItem', section);
   return (
     <Card className={classes.card}>
       <CardBody>
@@ -98,13 +98,13 @@ const SortableItem = SortableElement(({ value }) => {
         <NewLectureButton onSelect={onNewLecture(section._id || section.id)} />
       </CardBody>
     </Card>
-  )
+  );
 });
 
 const SortableList = SortableContainer(({ items }) => (
   <div>
     {items.map((value, index) => (
-      <SortableItem key={`item-${index}`} index={index} value={value} />
+      <SortableItem key={`item-${index}`} index={index} value={value} /> // eslint-disable-line
     ))}
   </div>
 ));
@@ -124,7 +124,7 @@ class CourseCurriculum extends Component {
     this.props.getCourseAction({ id: courseId });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const { course } = this.props;
 
     if (course !== prevProps.course) {
@@ -133,7 +133,7 @@ class CourseCurriculum extends Component {
   }
 
   setCourse = course => {
-    console.log('setCourse', course)
+    console.log('setCourse', course);
     const sortedSections = orderBy((course && course.sections) || [], ['index'], ['asc']);
     this.setState({ course: { ...course, sections: sortedSections } });
   };
@@ -190,7 +190,7 @@ class CourseCurriculum extends Component {
   onChangeLecture = lecture => () => {
     const { course } = this.state;
     const { history } = this.props;
-    console.log('onChangeLecture', lecture)
+    console.log('onChangeLecture', lecture);
     const lectureRoute = `${routes.ADMIN}${routes.NEW_LECTURE}`
       .replace(':course', course && course.id)
       .replace(':lecture', lecture.id || lecture._id);
@@ -204,10 +204,10 @@ class CourseCurriculum extends Component {
 
   onSortEnd = ({ oldIndex, newIndex }) => {
     const { createSectionAction } = this.props;
-    const course = { ...this.state.course };
-    const sections = [ ...course.sections ];
+    const course = { ...this.state.course }; // eslint-disable-line
+    const sections = [...course.sections];
     course.sections = arrayMove(sections, oldIndex, newIndex);
-    console.log('onSortEnd', course.sections)
+    console.log('onSortEnd', course.sections);
     this.setState({ course });
     // TODO update dbase
     const payload = {
@@ -240,7 +240,7 @@ class CourseCurriculum extends Component {
     const sections = (course && course.sections) || [];
     // const sections = orderBy((course && course.sections) || [], ['index'], ['asc']);
 
-    console.log('course', course, sections)
+    console.log('course', course, sections);
     const contentItems = map(sections, (item, index) => ({
       ...item,
       sortIndex: index,
@@ -250,14 +250,14 @@ class CourseCurriculum extends Component {
       onNewLecture: this.onNewLecture,
       classes
     }));
-    console.log('contentItems', contentItems)
+    console.log('contentItems', contentItems);
     return (
       <>
         <AdminNavbar title="Curriculum" right={this.renderNavbar(classes)} />
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
-              <SortableList items={[ ...contentItems ]} onSortEnd={this.onSortEnd} pressDelay={DND_DELAY} />
+              <SortableList items={[...contentItems]} onSortEnd={this.onSortEnd} pressDelay={DND_DELAY} />
             </GridItem>
           </GridContainer>
         </AdminContent>

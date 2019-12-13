@@ -24,8 +24,8 @@ import htmlToDraft from 'html-to-draftjs';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { getGignUrl } from 'redux/actions/files';
-import { toDataURL } from '../../utils/files';
 import { DND_DELAY } from 'constants/default';
+import { toDataURL } from '../../utils/files';
 
 import './styles.css';
 
@@ -366,7 +366,9 @@ class CourseCurriculum extends Component {
     return (
       <>
         <CustomNavbar
-          component={<LectureTitle title={lecture && lecture.title} onChange={this.onChangeTitle} onBack={this.handleBack} />}
+          component={
+            <LectureTitle title={lecture && lecture.title} onChange={this.onChangeTitle} onBack={this.handleBack} />
+          }
           right={this.renderNavbar(classes)}
         />
         <AdminContent>
