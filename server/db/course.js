@@ -227,7 +227,7 @@ COURSE.methods.removeNavigation = function removeNavigation(navigation) {
     error.status = 404;
     throw error;
   }
-  this.navigation = this.navigation.splice(idxNav, 1);
+  this.navigation.splice(idxNav, 1);
   return this.save();
 };
 
@@ -243,7 +243,7 @@ COURSE.methods.removePricing = async function removePricing(pricing) {
     error.status = 404;
     throw error;
   }
-  this.pricingPlans = this.pricingPlans.splice(_pricing, 1);
+  this.pricingPlans.splice(_pricing, 1);
   return this.save();
 };
 
