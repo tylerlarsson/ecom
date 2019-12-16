@@ -39,10 +39,26 @@ module.exports = {
         }
       ]
     },
+    mockPricing: {
+      price: 100,
+      title: 'Test pricing plan',
+      subtitle: 'the way you choose to pay',
+      description: 'the way you choose to pay',
+      type: 'one-time',
+      period: 150
+    },
     mockId: mongoose.Types.ObjectId()
   },
   courseFactory() {
     return this.model.Course.create(this.mocks.mockCourse);
+  },
+
+  async pricingPlanFactory() {
+    const course = await this.courseFactory();
+    return this.model.PricingPlan.create({
+      courseId: course._id,
+      ...this.mocks.mockPricing
+    });
   },
 
   async navigationFactory() {

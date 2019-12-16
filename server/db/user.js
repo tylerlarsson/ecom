@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const { DEFAULT_OPTIONS } = require('./common');
 const Role = require('./role');
+const { sendMail } = require('../mail');
 
 const USER = new mongoose.Schema(
   {
@@ -33,17 +34,13 @@ USER.virtual('roleNames').get(async function() {
 
 // eslint-disable-next-line func-names
 USER.virtual('permissionNames').get(async function() {
-  try {
-    const roles = await Role.find({ _id: { $in: this.roles } })
-      .populate('permissions')
-      .select({ permissions: 1 });
-    const r = new Set();
-    // eslint-disable-next-line no-return-assign
-    roles.forEach(({ permissions }) => permissions.forEach(({ name }) => r.add(name)));
-    return Array.from(r);
-  } catch (error) {
-    console.error(error);
-  }
+  const roles = await Role.find({ _id: { $in: this.roles } })
+    .populate('permissions')
+    .select({ permissions: 1 });
+  const r = new Set();
+  // eslint-disable-next-line no-return-assign
+  roles.forEach(({ permissions }) => permissions.forEach(({ name }) => r.add(name)));
+  return Array.from(r);
 });
 
 USER.statics.create = async ({
@@ -60,13 +57,46 @@ USER.statics.create = async ({
   if (!username) {
     username = email;
   }
-
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
   created = created || new Date();
   const user = new User({ username, hash, email, firstname, lastname, roles, created, loginLast, loginCount });
   await user.save();
   return user;
+};
+
+USER.statics.resetPasswordRequest = async ({ email }) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    const error = new Error(`User with email ${email} is not found.`);
+    error.status = 404;
+    throw error;
+  }
+  const link = `https://example.com/reset?bjson=${user.id}`;
+  const message = await sendMail({
+    from: 'EcomFreedom Support <support@ecomfreedom.com>',
+    to: email,
+    subject: 'Password recovery',
+    html: `Click <b><a href="${link}" target="_blank">here</a></b>`
+  });
+  return {
+    success: !!message.messageId
+  };
+};
+
+USER.statics.resetPassword = async args => {
+  const { id, newPassword } = args;
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(newPassword, salt);
+  const user = await User.findById(id);
+  if (!user) {
+    const error = new Error(`User with id ${id} is not found.`);
+    error.status = 404;
+    throw error;
+  }
+  user.hash = hash;
+  await user.save();
+  return user.toJSON();
 };
 
 USER.statics.verifyUsername = async username => {

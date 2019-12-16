@@ -7,7 +7,10 @@ ajv.addSchema(readJson('schema', 'name.schema.json'));
 ajv.addSchema(readJson('schema', 'lecture-content.schema.json'));
 ajv.addSchema(readJson('schema', 'filter.schema.json'));
 ajv.addSchema(readJson('schema', 'page.schema.json'));
+ajv.addSchema(readJson('schema', 'email.schema.json'));
 
+const resetRequestSchema = readJson('schema', 'reset-request.schema.json');
+const resetSchema = readJson('schema', 'reset.schema.json');
 const nameRequestSchema = readJson('schema', 'name-request.schema.json');
 const newUserSchema = readJson('schema', 'new-user.schema.json');
 const newRoleSchema = readJson('schema', 'new-role.schema.json');
@@ -31,14 +34,18 @@ const editPageSchema = readJson('schema', 'edit-page.schema.json');
 const deletePageSchema = readJson('schema', 'delete-page.schema.json');
 const getNavigationSchema = readJson('schema', 'get-navigation.schema.json');
 const createNavigationSchema = readJson('schema', 'create-navigation.schema.json');
+const getPricingByCourseSchema = readJson('schema', 'get-pricing-by-course.schema.json');
 const editNavigationSchema = readJson('schema', 'edit-navigation.schema.json');
 const deleteNavigationSchema = readJson('schema', 'delete-navigation.schema.json');
 const deleteLinkSchema = readJson('schema', 'delete-link.schema.json');
 const createLinkSchema = readJson('schema', 'create-link.schema.json');
+const getPricingSchema = readJson('schema', 'get-pricing.schema.json');
 const editLinkSchema = readJson('schema', 'edit-link.schema.json');
 const createContentSchema = readJson('schema', 'create-content.schema.json');
 const editContentSchema = readJson('schema', 'edit-content.schema.json');
 const deleteContentSchema = readJson('schema', 'delete-content.schema.json');
+const deleteGcsSchema = readJson('schema', 'delete-gcs.schema.json');
+const uploadGcsSchema = readJson('schema', 'upload-gcs.schema.json');
 
 const name = ajv.compile(nameRequestSchema);
 const newUser = ajv.compile(newUserSchema);
@@ -47,9 +54,15 @@ const newPermission = ajv.compile(newPermissionSchema);
 const assignPermission = ajv.compile(assignPermissionSchema);
 const editPage = ajv.compile(editPageSchema);
 const tokenRequest = ajv.compile(tokenRequestSchema);
+const getPricing = ajv.compile(getPricingSchema);
+const deleteGcs = ajv.compile(deleteGcsSchema);
+const uploadGcs = ajv.compile(uploadGcsSchema);
+const getPricingByCourse = ajv.compile(getPricingByCourseSchema);
 const deletePlan = ajv.compile(deletePlanSchema);
 const pageRequest = ajv.compile(pageRequestSchema);
 const assignFilter = ajv.compile(assignFilterSchema);
+const reset = ajv.compile(resetSchema);
+const resetRequest = ajv.compile(resetRequestSchema);
 const filters = ajv.compile(filtersSchema);
 const deleteLecture = ajv.compile(deleteLectureSchema);
 const newPage = ajv.compile(newPageSchema);
@@ -83,17 +96,23 @@ module.exports = {
   createNavigation,
   createContent,
   editContent,
+  deleteGcs,
+  uploadGcs,
+  getPricingByCourse,
   deleteContent,
   deleteLecture,
   getNavigation,
   editNavigation,
   editPage,
   deleteNavigation,
+  resetRequest,
+  reset,
   deleteLink,
   createLink,
   editLink,
   newPage,
   getCourse,
+  getPricing,
   tokenRequest,
   deleteSection,
   pageRequest,
