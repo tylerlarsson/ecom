@@ -14,14 +14,15 @@ const PRICING_PLAN_TYPE = {
 const PRICING_PLAN = new mongoose.Schema(
   {
     price: { type: Number, index: true },
-    title: { type: String, index: true, required: true },
-    subtitle: { type: String, index: true, required: true },
+    title: { type: String, index: true },
+    subtitle: { type: String, index: true },
     description: { type: String, default: '' },
     type: { type: String, enum: Object.values(PRICING_PLAN_TYPE), index: true, required: true },
     courseId: { type: ObjectId, ref: 'course', required: true },
     isRecurring: { type: Boolean, default: false },
     purchaseUrl: { type: String, default: '' },
-    deleted: Boolean,
+    period: { type: Number },
+    deleted: { type: Boolean, default: false },
     deletedAt: Date
   },
   DEFAULT_OPTIONS
@@ -38,6 +39,7 @@ PRICING_PLAN.statics.create = async args => {
     plan = new PricingPlan(rest);
   }
   const saved = await plan.save();
+  console.log('Saved ->', saved);
   const course = await Course.findById(rest.courseId);
   await course.addPricing(saved._id);
   return saved;

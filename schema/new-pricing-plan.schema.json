@@ -35,6 +35,9 @@
     "type": {
       "type": "string",
       "enum": ["free", "subscription", "one-time", "payment-plan"]
+    },
+    "period": {
+      "type": "number"
     }
   }
 }

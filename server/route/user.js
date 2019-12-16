@@ -168,4 +168,95 @@ if (config.get('NODE_ENV') === 'test') {
   });
 }
 
+/**
+ * @swagger
+ * definitions:
+ *   ResetPasswordPut:
+ *     type: object
+ *     required:
+ *       - id
+ *       - email
+ *     properties:
+ *       id:
+ *         type: string
+ *         example: 5de674f6b5e0a845f3c94b5d
+ *       newPassword:
+ *         type: string
+ *         example: passpass
+ * /reset-password:
+ *   get:
+ *     parameters:
+ *       - name: email
+ *         in: query
+ *         required: true
+ *         example: admin@admin.admin
+ *     description: Get users
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: mail is sent to user's address
+ *       404:
+ *         description: mail is not in DB
+ *       422:
+ *         description: request does not satisfy expected schema
+ *   put:
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         description: user id and new password
+ *         in: body
+ *         required: true
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/ResetPasswordPut'
+ *     description: reset password of user
+ *     responses:
+ *       200:
+ *         description: user password is changed
+ *       404:
+ *         description: user is not found
+ *       422:
+ *         description: request does not satisfy expected schema
+ */
+router.get('/reset-password', async (req, res) => {
+  try {
+    if (!validator.resetRequest(req.query)) {
+      logger.error('validation of the new user failed', validator.resetRequest.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.resetRequest.errors });
+      return;
+    }
+    const { email } = req.query;
+    const { success } = await db.model.User.resetPasswordRequest({ email });
+    res.json({ success });
+  } catch (error) {
+    res.json(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
+  }
+});
+
+router.put('/reset-password', async (req, res) => {
+  try {
+    if (!validator.reset(req.body)) {
+      logger.error('validation of the new user failed', validator.reset.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.reset.errors });
+      return;
+    }
+    const user = await db.model.User.resetPassword(req.body);
+    res.json({
+      user
+    });
+  } catch (error) {
+    res.json(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
+  }
+});
+
 module.exports = router;
