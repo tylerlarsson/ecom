@@ -155,6 +155,7 @@
     "ms": "2.1.2",
     "multer": "latest",
     "nconf": "0.10.0",
+    "nodemailer": "latest",
     "null-loader": "0.1.1",
     "offline-plugin": "5.0.6",
     "perfect-scrollbar": "^1.4.0",

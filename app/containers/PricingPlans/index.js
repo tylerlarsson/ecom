@@ -162,10 +162,10 @@ class PricingPlans extends Component {
 
   prepareData = data =>
     map(data, item => {
-      const { _id, type, title, price, isRecurring } = item;
+      const { _id, id, type, title, price, isRecurring } = item;
 
       return {
-        id: _id,
+        id: _id || id,
         type,
         title,
         price,

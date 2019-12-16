@@ -227,7 +227,7 @@ COURSE.methods.removeNavigation = function removeNavigation(navigation) {
     error.status = 404;
     throw error;
   }
-  this.navigation = this.navigation.splice(idxNav, 1);
+  this.navigation.splice(idxNav, 1);
   return this.save();
 };
 
@@ -237,13 +237,13 @@ COURSE.methods.addPricing = function addPricing(pricing) {
 };
 
 COURSE.methods.removePricing = async function removePricing(pricing) {
-  const _pricing = this.pricingPlans.id(pricing);
+  const _pricing = this.pricingPlans.findIndex(plan => plan._id === pricing);
   if (!_pricing) {
     const error = new Error(`Pricing plan with id ${pricing} is not found in Course model.`);
     error.status = 404;
     throw error;
   }
-  _pricing.remove();
+  this.pricingPlans.splice(_pricing, 1);
   return this.save();
 };
 

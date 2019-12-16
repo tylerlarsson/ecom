@@ -1,3 +1,4 @@
+import { size } from 'lodash';
 import {
   GET_COURSES_SUCCESS,
   GET_COURSES_FAILED,
@@ -85,7 +86,10 @@ export default function(state = initialState, action) {
         ...state
       };
     case GET_PRICING_PLANS_SUCCESS:
-      if (!action.res.success || typeof action.res.data !== 'array') {
+      console.log('GET_PRICING_PLANS_SUCCESS', action.res.data);
+      const pricingPlans = action.res.data && action.res.data.plans;
+      console.log('GET_PRICING_PLANS_SUCCESS', typeof action.res.data.plans, typeof pricingPlans !== 'Array', pricingPlans);
+      if (!action.res.success || size(pricingPlans) <= 0) {
         return {
           ...state,
           pricingPlans: []
@@ -93,7 +97,7 @@ export default function(state = initialState, action) {
       }
       return {
         ...state,
-        pricingPlans: action.res.data
+        pricingPlans
       };
     case GET_PRICING_PLANS_FAILED:
       return {
