@@ -192,8 +192,6 @@ export const addPricingPlan = payload => {
     data.id = payload.id;
   }
 
-  const { courseId } = payload;
-
   return axios
     .post(`${API_ENDPOINT_URL}/pricing-plan`, data)
     .then(res => {

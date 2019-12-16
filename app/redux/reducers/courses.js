@@ -21,6 +21,7 @@ const initialState = {
   course: null
 };
 let temp;
+let pricingPlans;
 export default function(state = initialState, action) {
   switch (action.type) {
     // Courses
@@ -86,9 +87,8 @@ export default function(state = initialState, action) {
         ...state
       };
     case GET_PRICING_PLANS_SUCCESS:
-      console.log('GET_PRICING_PLANS_SUCCESS', action.res.data);
-      const pricingPlans = action.res.data && action.res.data.plans;
-      console.log('GET_PRICING_PLANS_SUCCESS', typeof action.res.data.plans, typeof pricingPlans !== 'Array', pricingPlans);
+      pricingPlans = action.res.data && action.res.data.plans;
+
       if (!action.res.success || size(pricingPlans) <= 0) {
         return {
           ...state,

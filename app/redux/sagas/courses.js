@@ -45,7 +45,7 @@ import {
   ADD_PRICING_PLAN_FAILED,
   DELETE_PRICING_PLAN_REQUEST,
   // DELETE_PRICING_PLAN_SUCCESS,
-  DELETE_PRICING_PLAN_FAILED,
+  DELETE_PRICING_PLAN_FAILED
 } from 'constants/actionTypes';
 
 // Responsible for searching media library, making calls to the API
@@ -154,9 +154,9 @@ export function* getPricingPlansRequestSaga({ payload }) {
 }
 
 export function* createPricingPlanRequestSaga({ payload }) {
-  console.log('createPricingPlanRequestSaga', payload)
+  console.log('createPricingPlanRequestSaga', payload);
   try {
-    const res = yield call(addPricingPlan, payload);
+    yield call(addPricingPlan, payload);
     // yield put({ type: ADD_PRICING_PLAN_SUCCESS, res });
     yield call(getPricingPlansRequestSaga, { payload: { courseId: payload.courseId } });
   } catch (error) {
@@ -166,7 +166,7 @@ export function* createPricingPlanRequestSaga({ payload }) {
 
 export function* deletePricingPlanRequestSaga({ payload }) {
   try {
-    const res = yield call(deletePricingPlan, payload);
+    yield call(deletePricingPlan, payload);
     // yield put({ type: DELETE_PRICING_PLAN_SUCCESS, res: { ...res, name: payload.name } });
     yield call(getCourseRequestSaga, { payload: { id: payload.courseId } });
   } catch (error) {

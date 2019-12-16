@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { map } from 'lodash';
 import { withStyles, AppBar, Toolbar, Typography } from '@material-ui/core';
 import { Done, ChevronRight } from '@material-ui/icons';
 import { COURSE_STEPS } from 'constants/default';
 import routes from 'constants/routes.json';
-import {setUserAction} from "../../redux/actions/auth";
 
 const styles = {
   wrap: {
