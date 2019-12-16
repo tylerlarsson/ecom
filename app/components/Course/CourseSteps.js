@@ -68,7 +68,7 @@ class CourseSteps extends PureComponent {
     const { classes, active, courseId } = this.props;
     const urls = {
       2: courseId ? `${routes.ADMIN}${routes.CURRICULUM}`.replace(':course', courseId) : null,
-      3: courseId ? `${routes.ADMIN}${routes.PRICING}`.replace(':course', courseId) : null
+      3: courseId ? `${routes.ADMIN}${routes.PRICING_PLAN}`.replace(':course', courseId) : null
     };
     return (
       <AppBar elevation={1} position="sticky" className={classes.wrap}>

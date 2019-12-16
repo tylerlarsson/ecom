@@ -134,21 +134,23 @@ function TableList({ ...props }) {
           ))}
         </TableBody>
       </Table>
-      <TablePagination
-        rowsPerPageOptions={[10, 20, 50, 100]}
-        component="div"
-        count={total || tableData.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        backIconButtonProps={{
-          'aria-label': 'previous page'
-        }}
-        nextIconButtonProps={{
-          'aria-label': 'next page'
-        }}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+      {pagination ? (
+        <TablePagination
+          rowsPerPageOptions={[10, 20, 50, 100]}
+          component="div"
+          count={total || tableData.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          backIconButtonProps={{
+            'aria-label': 'previous page'
+          }}
+          nextIconButtonProps={{
+            'aria-label': 'next page'
+          }}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      ) : null}
     </div>
   );
 }

@@ -153,3 +153,68 @@ export const deleteLecture = payload =>
       return { success: false, reason: res.message };
     })
     .catch(err => ({ success: false, reason: err.response.data.message }));
+
+export const getPricingPlans = payload => {
+  const params = payload && payload.params;
+  return axios
+    .get(`${API_ENDPOINT_URL}/pricing-plan`, { params })
+    .then(res => {
+      console.log('getPricingPlans res', res);
+      if (res.data) {
+        return { success: true, data: res.data };
+      }
+      return { success: false, reason: res.message };
+    })
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+};
+
+export const addPricingPlan = payload => {
+  let data = {};
+  if (payload.sections) {
+    data = {
+      sections: map(payload.sections, (item, index) => ({ ...item, id: item.id, index }))
+    };
+  } else {
+    data = {
+      price: payload.price,
+      courseId: payload.courseId,
+      isRecurring: payload.isRecurring,
+      purchaseUrl: payload.purchaseUrl,
+      title: payload.title,
+      subtitle: payload.subtitle,
+      description: payload.description,
+      type: payload.type
+    };
+  }
+
+  if (payload.id) {
+    data.id = payload.id;
+  }
+
+  const { courseId } = payload;
+
+  return axios
+    .post(`${API_ENDPOINT_URL}/pricing-plan`, data)
+    .then(res => {
+      console.log('createSection res', res);
+      if (res.data) {
+        return { success: true, data: res.data };
+      }
+      return { success: false, reason: res.message };
+    })
+    .catch(err => {
+      console.log('createSection error', err, err.response, err.response.data.message);
+      return { success: false, reason: err.response.data.message };
+    });
+};
+
+export const deletePricingPlan = payload =>
+  axios
+    .delete(`${API_ENDPOINT_URL}/course/${payload.courseId}/${payload.id}`)
+    .then(res => {
+      if (res.data) {
+        return { success: true };
+      }
+      return { success: false, reason: res.message };
+    })
+    .catch(err => ({ success: false, reason: err.response.data.message }));

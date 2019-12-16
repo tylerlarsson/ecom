@@ -3,6 +3,8 @@ import {
   GET_COURSES_FAILED,
   GET_COURSE_SUCCESS,
   GET_COURSE_FAILED,
+  GET_PRICING_PLANS_SUCCESS,
+  GET_PRICING_PLANS_FAILED,
   CREATE_COURSES_SUCCESS,
   CREATE_COURSES_FAILED,
   DELETE_COURSES_SUCCESS,
@@ -14,6 +16,7 @@ const initialState = {
     data: [],
     total: 0
   },
+  pricingPlans: [],
   course: null
 };
 let temp;
@@ -81,7 +84,22 @@ export default function(state = initialState, action) {
       return {
         ...state
       };
-
+    case GET_PRICING_PLANS_SUCCESS:
+      if (!action.res.success || typeof action.res.data !== 'array') {
+        return {
+          ...state,
+          pricingPlans: []
+        };
+      }
+      return {
+        ...state,
+        pricingPlans: action.res.data
+      };
+    case GET_PRICING_PLANS_FAILED:
+      return {
+        ...state,
+        pricingPlans: []
+      };
     default:
       return state;
   }
