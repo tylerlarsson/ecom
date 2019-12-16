@@ -154,7 +154,6 @@ export function* getPricingPlansRequestSaga({ payload }) {
 }
 
 export function* createPricingPlanRequestSaga({ payload }) {
-  console.log('createPricingPlanRequestSaga', payload);
   try {
     yield call(addPricingPlan, payload);
     // yield put({ type: ADD_PRICING_PLAN_SUCCESS, res });

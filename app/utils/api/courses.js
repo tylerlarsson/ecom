@@ -156,7 +156,7 @@ export const deleteLecture = payload =>
 
 export const getPricingPlans = payload => {
   const courseId = payload && payload.courseId;
-  console.log('getPricingPlans', courseId);
+
   return axios
     .get(`${API_ENDPOINT_URL}/pricing-plan/${courseId}`)
     .then(res => {
