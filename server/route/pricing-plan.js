@@ -198,7 +198,7 @@ router.delete('/:course/plan/:pricingPlan', async (req, res) => {
     }
     const deleted = await db.model.PricingPlan.delete(params.pricingPlan, params.course);
     logger.info('pricing plan', deleted.title, 'has been deleted, id', String(deleted._id));
-    res.json(deleted);
+    res.json({ deleted });
   } catch (error) {
     res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
       errors: error.message

@@ -13,11 +13,11 @@ const PRICING_PLAN_TYPE = {
 
 const PRICING_PLAN = new mongoose.Schema(
   {
-    price: { type: Number, index: true },
-    title: { type: String, index: true },
-    subtitle: { type: String, index: true },
+    price: { type: Number },
+    title: { type: String },
+    subtitle: { type: String },
     description: { type: String, default: '' },
-    type: { type: String, enum: Object.values(PRICING_PLAN_TYPE), index: true, required: true },
+    type: { type: String, enum: Object.values(PRICING_PLAN_TYPE), required: true },
     courseId: { type: ObjectId, ref: 'course', required: true },
     isRecurring: { type: Boolean, default: false },
     purchaseUrl: { type: String, default: '' },

@@ -9,8 +9,7 @@
       "$ref": "#mongo-id"
     },
     "price": {
-      "type": "number",
-      "minimum": 0.01
+      "type": "number"
     },
     "courseId": {
       "$ref": "#mongo-id"
