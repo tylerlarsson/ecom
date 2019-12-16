@@ -111,7 +111,7 @@ class Course extends Component {
   };
 
   render() {
-    const { classes, users } = this.props;
+    const { classes, users, history } = this.props;
     const { title, subtitle } = this.state;
 
     const admins = filter(users, user => user.roles.includes('admin'));
@@ -193,7 +193,7 @@ class Course extends Component {
             </GridItem>
           </GridContainer>
         </AdminContent>
-        <CourseSteps active={1} />
+        <CourseSteps active={1} history={history} />
       </>
     );
   }

@@ -6,6 +6,7 @@ import { withStyles, AppBar, Toolbar, Typography } from '@material-ui/core';
 import { Done, ChevronRight } from '@material-ui/icons';
 import { COURSE_STEPS } from 'constants/default';
 import routes from 'constants/routes.json';
+import {setUserAction} from "../../redux/actions/auth";
 
 const styles = {
   wrap: {
@@ -55,21 +56,27 @@ const styles = {
 };
 
 class CourseSteps extends PureComponent {
-  // onChange = event => {
-  //   this.setState({ title: event.target.value });
-  // };
+  handleClick = url => () => {
+    const { history } = this.props;
+
+    if (url && history) {
+      history.push(url);
+    }
+  };
 
   render() {
-    const { classes, active, history, courseId } = this.props;
+    const { classes, active, courseId } = this.props;
     const urls = {
-      2: `${routes.ADMIN}${routes.CURRICULUM}`.replace(':course', courseId)
+      2: courseId ? `${routes.ADMIN}${routes.CURRICULUM}`.replace(':course', courseId) : null,
+      3: courseId ? `${routes.ADMIN}${routes.PRICING}`.replace(':course', courseId) : null
     };
     return (
       <AppBar elevation={1} position="sticky" className={classes.wrap}>
         {map(COURSE_STEPS, (item, index) => (
           <Toolbar
+            key={index}
             className={`${classes.step} ${parseInt(active, 10) === parseInt(index, 10) ? 'active' : ''}`}
-            onClick={urls[index] ? history && history.push(urls[index]) : null}
+            onClick={this.handleClick(urls[index])}
           >
             {index < 4 ? ( // eslint-disable-line
               parseInt(index, 10) === 1 && parseInt(active, 10) > 1 ? (
@@ -92,7 +99,7 @@ CourseSteps.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   active: PropTypes.number,
-  courseId: PropTypes.number
+  courseId: PropTypes.string
 };
 
-export default connect(null)(withStyles(styles)(CourseSteps));
+export default withStyles(styles)(CourseSteps);

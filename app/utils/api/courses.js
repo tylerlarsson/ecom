@@ -64,7 +64,6 @@ export const deleteCourses = payload =>
     .catch(err => ({ success: false, reason: err.response.data.message }));
 
 export const createSection = payload => {
-  console.log('createSection', payload);
   let data = {};
   if (payload.sections) {
     data = {
@@ -83,7 +82,6 @@ export const createSection = payload => {
 
   const { courseId } = payload;
 
-  console.log('createSection', data);
   return axios
     .post(`${API_ENDPOINT_URL}/course/${courseId}/section`, data)
     .then(res => {
