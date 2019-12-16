@@ -73,7 +73,7 @@ export const createSection = payload => {
   } else {
     data = {
       title: payload.title,
-      index: payload.index
+      id: payload.id
     };
   }
 
