@@ -139,7 +139,7 @@ router.post('/', async (req, res) => {
 
     const plan = await db.model.PricingPlan.create(data);
     logger.info('pricing plan', plan.title, 'has been created/updated, id', String(plan._id));
-    res.json(plan);
+    res.json({ plan });
   } catch (error) {
     res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
       errors: error.message
