@@ -1,6 +1,10 @@
 // const HttpStatus = require('http-status-codes');
 const express = require('express');
+const HttpStatus = require('http-status-codes');
+const validator = require('../validator');
 const router = express.Router();
+const createLogger = require('../logger');
+const logger = createLogger('web-server.course-route');
 const { generateUploadUrl, deleteFileGcs } = require('../file-util');
 
 /**
@@ -30,6 +34,7 @@ const { generateUploadUrl, deleteFileGcs } = require('../file-util');
  *       - application/json
  *     parameters:
  *       - name: image
+ *         required: true
  *         in: body
  *       - name: bucket
  *         in: body
@@ -41,13 +46,18 @@ const { generateUploadUrl, deleteFileGcs } = require('../file-util');
  */
 router.post('/image', async (req, res) => {
   try {
-    const { image, bucket } = req.body;
-    const url = await generateUploadUrl(image, bucket);
+    if (!validator.uploadGcs(req.body)) {
+      logger.error('validation of upload to request failed', validator.uploadGcs.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.uploadGcs.errors });
+      return;
+    }
+    const { image, expires, bucket } = req.body;
+    const url = await generateUploadUrl(image, expires, bucket);
     res.json({
       url
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
       errors: error.message
     });
   }
@@ -55,13 +65,18 @@ router.post('/image', async (req, res) => {
 
 router.delete('/image', async (req, res) => {
   try {
+    if (!validator.deleteGcs(req.query)) {
+      logger.error('validation of upload to request failed', validator.deleteGcs.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.deleteGcs.errors });
+      return;
+    }
     const { url, bucket } = req.query;
     await deleteFileGcs(url, bucket);
-    res.status(200).json({
+    res.status(HttpStatus.NO_CONTENT).json({
       deleted: true
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
       errors: error.message
     });
   }

@@ -21,12 +21,10 @@
       "type": "string"
     },
     "title": {
-      "type": "string",
-      "minLength": 3
+      "type": "string"
     },
     "subtitle": {
-      "type": "string",
-      "minLength": 3
+      "type": "string"
     },
     "description": {
       "type": "string"
