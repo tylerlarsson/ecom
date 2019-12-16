@@ -64,7 +64,6 @@ export const deleteCourses = payload =>
     .catch(err => ({ success: false, reason: err.response.data.message }));
 
 export const createSection = payload => {
-  console.log('createSection', payload);
   let data = {};
   if (payload.sections) {
     data = {
@@ -73,7 +72,7 @@ export const createSection = payload => {
   } else {
     data = {
       title: payload.title,
-      index: payload.index
+      id: payload.id
     };
   }
 
@@ -83,7 +82,6 @@ export const createSection = payload => {
 
   const { courseId } = payload;
 
-  console.log('createSection', data);
   return axios
     .post(`${API_ENDPOINT_URL}/course/${courseId}/section`, data)
     .then(res => {
@@ -148,6 +146,70 @@ export const createLecture = payload => {
 export const deleteLecture = payload =>
   axios
     .delete(`${API_ENDPOINT_URL}/course/${payload.name}/section`)
+    .then(res => {
+      if (res.data) {
+        return { success: true };
+      }
+      return { success: false, reason: res.message };
+    })
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+
+export const getPricingPlans = payload => {
+  const courseId = payload && payload.courseId;
+  console.log('getPricingPlans', courseId);
+  return axios
+    .get(`${API_ENDPOINT_URL}/pricing-plan/${courseId}`)
+    .then(res => {
+      console.log('getPricingPlans res', res);
+      if (res.data) {
+        return { success: true, data: res.data };
+      }
+      return { success: false, reason: res.message };
+    })
+    .catch(err => ({ success: false, reason: err.response.data.message }));
+};
+
+export const addPricingPlan = payload => {
+  let data = {};
+  if (payload.sections) {
+    data = {
+      sections: map(payload.sections, (item, index) => ({ ...item, id: item.id, index }))
+    };
+  } else {
+    data = {
+      price: payload.price,
+      courseId: payload.courseId,
+      isRecurring: payload.isRecurring,
+      purchaseUrl: payload.purchaseUrl,
+      title: payload.title,
+      subtitle: payload.subtitle,
+      description: payload.description,
+      type: payload.type
+    };
+  }
+
+  if (payload.id) {
+    data.id = payload.id;
+  }
+
+  return axios
+    .post(`${API_ENDPOINT_URL}/pricing-plan`, data)
+    .then(res => {
+      console.log('createSection res', res);
+      if (res.data) {
+        return { success: true, data: res.data };
+      }
+      return { success: false, reason: res.message };
+    })
+    .catch(err => {
+      console.log('createSection error', err, err.response, err.response.data.message);
+      return { success: false, reason: err.response.data.message };
+    });
+};
+
+export const deletePricingPlan = payload =>
+  axios
+    .delete(`${API_ENDPOINT_URL}/course/${payload.courseId}/${payload.id}`)
     .then(res => {
       if (res.data) {
         return { success: true };

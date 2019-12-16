@@ -93,7 +93,7 @@ router.post('/', async (req, res) => {
  *         type: number,
  *         example: 0
  *         description: index of section to update
- *       section:
+ *       id:
  *         type: string
  *         example: 5de674f6b5e0a845f3c94b5d
  *         description: mongo id of section

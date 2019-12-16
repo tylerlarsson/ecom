@@ -1,8 +1,11 @@
+import { size } from 'lodash';
 import {
   GET_COURSES_SUCCESS,
   GET_COURSES_FAILED,
   GET_COURSE_SUCCESS,
   GET_COURSE_FAILED,
+  GET_PRICING_PLANS_SUCCESS,
+  GET_PRICING_PLANS_FAILED,
   CREATE_COURSES_SUCCESS,
   CREATE_COURSES_FAILED,
   DELETE_COURSES_SUCCESS,
@@ -14,9 +17,11 @@ const initialState = {
     data: [],
     total: 0
   },
+  pricingPlans: [],
   course: null
 };
 let temp;
+let pricingPlans;
 export default function(state = initialState, action) {
   switch (action.type) {
     // Courses
@@ -81,7 +86,24 @@ export default function(state = initialState, action) {
       return {
         ...state
       };
+    case GET_PRICING_PLANS_SUCCESS:
+      pricingPlans = action.res.data && action.res.data.plans;
 
+      if (!action.res.success || size(pricingPlans) <= 0) {
+        return {
+          ...state,
+          pricingPlans: []
+        };
+      }
+      return {
+        ...state,
+        pricingPlans
+      };
+    case GET_PRICING_PLANS_FAILED:
+      return {
+        ...state,
+        pricingPlans: []
+      };
     default:
       return state;
   }

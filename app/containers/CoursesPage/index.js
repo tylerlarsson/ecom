@@ -68,7 +68,6 @@ class Courses extends Component {
 
   handleCoursePage = item => () => {
     const { history } = this.props;
-    console.log('handleCoursePage', item);
     history.push(`${routes.ADMIN}${routes.CURRICULUM.replace(':course', item.id)}`);
   };
 

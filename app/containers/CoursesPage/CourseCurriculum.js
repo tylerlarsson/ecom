@@ -75,7 +75,6 @@ const styles = {
 const SortableItem = SortableElement(({ value }) => {
   const { classes, onChangeSection, onChangeLecture, onCheckSection, onNewLecture, sortIndex, ...section } = value;
 
-  console.log('SortableItem', section);
   return (
     <Card className={classes.card}>
       <CardBody>
@@ -120,7 +119,6 @@ class CourseCurriculum extends Component {
   componentWillMount() {
     const { match } = this.props;
     const courseId = match && match.params && match.params.course;
-    console.log('componentWillMount', courseId);
     this.props.getCourseAction({ id: courseId });
   }
 
@@ -133,7 +131,6 @@ class CourseCurriculum extends Component {
   }
 
   setCourse = course => {
-    console.log('setCourse', course);
     const sortedSections = orderBy((course && course.sections) || [], ['index'], ['asc']);
     this.setState({ course: { ...course, sections: sortedSections } });
   };
@@ -175,7 +172,6 @@ class CourseCurriculum extends Component {
   };
 
   onChangeSection = (section, sortIndex) => title => {
-    console.log('onChangeSection', sortIndex, section, title);
     const { createSectionAction } = this.props;
     const { course } = this.state;
     const payload = {
@@ -190,7 +186,6 @@ class CourseCurriculum extends Component {
   onChangeLecture = lecture => () => {
     const { course } = this.state;
     const { history } = this.props;
-    console.log('onChangeLecture', lecture);
     const lectureRoute = `${routes.ADMIN}${routes.NEW_LECTURE}`
       .replace(':course', course && course.id)
       .replace(':lecture', lecture.id || lecture._id);
@@ -207,7 +202,6 @@ class CourseCurriculum extends Component {
     const course = { ...this.state.course }; // eslint-disable-line
     const sections = [...course.sections];
     course.sections = arrayMove(sections, oldIndex, newIndex);
-    console.log('onSortEnd', course.sections);
     this.setState({ course });
     // TODO update dbase
     const payload = {
@@ -235,12 +229,11 @@ class CourseCurriculum extends Component {
   );
 
   render() {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
     const { course } = this.state;
     const sections = (course && course.sections) || [];
     // const sections = orderBy((course && course.sections) || [], ['index'], ['asc']);
 
-    console.log('course', course, sections);
     const contentItems = map(sections, (item, index) => ({
       ...item,
       sortIndex: index,
@@ -250,7 +243,6 @@ class CourseCurriculum extends Component {
       onNewLecture: this.onNewLecture,
       classes
     }));
-    console.log('contentItems', contentItems);
     return (
       <>
         <AdminNavbar title="Curriculum" right={this.renderNavbar(classes)} />
@@ -261,7 +253,7 @@ class CourseCurriculum extends Component {
             </GridItem>
           </GridContainer>
         </AdminContent>
-        <CourseSteps active={2} />
+        <CourseSteps active={2} courseId={course && (course.id || course._id)} history={history} />
       </>
     );
   }
