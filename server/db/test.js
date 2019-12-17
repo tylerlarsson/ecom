@@ -92,11 +92,11 @@ module.exports = {
   },
 
   roleFactory() {
-    return this.model.Role.create(...this.mocks.mockRole);
+    return this.model.Role.create(this.mocks.mockRole);
   },
 
   userFactory() {
-    return this.model.User.create(...this.mocks.mockUser);
+    return this.model.User.create(this.mocks.mockUser);
   },
 
   beforeAll(done) {

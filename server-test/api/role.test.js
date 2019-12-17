@@ -494,6 +494,7 @@ describe('role apis', () => {
   });
 
   test(`should add new role to user model`, async () => {
+    await Promise.all([db.model.Role.deleteMany({}), db.model.User.deleteMany({})]);
     const [role, user] = await Promise.all([db.roleFactory(), db.userFactory()]);
     const res = await request(app).post(`${path}/${role._id.toString()}/user/${user._id.toString()}`);
     expect(res.status).toBe(HttpStatus.OK);
@@ -507,6 +508,7 @@ describe('role apis', () => {
   });
 
   test(`should raise error if role is not found`, async () => {
+    await Promise.all([db.model.Role.deleteMany({}), db.model.User.deleteMany({})]);
     const user = await db.userFactory();
     const res = await request(app).delete(`${path}/${db.mocks.mockId}/user/${user._id.toString()}`);
     expect(res.status).toBe(HttpStatus.NOT_FOUND);
@@ -519,6 +521,7 @@ describe('role apis', () => {
   });
 
   test(`should delete role from user model`, async () => {
+    await Promise.all([db.model.Role.deleteMany({}), db.model.User.deleteMany({})]);
     const [role, user] = await Promise.all([db.roleFactory(), db.userFactory()]);
     let res = await request(app).post(`${path}/${role._id.toString()}/user/${user._id.toString()}`);
     expect(res.status).toBe(HttpStatus.OK);

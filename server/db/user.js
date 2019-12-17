@@ -160,7 +160,7 @@ USER.methods.addRole = async function addRole(roleName) {
 };
 
 USER.methods.deleteRole = async function deleteRole(roleName) {
-  const idx = this.roles.findIndex(r => r.toString() === roleName);
+  const idx = this.roles.findIndex(r => r === roleName);
   if (!idx) {
     const error = new Error(`Role with name ${roleName} is not found`);
     error.status = 404;
