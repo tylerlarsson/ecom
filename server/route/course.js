@@ -93,7 +93,7 @@ router.post('/', async (req, res) => {
  *         type: number,
  *         example: 0
  *         description: index of section to update
- *       section:
+ *       id:
  *         type: string
  *         example: 5de674f6b5e0a845f3c94b5d
  *         description: mongo id of section
@@ -167,7 +167,7 @@ router.post('/', async (req, res) => {
 router.post('/:course/section', async (req, res) => {
   const { body, params } = req;
   if (!validator.courseSection({ body, params })) {
-    console.error('validation of create course section request failed', validator.courseSection.errors);
+    logger.error('validation of create course section request failed', validator.courseSection.errors);
     res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseSection.errors });
     return;
   }

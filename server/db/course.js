@@ -174,7 +174,6 @@ COURSE.methods.editLecture = async function editLecture(args) {
       throw error;
     }
     const _lecture = _section.lectures.id(lecture);
-    console.log('');
     if (!_lecture) {
       const error = new Error(`No lecture with id ${lecture} is found`);
       error.status = 404;

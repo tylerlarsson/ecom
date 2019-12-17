@@ -26,6 +26,7 @@ const pricingPlanSchema = readJson('schema', 'new-pricing-plan.schema.json');
 const courseSectionSchema = readJson('schema', 'new-section.schema.json');
 const courseLectureSchema = readJson('schema', 'new-lecture.schema.json');
 const getCourseSchema = readJson('schema', 'get-course.schema.json');
+const roleUserRoutesSchema = readJson('schema', 'role-user-routes.schema.json');
 const deleteLectureSchema = readJson('schema', 'delete-lecture.schema.json');
 const deleteSectionSchema = readJson('schema', 'delete-section.schema.json');
 const deletePlanSchema = readJson('schema', 'delete-plan.schema.json');
@@ -56,6 +57,7 @@ const editPage = ajv.compile(editPageSchema);
 const tokenRequest = ajv.compile(tokenRequestSchema);
 const getPricing = ajv.compile(getPricingSchema);
 const deleteGcs = ajv.compile(deleteGcsSchema);
+const roleUserRoutes = ajv.compile(roleUserRoutesSchema);
 const uploadGcs = ajv.compile(uploadGcsSchema);
 const getPricingByCourse = ajv.compile(getPricingByCourseSchema);
 const deletePlan = ajv.compile(deletePlanSchema);
@@ -93,6 +95,7 @@ module.exports = {
   deletePlan,
   deletePage,
   assignPermission,
+  roleUserRoutes,
   createNavigation,
   createContent,
   editContent,
