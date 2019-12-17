@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { map, orderBy } from 'lodash';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement, sortableHandle } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -19,7 +19,7 @@ import routes from 'constants/routes.json';
 import NewLectureButton from 'components/Lecture/NewLectureButton';
 import Section from 'components/Course/Section';
 import Lecture from 'components/Lecture/Lecture';
-import { DND_DELAY } from 'constants/default';
+// import { DND_DELAY } from 'constants/default';
 import CourseSteps from 'components/Course/CourseSteps';
 
 const styles = {
@@ -71,6 +71,8 @@ const styles = {
     marginBottom: 16
   }
 };
+
+const DragHandle = sortableHandle(() => <span>::</span>);
 
 const SortableItem = SortableElement(({ value }) => {
   const { classes, onChangeSection, onChangeLecture, onCheckSection, onNewLecture, sortIndex, ...section } = value;
@@ -249,7 +251,7 @@ class CourseCurriculum extends Component {
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
-              <SortableList items={[...contentItems]} onSortEnd={this.onSortEnd} pressDelay={DND_DELAY} />
+              <SortableList items={[...contentItems]} onSortEnd={this.onSortEnd} useDragHandle />
             </GridItem>
           </GridContainer>
         </AdminContent>

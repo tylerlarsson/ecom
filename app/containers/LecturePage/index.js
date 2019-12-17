@@ -108,7 +108,7 @@ const SortableItem = SortableElement(({ value }) => {
 const SortableList = SortableContainer(({ items }) => (
   <div>
     {items.map((value, index) => (
-      <SortableItem key={`item-${value}`} index={index} value={value} />
+      <SortableItem key={`item-${index}`} index={index} value={value} />
     ))}
   </div>
 ));
@@ -434,7 +434,7 @@ class CourseCurriculum extends Component {
                   Code form
                 </TabPanel>
               </Paper>
-              <SortableList items={contentItems} onSortEnd={this.onSortEnd} pressDelay={DND_DELAY} />
+              <SortableList items={contentItems} onSortEnd={this.onSortEnd} useDragHandle />
             </GridItem>
           </GridContainer>
         </AdminContent>

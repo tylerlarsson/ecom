@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Edit, MoreVert, Done, Close } from '@material-ui/icons';
 import { withStyles, FormControl, FormControlLabel, Checkbox, TextField } from '@material-ui/core';
+import { sortableHandle } from 'react-sortable-hoc';
 
 const styles = {
   wrap: {
@@ -33,6 +34,8 @@ const styles = {
   }
 };
 
+const DragHandle = sortableHandle(() => <MoreVert style={{ color: '#aaa', marginRight: 16 }} />);
+
 class Section extends Component {
   state = {
     isEdit: false,
@@ -63,7 +66,7 @@ class Section extends Component {
 
     return (
       <div className={classes.wrap}>
-        <MoreVert className={classes.icon} />
+        <DragHandle />
         {isEdit ? (
           <>
             <FormControl>

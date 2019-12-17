@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Edit, Delete, Reorder, Image, OpenInNew, CloudDownload } from '@material-ui/icons';
 import { Paper } from '@material-ui/core';
-
+import { sortableHandle } from 'react-sortable-hoc';
 const HtmlToReactParser = require('html-to-react').Parser;
 const htmlToReactParser = new HtmlToReactParser();
 
@@ -59,13 +59,15 @@ const useStyles = makeStyles({
 function LectureContent(props) {
   const classes = useStyles();
   const { onEdit, onDelete, onDownload, data } = props;
-
+  const DragHandle = sortableHandle(() =>
+    data.type === 'text'
+      ? <div><Reorder className={classes.icon} /> Text</div>
+      : <div><Image className={classes.icon} /> Image</div>
+  );
   return (
     <Paper className={classes.wrap}>
       <div className={classes.type}>
-        {data.type === 'text'
-          ? [<Reorder className={classes.icon} />, 'Text']
-          : [<Image className={classes.icon} />, 'Image']}
+        <DragHandle />
       </div>
       <div className={classes.content}>
         {data.type === 'text' ? (
