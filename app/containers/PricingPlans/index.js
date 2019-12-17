@@ -262,8 +262,9 @@ class PricingPlans extends Component {
   };
 
   render() {
-    const { classes, history, plans } = this.props;
+    const { classes, history, plans, match } = this.props;
     const { newPlan } = this.state;
+    const courseId = match && match.params && match.params.course;
     // prettier-ignore
     return (
       <>
@@ -306,7 +307,7 @@ class PricingPlans extends Component {
             </Card>
           ) : null}
         </AdminContent>
-        <CourseSteps active={3} history={history} />
+        <CourseSteps active={3} history={history} courseId={courseId} />
       </>
     );
   }
