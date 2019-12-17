@@ -150,8 +150,8 @@ router.post('/', async (req, res) => {
 router.get('/:course', async (req, res) => {
   try {
     if (!validator.getPricingByCourse(req.params)) {
-      logger.error('validation of create pricing plan request failed', validator.deletePlan.errors);
-      res.status(HttpStatus.BAD_REQUEST).json({ errors: validator.deletePlan.errors });
+      logger.error('validation of create pricing plan request failed', validator.getPricingByCourse.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.getPricingByCourse.errors });
       return;
     }
     const plans = await db.model.PricingPlan.find({ courseId: req.params.course });
@@ -168,8 +168,8 @@ router.get('/:course', async (req, res) => {
 router.get('/plan/:pricingPlan', async (req, res) => {
   try {
     if (!validator.getPricing(req.params)) {
-      logger.error('validation of get pricing plan request failed', validator.deletePlan.errors);
-      res.status(HttpStatus.BAD_REQUEST).json({ errors: validator.deletePlan.errors });
+      logger.error('validation of get pricing plan request failed', validator.getPricing.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.getPricing.errors });
       return;
     }
     const plan = await db.model.PricingPlan.findById(req.params.pricingPlan);
@@ -193,7 +193,7 @@ router.delete('/:course/plan/:pricingPlan', async (req, res) => {
     const { params } = req;
     if (!validator.deletePlan({ params })) {
       logger.error('validation of delete pricing plan request failed', validator.deletePlan.errors);
-      res.status(HttpStatus.BAD_REQUEST).json({ errors: validator.deletePlan.errors });
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.deletePlan.errors });
       return;
     }
     const deleted = await db.model.PricingPlan.delete(params.pricingPlan, params.course);

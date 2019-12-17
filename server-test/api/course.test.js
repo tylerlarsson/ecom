@@ -270,11 +270,12 @@ describe('course api test', () => {
   test(`should raise error if section is not found`, async () => {
     const course = await db.courseFactory();
     const res = await request(app)
-      .post(`${path}/${course._id.toString()}/section/${course._id.toString()}/lecture`)
+      .post(`${path}/${course._id.toString()}/section/${db.mocks.mockId}/lecture`)
       .send({
         title: 'test title',
         file: 'test file'
       });
+    console.log(res.body, db.mocks.mockId, course);
     expect(res.status).toBe(HttpStatus.NOT_FOUND);
   });
 
@@ -319,8 +320,11 @@ describe('course api test', () => {
   });
 
   test(`should delete lecture`, async () => {
-    const { course, section, lecture } = await db.lectureFactory();
-    console.log(course, section, lecture);
+    const {
+      course,
+      section,
+      lecture: [lecture]
+    } = await db.lectureFactory();
     const res = await request(app).delete(`${path}/${course}/section/${section}/lecture/${lecture._id}`);
     expect(res.status).toBe(HttpStatus.ACCEPTED);
     expect(res.body.lectures[0].deleted).toBe(true);
@@ -367,15 +371,16 @@ describe('course api test', () => {
   });
 
   test(`should edit lecture`, async () => {
-    const { course, section, lecture } = await db.lectureFactory();
+    const {
+      course,
+      section,
+      lecture: [lecture]
+    } = await db.lectureFactory();
     const res = await request(app)
-      .put(`${path}/${course}/section/${section}/lecture/${lecture._id}`)
+      .put(`${path}/${course}/section/${section}/lecture/${lecture._id.toString()}`)
       .send({
         title: 'edit'
       });
-    console.log(res.body);
-    // const [edited] = res.body.lectures;
     expect(res.status).toBe(HttpStatus.OK);
-    // expect(edited.title).toBe('edit');
   });
 });

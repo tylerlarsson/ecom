@@ -31,16 +31,19 @@ const PRICING_PLAN = new mongoose.Schema(
 PRICING_PLAN.statics.create = async args => {
   const { id, ...rest } = args;
   let plan;
+  const course = await Course.findById(rest.courseId);
+  if (!course) {
+    const error = new Error(`Course with id ${rest.courseId} is not found.`);
+    error.status = 404;
+    throw error;
+  }
   if (id) {
-    // const _plan = await PricingPlan.findById(id);
     plan = await PricingPlan.findById(id);
     Object.assign(plan, rest);
   } else {
     plan = new PricingPlan(rest);
   }
   const saved = await plan.save();
-  console.log('Saved ->', saved);
-  const course = await Course.findById(rest.courseId);
   await course.addPricing(saved._id);
   return saved;
 };

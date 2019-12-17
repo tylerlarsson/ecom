@@ -147,7 +147,6 @@ COURSE.methods.createLecture = async function createLecture(args) {
   const { section, ...rest } = args;
   if (this.sections && this.sections.length) {
     const _section = this.sections.id(section);
-    console.log(section, _section);
     if (!_section) {
       const error = new Error(`No section with id ${section} is found`);
       error.status = 404;
@@ -160,6 +159,9 @@ COURSE.methods.createLecture = async function createLecture(args) {
     await this.save();
     return this.sections.id(section).lectures;
   }
+  const error = new Error(`No sections associated with ${this._id} found.`);
+  error.status = 404;
+  throw error;
 };
 
 COURSE.methods.editLecture = async function editLecture(args) {
@@ -172,6 +174,7 @@ COURSE.methods.editLecture = async function editLecture(args) {
       throw error;
     }
     const _lecture = _section.lectures.id(lecture);
+    console.log('');
     if (!_lecture) {
       const error = new Error(`No lecture with id ${lecture} is found`);
       error.status = 404;
@@ -181,6 +184,9 @@ COURSE.methods.editLecture = async function editLecture(args) {
     await this.save();
     return this.sections.id(section).lectures;
   }
+  const error = new Error(`No sections associated with ${this._id} found.`);
+  error.status = 404;
+  throw error;
 };
 
 COURSE.methods.deleteLecture = async function deleteLecture(section, lecture) {

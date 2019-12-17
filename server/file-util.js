@@ -36,15 +36,20 @@ async function getSignedUrl(filename, opts, bucket = 'course-images') {
 async function generateUploadUrl(filename, expires, bucket = 'course-images') {
   const contentType = mimeTypes.lookup(filename);
   if (!contentType) {
-    throw new Error(`Can't lookup mime-type for ${filename}`);
+    const error = new Error(`Can't lookup mime-type for ${filename}`);
+    error.status = 422;
+    throw error;
   }
   if (!/image\/.*/.test(contentType)) {
-    throw new Error(`Content type is not allowed.`);
+    const error = new Error(`Content type is not allowed.`);
+    error.status = 422;
+    throw error;
   }
   const opts = {
     version: 'v4',
     action: 'write',
-    expires: expires || Date.now() + 15 * 60 * 1000
+    expires: expires || Date.now() + 15 * 60 * 1000,
+    contentType
   };
   const hashedFilename = crypto.randomBytes(16).toString('hex') + filename;
   return getSignedUrl(hashedFilename, opts, bucket);

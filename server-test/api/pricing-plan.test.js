@@ -57,7 +57,7 @@ describe('pricing plan api test', function() {
   });
   test(`should return array of plans`, async () => {
     const plan = await db.pricingPlanFactory();
-    const res = await request(app).get(`${path}/${plan._id}`);
+    const res = await request(app).get(`${path}/${plan.courseId}`);
     expect(res.body.plans.length).toBe(1);
   });
 
@@ -86,11 +86,11 @@ describe('pricing plan api test', function() {
     const plan = await db.pricingPlanFactory();
 
     let res = await request(app).delete(`${path}/${db.mocks.mockId}/plan/${plan._id}`);
-    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
 
     const course = await db.courseFactory();
     res = await request(app).delete(`${path}/${course._id}/plan/${db.mocks.mockId}`);
-    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
   });
   test(`should delete pricing plan`, async () => {
     const plan = await db.pricingPlanFactory();
@@ -103,7 +103,8 @@ describe('pricing plan api test', function() {
     expect(res.status).toBe(HttpStatus.OK);
 
     const course = await db.model.Course.findById(plan.courseId);
-    const pricing = course.pricingPlans.findIndex(p => p._id === plan._id);
+    console.log('course ->', course, 'plan id ->', plan._id);
+    const pricing = course.pricingPlans.find(p => p._id === plan._id);
     expect(!!pricing).toBe(false);
   });
 });
