@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { map, orderBy } from 'lodash';
-import { SortableContainer, SortableElement, sortableHandle } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -72,11 +72,35 @@ const styles = {
   }
 };
 
-const DragHandle = sortableHandle(() => <span>::</span>);
+const SortableItemLecture = SortableElement(({ value }) => {
+  const { onCheckSection, onChangeLecture, ...lecture } = value;
+
+  return (
+    <Lecture
+      key={lecture.id}
+      title={lecture.title}
+      checked={false}
+      onCheck={onCheckSection}
+      onChange={onChangeLecture}
+    />
+  );
+});
+
+const SortableListLectures = SortableContainer(({ items }) => (
+  <div>
+    {items.map((value, index) => (
+      <SortableItemLecture key={`item-${index}`} index={index} value={value} /> // eslint-disable-line
+    ))}
+  </div>
+));
 
 const SortableItem = SortableElement(({ value }) => {
-  const { classes, onChangeSection, onChangeLecture, onCheckSection, onNewLecture, sortIndex, ...section } = value;
-
+  const { classes, onChangeSection, onChangeLecture, onCheckSection, onNewLecture, sortIndex, onSortEndLectures, ...section } = value;
+  const contentItems = map(section.lectures, (item, index) => ({
+    ...item,
+    onCheckSection,
+    onChangeLecture: onChangeLecture(item)
+  }));
   return (
     <Card className={classes.card}>
       <CardBody>
@@ -87,15 +111,16 @@ const SortableItem = SortableElement(({ value }) => {
           checked={false}
           onCheck={onCheckSection}
         />
-        {map(section.lectures, lecture => (
-          <Lecture
-            key={lecture.id}
-            title={lecture.title}
-            checked={false}
-            onCheck={onCheckSection}
-            onChange={onChangeLecture(lecture)}
-          />
-        ))}
+        <SortableListLectures items={[...contentItems]} onSortEnd={onSortEndLectures} useDragHandle />
+        {/*{map(section.lectures, lecture => (*/}
+          {/*<Lecture*/}
+            {/*key={lecture.id}*/}
+            {/*title={lecture.title}*/}
+            {/*checked={false}*/}
+            {/*onCheck={onCheckSection}*/}
+            {/*onChange={onChangeLecture(lecture)}*/}
+          {/*/>*/}
+        {/*))}*/}
         <NewLectureButton onSelect={onNewLecture(section._id || section.id)} />
       </CardBody>
     </Card>
@@ -213,6 +238,21 @@ class CourseCurriculum extends Component {
     createSectionAction(payload);
   };
 
+  onSortEndLectures = ({ oldIndex, newIndex }) => {
+    console.log('onSortEndLectures');
+    // const { createSectionAction } = this.props;
+    // const course = { ...this.state.course }; // eslint-disable-line
+    // const sections = [...course.sections];
+    // course.sections = arrayMove(sections, oldIndex, newIndex);
+    // this.setState({ course });
+    // // TODO update dbase
+    // const payload = {
+    //   sections: course.sections,
+    //   courseId: course && course.id
+    // };
+    // createSectionAction(payload);
+  };
+
   renderNavbar = classes => (
     <>
       <Fab variant="extended" color="default" size="medium" aria-label="like" onClick={this.handlePreview}>
@@ -243,6 +283,7 @@ class CourseCurriculum extends Component {
       onCheckSection: this.onCheckSection,
       onChangeLecture: this.onChangeLecture,
       onNewLecture: this.onNewLecture,
+      onSortEndLectures: this.onSortEndLectures,
       classes
     }));
     return (

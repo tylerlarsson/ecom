@@ -4,7 +4,18 @@ import { connect } from 'react-redux';
 import { map, find } from 'lodash';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Paper, Typography, TextField, FormControl, TextareaAutosize, Fab, Button } from '@material-ui/core';
+import {
+  Paper,
+  Typography,
+  TextField,
+  FormControl,
+  TextareaAutosize,
+  Fab,
+  Button,
+  InputLabel,
+  MenuItem,
+  Select
+} from '@material-ui/core';
 import { ChevronLeft } from '@material-ui/icons';
 // core components
 import GridItem from 'components/Grid/GridItem';
@@ -100,6 +111,7 @@ const initialState = {
   newPlan: null,
   price: 0,
   period: 1,
+  paymentType: 'monthly',
   title: '',
   subtitle: '',
   description: ''
@@ -117,16 +129,12 @@ class PricingPlans extends Component {
   }
 
   handleAddNew = item => () => {
-    if (item.type === 'free') {
-      this.handleAddPlan(item);
-    } else {
-      this.setState({ newPlan: item });
-    }
+    this.setState({ newPlan: item });
   };
 
   handleAddPlan = (item = null) => {
     const { match, addPricingPlanAction } = this.props;
-    const { newPlan, price, title, subtitle, description, period } = this.state;
+    const { newPlan, price, title, subtitle, description, period, paymentType } = this.state;
     const courseId = match && match.params && match.params.course;
     const plan = newPlan || item;
     const payload = {
@@ -138,6 +146,7 @@ class PricingPlans extends Component {
       subtitle,
       description,
       period,
+      paymentType,
       type: plan.type
     };
 
@@ -175,24 +184,26 @@ class PricingPlans extends Component {
 
   renderNew = () => {
     const { classes } = this.props;
-    const { newPlan, price, title, subtitle, description, period } = this.state;
+    const { newPlan, price, title, subtitle, description, period, paymentType } = this.state;
     const type = newPlan && newPlan.type;
 
     return (
       <div className={classes.form}>
-        <FormControl className={classes.margin}>
-          <TextField
-            fullWidth
-            placeholder="Price"
-            id="outlined-size-small"
-            defaultValue="Small"
-            variant="outlined"
-            size="small"
-            onChange={this.onChange('price')}
-            value={price || ''}
-          />
-        </FormControl>
-        {type === 'payment-plan' ? (
+        {type !== 'free' ? (
+          <FormControl className={classes.margin}>
+            <TextField
+              fullwidth
+              placeholder="Price"
+              id="outlined-size-small"
+              defaultValue="Small"
+              variant="outlined"
+              size="small"
+              onChange={this.onChange('price')}
+              value={price || ''}
+            />
+          </FormControl>
+        ) : null}
+        {type !== 'free' ? (
           <FormControl className={classes.marginRow}>
             <TextField
               style={{ width: 'auto', marginRight: 16 }}
@@ -203,48 +214,55 @@ class PricingPlans extends Component {
               onChange={this.onChange('period')}
               value={period}
             />
-            <span>monthly payments</span>
+            <FormControl className={classes.formControl}>
+              <Select
+                defaultValue={paymentType}
+                disableUnderline
+                onChange={this.onChange('paymentType')}
+                inputProps={{
+                  name: 'paymentType',
+                  id: 'payment-type'
+                }}
+              >
+                <MenuItem value="monthly">monthly payments</MenuItem>
+                <MenuItem value="yearly">yearly payments</MenuItem>
+              </Select>
+            </FormControl>
           </FormControl>
         ) : null}
-        {type === 'payment-plan' ? (
-          <FormControl className={classes.margin}>
-            <TextField
-              fullWidth
-              placeholder="Title"
-              id="outlined-size-small"
-              variant="outlined"
-              size="small"
-              onChange={this.onChange('title')}
-              value={title}
-            />
-          </FormControl>
-        ) : null}
-        {type === 'payment-plan' ? (
-          <FormControl className={classes.margin}>
-            <TextField
-              fullWidth
-              placeholder="Subtitle"
-              id="outlined-size-small"
-              variant="outlined"
-              size="small"
-              onChange={this.onChange('subtitle')}
-              value={subtitle}
-            />
-          </FormControl>
-        ) : null}
-        {type === 'payment-plan' ? (
-          <FormControl className={classes.margin}>
-            <TextareaAutosize
-              className={classes.textarea}
-              fullWidth
-              aria-label="empty textarea"
-              placeholder="Description"
-              rows={6}
-              onChange={this.onChange('description')}
-              value={description}
-            />
-          </FormControl>
-        ) : null}
+        <FormControl className={classes.margin}>
+          <TextField
+            fullwidth
+            placeholder="Title"
+            id="outlined-size-small"
+            variant="outlined"
+            size="small"
+            onChange={this.onChange('title')}
+            value={title}
+          />
+        </FormControl>
+        <FormControl className={classes.margin}>
+          <TextField
+            fullwidth
+            placeholder="Subtitle"
+            id="outlined-size-small"
+            variant="outlined"
+            size="small"
+            onChange={this.onChange('subtitle')}
+            value={subtitle}
+          />
+        </FormControl>
+        <FormControl className={classes.margin}>
+          <TextareaAutosize
+            className={classes.textarea}
+            fullwidth
+            aria-label="empty textarea"
+            placeholder="Description"
+            rows={6}
+            onChange={this.onChange('description')}
+            value={description}
+          />
+        </FormControl>
         <FormControl className={classes.margin}>
           <Fab
             className={classes.fab}
