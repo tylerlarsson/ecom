@@ -19,7 +19,6 @@ const USER = new mongoose.Schema(
   {
     toJSON: {
       transform(doc, ret) {
-        console.log(doc, ret);
         DEFAULT_OPTIONS.toJSON.transform(doc, ret);
         delete ret.hash;
       }
@@ -73,11 +72,18 @@ USER.statics.resetPasswordRequest = async ({ email }) => {
     throw error;
   }
   const link = `https://example.com/reset?bjson=${user.id}`;
+  const subject = 'Password recovery';
+  const template = 'forgot-password';
+  const from = `EcomFreedom Support <support@ecomfreedom.com>`;
+
+  const data = { link };
+
   const message = await sendMail({
-    from: 'EcomFreedom Support <support@ecomfreedom.com>',
     to: email,
-    subject: 'Password recovery',
-    html: `Click <b><a href="${link}" target="_blank">here</a></b>`
+    from,
+    subject,
+    template,
+    data
   });
   return {
     success: !!message.messageId
@@ -144,6 +150,31 @@ USER.statics.mapToId = async users => {
     $or: [{ _id: { $in: probableIds } }, { username: { $in: users } }, { email: { $in: users } }]
   }).select({ _id: 1 });
   return select.map(({ _id }) => String(_id));
+};
+
+USER.methods.addRole = async function addRole(roleName) {
+  if (!this.roles) {
+    this.roles = [];
+  }
+  const role = await Role.findById(roleName);
+  if (!role) {
+    const error = new Error(`Role with name ${roleName} is not found`);
+    error.status = 404;
+    throw error;
+  }
+  this.roles.push(roleName);
+  return this.save();
+};
+
+USER.methods.deleteRole = async function deleteRole(roleName) {
+  const idx = this.roles.findIndex(r => r === roleName);
+  if (!idx) {
+    const error = new Error(`Role with name ${roleName} is not found`);
+    error.status = 404;
+    throw error;
+  }
+  this.roles.splice(idx, 1);
+  return this.save();
 };
 
 const User = mongoose.model('user', USER);

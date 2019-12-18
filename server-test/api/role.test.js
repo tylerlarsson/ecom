@@ -474,4 +474,61 @@ describe('role apis', () => {
       .send(['wrong-filter', 'wrong-again']);
     expect(res.status).toBe(HttpStatus.CONFLICT);
   });
+
+  // POST /role/:role/user/:user
+  test(`should raise error if schema is invalid`, async () => {
+    const res = await request(app).post(`${path}/12345/user/12345`);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+  });
+
+  test(`should raise error if role is not found`, async () => {
+    const user = await db.userFactory();
+    const res = await request(app).post(`${path}/${db.mocks.mockId}/user/${user._id.toString()}`);
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
+  });
+
+  test(`should raise error if user is not found`, async () => {
+    const role = await db.roleFactory();
+    const res = await request(app).post(`${path}/${role._id.toString()}/user/${db.mocks.mockId}`);
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
+  });
+
+  test(`should add new role to user model`, async () => {
+    await Promise.all([db.model.Role.deleteMany({}), db.model.User.deleteMany({})]);
+    const [role, user] = await Promise.all([db.roleFactory(), db.userFactory()]);
+    const res = await request(app).post(`${path}/${role._id.toString()}/user/${user._id.toString()}`);
+    expect(res.status).toBe(HttpStatus.OK);
+    expect(res.body.user.roles.length).toBe(1);
+  });
+
+  // DELETE /role/:role/user/:user
+  test(`should raise error if schema is invalid`, async () => {
+    const res = await request(app).delete(`${path}/12345/user/12345`);
+    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+  });
+
+  test(`should raise error if role is not found`, async () => {
+    await Promise.all([db.model.Role.deleteMany({}), db.model.User.deleteMany({})]);
+    const user = await db.userFactory();
+    const res = await request(app).delete(`${path}/${db.mocks.mockId}/user/${user._id.toString()}`);
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
+  });
+
+  test(`should raise error if user is not found`, async () => {
+    const role = await db.roleFactory();
+    const res = await request(app).delete(`${path}/${role._id.toString()}/user/${db.mocks.mockId}`);
+    expect(res.status).toBe(HttpStatus.NOT_FOUND);
+  });
+
+  test(`should delete role from user model`, async () => {
+    await Promise.all([db.model.Role.deleteMany({}), db.model.User.deleteMany({})]);
+    const [role, user] = await Promise.all([db.roleFactory(), db.userFactory()]);
+    let res = await request(app).post(`${path}/${role._id.toString()}/user/${user._id.toString()}`);
+    expect(res.status).toBe(HttpStatus.OK);
+    expect(res.body.user.roles.length).toBe(1);
+
+    res = await request(app).delete(`${path}/${role._id.toString()}/user/${user._id.toString()}`);
+    expect(res.status).toBe(HttpStatus.OK);
+    expect(res.body.user.roles.length).toBe(0);
+  });
 });
