@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map, orderBy } from 'lodash';
+import { map, orderBy, findIndex } from 'lodash';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 // @material-ui/core components
@@ -19,7 +19,7 @@ import routes from 'constants/routes.json';
 import NewLectureButton from 'components/Lecture/NewLectureButton';
 import Section from 'components/Course/Section';
 import Lecture from 'components/Lecture/Lecture';
-import { DND_DELAY } from 'constants/default';
+// import { DND_DELAY } from 'constants/default';
 import CourseSteps from 'components/Course/CourseSteps';
 
 const styles = {
@@ -72,9 +72,44 @@ const styles = {
   }
 };
 
-const SortableItem = SortableElement(({ value }) => {
-  const { classes, onChangeSection, onChangeLecture, onCheckSection, onNewLecture, sortIndex, ...section } = value;
+const SortableItemLecture = SortableElement(({ value }) => {
+  const { onCheckSection, onChangeLecture, ...lecture } = value;
 
+  return (
+    <Lecture
+      key={lecture.id}
+      title={lecture.title}
+      checked={false}
+      onCheck={onCheckSection}
+      onChange={onChangeLecture}
+    />
+  );
+});
+
+const SortableListLectures = SortableContainer(({ items }) => (
+  <div>
+    {items.map((value, index) => (
+      <SortableItemLecture key={`item-${index}`} index={index} value={value} /> // eslint-disable-line
+    ))}
+  </div>
+));
+
+const SortableItem = SortableElement(({ value }) => {
+  const {
+    classes,
+    onChangeSection,
+    onChangeLecture,
+    onCheckSection,
+    onNewLecture,
+    sortIndex,
+    onSortEndLectures,
+    ...section
+  } = value;
+  const contentItems = map(section.lectures, item => ({
+    ...item,
+    onCheckSection,
+    onChangeLecture: onChangeLecture(item)
+  }));
   return (
     <Card className={classes.card}>
       <CardBody>
@@ -85,15 +120,20 @@ const SortableItem = SortableElement(({ value }) => {
           checked={false}
           onCheck={onCheckSection}
         />
-        {map(section.lectures, lecture => (
-          <Lecture
-            key={lecture.id}
-            title={lecture.title}
-            checked={false}
-            onCheck={onCheckSection}
-            onChange={onChangeLecture(lecture)}
-          />
-        ))}
+        <SortableListLectures
+          items={[...contentItems]}
+          onSortEnd={onSortEndLectures(section._id || section.id)}
+          useDragHandle
+        />
+        {/* {map(section.lectures, lecture => ( */}
+        {/* <Lecture */}
+        {/* key={lecture.id} */}
+        {/* title={lecture.title} */}
+        {/* checked={false} */}
+        {/* onCheck={onCheckSection} */}
+        {/* onChange={onChangeLecture(lecture)} */}
+        {/* /> */}
+        {/* ))} */}
         <NewLectureButton onSelect={onNewLecture(section._id || section.id)} />
       </CardBody>
     </Card>
@@ -211,6 +251,32 @@ class CourseCurriculum extends Component {
     createSectionAction(payload);
   };
 
+  onSortEndLectures = sectionId => ({ oldIndex, newIndex }) => {
+    console.log('onSortEndLectures', sectionId);
+    const { createSectionAction } = this.props;
+    const course = { ...this.state.course }; // eslint-disable-line
+    const sections = [...course.sections];
+    const sectionIndex = findIndex(sections, s => (s._id || s.id) === sectionId);
+
+    if (sectionIndex > -1) {
+      const section = { ...sections[sectionIndex] };
+      const lectures = [...section.lectures];
+      section.lectures = map(arrayMove(lectures, oldIndex, newIndex), (item, index) => ({
+        ...item,
+        id: item.id,
+        index
+      }));
+      course.sections[sectionIndex] = section;
+      this.setState({ course });
+      const payload = {
+        ...section,
+        id: sectionId,
+        courseId: course && course.id
+      };
+      createSectionAction(payload);
+    }
+  };
+
   renderNavbar = classes => (
     <>
       <Fab variant="extended" color="default" size="medium" aria-label="like" onClick={this.handlePreview}>
@@ -241,6 +307,7 @@ class CourseCurriculum extends Component {
       onCheckSection: this.onCheckSection,
       onChangeLecture: this.onChangeLecture,
       onNewLecture: this.onNewLecture,
+      onSortEndLectures: this.onSortEndLectures,
       classes
     }));
     return (
@@ -249,7 +316,7 @@ class CourseCurriculum extends Component {
         <AdminContent>
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
-              <SortableList items={[...contentItems]} onSortEnd={this.onSortEnd} pressDelay={DND_DELAY} />
+              <SortableList items={[...contentItems]} onSortEnd={this.onSortEnd} useDragHandle />
             </GridItem>
           </GridContainer>
         </AdminContent>

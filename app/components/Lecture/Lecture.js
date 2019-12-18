@@ -6,6 +6,7 @@ import Edit from '@material-ui/icons/Edit';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
+import { sortableHandle } from 'react-sortable-hoc';
 
 const useStyles = makeStyles({
   wrap: {
@@ -28,10 +29,11 @@ const useStyles = makeStyles({
 function Lecture(props) {
   const classes = useStyles();
   const { onChange, checked, onCheck, title } = props;
+  const DragHandle = sortableHandle(() => <MoreVert className={classes.icon} />);
 
   return (
     <div className={classes.wrap}>
-      <MoreVert className={classes.icon} />
+      <DragHandle />
       <FormControlLabel control={<Checkbox checked={checked} onChange={onCheck} value="checkedF" />} label={title} />
       <Edit className={classes.icon} onClick={onChange} />
       <Button variant="contained" disabled color="secondary">

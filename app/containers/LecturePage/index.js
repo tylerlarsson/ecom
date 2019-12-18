@@ -24,7 +24,6 @@ import htmlToDraft from 'html-to-draftjs';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { getGignUrl } from 'redux/actions/files';
-import { DND_DELAY } from 'constants/default';
 import { toDataURL } from '../../utils/files';
 
 import './styles.css';
@@ -108,7 +107,7 @@ const SortableItem = SortableElement(({ value }) => {
 const SortableList = SortableContainer(({ items }) => (
   <div>
     {items.map((value, index) => (
-      <SortableItem key={`item-${value}`} index={index} value={value} />
+      <SortableItem key={`item-${index}`} index={index} value={value} /> /* eslint-disable-line */
     ))}
   </div>
 ));
@@ -434,7 +433,7 @@ class CourseCurriculum extends Component {
                   Code form
                 </TabPanel>
               </Paper>
-              <SortableList items={contentItems} onSortEnd={this.onSortEnd} pressDelay={DND_DELAY} />
+              <SortableList items={contentItems} onSortEnd={this.onSortEnd} useDragHandle />
             </GridItem>
           </GridContainer>
         </AdminContent>

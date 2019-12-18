@@ -72,6 +72,7 @@ export const createSection = payload => {
   } else {
     data = {
       title: payload.title,
+      lectures: payload.lectures,
       id: payload.id
     };
   }
