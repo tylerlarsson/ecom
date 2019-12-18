@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map, orderBy, find } from 'lodash';
+import { map, orderBy, findIndex } from 'lodash';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 // @material-ui/core components
@@ -243,17 +243,21 @@ class CourseCurriculum extends Component {
     const { createSectionAction } = this.props;
     const course = { ...this.state.course }; // eslint-disable-line
     const sections = [...course.sections];
-    const section = find(sections, s => s._id === sectionId);
-    if (section) {
+    const sectionIndex = findIndex(sections, s => (s._id || s.id) === sectionId);
+
+    if (sectionIndex > -1) {
+      const section = {...sections[sectionIndex]};
       const lectures = [...section.lectures];
-      section.lectures = arrayMove(lectures, oldIndex, newIndex);
+      section.lectures = map(arrayMove(lectures, oldIndex, newIndex), (item, index) => ({ ...item, id: item.id, index }))
+      course.sections[sectionIndex] = section;
+      this.setState({ course });
+      const payload = {
+        ...section,
+        id: sectionId,
+        courseId: course && course.id
+      };
+      createSectionAction(payload);
     }
-    const payload = {
-      ...section,
-      id: sectionId,
-      courseId: course && course.id
-    };
-    createSectionAction(payload);
   };
 
   renderNavbar = classes => (
