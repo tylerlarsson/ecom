@@ -182,7 +182,8 @@
     "@google-cloud/storage": "latest",
     "mime-types": "latest",
     "multer": "latest",
-    "nodemailer": "latest"
+    "nodemailer": "latest",
+    "ejs": "latest"
   },
   "devDependencies": {
     "compare-versions": "3.4.0",
