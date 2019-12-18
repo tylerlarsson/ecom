@@ -15,7 +15,7 @@ import Card from 'components/Card/Card.jsx';
 import CardBody from 'components/Card/CardBody.jsx';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
-import { getPermissions, createPermission, deletePermission } from '../../redux/actions/users';
+import { getPermissions, createPermission, deletePermission } from 'redux/actions/users';
 
 const styles = {
   cardCategoryWhite: {

@@ -17,7 +17,7 @@ import CardBody from 'components/Card/CardBody';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import routes from 'constants/routes.json';
-import { getRoles, createRole, deleteRole } from '../../redux/actions/users';
+import { getRoles, createRole, deleteRole } from 'redux/actions/users';
 
 const styles = {
   cardCategoryWhite: {

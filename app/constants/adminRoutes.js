@@ -11,18 +11,18 @@ import SettingsApplications from '@material-ui/icons/SettingsApplications';
 // core components/views for Admin layout
 // import UserProfile from 'views/UserProfile/UserProfile.jsx';
 import HomePage from 'containers/HomePage';
-import Users from 'containers/Users/Users';
-import Roles from 'containers/Roles/Roles';
-import Role from 'containers/Roles/Role';
-import ProfilePage from 'containers/ProfilePage';
-import CoursesPage from 'containers/CoursesPage';
-import NewCourse from 'containers/CoursesPage/Course';
-import Permissions from 'containers/Permissions/Permissions';
+import Users from 'containers/Admin/Users/Users';
+import Roles from 'containers/Admin/Roles/Roles';
+import Role from 'containers/Admin/Roles/Role';
+import ProfilePage from 'containers/Admin/ProfilePage';
+import CoursesPage from 'containers/Admin/CoursesPage';
+import NewCourse from 'containers/Admin/CoursesPage/Course';
+import Permissions from 'containers/Admin/Permissions/Permissions';
 import routes from 'constants/routes.json';
-import UsersFilterPage from 'containers/UsersFilterPage/UsersFilterPage';
-import CourseCurriculum from 'containers/CoursesPage/CourseCurriculum';
-import PricingPlans from 'containers/PricingPlans';
-import LecturePage from 'containers/LecturePage';
+import UsersFilterPage from 'containers/Admin/UsersFilterPage/UsersFilterPage';
+import CourseCurriculum from 'containers/Admin/CoursesPage/CourseCurriculum';
+import PricingPlans from 'containers/Admin/PricingPlans';
+import LecturePage from 'containers/Admin/LecturePage';
 
 const dashboardRoutes = [
   {

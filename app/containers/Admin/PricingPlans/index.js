@@ -25,8 +25,8 @@ import CourseSteps from 'components/Course/CourseSteps';
 import { addPricingPlan, getPricingPlans } from 'redux/actions/courses';
 import TableList from 'components/Table/TableList';
 import { PRICING_PLAN_TYPES } from 'constants/default';
-import Card from '../../components/Card/Card';
-import CardBody from '../../components/Card/CardBody';
+import Card from 'components/Card/Card';
+import CardBody from 'components/Card/CardBody';
 
 const styles = theme => ({
   cardCategoryWhite: {

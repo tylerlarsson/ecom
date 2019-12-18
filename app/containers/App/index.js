@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
-import ProfilePage from 'containers/ProfilePage';
+import ProfilePage from 'containers/Admin/ProfilePage';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import RequireAuth from 'components/RequireAuth';
@@ -22,7 +22,7 @@ import { getRoles, getPermissions } from 'redux/actions/users';
 import GlobalStyle from '../../global-styles';
 import LoginPage from '../LoginPage/LoginPage';
 import SignupPage from '../SignupPage/SignupPage';
-import AdminPage from '../AdminPage';
+import AdminPage from '../Admin';
 
 class App extends Component {
   componentWillMount() {

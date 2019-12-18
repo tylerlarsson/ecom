@@ -24,7 +24,7 @@ import htmlToDraft from 'html-to-draftjs';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { getGignUrl } from 'redux/actions/files';
-import { toDataURL } from '../../utils/files';
+import { toDataURL } from 'utils/files';
 
 import './styles.css';
 
