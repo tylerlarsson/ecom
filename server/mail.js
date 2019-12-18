@@ -32,7 +32,7 @@ async function sendMail(args) {
   if (!template) {
     return mailer.sendMail(args);
   }
-  const filePath = getFilePath(`templates/${template}`);
+  const filePath = getFilePath('templates', template);
   if (await checkFile(filePath)) {
     const rendered = await ejs.renderFile(filePath, data, { async: true });
     Object.assign(mailerArgs, { html: rendered });

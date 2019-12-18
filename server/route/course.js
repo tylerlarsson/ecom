@@ -5,6 +5,7 @@ const validator = require('../validator');
 const createLogger = require('../logger');
 const logger = createLogger('web-server.course-route');
 const db = require('../db');
+const { error404 } = require('../util');
 const paginated = require('../middleware/page-request');
 
 /**
@@ -217,10 +218,7 @@ router.post('/:course/section', async (req, res) => {
     const course = await db.model.Course.findById(params.course);
     if (!course) {
       logger.error('course not found, id', params.course);
-      res
-        .status(HttpStatus.NOT_FOUND)
-        .json({ errors: [{ dataPath: 'course.id', message: 'course not found for provided id' }] });
-      return;
+      throw error404(course, params.course);
     }
     const sections = await course.createSection(body);
     res.json({ sections });
@@ -241,9 +239,7 @@ router.delete('/:course/section/:section', async (req, res) => {
   try {
     const course = await db.model.Course.findById(params.course);
     if (!course) {
-      const error = new Error(`Course with id ${params.course} is not found`);
-      error.status = HttpStatus.NOT_FOUND;
-      throw error;
+      throw error404(course, params.course);
     }
     const _course = await course.deleteSection(params.section);
     res.status(HttpStatus.ACCEPTED).json({
@@ -473,9 +469,7 @@ router.post('/:course/section/:section/lecture', async (req, res) => {
     }
     const course = await db.model.Course.findById(params.course);
     if (!course) {
-      const error = new Error(`Course with id ${params.course} is not found`);
-      error.status = HttpStatus.NOT_FOUND;
-      throw error;
+      throw error404(course, params.course);
     }
     const lectures = await course.createLecture({ ...body, ...params });
     res.status(HttpStatus.CREATED).json({ lectures });
@@ -495,9 +489,7 @@ router.delete('/:course/section/:section/lecture/:lecture', async (req, res) => 
   try {
     const course = await db.model.Course.findById(params.course);
     if (!course) {
-      const error = new Error(`Course with id ${params.course} is not found`);
-      error.status = HttpStatus.NOT_FOUND;
-      throw error;
+      throw error404(course, params.course);
     }
     const lectures = await course.deleteLecture(params.section, params.lecture);
     res.status(HttpStatus.ACCEPTED).json({
@@ -519,9 +511,7 @@ router.put('/:course/section/:section/lecture/:lecture', async (req, res) => {
   try {
     const course = await db.model.Course.findById(params.course);
     if (!course) {
-      const error = new Error(`Course with id ${params.course} is not found`);
-      error.status = HttpStatus.NOT_FOUND;
-      throw error;
+      throw error404(course, params.course);
     }
     const lectures = await course.editLecture({ ...params, ...body });
     res.status(HttpStatus.OK).json({
@@ -647,9 +637,7 @@ router.get('/:course', async (req, res) => {
     }
     const course = await db.model.Course.findById(params.course);
     if (!course) {
-      const error = new Error(`Course with id ${params.course} is not found`);
-      error.status = HttpStatus.NOT_FOUND;
-      throw error;
+      throw error404(course, params.course);
     }
     res.json({
       course

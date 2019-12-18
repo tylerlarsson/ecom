@@ -259,4 +259,29 @@ router.put('/reset-password', async (req, res) => {
   }
 });
 
+router.put('/:user', async (req, res) => {
+  try {
+    const { params, body } = req;
+    const user = await db.model.User.update({ id: params.user, ...body });
+    res.json({ user });
+  } catch (error) {
+    res.json(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
+  }
+});
+
+router.delete('/:user', async (req, res) => {
+  try {
+    const user = await db.model.User.delete(req.params.user);
+    res.json({
+      user
+    });
+  } catch (error) {
+    res.json(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
+  }
+});
+
 module.exports = router;

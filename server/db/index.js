@@ -13,6 +13,7 @@ module.exports = {
     Course: require('./course'),
     PricingPlan: require('./pricing-plan'),
     Page: require('./page'),
-    Navigation: require('./navigation')
+    Navigation: require('./navigation'),
+    InternalComment: require('./internal-comment')
   }
 };

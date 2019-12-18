@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Schema.Types;
 const bcrypt = require('bcryptjs');
 const { DEFAULT_OPTIONS } = require('./common');
 const Role = require('./role');
+const { error404 } = require('../util');
 const { sendMail } = require('../mail');
 
 const USER = new mongoose.Schema(
@@ -12,9 +14,13 @@ const USER = new mongoose.Schema(
     firstname: { type: String, index: true },
     lastname: { type: String, index: true },
     roles: [{ type: String, ref: 'role' }],
+    notes: [{ type: ObjectId, ref: 'internal-comment' }],
     loginCount: { type: Number, default: 0 },
     loginLast: { type: Date, default: null },
-    created: { type: Date, default: null }
+    created: { type: Date, default: null },
+    deleted: { type: Boolean, default: false },
+    visitorKey: { type: String, index: true, unique: true },
+    deletedAt: Date
   },
   {
     toJSON: {
@@ -64,12 +70,30 @@ USER.statics.create = async ({
   return user;
 };
 
+USER.statics.update = async args => {
+  const { id, ...rest } = args;
+  const user = await User.findById(id);
+  if (!user) {
+    throw error404(user, id);
+  }
+  Object.assign(user, { ...rest });
+  return user.save();
+};
+
+USER.statics.delete = async id => {
+  const user = await User.findById(id);
+  if (!user) {
+    throw error404(user, id);
+  }
+  user.deleted = true;
+  user.deletedAt = new Date();
+  return user.save();
+};
+
 USER.statics.resetPasswordRequest = async ({ email }) => {
   const user = await User.findOne({ email });
   if (!user) {
-    const error = new Error(`User with email ${email} is not found.`);
-    error.status = 404;
-    throw error;
+    throw error404(user, email, 'email');
   }
   const link = `https://example.com/reset?bjson=${user.id}`;
   const subject = 'Password recovery';
@@ -96,9 +120,7 @@ USER.statics.resetPassword = async args => {
   const hash = await bcrypt.hash(newPassword, salt);
   const user = await User.findById(id);
   if (!user) {
-    const error = new Error(`User with id ${id} is not found.`);
-    error.status = 404;
-    throw error;
+    throw error404(user, id);
   }
   user.hash = hash;
   await user.save();
@@ -152,16 +174,25 @@ USER.statics.mapToId = async users => {
   return select.map(({ _id }) => String(_id));
 };
 
+USER.methods.addNote = async function addNote(note) {
+  this.notes.push(note);
+  return this.save();
+};
+
+USER.methods.deleteNote = async function deleteRole(note) {
+  const idx = this.notes.findIndex(r => r === note);
+  if (!idx) throw error404({ Note: null }, note);
+  this.notes.splice(idx, 1);
+  return this.save();
+};
+
 USER.methods.addRole = async function addRole(roleName) {
   if (!this.roles) {
     this.roles = [];
   }
   const role = await Role.findById(roleName);
-  if (!role) {
-    const error = new Error(`Role with name ${roleName} is not found`);
-    error.status = 404;
-    throw error;
-  }
+  if (!role) throw error404(role, roleName);
+
   this.roles.push(roleName);
   return this.save();
 };
@@ -169,9 +200,7 @@ USER.methods.addRole = async function addRole(roleName) {
 USER.methods.deleteRole = async function deleteRole(roleName) {
   const idx = this.roles.findIndex(r => r === roleName);
   if (!idx) {
-    const error = new Error(`Role with name ${roleName} is not found`);
-    error.status = 404;
-    throw error;
+    throw error404({ Role: null }, roleName);
   }
   this.roles.splice(idx, 1);
   return this.save();
