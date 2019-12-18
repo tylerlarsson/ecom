@@ -21,6 +21,7 @@ const tokenRequestSchema = readJson('schema', 'token-request.schema.json');
 const pageRequestSchema = readJson('schema', 'page-request.schema.json');
 const assignFilterSchema = readJson('schema', 'assign-filter.schema.json');
 const filtersSchema = readJson('schema', 'filters.schema.json');
+const editCourseSchema = readJson('schema', 'edit-course.schema.json');
 const courseSchema = readJson('schema', 'new-course.schema.json');
 const pricingPlanSchema = readJson('schema', 'new-pricing-plan.schema.json');
 const courseSectionSchema = readJson('schema', 'new-section.schema.json');
@@ -67,6 +68,7 @@ const reset = ajv.compile(resetSchema);
 const resetRequest = ajv.compile(resetRequestSchema);
 const filters = ajv.compile(filtersSchema);
 const deleteLecture = ajv.compile(deleteLectureSchema);
+const editCourse = ajv.compile(editCourseSchema);
 const newPage = ajv.compile(newPageSchema);
 const createNavigation = ajv.compile(createNavigationSchema);
 const createContent = ajv.compile(createContentSchema);
@@ -112,6 +114,7 @@ module.exports = {
   reset,
   deleteLink,
   createLink,
+  editCourse,
   editLink,
   newPage,
   getCourse,

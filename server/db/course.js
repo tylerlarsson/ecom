@@ -81,16 +81,29 @@ COURSE.post('count', removeNestedSoftDeleted);
 COURSE.post('countDocuments', removeNestedSoftDeleted);
 COURSE.post('findById', removeNestedSoftDeleted);
 
-COURSE.statics.create = async ({ id, title, subtitle, authors }) => {
+COURSE.statics.create = async ({ id, title, subtitle, authors, state }) => {
   let course;
   if (id) {
     course = await Course.findById(id);
     course.title = title;
     course.subtitle = subtitle;
     course.authors = authors;
+    course.state = state;
   } else {
     course = new Course({ title, subtitle, authors, state: COURSE_STATE.DRAFT });
   }
+  return course.save();
+};
+
+COURSE.statics.update = async args => {
+  const { id, ...rest } = args;
+  const course = await Course.findById(id);
+  if (!course) {
+    const error = new Error(`No course was found with id ${id}`);
+    error.status = 404;
+    throw error;
+  }
+  Object.assign(course, { ...rest });
   return course.save();
 };
 
