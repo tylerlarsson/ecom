@@ -310,7 +310,51 @@ router.get('/:name', async (req, res) => {
  *         description: filters do not exist
  *       422:
  *         description: id or name is wrong
- *
+ * /role/{role}/user/{user}:
+ *   post:
+ *     parameters:
+ *       - name: role
+ *         description: name of role
+ *         in: path
+ *         required: true
+ *       - name: user
+ *         description: mongo id of user document
+ *         in: path
+ *         required: true
+ *     description:
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: returns user with new role added
+ *       404:
+ *         description: role or user is not found
+ *       422:
+ *         description: model does not satisfy the expected schema
+ *   delete:
+ *     parameters:
+ *       - name: role
+ *         description: name of role
+ *         in: path
+ *         required: true
+ *       - name: user
+ *         description: mongo id of user document
+ *         in: path
+ *         required: true
+ *     description:
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: returns user without deleted role
+ *       404:
+ *         description: role or user is not found
+ *       422:
+ *         description: model does not satisfy the expected schema
  */
 
 router.post('/:role/filter', async (req, res) => {
@@ -338,6 +382,54 @@ router.post('/:role/filter', async (req, res) => {
 
   logger.info('roles modified', nModified);
   return res.json({ modified: nModified });
+});
+
+router.post('/:role/user/:user', async (req, res) => {
+  try {
+    if (!validator.roleUserRoutes(req.params)) {
+      logger.error('validation of assign filter request failed', validator.roleUserRoutes.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.roleUserRoutes.errors });
+      return;
+    }
+    let user = await db.model.User.findById(req.params.user);
+    if (!user) {
+      const error = new Error(`User with id ${req.params.user} is not found.`);
+      error.status = HttpStatus.NOT_FOUND;
+      throw error;
+    }
+    user = await user.addRole(req.params.role);
+    res.json({
+      user
+    });
+  } catch (error) {
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
+  }
+});
+
+router.delete('/:role/user/:user', async (req, res) => {
+  try {
+    if (!validator.roleUserRoutes(req.params)) {
+      logger.error('validation of assign filter request failed', validator.roleUserRoutes.errors);
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.roleUserRoutes.errors });
+      return;
+    }
+    let user = await db.model.User.findById(req.params.user);
+    if (!user) {
+      const error = new Error(`User with id ${req.params.user} is not found.`);
+      error.status = HttpStatus.NOT_FOUND;
+      throw error;
+    }
+    user = await user.deleteRole(req.params.role);
+    res.json({
+      user
+    });
+  } catch (error) {
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
+  }
 });
 
 module.exports = router;

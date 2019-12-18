@@ -10,8 +10,21 @@ const p = __filename.split(SEPARATOR);
 p.length -= 2;
 const BASE_PATH = p.join(SEPARATOR) + SEPARATOR;
 
+function checkFile(path) {
+  return new Promise((resolve, reject) => {
+    fs.access(path, fs.F_OK, err => {
+      if (err) reject(err);
+      else resolve(true);
+    });
+  });
+}
+
+function getFilePath(...relativePath) {
+  return BASE_PATH + relativePath.join(path.sep);
+}
+
 function readFile(...relativePath) {
-  const file = BASE_PATH + relativePath.join(path.sep);
+  const file = getFilePath(...relativePath);
   return fs.readFileSync(file, 'utf8').toString();
 }
 
@@ -36,15 +49,20 @@ async function getSignedUrl(filename, opts, bucket = 'course-images') {
 async function generateUploadUrl(filename, expires, bucket = 'course-images') {
   const contentType = mimeTypes.lookup(filename);
   if (!contentType) {
-    throw new Error(`Can't lookup mime-type for ${filename}`);
+    const error = new Error(`Can't lookup mime-type for ${filename}`);
+    error.status = 422;
+    throw error;
   }
   if (!/image\/.*/.test(contentType)) {
-    throw new Error(`Content type is not allowed.`);
+    const error = new Error(`Content type is not allowed.`);
+    error.status = 422;
+    throw error;
   }
   const opts = {
     version: 'v4',
     action: 'write',
-    expires: expires || Date.now() + 15 * 60 * 1000
+    expires: expires || Date.now() + 15 * 60 * 1000,
+    contentType
   };
   const hashedFilename = crypto.randomBytes(16).toString('hex') + filename;
   return getSignedUrl(hashedFilename, opts, bucket);
@@ -77,6 +95,8 @@ module.exports = {
   readJson,
   BASE_PATH,
   bucketFactory,
+  checkFile,
+  getFilePath,
   deleteFileGcs,
   generateUploadUrl,
   getSignedUrl,

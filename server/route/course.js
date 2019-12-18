@@ -24,6 +24,9 @@ const paginated = require('../middleware/page-request');
  *         type: string,
  *         example: Get Started
  *         required: true
+ *       state:
+ *         type: string
+ *         enum: [active,draft]
  *       authors:
  *         required: true
  *         type: array
@@ -31,7 +34,26 @@ const paginated = require('../middleware/page-request');
  *           type: string
  *           example: admin@gmail.com
  *           description: id, username or email as a user key
- *
+ *   CoursePut:
+ *     type: object
+ *     properties:
+ *       title:
+ *         type: string,
+ *         example: Angular 8
+ *         required: true
+ *       subtitle:
+ *         type: string,
+ *         example: Get Started
+ *         required: true
+ *       state:
+ *         type: string
+ *         enum: [active,draft]
+ *         example: active
+ *       authors:
+ *         type: array
+ *         items:
+ *           type: string
+ *           description: id, username or email as a user key
  * /course:
  *   post:
  *     description: updates or creates a new course
@@ -80,6 +102,26 @@ router.post('/', async (req, res) => {
     res.json(course);
   } catch (error) {
     console.error(error);
+  }
+});
+
+router.put('/:course', async (req, res) => {
+  const { params, body } = req;
+  if (!validator.editCourse({ params, body })) {
+    logger.error('validation of create course request failed', validator.editCourse.errors);
+    res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.editCourse.errors });
+    return;
+  }
+
+  try {
+    const course = await db.model.Course.update({ id: params.course, ...body });
+    res.json({
+      course
+    });
+  } catch (error) {
+    res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      errors: error.message
+    });
   }
 });
 
@@ -167,7 +209,7 @@ router.post('/', async (req, res) => {
 router.post('/:course/section', async (req, res) => {
   const { body, params } = req;
   if (!validator.courseSection({ body, params })) {
-    console.error('validation of create course section request failed', validator.courseSection.errors);
+    logger.error('validation of create course section request failed', validator.courseSection.errors);
     res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.courseSection.errors });
     return;
   }
@@ -527,6 +569,32 @@ router.get('/', paginated(20), async (req, res) => {
 /**
  * @swagger
  * /course/{course}:
+ *  put:
+ *    description: update course by mongo id
+ *    consumes:
+ *      - application/json
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - name: course
+ *        in: path
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/Course'
+ *      - name: course
+ *        in: body
+ *        required: true
+ *        type: string
+ *        schema:
+ *          $ref: '#/definitions/CoursePut'
+ *    responses:
+ *      200:
+ *        description: course is updated
+ *      404:
+ *        description: no course in DB
+ *      422:
+ *        description: model doesn't satisfy expected schema
  *  get:
  *    description: get course by mongo id
  *    consumes:

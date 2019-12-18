@@ -15,8 +15,20 @@ module.exports = {
     Navigation: require('./navigation')
   },
   mocks: {
+    mockUser: {
+      username: 'test',
+      password: 'test',
+      email: 'test@test.test',
+      firstname: 'First',
+      lastname: 'Last'
+    },
     mockSection: {
       title: 'test title'
+    },
+    mockRole: {
+      name: 'test',
+      description: 'test',
+      filters: 'test'
     },
     mockCourse: {
       title: 'Mock title course',
@@ -77,6 +89,14 @@ module.exports = {
     const [section] = await course.createSection(this.mocks.mockSection);
     const lecture = await course.createLecture({ section: section._id, title: 'test title', file: 'test file' });
     return { course: course._id || course.id, section: section._id || section.id, lecture };
+  },
+
+  roleFactory() {
+    return this.model.Role.create(this.mocks.mockRole);
+  },
+
+  userFactory() {
+    return this.model.User.create(this.mocks.mockUser);
   },
 
   beforeAll(done) {
