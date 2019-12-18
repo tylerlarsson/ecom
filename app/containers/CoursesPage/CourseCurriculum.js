@@ -95,7 +95,16 @@ const SortableListLectures = SortableContainer(({ items }) => (
 ));
 
 const SortableItem = SortableElement(({ value }) => {
-  const { classes, onChangeSection, onChangeLecture, onCheckSection, onNewLecture, sortIndex, onSortEndLectures, ...section } = value;
+  const {
+    classes,
+    onChangeSection,
+    onChangeLecture,
+    onCheckSection,
+    onNewLecture,
+    sortIndex,
+    onSortEndLectures,
+    ...section
+  } = value;
   const contentItems = map(section.lectures, item => ({
     ...item,
     onCheckSection,
@@ -111,16 +120,20 @@ const SortableItem = SortableElement(({ value }) => {
           checked={false}
           onCheck={onCheckSection}
         />
-        <SortableListLectures items={[...contentItems]} onSortEnd={onSortEndLectures(section._id || section.id)} useDragHandle />
-        {/*{map(section.lectures, lecture => (*/}
-          {/*<Lecture*/}
-            {/*key={lecture.id}*/}
-            {/*title={lecture.title}*/}
-            {/*checked={false}*/}
-            {/*onCheck={onCheckSection}*/}
-            {/*onChange={onChangeLecture(lecture)}*/}
-          {/*/>*/}
-        {/*))}*/}
+        <SortableListLectures
+          items={[...contentItems]}
+          onSortEnd={onSortEndLectures(section._id || section.id)}
+          useDragHandle
+        />
+        {/* {map(section.lectures, lecture => ( */}
+        {/* <Lecture */}
+        {/* key={lecture.id} */}
+        {/* title={lecture.title} */}
+        {/* checked={false} */}
+        {/* onCheck={onCheckSection} */}
+        {/* onChange={onChangeLecture(lecture)} */}
+        {/* /> */}
+        {/* ))} */}
         <NewLectureButton onSelect={onNewLecture(section._id || section.id)} />
       </CardBody>
     </Card>
@@ -246,9 +259,13 @@ class CourseCurriculum extends Component {
     const sectionIndex = findIndex(sections, s => (s._id || s.id) === sectionId);
 
     if (sectionIndex > -1) {
-      const section = {...sections[sectionIndex]};
+      const section = { ...sections[sectionIndex] };
       const lectures = [...section.lectures];
-      section.lectures = map(arrayMove(lectures, oldIndex, newIndex), (item, index) => ({ ...item, id: item.id, index }))
+      section.lectures = map(arrayMove(lectures, oldIndex, newIndex), (item, index) => ({
+        ...item,
+        id: item.id,
+        index
+      }));
       course.sections[sectionIndex] = section;
       this.setState({ course });
       const payload = {

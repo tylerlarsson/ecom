@@ -24,7 +24,6 @@ import htmlToDraft from 'html-to-draftjs';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import { getGignUrl } from 'redux/actions/files';
-import { DND_DELAY } from 'constants/default';
 import { toDataURL } from '../../utils/files';
 
 import './styles.css';
@@ -108,7 +107,7 @@ const SortableItem = SortableElement(({ value }) => {
 const SortableList = SortableContainer(({ items }) => (
   <div>
     {items.map((value, index) => (
-      <SortableItem key={`item-${index}`} index={index} value={value} />
+      <SortableItem key={`item-${index}`} index={index} value={value} /> /* eslint-disable-line */
     ))}
   </div>
 ));

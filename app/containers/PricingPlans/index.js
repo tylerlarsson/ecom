@@ -12,7 +12,6 @@ import {
   TextareaAutosize,
   Fab,
   Button,
-  InputLabel,
   MenuItem,
   Select
 } from '@material-ui/core';

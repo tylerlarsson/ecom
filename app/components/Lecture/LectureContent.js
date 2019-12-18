@@ -60,9 +60,15 @@ function LectureContent(props) {
   const classes = useStyles();
   const { onEdit, onDelete, onDownload, data } = props;
   const DragHandle = sortableHandle(() =>
-    data.type === 'text'
-      ? <div><Reorder className={classes.icon} /> Text</div>
-      : <div><Image className={classes.icon} /> Image</div>
+    data.type === 'text' ? (
+      <div>
+        <Reorder className={classes.icon} /> Text
+      </div>
+    ) : (
+      <div>
+        <Image className={classes.icon} /> Image
+      </div>
+    )
   );
   return (
     <Paper className={classes.wrap}>
