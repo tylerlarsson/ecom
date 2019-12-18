@@ -26,6 +26,7 @@ const CONTENT = new mongoose.Schema(
 
 const LECTURE = new mongoose.Schema(
   {
+    index: { type: Number },
     title: { type: String, index: true },
     file: String,
     image: String,
