@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { map, orderBy } from 'lodash';
+import { map, orderBy, find } from 'lodash';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 // @material-ui/core components
@@ -96,7 +96,7 @@ const SortableListLectures = SortableContainer(({ items }) => (
 
 const SortableItem = SortableElement(({ value }) => {
   const { classes, onChangeSection, onChangeLecture, onCheckSection, onNewLecture, sortIndex, onSortEndLectures, ...section } = value;
-  const contentItems = map(section.lectures, (item, index) => ({
+  const contentItems = map(section.lectures, item => ({
     ...item,
     onCheckSection,
     onChangeLecture: onChangeLecture(item)
@@ -111,7 +111,7 @@ const SortableItem = SortableElement(({ value }) => {
           checked={false}
           onCheck={onCheckSection}
         />
-        <SortableListLectures items={[...contentItems]} onSortEnd={onSortEndLectures} useDragHandle />
+        <SortableListLectures items={[...contentItems]} onSortEnd={onSortEndLectures(section._id || section.id)} useDragHandle />
         {/*{map(section.lectures, lecture => (*/}
           {/*<Lecture*/}
             {/*key={lecture.id}*/}
@@ -238,19 +238,22 @@ class CourseCurriculum extends Component {
     createSectionAction(payload);
   };
 
-  onSortEndLectures = ({ oldIndex, newIndex }) => {
-    console.log('onSortEndLectures');
-    // const { createSectionAction } = this.props;
-    // const course = { ...this.state.course }; // eslint-disable-line
-    // const sections = [...course.sections];
-    // course.sections = arrayMove(sections, oldIndex, newIndex);
-    // this.setState({ course });
-    // // TODO update dbase
-    // const payload = {
-    //   sections: course.sections,
-    //   courseId: course && course.id
-    // };
-    // createSectionAction(payload);
+  onSortEndLectures = sectionId => ({ oldIndex, newIndex }) => {
+    console.log('onSortEndLectures', sectionId);
+    const { createSectionAction } = this.props;
+    const course = { ...this.state.course }; // eslint-disable-line
+    const sections = [...course.sections];
+    const section = find(sections, s => s._id === sectionId);
+    if (section) {
+      const lectures = [...section.lectures];
+      section.lectures = arrayMove(lectures, oldIndex, newIndex);
+    }
+    const payload = {
+      ...section,
+      id: sectionId,
+      courseId: course && course.id
+    };
+    createSectionAction(payload);
   };
 
   renderNavbar = classes => (
