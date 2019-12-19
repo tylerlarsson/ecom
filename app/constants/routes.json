@@ -13,6 +13,7 @@
   "SETTINGS": "/settings",
   "SALES": "/sales",
   "COURSES": "/courses",
+  "COURSES_ENROLLED": "/courses/enrolled/:course",
   "NEW_COURSE": "/courses/new",
   "CURRICULUM": "/courses/:course/curriculum",
   "PRICING_PLAN": "/courses/:course/pricing",

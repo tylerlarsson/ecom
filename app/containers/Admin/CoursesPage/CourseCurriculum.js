@@ -157,9 +157,9 @@ class CourseCurriculum extends Component {
   }
 
   componentWillMount() {
-    const { match } = this.props;
+    const { match, getCourseAction } = this.props;
     const courseId = match && match.params && match.params.course;
-    this.props.getCourseAction({ id: courseId });
+    getCourseAction({ id: courseId });
   }
 
   componentDidUpdate(prevProps) {
@@ -235,6 +235,10 @@ class CourseCurriculum extends Component {
   handlePreview = () => {
     // TODO
     console.log('handlePreview');
+    const { history } = this.props;
+    const { course } = this.state;
+    const lectureRoute = routes.COURSES_ENROLLED.replace(':course', course && course.id);
+    history.push(lectureRoute);
   };
 
   onSortEnd = ({ oldIndex, newIndex }) => {

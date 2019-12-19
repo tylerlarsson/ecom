@@ -19,10 +19,13 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import RequireAuth from 'components/RequireAuth';
 import RequireNoAuth from 'components/RequireNoAuth';
 import { getRoles, getPermissions } from 'redux/actions/users';
+import routes from 'constants/routes.json';
 import GlobalStyle from '../../global-styles';
 import LoginPage from '../LoginPage/LoginPage';
 import SignupPage from '../SignupPage/SignupPage';
 import AdminPage from '../Admin';
+import Course from '../Courses/Course';
+import Lecture from '../Lecture/Lecture';
 
 class App extends Component {
   componentWillMount() {
@@ -36,11 +39,13 @@ class App extends Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/" component={RequireAuth(HomePage)} />
-          <Route exact path="/login" component={RequireNoAuth(LoginPage)} />
-          <Route exact path="/signup" component={RequireNoAuth(SignupPage)} />
-          <Route path="/admin" component={RequireAuth(AdminPage)} />
-          <Route exact path="/profile" component={RequireAuth(ProfilePage)} />
+          <Route exact path={routes.HOME} component={RequireAuth(HomePage)} />
+          <Route exact path={routes.LOGIN} component={RequireNoAuth(LoginPage)} />
+          <Route exact path={routes.SIGNUP} component={RequireNoAuth(SignupPage)} />
+          <Route path={routes.ADMIN} component={RequireAuth(AdminPage)} />
+          <Route exact path={routes.COURSES_ENROLLED} component={RequireAuth(Course)} />
+          <Route exact path={routes.LECTURE} component={RequireAuth(Lecture)} />
+          <Route exact path={routes.PROFILE} component={RequireAuth(ProfilePage)} />
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />
