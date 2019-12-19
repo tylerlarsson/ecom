@@ -3,8 +3,8 @@ const { ObjectId } = mongoose.Schema.Types;
 const bcrypt = require('bcryptjs');
 const { DEFAULT_OPTIONS } = require('./common');
 const Role = require('./role');
-const { error404 } = require('../util');
-const { sendMail } = require('../mail');
+const { error404 } = require('../core/util');
+const { sendMail } = require('../core/mail');
 
 const USER = new mongoose.Schema(
   {

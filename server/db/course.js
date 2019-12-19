@@ -3,7 +3,7 @@ const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
 const { softDeletedMiddleware, removeNestedSoftDeleted } = require('../middleware/soft-deleted');
 const { populatePricing } = require('../middleware/course-populate');
-const { error404 } = require('../util');
+const { error404 } = require('../core/util');
 
 const COURSE_STATE = {
   DRAFT: 'draft',

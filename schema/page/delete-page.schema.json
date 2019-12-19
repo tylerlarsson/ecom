@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "dynamically edit page configuration schema",
+  "type": "object",
+  "required": ["page"],
+  "additionalProperties": false,
+  "properties": {
+    "page": {
+      "$ref": "#mongo-id"
+    }
+  }
+}

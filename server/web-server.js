@@ -1,47 +1,47 @@
 const path = require('path');
+const spdy = require('spdy');
+const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./swagger');
-
-const userRoute = require('./route/user');
-const roleRoute = require('./route/role');
-const permissionRoute = require('./route/permission');
-const oauthRoute = require('./route/oauth');
-const filterRoute = require('./route/filter');
-const pageRoute = require('./route/page');
-const fileRoute = require('./route/file');
-const courseRoute = require('./route/course');
-const pricingPlanRoute = require('./route/pricing-plan');
-const navigationRoute = require('./route/navigation');
-
+const swaggerSpec = require('./core/swagger');
 const config = require('./config');
-
-const createLogger = require('./logger');
+const createLogger = require('./core/logger');
 const logger = createLogger('web-server');
 const API = config.get('base-path');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(`${API}/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use(`${API}/user`, userRoute);
-app.use(`${API}/role`, roleRoute);
-app.use(`${API}/permission`, permissionRoute);
-app.use(`${API}/oauth`, oauthRoute);
-app.use(`${API}/filter`, filterRoute);
-app.use(`${API}/page`, pageRoute);
-app.use(`${API}/course`, courseRoute);
-app.use(`${API}/pricing-plan`, pricingPlanRoute);
-app.use(`${API}/file`, fileRoute);
-app.use(`${API}/navigation`, navigationRoute);
+
+require('./route/course')(app);
+require('./route/role')(app);
+require('./route/permission')(app);
+require('./route/pricing-plan')(app);
+require('./route/user')(app);
+require('./route/navigation')(app);
+require('./route/filter')(app);
+require('./route/navigation')(app);
+require('./route/file')(app);
+require('./route/oauth')(app);
 
 const port = config.get('web-app:port');
+const spdyOptions = {
+  key: fs.readFileSync(''), // have to add in production env
+  cert: fs.readFileSync(''), // have to add in production env
+  spdy: {
+    requestCert: true,
+    protocols: ['h2', 'spdy/3.1', 'spdy/3', 'spdy/2', 'http/1.1', 'http/1.0']
+  }
+};
 
 /* istanbul ignore next */
 if (config.get('NODE_ENV') === 'production') {
   // production mode
   app.use('/', express.static(path.join(__dirname, '..', 'build')));
-  app.listen(port, () => logger.info('web server started in production, port', port));
+  spdy.createServer(spdyOptions, app).listen(port, () => {
+    logger.info('web server started in production, port', port);
+  });
 } else if (config.get('NODE_ENV') === 'development') {
   // npm: run dev script to start
   // then web-server

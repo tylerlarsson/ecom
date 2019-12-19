@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
-const { error404 } = require('../util');
+const { error404 } = require('../core/util');
 const User = require('./user');
 
 /* eslint-disable */

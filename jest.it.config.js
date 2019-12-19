@@ -16,7 +16,7 @@ module.exports = {
   collectCoverageFrom: [
     'server/**/*.js',
     '!server/web-server.dev.js',
-    '!server/db-script/*.js',
+    '!server/scripts/*.js',
     '!server/db/test.js',
     '!server/middlewares/*.js',
     '!server/config.js'

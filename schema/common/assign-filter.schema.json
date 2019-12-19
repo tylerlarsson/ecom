@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "assign filter request schema",
+  "type": "object",
+  "required": ["role", "filters"],
+  "additionalProperties": false,
+  "properties": {
+    "role": {
+      "anyOf": [{ "$ref": "#mongo-id" }, { "$ref": "#name" }]
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "$ref": "#name"
+      }
+    }
+  }
+}
