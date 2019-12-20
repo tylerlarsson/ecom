@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status-codes');
 const request = require('supertest');
-const config = require('../../server/config');
+const config = require('../../server/core/config');
 const app = require('../../server/web-server');
 const db = require('../../server/db/test');
 const path = `${config.get('base-path')}/page`;

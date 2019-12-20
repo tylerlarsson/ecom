@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "#lecture-content",
+  "title": "content model configuration schema",
+  "type": "object",
+  "required": ["type", "index"],
+  "additionalProperties": false,
+  "properties": {
+    "index": {
+      "type": "number"
+    },
+    "type": {
+      "enum": ["image", "text"],
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    }
+  }
+}

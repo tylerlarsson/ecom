@@ -1,0 +1,22 @@
+{
+  "data": {
+    "admin": {
+      "description": "Admin"
+    },
+    "user": {
+      "description": "User"
+    },
+    "student": {
+      "description": "Student"
+    },
+    "owner": {
+      "description": "Owner"
+    },
+    "author": {
+      "description": "Author"
+    },
+    "affiliate": {
+      "description": "Affiliate"
+    }
+  }
+}
