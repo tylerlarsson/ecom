@@ -16,11 +16,11 @@ import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import { createSection, getCourse, createLecture } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
-import NewLectureButton from 'components/Lecture/NewLectureButton';
-import Section from 'components/Course/Section';
-import Lecture from 'components/Lecture/Lecture';
+import NewLectureButton from 'components/LectureAdmin/NewLectureButton';
+import Section from 'components/CourseAdmin/Section';
+import Lecture from 'components/LectureAdmin/Lecture';
 // import { DND_DELAY } from 'constants/default';
-import CourseSteps from 'components/Course/CourseSteps';
+import CourseSteps from 'components/CourseAdmin/CourseSteps';
 
 const styles = {
   cardCategoryWhite: {
@@ -194,7 +194,7 @@ class CourseCurriculum extends Component {
     const { createLectureAction } = this.props;
     const { course } = this.state;
     const payload = {
-      title: 'New Lecture',
+      title: 'New LectureAdmin',
       file: 'file',
       image: 'image',
       text: '',
@@ -233,12 +233,10 @@ class CourseCurriculum extends Component {
   };
 
   handlePreview = () => {
-    // TODO
-    console.log('handlePreview');
-    const { history } = this.props;
     const { course } = this.state;
     const lectureRoute = routes.COURSES_ENROLLED.replace(':course', course && course.id);
-    history.push(lectureRoute);
+    const win = window.open(lectureRoute, '_blank');
+    win.focus();
   };
 
   onSortEnd = ({ oldIndex, newIndex }) => {

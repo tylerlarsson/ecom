@@ -41,7 +41,7 @@ const BorderLinearProgress = withStyles({
   },
 })(LinearProgress);
 
-const CourseNavbar = ({ classes, title, progress }) => (
+const CourseProgress = ({ classes, title, progress }) => (
   <div className={classes.root}>
     {title ? (
       <Typography variant="h6" className={classes.title}>
@@ -54,10 +54,10 @@ const CourseNavbar = ({ classes, title, progress }) => (
       color="secondary"
       value={progress}
     />
-    <Typography variant="div" className={classes.progress}>
+    <Typography variant="body1" className={classes.progress}>
       <span>{progress}%</span> complete
     </Typography>
   </div>
 );
 
-export default withStyles(styles)(CourseNavbar);
+export default withStyles(styles)(CourseProgress);

@@ -12,12 +12,12 @@ import CustomNavbar from 'components/Navbars/CustomNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import { createSection, getCourse, createLecture } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
-import LectureTitle from 'components/Lecture/LectureTitle';
-import TabPanel from 'components/Lecture/TabPanel';
+import LectureTitle from 'components/LectureAdmin/LectureTitle';
+import TabPanel from 'components/LectureAdmin/TabPanel';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import LectureContent from 'components/Lecture/LectureContent';
+import LectureContent from 'components/LectureAdmin/LectureContent';
 import Dropzone from 'react-dropzone';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
@@ -266,8 +266,12 @@ class CourseCurriculum extends Component {
   };
 
   handlePreview = () => {
-    // TODO
-    console.log('handlePreview');
+    const { match } = this.props;
+    const { course } = this.state;
+    const lectureId = match && match.params && match.params.lecture;
+    const lectureRoute = routes.LECTURE.replace(':course', course && course.id).replace(':lecture', lectureId);
+    const win = window.open(lectureRoute, '_blank');
+    win.focus();
   };
 
   changeTab = (event, tab) => {

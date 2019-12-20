@@ -17,7 +17,7 @@ import AdminContent from 'components/Content/AdminContent';
 import { createCourse } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
 import { getUsers } from 'redux/actions/users';
-import CourseSteps from 'components/Course/CourseSteps';
+import CourseSteps from 'components/CourseAdmin/CourseSteps';
 
 const styles = {
   cardCategoryWhite: {

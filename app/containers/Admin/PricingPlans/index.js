@@ -21,7 +21,7 @@ import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
-import CourseSteps from 'components/Course/CourseSteps';
+import CourseSteps from 'components/CourseAdmin/CourseSteps';
 import { addPricingPlan, getPricingPlans } from 'redux/actions/courses';
 import TableList from 'components/Table/TableList';
 import { PRICING_PLAN_TYPES } from 'constants/default';

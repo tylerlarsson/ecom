@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status-codes');
-const filter = require('../core/filter');
-const validator = require('../core/validator');
+const filter = require('../filter');
+const validator = require('../validator');
 
 module.exports = async (req, res, next) => {
   const paramNames = Object.keys(req.query);

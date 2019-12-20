@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const config = require('../core/config');
+const config = require('../config');
 mongoose.Promise = Promise;
 
 /* eslint-disable global-require */

@@ -10,7 +10,7 @@ import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import CourseNavbar from 'components/Course/CourseNavbar';
 import CourseContent from 'components/Course/CourseContent';
-import { createCourse, getCourse } from 'redux/actions/courses';
+import { getCourse } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
 import CourseProgress from 'components/Course/CourseProgress';
 
@@ -65,7 +65,7 @@ class Course extends Component {
   };
 
   render() {
-    const { classes, user } = this.props;
+    const { classes } = this.props;
     const { course } = this.state;
 
     return (
@@ -98,24 +98,20 @@ class Course extends Component {
 Course.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   getCourseAction: PropTypes.func.isRequired,
-  createCourseAction: PropTypes.func.isRequired,
-  user: PropTypes.objectOf(PropTypes.any).isRequired,
+  // user: PropTypes.objectOf(PropTypes.any).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
   course: PropTypes.objectOf(PropTypes.any),
 };
 
-const mapStateToProps = ({ courses, users, auth }) => ({
-  user: auth.user.data,
+const mapStateToProps = ({ courses, }) => ({
+  // user: auth.user.data,
   course: courses.course
 });
 
 const mapDispatchToProps = dispatch => ({
   getCourseAction: data => {
     dispatch(getCourse(data));
-  },
-  createCourseAction: data => {
-    dispatch(createCourse(data));
   }
 });
 

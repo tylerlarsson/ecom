@@ -121,7 +121,7 @@ const dashboardRoutes = [
   },
   {
     path: routes.NEW_COURSE,
-    name: 'New Course',
+    name: 'New CourseAdmin',
     icon: VideoLibrary,
     component: NewCourse,
     layout: routes.ADMIN,
