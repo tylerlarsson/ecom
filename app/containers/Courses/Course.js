@@ -55,7 +55,8 @@ class Course extends Component {
     const { history, course } = this.props;
 
     if (course) {
-      const lecture = course.sections && course.sections[0] && course.sections[0].lectures && course.sections[0].lectures[0];
+      const lecture =
+        course.sections && course.sections[0] && course.sections[0].lectures && course.sections[0].lectures[0];
       if (lecture) {
         history.push(
           routes.LECTURE.replace(':course', course && course.id).replace(':lecture', lecture.id || lecture._id)
@@ -101,10 +102,10 @@ Course.propTypes = {
   // user: PropTypes.objectOf(PropTypes.any).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
-  course: PropTypes.objectOf(PropTypes.any),
+  course: PropTypes.objectOf(PropTypes.any)
 };
 
-const mapStateToProps = ({ courses, }) => ({
+const mapStateToProps = ({ courses }) => ({
   // user: auth.user.data,
   course: courses.course
 });
