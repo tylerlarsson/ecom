@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "new course configuration schema",
+  "type": "object",
+  "required": ["courseId"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "#mongo-id"
+    },
+    "price": {
+      "type": "number"
+    },
+    "courseId": {
+      "$ref": "#mongo-id"
+    },
+    "isRecurring": {
+      "type": "boolean"
+    },
+    "purchaseUrl": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["free", "subscription", "one-time", "payment-plan"]
+    },
+    "period": {
+      "type": "number"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "#file",
+  "title": "Web Api javascript file",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "size", "name"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "pattern": "^[-\\w.]+/[-\\w.]+$"
+    },
+    "size": {
+      "type": "number",
+      "minimum": 0
+    },
+    "lastModified": {
+      "type": "string"
+    },
+    "lastModifiedDate": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "webkitRelativePath": {
+      "type": "string"
+    }
+  }
+}

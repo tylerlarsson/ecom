@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "id request schema",
+  "type": "object",
+  "required": ["name"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "anyOf": [
+        {
+          "$ref": "#mongo-id"
+        },
+        {
+          "$ref": "#name"
+        },
+        {
+          "type": "string",
+          "pattern": "^\\*$"
+        }
+      ]
+    }
+  }
+}

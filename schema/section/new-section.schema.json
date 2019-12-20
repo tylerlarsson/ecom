@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "new course section configuration schema",
+  "type": "object",
+  "required": ["params", "body"],
+  "additionalProperties": false,
+  "properties": {
+    "params": {
+      "type": "object",
+      "required": ["course"],
+      "properties": {
+        "course": {
+          "$ref": "#mongo-id"
+        }
+      }
+    },
+    "body": {
+      "type": "object",
+      "anyOf": [
+        {
+          "properties": {
+            "id": {
+              "$ref": "#mongo-id"
+            },
+            "index": {
+              "type": "number"
+            },
+            "title": {
+              "type": "string"
+            },
+            "lectures": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "index": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#lecture-content"
+                    }
+                  },
+                  "image": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "allowComments": {
+                    "type": "boolean"
+                  },
+                  "file": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string",
+                    "enum": ["active", "draft"]
+                  }
+                }
+              }
+            },
+            "deleted": {
+              "type": "boolean"
+            }
+          },
+          "required": ["title"]
+        },
+        {
+          "properties": {
+            "sections": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["title"],
+                "properties": {
+                  "id": {
+                    "$ref": "#mongo-id"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "index": {
+                    "type": "number"
+                  },
+                  "lectures": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "index": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "content": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#lecture-content"
+                          }
+                        },
+                        "image": {
+                          "type": "string"
+                        },
+                        "text": {
+                          "type": "string"
+                        },
+                        "allowComments": {
+                          "type": "boolean"
+                        },
+                        "file": {
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string",
+                          "enum": ["active", "draft"]
+                        }
+                      }
+                    }
+                  },
+                  "deleted": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

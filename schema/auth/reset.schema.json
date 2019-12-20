@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "get navigation configuration schema",
+  "type": "object",
+  "required": ["newPassword", "id"],
+  "additionalProperties": false,
+  "properties": {
+    "newPassword": {
+      "type": "string"
+    },
+    "id": {
+      "$ref": "#mongo-id"
+    }
+  }
+}

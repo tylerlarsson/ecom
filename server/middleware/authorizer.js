@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status-codes');
 const expressJwt = require('express-jwt');
-const config = require('../config');
+const config = require('../core/config');
 const SECRET = config.get('web-app:secret');
 
 function Role(...authorizedRoles) {

@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "new course section configuration schema",
+  "type": "object",
+  "required": ["params", "body"],
+  "additionalProperties": false,
+  "properties": {
+    "params": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["course", "section", "lecture"],
+      "properties": {
+        "course": {
+          "$ref": "#mongo-id"
+        },
+        "section": {
+          "$ref": "#mongo-id"
+        },
+        "lecture": {
+          "$ref": "#mongo-id"
+        }
+      }
+    },
+    "body": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "$ref": "#lecture-content"
+          }
+        },
+        "image": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "allowComments": {
+          "type": "boolean"
+        },
+        "file": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "enum": ["active", "draft"]
+        }
+      }
+    }
+  }
+}

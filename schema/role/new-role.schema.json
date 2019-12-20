@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "new role configuration schema",
+  "type": "object",
+  "required": ["name", "description"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "$ref": "#name"
+    },
+    "description": {
+      "type": "string"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "anyOf": [{ "$ref": "#mongo-id" }, { "$ref": "#name" }, { "type": "string", "pattern": "^\\*$" }]
+      }
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "$ref": "#filter"
+      }
+    }
+  }
+}
