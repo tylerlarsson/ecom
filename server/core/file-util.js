@@ -19,6 +19,8 @@ function checkFile(path) {
   });
 }
 
+const isVideo = contentType => /video\/.*/.test(contentType);
+
 function getFilePath(...relativePath) {
   return BASE_PATH + relativePath.join(path.sep);
 }
@@ -53,7 +55,7 @@ async function generateUploadUrl(filename, expires, bucket = 'course-images') {
     error.status = 422;
     throw error;
   }
-  if (/video\/.*/.test(contentType)) {
+  if (isVideo(contentType)) {
     const error = new Error(`Content type is not allowed.`);
     error.status = 422;
     throw error;
@@ -98,6 +100,7 @@ module.exports = {
   checkFile,
   getFilePath,
   deleteFileGcs,
+  isVideo,
   generateUploadUrl,
   getSignedUrl,
   uploadVideo

@@ -34,4 +34,30 @@ describe('file api test', () => {
     const regex = new RegExp(expression);
     expect(regex.test(res.body.url)).toBe(true);
   });
+
+  // // POST /file/wistia/:lecture
+  // test('should raise error if schema is invalid', async () => {
+  //
+  // });
+  //
+  // test('should raise error if wistia token is invalid', async () => {
+  //
+  // });
+  //
+  // test('should raise error if not a video', async () => {
+  //
+  // });
+  //
+  // test('should upload video to wista', async () => {
+  //
+  // });
+  //
+  // // DELETE /file/wistia/:hashedId
+  // test(`should raise error if schema is invalid`, async () => {
+  //
+  // });
+  //
+  // test(`should delete video from wistia`, async () => {
+  //
+  // });
 });

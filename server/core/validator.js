@@ -43,6 +43,9 @@ const courseSchema = readJson('schema', 'course', 'new-course.schema.json');
  */
 const deleteGcsSchema = readJson('schema', 'file', 'delete-gcs.schema.json');
 const uploadGcsSchema = readJson('schema', 'file', 'upload-gcs.schema.json');
+const uploadWistiaSchema = readJson('schema', 'file', 'upload-wistia.schema.json');
+const deleteWistiaVideoSchema = readJson('schema', 'file', 'delete-wistia-video.schema.json');
+ajv.addSchema(readJson('schema', 'common', 'file.schema.json'));
 
 /**
  * @namespace lecture
@@ -139,5 +142,7 @@ module.exports = {
   courseLecture: ajv.compile(courseLectureSchema),
   putLecture: ajv.compile(putLectureSchema),
   deletePage: ajv.compile(deletePageSchema),
-  getCourse: ajv.compile(getCourseSchema)
+  getCourse: ajv.compile(getCourseSchema),
+  uploadWistia: ajv.compile(uploadWistiaSchema),
+  deleteWistiaVideo: ajv.compile(deleteWistiaVideoSchema)
 };

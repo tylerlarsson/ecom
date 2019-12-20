@@ -44,7 +44,7 @@
     "test": "npm run test:ui",
     "test:ui": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",
-    "test:integration": "jest --config=jest.it.config.js --runInBand",
+    "test:integration": "jest --config=jest.it.config.js --runInBand --detectOpenHandles",
     "test:integration:coverage": "jest --config=jest.it.config.js --coverage --runInBand",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "prettify": "prettier --write",
