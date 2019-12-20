@@ -2,7 +2,7 @@ const express = require('express');
 const HttpStatus = require('http-status-codes');
 const db = require('../db');
 const { error404 } = require('../core/util');
-const config = require('../config');
+const config = require('../core/config');
 const API = config.get('base-path');
 
 // TODO: swagger and validation
@@ -25,7 +25,7 @@ module.exports = app => {
   router.delete('/internal/:comment', async (req, res) => {
     try {
       const comment = await db.model.InternalComment.findByIdAndDelete(req.params.comment);
-      if (!comment) throw error404(comment, req.params.comment);
+      if (!comment) throw error404({ comment }, req.params.comment);
     } catch (error) {
       res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
         errors: error.message

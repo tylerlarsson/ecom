@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status-codes');
 const express = require('express');
-const config = require('../config');
+const config = require('../core/config');
 const createLogger = require('../core/logger');
 const validator = require('../core/validator');
 const db = require('../db');

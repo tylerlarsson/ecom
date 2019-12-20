@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status-codes');
 const request = require('supertest');
-const config = require('../../server/config');
+const config = require('../../server/core/config');
 const app = require('../../server/web-server');
 const path = `${config.get('base-path')}/file`;
 
@@ -18,10 +18,10 @@ describe('file api test', () => {
       .send({ image: 'example.hfgohb' });
     expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
-  test('should raise error if not an image', async () => {
+  test('should raise error if video', async () => {
     const res = await request(app)
       .post(`${path}/image`)
-      .send({ image: 'test.doc' });
+      .send({ image: 'test.webm' });
     expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
   test('should return link', async () => {

@@ -100,7 +100,7 @@ COURSE.statics.update = async args => {
   const { id, ...rest } = args;
   const course = await Course.findById(id);
   if (!course) {
-    throw error404(course, id);
+    throw error404({ course }, id);
   }
   Object.assign(course, { ...rest });
   return course.save();
@@ -127,7 +127,7 @@ COURSE.methods.createSection = async function createSection(args) {
       if (secId) {
         const _section = this.sections.id(secId);
         if (!_section) {
-          throw error404({ Section: null }, secId);
+          throw error404({ _section }, secId);
         }
         Object.assign(_section, rest);
       } else {
@@ -155,7 +155,7 @@ COURSE.methods.createLecture = async function createLecture(args) {
   if (this.sections && this.sections.length) {
     const _section = this.sections.id(section);
     if (!_section) {
-      throw error404(section, section);
+      throw error404({ section }, section);
     }
     _section.lectures.push({
       createdAt: new Date(),
@@ -174,7 +174,7 @@ COURSE.methods.editLecture = async function editLecture(args) {
   if (this.sections && this.sections.length) {
     const _section = this.sections.id(section);
     if (!_section) {
-      throw error404(section, section);
+      throw error404({ section }, section);
     }
     const _lecture = _section.lectures.id(lecture);
     if (!_lecture) {

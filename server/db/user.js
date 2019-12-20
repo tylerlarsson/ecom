@@ -19,7 +19,7 @@ const USER = new mongoose.Schema(
     loginLast: { type: Date, default: null },
     created: { type: Date, default: null },
     deleted: { type: Boolean, default: false },
-    visitorKey: { type: String, index: true, unique: true },
+    visitorKey: { type: String, index: true },
     deletedAt: Date
   },
   {
@@ -74,7 +74,7 @@ USER.statics.update = async args => {
   const { id, ...rest } = args;
   const user = await User.findById(id);
   if (!user) {
-    throw error404(user, id);
+    throw error404({ user }, id);
   }
   Object.assign(user, { ...rest });
   return user.save();
@@ -83,7 +83,7 @@ USER.statics.update = async args => {
 USER.statics.delete = async id => {
   const user = await User.findById(id);
   if (!user) {
-    throw error404(user, id);
+    throw error404({ user }, id);
   }
   user.deleted = true;
   user.deletedAt = new Date();
@@ -93,7 +93,7 @@ USER.statics.delete = async id => {
 USER.statics.resetPasswordRequest = async ({ email }) => {
   const user = await User.findOne({ email });
   if (!user) {
-    throw error404(user, email, 'email');
+    throw error404({ user }, email, 'email');
   }
   const link = `https://example.com/reset?bjson=${user.id}`;
   const subject = 'Password recovery';
@@ -120,7 +120,7 @@ USER.statics.resetPassword = async args => {
   const hash = await bcrypt.hash(newPassword, salt);
   const user = await User.findById(id);
   if (!user) {
-    throw error404(user, id);
+    throw error404({ user }, id);
   }
   user.hash = hash;
   await user.save();
@@ -181,7 +181,7 @@ USER.methods.addNote = async function addNote(note) {
 
 USER.methods.deleteNote = async function deleteRole(note) {
   const idx = this.notes.findIndex(r => r === note);
-  if (!idx) throw error404({ Note: null }, note);
+  if (idx === -1) throw error404({ Note: null }, note);
   this.notes.splice(idx, 1);
   return this.save();
 };
@@ -191,7 +191,7 @@ USER.methods.addRole = async function addRole(roleName) {
     this.roles = [];
   }
   const role = await Role.findById(roleName);
-  if (!role) throw error404(role, roleName);
+  if (!role) throw error404({ role }, roleName);
 
   this.roles.push(roleName);
   return this.save();
@@ -199,8 +199,10 @@ USER.methods.addRole = async function addRole(roleName) {
 
 USER.methods.deleteRole = async function deleteRole(roleName) {
   const idx = this.roles.findIndex(r => r === roleName);
-  if (!idx) {
-    throw error404({ Role: null }, roleName);
+  console.log(this.roles, !!idx);
+  if (idx === -1) {
+    console.log('her');
+    throw error404({ role: null }, roleName);
   }
   this.roles.splice(idx, 1);
   return this.save();

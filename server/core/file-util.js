@@ -7,7 +7,6 @@ const { request } = require('../core/util');
 const SEPARATOR = path.sep;
 
 const p = __filename.split(SEPARATOR);
-console.log(p);
 p.length -= 3;
 const BASE_PATH = p.join(SEPARATOR) + SEPARATOR;
 
@@ -54,7 +53,7 @@ async function generateUploadUrl(filename, expires, bucket = 'course-images') {
     error.status = 422;
     throw error;
   }
-  if (!/image\/.*/.test(contentType)) {
+  if (/video\/.*/.test(contentType)) {
     const error = new Error(`Content type is not allowed.`);
     error.status = 422;
     throw error;

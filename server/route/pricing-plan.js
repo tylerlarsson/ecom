@@ -5,7 +5,7 @@ const validator = require('../core/validator');
 const createLogger = require('../core/logger');
 const logger = createLogger('web-server.course-route');
 const db = require('../db');
-const config = require('../config');
+const config = require('../core/config');
 const API = config.get('base-path');
 
 module.exports = app => {
@@ -208,5 +208,5 @@ module.exports = app => {
       });
     }
   });
-  app.use(`${API}/pricing-plan`);
+  app.use(`${API}/pricing-plan`, router);
 };

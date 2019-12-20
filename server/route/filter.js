@@ -1,6 +1,6 @@
 const express = require('express');
 const filter = require('../core/filter');
-const config = require('../config');
+const config = require('../core/config');
 const API = config.get('base-path');
 
 module.exports = app => {

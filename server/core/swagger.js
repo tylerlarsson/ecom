@@ -1,5 +1,5 @@
 const swaggerJSDoc = require('swagger-jsdoc');
-const config = require('../config');
+const config = require('./config');
 
 const swaggerDefinition = {
   basePath: config.get('base-path'),

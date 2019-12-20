@@ -6,7 +6,7 @@ const router = express.Router();
 const createLogger = require('../core/logger');
 const logger = createLogger('web-server.course-route');
 const { generateUploadUrl, deleteFileGcs } = require('../core/file-util');
-const config = require('../config');
+const config = require('../core/config');
 const API = config.get('base-path');
 
 module.exports = app => {

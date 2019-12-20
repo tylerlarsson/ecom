@@ -10,7 +10,7 @@ const createLogger = require('../core/logger');
 const validator = require('../core/validator');
 const db = require('../db');
 
-const config = require('../config');
+const config = require('../core/config');
 const API = config.get('base-path');
 
 const router = express.Router();

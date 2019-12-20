@@ -2,10 +2,11 @@ const HttpStatus = require('http-status-codes');
 const express = require('express');
 const createLogger = require('../core/logger');
 const validator = require('../core/validator');
+const { error404 } = require('../core/util');
 const db = require('../db');
 const paginated = require('../middleware/page-request');
 const filter = require('../core/filter');
-const config = require('../config');
+const config = require('../core/config');
 const API = config.get('base-path');
 
 const router = express.Router();
@@ -420,9 +421,7 @@ module.exports = app => {
       }
       let user = await db.model.User.findById(req.params.user);
       if (!user) {
-        const error = new Error(`User with id ${req.params.user} is not found.`);
-        error.status = HttpStatus.NOT_FOUND;
-        throw error;
+        throw error404({ user }, req.params.user);
       }
       user = await user.deleteRole(req.params.role);
       res.json({

@@ -1,4 +1,4 @@
-const config = require('../config');
+const config = require('../core/config');
 const db = require('../db');
 const { readJson } = require('../core/file-util');
 const roles = config.get('default-role-filters');

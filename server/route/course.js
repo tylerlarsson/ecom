@@ -7,7 +7,7 @@ const db = require('../db');
 const { error404 } = require('../core/util');
 const paginated = require('../middleware/page-request');
 
-const config = require('../config');
+const config = require('../core/config');
 const API = config.get('base-path');
 
 module.exports = app => {
@@ -223,7 +223,7 @@ module.exports = app => {
       const course = await db.model.Course.findById(params.course);
       if (!course) {
         logger.error('course not found, id', params.course);
-        throw error404(course, params.course);
+        throw error404({ course }, params.course);
       }
       const sections = await course.createSection(body);
       res.json({ sections });
@@ -244,7 +244,7 @@ module.exports = app => {
     try {
       const course = await db.model.Course.findById(params.course);
       if (!course) {
-        throw error404(course, params.course);
+        throw error404({ course }, params.course);
       }
       const _course = await course.deleteSection(params.section);
       res.status(HttpStatus.ACCEPTED).json({
@@ -474,7 +474,7 @@ module.exports = app => {
       }
       const course = await db.model.Course.findById(params.course);
       if (!course) {
-        throw error404(course, params.course);
+        throw error404({ course }, params.course);
       }
       const lectures = await course.createLecture({ ...body, ...params });
       res.status(HttpStatus.CREATED).json({ lectures });
@@ -494,7 +494,7 @@ module.exports = app => {
     try {
       const course = await db.model.Course.findById(params.course);
       if (!course) {
-        throw error404(course, params.course);
+        throw error404({ course }, params.course);
       }
       const lectures = await course.deleteLecture(params.section, params.lecture);
       res.status(HttpStatus.ACCEPTED).json({
@@ -516,7 +516,7 @@ module.exports = app => {
     try {
       const course = await db.model.Course.findById(params.course);
       if (!course) {
-        throw error404(course, params.course);
+        throw error404({ course }, params.course);
       }
       const lectures = await course.editLecture({ ...params, ...body });
       res.status(HttpStatus.OK).json({
@@ -642,7 +642,7 @@ module.exports = app => {
       }
       const course = await db.model.Course.findById(params.course);
       if (!course) {
-        throw error404(course, params.course);
+        throw error404({ course }, params.course);
       }
       res.json({
         course
