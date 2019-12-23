@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Edit, Delete, Reorder, Image, OpenInNew, CloudDownload } from '@material-ui/icons';
+import { Edit, Delete, Reorder, Image, OpenInNew, CloudDownload, Attachment } from '@material-ui/icons';
 import { Paper } from '@material-ui/core';
 import { sortableHandle } from 'react-sortable-hoc';
 const HtmlToReactParser = require('html-to-react').Parser;
@@ -76,7 +76,7 @@ function LectureContent(props) {
       default:
         return (
           <div>
-            <Image className={classes.icon} /> Image
+            <Attachment className={classes.icon} /> Attachment
           </div>
         );
     }

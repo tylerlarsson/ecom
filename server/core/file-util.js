@@ -1,13 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { Storage } = require('@google-cloud/storage');
+const { Storage } = require('@google-cloud/storage/build/src/index');
 const mimeTypes = require('mime-types');
-const request = require('./request');
+const { request } = require('../core/util');
 const SEPARATOR = path.sep;
 
 const p = __filename.split(SEPARATOR);
-p.length -= 2;
+p.length -= 3;
 const BASE_PATH = p.join(SEPARATOR) + SEPARATOR;
 
 function checkFile(path) {
@@ -18,6 +18,8 @@ function checkFile(path) {
     });
   });
 }
+
+const isVideo = contentType => /video\/.*/.test(contentType);
 
 function getFilePath(...relativePath) {
   return BASE_PATH + relativePath.join(path.sep);
@@ -53,7 +55,7 @@ async function generateUploadUrl(filename, expires, bucket = 'course-images') {
     error.status = 422;
     throw error;
   }
-  if (!/image\/.*/.test(contentType)) {
+  if (isVideo(contentType)) {
     const error = new Error(`Content type is not allowed.`);
     error.status = 422;
     throw error;
@@ -97,6 +99,7 @@ module.exports = {
   checkFile,
   getFilePath,
   deleteFileGcs,
+  isVideo,
   generateUploadUrl,
   getSignedUrl,
   uploadVideo

@@ -1,8 +1,8 @@
-const config = require('../config');
+const config = require('../core/config');
 const db = require('../db');
-const { readJson } = require('../file-util');
+const { readJson } = require('../core/file-util');
 const roles = config.get('default-role-filters');
-const { data: rolesData = {} } = readJson('server', 'db-script', 'test-data', 'roles.json');
+const { data: rolesData = {} } = readJson('server', 'scripts', 'test-data', 'roles.json');
 
 (async function script() {
   try {

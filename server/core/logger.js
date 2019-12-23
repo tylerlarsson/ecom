@@ -1,7 +1,7 @@
 const moment = require('moment-timezone');
 const path = require('path');
-const winston = require('winston');
-require('winston-daily-rotate-file');
+const winston = require('winston/lib/winston');
+require('winston-daily-rotate-file/index');
 
 const TIME_FORMAT = 'YY-MMM-DD HH:mm:ss z';
 const timestamp = () => moment.tz(moment(), 'EST').format(TIME_FORMAT);

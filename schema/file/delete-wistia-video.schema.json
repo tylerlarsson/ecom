@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "delete video from wistia configuration schema",
+  "type": "object",
+  "required": ["hashedId"],
+  "additionalProperties": false,
+  "properties": {
+    "hashedId": {
+      "type": "string"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 const { resolve } = require('path');
 const ngrok = require('ngrok');
-const setup = require('./middlewares/frontendMiddleware');
-const createLogger = require('./logger');
+const setup = require('./core/webpack/frontendMiddleware');
+const createLogger = require('./core/logger');
 const logger = createLogger('web-server.dev');
 
 module.exports = (app, port) => {
@@ -25,8 +25,8 @@ module.exports = (app, port) => {
     try {
       const url = await ngrok.connect(port);
       logger.info('dev web server started', url, port);
-    } catch (e) {
-      return logger.error(e);
+    } catch (error) {
+      return logger.error(error);
     }
   });
 };

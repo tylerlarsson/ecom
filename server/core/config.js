@@ -1,9 +1,9 @@
 require('dotenv').config();
-const Ajv = require('ajv');
+const Ajv = require('ajv/lib/ajv');
 const ajv = new Ajv({ schemaId: 'auto', allErrors: true });
 
 const ENV = 'NODE_ENV';
-const nconf = require('nconf');
+const nconf = require('nconf/lib/nconf');
 const { readJson, BASE_PATH } = require('./file-util');
 
 nconf
@@ -14,8 +14,8 @@ nconf
 const env = nconf.get(ENV);
 
 const data = readJson('config', `${env}.json`);
-ajv.addSchema(readJson('schema', 'filter.schema.json'));
-const schema = readJson('schema', 'config.schema.json');
+ajv.addSchema(readJson('schema', 'common', 'filter.schema.json'));
+const schema = readJson('schema', 'common', 'config.schema.json');
 const validate = ajv.compile(schema);
 
 if (!validate(data)) {

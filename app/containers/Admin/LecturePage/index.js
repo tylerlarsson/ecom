@@ -165,7 +165,8 @@ class CourseCurriculum extends Component {
           const fileDate = signUrl && signUrl.split('?');
           const url = fileDate && fileDate[0];
           const { content } = this.state;
-          const contentNew = [{ type: 'image', url, name: file.name }, ...content];
+          const isImage = file && file.type && file.type.indexOf('image') > -1;
+          const contentNew = [{ type: isImage ? 'image' : 'file', url, name: file.name }, ...content];
           this.setState({ content: contentNew, files: [] }, () => {
             this.onChangeLecture({ text: JSON.stringify(contentNew) });
           });

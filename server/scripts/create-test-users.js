@@ -1,8 +1,8 @@
 const db = require('../db');
 
-const { readJson } = require('../file-util');
-const { data: firstnames } = readJson('server', 'db-script', 'test-data', 'first-name.json');
-const { data: lastnames } = readJson('server', 'db-script', 'test-data', 'last-name.json');
+const { readJson } = require('../core/file-util');
+const { data: firstnames } = readJson('server', 'scripts', 'test-data', 'first-name.json');
+const { data: lastnames } = readJson('server', 'scripts', 'test-data', 'last-name.json');
 
 const MAX_LOGIN_COUNT = 1000;
 const MIN_SIGN_IN_DATE = new Date('2019-01-01');
