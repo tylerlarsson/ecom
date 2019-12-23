@@ -12,12 +12,12 @@ export const COURSE_STEPS = {
 };
 
 export const PRICING_PLAN_TYPES = [
-  { id: 1, type: 'free', name: 'Free', title: 'Free Course', description: 'No Payments', isRecurring: false },
+  { id: 1, type: 'free', name: 'Free', title: 'Free CourseAdmin', description: 'No Payments', isRecurring: false },
   {
     id: 2,
     type: 'subscription',
     name: 'Subscription',
-    title: 'Subscription Course',
+    title: 'Subscription CourseAdmin',
     description: 'Montly or Annual Billing',
     isRecurring: true
   },
@@ -25,7 +25,7 @@ export const PRICING_PLAN_TYPES = [
     id: 3,
     type: 'one-time',
     name: 'One-Time Purchase',
-    title: 'Paid Course',
+    title: 'Paid CourseAdmin',
     description: 'A Single Payment',
     isRecurring: true
   },
