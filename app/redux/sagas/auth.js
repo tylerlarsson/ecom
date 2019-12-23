@@ -14,7 +14,7 @@ import * as types from 'constants/actionTypes';
 // for success or failure operation.
 /* eslint-disable no-use-before-define */
 export default function* watchAuthListener(context = {}) {
-  yield takeLatest(types.LOGIN_REQUEST, signInRequestSaga, context);
+  yield takeLatest(types.LOGIN_REQUEST, signInRequestSaga);
   yield takeLatest(types.FORGOT_PASSWORD_REQUEST, forgotPasswordRequestSaga);
   yield takeLatest(types.RESET_PASSWORD_REQUEST, resetPasswordRequestSaga);
   yield takeLatest(types.UPDATE_USER_REQUEST, updateUserSaga);
@@ -23,15 +23,12 @@ export default function* watchAuthListener(context = {}) {
   yield takeLatest(types.LOG_OUT_REQUEST, logOutRequestSaga, context);
 }
 
-export function* signInRequestSaga({ history }, { payload }) {
+export function* signInRequestSaga({ payload }) {
   try {
     const res = yield call(signInRequest, payload);
     if (res.success) {
       yield put({ type: types.LOGIN_SUCCESS, res });
-      if (history) {
-        // history.push('/');
-        window.location.href = '';
-      }
+      window.location.href = '';
     }
   } catch (error) {
     yield put({ type: types.LOGIN_FAILED, error });
@@ -96,13 +93,11 @@ export function* signUpRequestSaga({ history }, { payload }) {
   }
 }
 
-export function* logOutRequestSaga({ history }) {
+export function* logOutRequestSaga() {
   try {
     const res = yield call(logOut, {});
     yield put({ type: types.LOG_OUT_SUCCESS, res });
-    if (history) {
-      history.push('/');
-    }
+    window.location.href = '';
   } catch (error) {
     yield put({ type: types.SIGN_UP_FAILED, error });
   }
