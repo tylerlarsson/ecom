@@ -11,7 +11,7 @@ export const getImageSignUrl = payload => {
   }
 
   return axios
-    .post(`${API_ENDPOINT_URL}/file/image`, data)
+    .post(`${API_ENDPOINT_URL}/file/gcs`, data)
     .then(res => {
       console.log('signUrl res', res);
       if (res.data) {

@@ -392,7 +392,7 @@ class CourseCurriculum extends Component {
                 </Tabs>
                 <TabPanel value={tab} index={0}>
                   <Dropzone
-                    accept="image/*"
+                    // accept="image/*"
                     multiple={false}
                     onDrop={acceptedFiles => {
                       this.dropFiles(acceptedFiles);

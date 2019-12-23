@@ -59,30 +59,49 @@ const useStyles = makeStyles({
 function LectureContent(props) {
   const classes = useStyles();
   const { onEdit, onDelete, onDownload, data } = props;
-  const DragHandle = sortableHandle(() =>
-    data.type === 'text' ? (
-      <div>
-        <Reorder className={classes.icon} /> Text
-      </div>
-    ) : (
-      <div>
-        <Image className={classes.icon} /> Image
-      </div>
-    )
-  );
+  const DragHandle = sortableHandle(() => {
+    switch (data.type) {
+      case 'text':
+        return (
+          <div>
+            <Reorder className={classes.icon} /> Text
+          </div>
+        );
+      case 'image':
+        return (
+          <div>
+            <Image className={classes.icon} /> Image
+          </div>
+        );
+      default:
+        return (
+          <div>
+            <Image className={classes.icon} /> Image
+          </div>
+        );
+    }
+  });
+  let content;
+
+  switch (data.type) {
+    case 'text':
+      content = <div className={classes.text}>{htmlToReactParser.parse(data.content)}</div>;
+      break;
+    case 'image':
+    default:
+      content = (
+        <a target="_blank" href={data.url} className={classes.url}>
+          <OpenInNew className={classes.newIcon} /> {data.name}
+        </a>
+      );
+  }
   return (
     <Paper className={classes.wrap}>
       <div className={classes.type}>
         <DragHandle />
       </div>
       <div className={classes.content}>
-        {data.type === 'text' ? (
-          <div className={classes.text}>{htmlToReactParser.parse(data.content)}</div>
-        ) : (
-          <a target="_blank" href={data.url} className={classes.url}>
-            <OpenInNew className={classes.newIcon} /> {data.name}
-          </a>
-        )}
+        {content}
       </div>
       {data.type === 'text' ? (
         <Edit className={classes.editIcon} onClick={onEdit} />
