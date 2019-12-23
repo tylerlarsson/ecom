@@ -56,7 +56,8 @@ class Lecture extends Component {
     const { history, course } = this.props;
 
     if (course) {
-      const lecture = course.sections && course.sections[0] && course.sections[0].lectures && course.sections[0].lectures[0];
+      const lecture =
+        course.sections && course.sections[0] && course.sections[0].lectures && course.sections[0].lectures[0];
       if (lecture) {
         history.push(
           routes.LECTURE.replace(':course', course && course.id).replace(':lecture', lecture.id || lecture._id)
@@ -108,7 +109,8 @@ class Lecture extends Component {
     return (
       <>
         <LectureNavbar
-          courseId={course && (course.id || course._id)} user={{ name: 'Admin' }}
+          courseId={course && (course.id || course._id)}
+          user={{ name: 'Admin' }}
           prevLink={prevLink}
           nextLink={nextLink}
         />
@@ -141,7 +143,7 @@ Lecture.propTypes = {
   getCourseAction: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
-  course: PropTypes.objectOf(PropTypes.any),
+  course: PropTypes.objectOf(PropTypes.any)
 };
 
 const mapStateToProps = ({ courses }) => ({
