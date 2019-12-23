@@ -33,7 +33,7 @@ const styles = theme => ({
     height: 50,
     width: 'auto',
     lineHeight: '21px',
-    padding: '13px 68px',
+    padding: '13px 38px',
     textTransform: 'capitalize',
     '&:hover': {
       color: theme.palette.primary.main,
@@ -66,6 +66,10 @@ const styles = theme => ({
   margin: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1)
+  },
+  actions: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 });
 
@@ -124,6 +128,13 @@ class Login extends Component {
     if (this.validate()) {
       onSubmit({ email, password });
     }
+  };
+
+  handleRegister = event => {
+    const { history } = this.props;
+    event.preventDefault();
+
+    history.push(routes.SIGNUP);
   };
 
   render() {
@@ -185,16 +196,28 @@ class Login extends Component {
                 autoComplete="current-password"
               />
             </FormControl>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={this.handleSubmit}
-            >
-              Sign In
-            </Button>
+            <div className={classes.actions}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={this.handleRegister}
+              >
+                Register
+              </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={this.handleSubmit}
+              >
+                Login
+              </Button>
+            </div>
           </form>
         </div>
       </Container>

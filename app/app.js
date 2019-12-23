@@ -16,9 +16,7 @@ import { Provider } from 'react-redux';
 // import { ConnectedRouter } from 'connected-react-router';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
-import { ThemeProvider, createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
-import blue from '@material-ui/core/colors/blue';
-import grey from '@material-ui/core/colors/grey';
+import { ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
 
 // Import root app
 import App from 'containers/App';
@@ -30,22 +28,17 @@ import 'file-loader?name=.htaccess!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 import configureStore from './configureStore';
+import { theme } from './theme';
+
 require('dotenv').config();
 // Create redux store with history
 const initialState = {};
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
-let theme = createMuiTheme({
-  palette: {
-    primary: blue,
-    secondary: grey
-  }
-});
-theme = responsiveFontSizes(theme);
 
 const render = () => {
   ReactDOM.render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={responsiveFontSizes(theme)}>
       <BrowserRouter>
         <Provider store={store}>
           <App />

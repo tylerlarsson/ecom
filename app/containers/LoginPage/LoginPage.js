@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import LoginForm from 'components/LoginForm';
 import { signInAction } from 'redux/actions/auth';
+import Bg from 'assets/img/login-bg.jpg';
 
 const styles = theme => ({
   root: {
@@ -26,6 +27,14 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  columnRight: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: `url(${Bg}) no-repeat left top`,
+    backgroundSize: 'cover'
+  },
   title: {
     marginLeft: 50,
     fontSize: 47,
@@ -42,8 +51,11 @@ class LoginPage extends PureComponent {
     return (
       <div className={classes.root}>
         <Grid container spacing={0} className={classes.wrapper}>
-          <Grid item xs={12} className={classes.column}>
+          <Grid item xs={6} className={classes.column}>
             <LoginForm onSubmit={onSubmit} />
+          </Grid>
+          <Grid item xs={6} className={classes.columnRight}>
+            <div></div>
           </Grid>
         </Grid>
       </div>
