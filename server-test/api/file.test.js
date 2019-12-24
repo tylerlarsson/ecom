@@ -1,10 +1,13 @@
 const HttpStatus = require('http-status-codes');
 const request = require('supertest');
+const _path = require('path');
 const config = require('../../server/core/config');
 const app = require('../../server/web-server');
 const db = require('../../server/db/test');
 
 const path = `${config.get('base-path')}/file`;
+
+const buildPathToFile = file => _path.join(process.cwd(), `/server-test/mocks/${file}`);
 
 describe('file api test', () => {
   // POST /file/image
@@ -39,7 +42,9 @@ describe('file api test', () => {
 
   // POST /file/wistia/:lecture
   test('should raise error if schema is invalid', async () => {
-    const res = await request(app).post(`${path}/wistia/12345`);
+    const res = await request(app)
+      .post(`${path}/wistia/12345`)
+      .attach('file', Buffer.alloc(10));
     expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
 
@@ -47,37 +52,7 @@ describe('file api test', () => {
     const lecture = await db.lectureFactory();
     const res = await request(app)
       .post(`${path}/wistia/${lecture.id}`)
-      .attach('file', 'test.txt');
+      .attach('file', buildPathToFile('test.txt'));
     expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
-  });
-
-  test('should upload video to wista', async () => {
-    const lecture = await db.lectureFactory();
-    const res = await request(app)
-      .post(`${path}/wistia/${lecture.id}`)
-      .attach('file', 'SampleVideo_360x240_1mb.mp4');
-    expect(res.status).toBe(HttpStatus.OK);
-  });
-
-  // DELETE /file/wistia/:hashedId
-  test(`should raise error if schema is invalid`, async () => {
-    const res = await request(app).delete(`${path}/wistia/12345`);
-    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
-    expect(!!res.body.hashedId).toBe(true);
-    expect(!!res.body.id).toBe(true);
-    expect(!!res.body.name).toBe(true);
-  });
-
-  test(`should delete video from wistia`, async () => {
-    const lecture = await db.lectureFactory();
-    let res = await request(app)
-      .post(`${path}/wistia/${lecture.id}`)
-      .attach('file', './test.txt');
-    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
-    expect(!!res.body.hashedId).toBe(true);
-    expect(!!res.body.id).toBe(true);
-    expect(!!res.body.name).toBe(true);
-    res = await request(app).delete(`${path}/wistia/${res.body.hashedId}`);
-    expect(res.status).toBe(HttpStatus.OK);
   });
 });

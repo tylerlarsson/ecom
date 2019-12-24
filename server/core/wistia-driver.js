@@ -1,5 +1,6 @@
 const HttpStatus = require('http-status-codes');
-const { request, isHash } = require('./util');
+const FormData = require('form-data');
+const { request } = require('./util');
 const { isVideo } = require('./file-util');
 
 class WistiaDriver {
@@ -10,20 +11,24 @@ class WistiaDriver {
   }
 
   async uploadVideo(file) {
-    if (!isVideo(file.type)) {
+    if (!isVideo(file.mimetype)) {
       const error = new Error(`Content type is not allowed.`);
       error.status = HttpStatus.UNPROCESSABLE_ENTITY;
       throw error;
     }
-    const payload = await file.arrayBuffer().toString();
     const url = `${this.uploadUrl}?api_password=${this.apiKey}`;
+
+    const form = new FormData();
+    form.append('file', file.buffer, file.originalname);
+
     const response = await request({
       method: 'POST',
       headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data',
+        ...form.getHeaders()
       },
-      url,
-      payload
+      payload: form,
+      url
     });
     if (response.status === HttpStatus.BAD_REQUEST) {
       const error = new Error(JSON.stringify(response.data));
@@ -38,12 +43,7 @@ class WistiaDriver {
   }
 
   async deleteVideo(hashedId) {
-    if (!isHash(hashedId)) {
-      const error = new Error(`${hashedId} is not a hash.`);
-      error.status = HttpStatus.UNPROCESSABLE_ENTITY;
-      throw error;
-    }
-    const url = `${this.uploadUrl}/medias/${hashedId}.json`;
+    const url = `${this.apiUrl}/medias/${hashedId}.json?api_password=${this.apiKey}`;
     const response = await request({
       method: 'DELETE',
       url
