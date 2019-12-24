@@ -56,7 +56,7 @@ module.exports = {
       },
       {
         type: 'add',
-        path: '../../app/components/{{properCase name}}/tests/index.test.js',
+        path: '..test.js',
         templateFile: './component/test.js.hbs',
         abortOnFail: true,
       },

@@ -4,7 +4,14 @@ import grey from '@material-ui/core/colors/grey';
 
 export const theme = createMuiTheme({
   palette: {
-    primary: blue,
-    secondary: grey
+    primary: {
+      main: '#32446F',
+      inverse: '#fff',
+      link: '#556791'
+    },
+    secondary: {
+      main: '#95A5A6',
+      dark: '#212529'
+    }
   }
 });

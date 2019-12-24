@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import LoginForm from 'components/LoginForm';
+import LoginForm from 'components/Auth/LoginForm';
 import { signInAction } from 'redux/actions/auth';
 import Bg from 'assets/img/login-bg.jpg';
 

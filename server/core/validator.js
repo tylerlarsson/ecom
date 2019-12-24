@@ -103,6 +103,12 @@ const roleUserRoutesSchema = readJson('schema', 'role', 'role-user-routes.schema
 const deleteSectionSchema = readJson('schema', 'section', 'delete-section.schema.json');
 const courseSectionSchema = readJson('schema', 'section', 'new-section.schema.json');
 
+/**
+ * @namespace comments
+ */
+const createCommentSchema = readJson('schema', 'comments', 'create-comment.schema.json');
+const deleteCommentSchema = readJson('schema', 'comments', 'delete-comment.schema.json');
+
 module.exports = {
   name: ajv.compile(nameRequestSchema),
   newUser: ajv.compile(newUserSchema),
@@ -144,5 +150,7 @@ module.exports = {
   deletePage: ajv.compile(deletePageSchema),
   getCourse: ajv.compile(getCourseSchema),
   uploadWistia: ajv.compile(uploadWistiaSchema),
-  deleteWistiaVideo: ajv.compile(deleteWistiaVideoSchema)
+  deleteWistiaVideo: ajv.compile(deleteWistiaVideoSchema),
+  createComment: ajv.compile(createCommentSchema),
+  deleteComment: ajv.compile(deleteCommentSchema)
 };

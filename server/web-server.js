@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./core/swagger');
@@ -9,6 +10,7 @@ const logger = createLogger('web-server');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 app.use(`${config.get('base-path')}/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 require('./route/course')(app);
@@ -22,6 +24,7 @@ require('./route/navigation')(app);
 require('./route/file')(app);
 require('./route/oauth')(app);
 require('./route/page')(app);
+require('./route/comments')(app);
 
 const port = config.get('web-app:port');
 

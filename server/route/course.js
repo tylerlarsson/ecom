@@ -350,11 +350,9 @@ module.exports = app => {
    *       file:
    *         type: string
    *         example: file
-   *         required: true
    *       image:
    *         type: string
    *         example: image
-   *         required: true
    *       text:
    *         type: string
    *         example: lecture text

@@ -12,13 +12,14 @@ module.exports = {
     Course: require('./course'),
     PricingPlan: require('./pricing-plan'),
     Page: require('./page'),
-    Navigation: require('./navigation')
+    Navigation: require('./navigation'),
+    InternalComment: require('./internal-comment')
   },
   mocks: {
     mockUser: {
-      username: 'test',
+      username: `test${Math.random()}`,
       password: 'test',
-      email: 'test@test.test',
+      email: `test@test.test`,
       firstname: 'First',
       lastname: 'Last'
     },
@@ -61,6 +62,7 @@ module.exports = {
     },
     mockId: mongoose.Types.ObjectId()
   },
+
   courseFactory() {
     return this.model.Course.create(this.mocks.mockCourse);
   },
@@ -91,12 +93,20 @@ module.exports = {
     return { course: course._id || course.id, section: section._id || section.id, lecture };
   },
 
+  async commentFactory(content = 'test') {
+    const [{ _id: commentator }, { _id: user }] = await Promise.all([
+      this.userFactory({ username: 'testing1', email: 'email@email.email' }),
+      this.userFactory({ username: 'testing2', email: 'email1@email1.email' })
+    ]);
+    return this.model.InternalComment.create({ commentator, user, content });
+  },
+
   roleFactory() {
     return this.model.Role.create(this.mocks.mockRole);
   },
 
-  userFactory() {
-    return this.model.User.create(this.mocks.mockUser);
+  userFactory(usr) {
+    return this.model.User.create({ ...this.mocks.mockUser, ...usr });
   },
 
   beforeAll(done) {

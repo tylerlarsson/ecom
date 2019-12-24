@@ -136,15 +136,13 @@ module.exports = app => {
 
   router.post('/wistia/:lecture', upload.single('file'), async (req, res) => {
     try {
-      if (!validator.uploadWistia({ ...req.params, ...req.files })) {
-        logger.error('validation of upload file to wistia request failed', validator.deleteGcs.errors);
-        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.deleteGcs.errors });
+      if (!validator.uploadWistia({ ...req.params, file: req.file || (req.files && req.files.file) })) {
+        logger.error('validation of upload file to wistia request failed', validator.uploadWistia.errors);
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors: validator.uploadWistia.errors });
         return;
       }
-      // const { lecture } = req.params;
-      const { file } = req.files;
-      const { id, name, hashed_id: hashedId } = await wistia.uploadVideo(file);
-      res.json({ id, name, hashedId });
+      const { id, name, hashed_id: hashedId } = await wistia.uploadVideo(req.file, req.headers);
+      res.status(HttpStatus.CREATED).json({ id, name, hashedId });
     } catch (error) {
       res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
         errors: isValidJSONString(error.message) ? JSON.parse(error.message) : error.message
@@ -164,6 +162,7 @@ module.exports = app => {
         deleted
       });
     } catch (error) {
+      console.error(error);
       res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
         errors: isValidJSONString(error.message) ? JSON.parse(error.message) : error.message
       });

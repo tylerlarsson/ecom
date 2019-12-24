@@ -179,8 +179,8 @@ USER.methods.addNote = async function addNote(note) {
   return this.save();
 };
 
-USER.methods.deleteNote = async function deleteRole(note) {
-  const idx = this.notes.findIndex(r => r === note);
+USER.methods.deleteNote = async function deleteNote(note) {
+  const idx = this.notes.findIndex(r => r.toString() === note.toString());
   if (idx === -1) throw error404({ Note: null }, note);
   this.notes.splice(idx, 1);
   return this.save();

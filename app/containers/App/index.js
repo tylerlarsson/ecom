@@ -16,8 +16,8 @@ import HomePage from 'containers/HomePage/Loadable';
 import ProfilePage from 'containers/Admin/ProfilePage';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
-import RequireAuth from 'components/RequireAuth';
-import RequireNoAuth from 'components/RequireNoAuth';
+import RequireAuth from 'components/Auth/RequireAuth';
+import RequireNoAuth from 'components/Auth/RequireNoAuth';
 import { getRoles, getPermissions } from 'redux/actions/users';
 import routes from 'constants/routes.json';
 import GlobalStyle from '../../global-styles';

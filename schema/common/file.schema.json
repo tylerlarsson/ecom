@@ -3,28 +3,21 @@
   "$id": "#file",
   "title": "Web Api javascript file",
   "type": "object",
-  "additionalProperties": false,
-  "required": ["type", "size", "name"],
+  "additionalProperties": true,
+  "required": ["mimetype", "originalname", "size"],
   "properties": {
-    "type": {
+    "mimetype": {
       "type": "string",
       "pattern": "^[-\\w.]+/[-\\w.]+$"
     },
+    "originalname": {
+      "type": "string"
+    },
+    "encoding": {
+      "type": "string"
+    },
     "size": {
-      "type": "number",
-      "minimum": 0
-    },
-    "lastModified": {
-      "type": "string"
-    },
-    "lastModifiedDate": {
-      "type": "string"
-    },
-    "name": {
-      "type": "string"
-    },
-    "webkitRelativePath": {
-      "type": "string"
+      "type": "number"
     }
   }
 }

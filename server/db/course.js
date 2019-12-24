@@ -12,7 +12,8 @@ const COURSE_STATE = {
 
 const CONTENT_TYPE = {
   TEXT: 'text',
-  IMAGE: 'image'
+  IMAGE: 'image',
+  VIDEO: 'video'
 };
 
 const CONTENT = new mongoose.Schema(
@@ -29,8 +30,6 @@ const LECTURE = new mongoose.Schema(
   {
     index: { type: Number },
     title: { type: String, index: true },
-    file: String,
-    image: String,
     text: { type: String },
     allowComments: Boolean,
     state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
@@ -117,6 +116,23 @@ COURSE.statics.deleteCourse = async course => {
   }
 };
 
+COURSE.methods.getSection = async function getSection(section) {
+  const _section = this.sections.id(section);
+  if (!_section) {
+    throw error404({ _section }, section);
+  }
+  return _section;
+};
+
+COURSE.methods.getLecture = async function getLecture(section, lecture) {
+  const _section = await this.getSection(section);
+  const _lecture = _section.lectures.id(lecture);
+  if (!_lecture) {
+    throw error404({ _section }, section);
+  }
+  return _lecture;
+};
+
 COURSE.methods.createSection = async function createSection(args) {
   const { id, sections = [], ...rest } = args;
   if (!this.sections) {
@@ -125,10 +141,7 @@ COURSE.methods.createSection = async function createSection(args) {
   if (sections && sections.length) {
     for (const { id: secId, ...rest } of sections) {
       if (secId) {
-        const _section = this.sections.id(secId);
-        if (!_section) {
-          throw error404({ _section }, secId);
-        }
+        const _section = await this.getSection(secId);
         Object.assign(_section, rest);
       } else {
         this.sections.push({ lectures: [], ...rest });
@@ -138,7 +151,7 @@ COURSE.methods.createSection = async function createSection(args) {
     return this && this.sections;
   }
   if (id) {
-    const _section = this.sections.id(id);
+    const _section = await this.getSection(id);
     if (!_section) {
       throw error404({ Section: null }, id);
     }
@@ -153,16 +166,14 @@ COURSE.methods.createSection = async function createSection(args) {
 COURSE.methods.createLecture = async function createLecture(args) {
   const { section, ...rest } = args;
   if (this.sections && this.sections.length) {
-    const _section = this.sections.id(section);
-    if (!_section) {
-      throw error404({ section }, section);
-    }
+    const _section = await this.getSection(section);
     _section.lectures.push({
       createdAt: new Date(),
       ...rest
     });
     await this.save();
-    return this.sections.id(section).lectures;
+    const { lectures } = await this.getSection(section);
+    return lectures;
   }
   const error = new Error(`No sections associated with ${this._id} found.`);
   error.status = 404;
@@ -172,17 +183,12 @@ COURSE.methods.createLecture = async function createLecture(args) {
 COURSE.methods.editLecture = async function editLecture(args) {
   const { lecture, section, ...rest } = args;
   if (this.sections && this.sections.length) {
-    const _section = this.sections.id(section);
-    if (!_section) {
-      throw error404({ section }, section);
-    }
-    const _lecture = _section.lectures.id(lecture);
-    if (!_lecture) {
-      throw error404(lecture, lecture);
-    }
+    const _section = await this.getSection(section);
+    const _lecture = await this.getLecture(_section._id, lecture);
     Object.assign(_lecture, { ...rest, updatedAt: new Date() });
     await this.save();
-    return this.sections.id(section).lectures;
+    const { lectures } = await this.getSection(section);
+    return lectures;
   }
   const error = new Error(`No sections associated with ${this._id} found.`);
   error.status = 404;
@@ -190,29 +196,20 @@ COURSE.methods.editLecture = async function editLecture(args) {
 };
 
 COURSE.methods.deleteLecture = async function deleteLecture(section, lecture) {
-  const _section = this.sections.id(section);
-  if (!_section) {
-    throw error404(section, section);
-  } else {
-    const _lecture = _section.lectures.find(i => i._id.toString() === lecture);
-    if (!_lecture) {
-      throw error404(lecture, lecture);
-    }
-    _lecture.deleted = true;
-    _lecture.deletedAt = new Date();
-    return this.sections.id(section).lectures;
-  }
+  const _section = await this.getSection(section);
+  const _lecture = await this.getLecture(_section._id, lecture);
+  _lecture.deleted = true;
+  _lecture.deletedAt = new Date();
+  await this.save();
+  const { lectures } = await this.getSection(section);
+  return lectures;
 };
 
 COURSE.methods.deleteSection = async function deleteSection(section) {
-  const subDoc = this.sections.id(section);
-  if (!subDoc) {
-    throw error404(section, section);
-  } else {
-    subDoc.deleted = true;
-    subDoc.deletedAt = new Date();
-    return this.save();
-  }
+  const subDoc = await this.getSection(section);
+  subDoc.deleted = true;
+  subDoc.deletedAt = new Date();
+  return this.save();
 };
 
 COURSE.methods.addNavigation = function addNavigation(navigation) {

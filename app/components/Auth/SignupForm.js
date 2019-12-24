@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import InputBase from '@material-ui/core/InputBase';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import routes from '../constants/routes.json';
+import routes from '../../constants/routes.json';
 
 const styles = theme => ({
   paper: {
