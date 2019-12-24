@@ -3,6 +3,7 @@ const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
 const { softDeletedMiddleware, removeNestedSoftDeleted } = require('../middleware/soft-deleted');
 const { populatePricing } = require('../middleware/course-populate');
+const { error404 } = require('../core/util');
 
 const COURSE_STATE = {
   DRAFT: 'draft',
@@ -11,7 +12,8 @@ const COURSE_STATE = {
 
 const CONTENT_TYPE = {
   TEXT: 'text',
-  IMAGE: 'image'
+  IMAGE: 'image',
+  VIDEO: 'video'
 };
 
 const CONTENT = new mongoose.Schema(
@@ -28,8 +30,6 @@ const LECTURE = new mongoose.Schema(
   {
     index: { type: Number },
     title: { type: String, index: true },
-    file: String,
-    image: String,
     text: { type: String },
     allowComments: Boolean,
     state: { type: String, enum: [COURSE_STATE.ACTIVE, COURSE_STATE.DRAFT], index: true },
@@ -99,9 +99,7 @@ COURSE.statics.update = async args => {
   const { id, ...rest } = args;
   const course = await Course.findById(id);
   if (!course) {
-    const error = new Error(`No course was found with id ${id}`);
-    error.status = 404;
-    throw error;
+    throw error404({ course }, id);
   }
   Object.assign(course, { ...rest });
   return course.save();
@@ -110,14 +108,29 @@ COURSE.statics.update = async args => {
 COURSE.statics.deleteCourse = async course => {
   const _course = await Course.findById(course);
   if (!_course) {
-    const error = new Error(`No course with id ${course} is found.`);
-    error.status = 404;
-    throw error;
+    throw error404(course, course);
   } else {
     _course.deleted = true;
     _course.deletedAt = new Date();
     return _course.save();
   }
+};
+
+COURSE.methods.getSection = async function getSection(section) {
+  const _section = this.sections.id(section);
+  if (!_section) {
+    throw error404({ _section }, section);
+  }
+  return _section;
+};
+
+COURSE.methods.getLecture = async function getLecture(section, lecture) {
+  const _section = await this.getSection(section);
+  const _lecture = _section.lectures.id(lecture);
+  if (!_lecture) {
+    throw error404({ _section }, section);
+  }
+  return _lecture;
 };
 
 COURSE.methods.createSection = async function createSection(args) {
@@ -128,12 +141,7 @@ COURSE.methods.createSection = async function createSection(args) {
   if (sections && sections.length) {
     for (const { id: secId, ...rest } of sections) {
       if (secId) {
-        const _section = this.sections.id(secId);
-        if (!_section) {
-          const error = new Error(`Section with id ${secId} is not found.`);
-          error.status = 404;
-          throw error;
-        }
+        const _section = await this.getSection(secId);
         Object.assign(_section, rest);
       } else {
         this.sections.push({ lectures: [], ...rest });
@@ -143,11 +151,9 @@ COURSE.methods.createSection = async function createSection(args) {
     return this && this.sections;
   }
   if (id) {
-    const _section = this.sections.id(id);
+    const _section = await this.getSection(id);
     if (!_section) {
-      const error = new Error(`Section with id ${id} is not found.`);
-      error.status = 404;
-      throw error;
+      throw error404({ Section: null }, id);
     }
     Object.assign(_section, { ...rest });
   } else {
@@ -160,18 +166,14 @@ COURSE.methods.createSection = async function createSection(args) {
 COURSE.methods.createLecture = async function createLecture(args) {
   const { section, ...rest } = args;
   if (this.sections && this.sections.length) {
-    const _section = this.sections.id(section);
-    if (!_section) {
-      const error = new Error(`No section with id ${section} is found`);
-      error.status = 404;
-      throw error;
-    }
+    const _section = await this.getSection(section);
     _section.lectures.push({
       createdAt: new Date(),
       ...rest
     });
     await this.save();
-    return this.sections.id(section).lectures;
+    const { lectures } = await this.getSection(section);
+    return lectures;
   }
   const error = new Error(`No sections associated with ${this._id} found.`);
   error.status = 404;
@@ -181,21 +183,12 @@ COURSE.methods.createLecture = async function createLecture(args) {
 COURSE.methods.editLecture = async function editLecture(args) {
   const { lecture, section, ...rest } = args;
   if (this.sections && this.sections.length) {
-    const _section = this.sections.id(section);
-    if (!_section) {
-      const error = new Error(`No section with id ${section} is found`);
-      error.status = 404;
-      throw error;
-    }
-    const _lecture = _section.lectures.id(lecture);
-    if (!_lecture) {
-      const error = new Error(`No lecture with id ${lecture} is found`);
-      error.status = 404;
-      throw error;
-    }
+    const _section = await this.getSection(section);
+    const _lecture = await this.getLecture(_section._id, lecture);
     Object.assign(_lecture, { ...rest, updatedAt: new Date() });
     await this.save();
-    return this.sections.id(section).lectures;
+    const { lectures } = await this.getSection(section);
+    return lectures;
   }
   const error = new Error(`No sections associated with ${this._id} found.`);
   error.status = 404;
@@ -203,35 +196,20 @@ COURSE.methods.editLecture = async function editLecture(args) {
 };
 
 COURSE.methods.deleteLecture = async function deleteLecture(section, lecture) {
-  const _section = this.sections.id(section);
-  if (!_section) {
-    const error = new Error(`Section for id ${section} is not found`);
-    error.status = 404;
-    throw error;
-  } else {
-    const _lecture = _section.lectures.find(i => i._id.toString() === lecture);
-    if (!_lecture) {
-      const error = new Error(`Lecture for id ${lecture} is not found`);
-      error.status = 404;
-      throw error;
-    }
-    _lecture.deleted = true;
-    _lecture.deletedAt = new Date();
-    return this.sections.id(section).lectures;
-  }
+  const _section = await this.getSection(section);
+  const _lecture = await this.getLecture(_section._id, lecture);
+  _lecture.deleted = true;
+  _lecture.deletedAt = new Date();
+  await this.save();
+  const { lectures } = await this.getSection(section);
+  return lectures;
 };
 
 COURSE.methods.deleteSection = async function deleteSection(section) {
-  const subDoc = this.sections.id(section);
-  if (!subDoc) {
-    const error = new Error(`Section for id ${section} is not found.`);
-    error.status = 404;
-    throw error;
-  } else {
-    subDoc.deleted = true;
-    subDoc.deletedAt = new Date();
-    return this.save();
-  }
+  const subDoc = await this.getSection(section);
+  subDoc.deleted = true;
+  subDoc.deletedAt = new Date();
+  return this.save();
 };
 
 COURSE.methods.addNavigation = function addNavigation(navigation) {
@@ -242,9 +220,7 @@ COURSE.methods.addNavigation = function addNavigation(navigation) {
 COURSE.methods.removeNavigation = function removeNavigation(navigation) {
   const idxNav = this.navigation.findIndex(i => i._id === navigation);
   if (!idxNav) {
-    const error = new Error(`No nav with id ${navigation} is found.`);
-    error.status = 404;
-    throw error;
+    throw error404(navigation, navigation);
   }
   this.navigation.splice(idxNav, 1);
   return this.save();
@@ -258,9 +234,7 @@ COURSE.methods.addPricing = function addPricing(pricing) {
 COURSE.methods.removePricing = async function removePricing(pricing) {
   const _pricing = this.pricingPlans.findIndex(plan => plan._id === pricing);
   if (!_pricing) {
-    const error = new Error(`Pricing plan with id ${pricing} is not found in Course model.`);
-    error.status = 404;
-    throw error;
+    throw error404(pricing, pricing);
   }
   this.pricingPlans.splice(_pricing, 1);
   return this.save();
