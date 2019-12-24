@@ -23,6 +23,7 @@ import routes from 'constants/routes.json';
 import GlobalStyle from '../../global-styles';
 import LoginPage from '../LoginPage/LoginPage';
 import SignupPage from '../SignupPage/SignupPage';
+import ForgotPassword from '../ForgotPassword/ForgotPassword';
 import AdminPage from '../Admin';
 import Course from '../Courses/Course';
 import Lecture from '../Lecture/Lecture';
@@ -42,6 +43,7 @@ class App extends Component {
           <Route exact path={routes.HOME} component={RequireAuth(HomePage)} />
           <Route exact path={routes.LOGIN} component={RequireNoAuth(LoginPage)} />
           <Route exact path={routes.SIGNUP} component={RequireNoAuth(SignupPage)} />
+          <Route exact path={routes.FORGOT_PASSWORD} component={RequireNoAuth(ForgotPassword)} />
           <Route path={routes.ADMIN} component={RequireAuth(AdminPage)} />
           <Route exact path={routes.COURSES_ENROLLED} component={RequireAuth(Course)} />
           <Route exact path={routes.LECTURE} component={RequireAuth(Lecture)} />

@@ -12,7 +12,7 @@ import {
   Checkbox,
   FormControlLabel
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import routes from 'constants/routes.json';
 import Button from 'components/Button/Button';
@@ -197,4 +197,4 @@ Login.propTypes = {
   login: PropTypes.object,
   classes: PropTypes.object
 };
-export default connect(mapStateToProps)(withStyles(styles)(Login));
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(Login)));

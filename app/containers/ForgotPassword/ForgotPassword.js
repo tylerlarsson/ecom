@@ -48,7 +48,7 @@ const styles = theme => ({
   }
 });
 
-class LoginPage extends PureComponent {
+class ForgotPassword extends PureComponent {
   render() {
     const { classes, onSubmit } = this.props;
 
@@ -75,7 +75,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-LoginPage.propTypes = {
+ForgotPassword.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   classes: PropTypes.object
 };
@@ -84,5 +84,5 @@ export default withRouter(
   connect(
     null,
     mapDispatchToProps
-  )(withStyles(styles)(LoginPage))
+  )(withStyles(styles)(ForgotPassword))
 );
