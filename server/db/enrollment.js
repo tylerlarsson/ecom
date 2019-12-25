@@ -5,29 +5,59 @@ const User = require('./user');
 const Course = require('./course');
 const { error404 } = require('../core/util');
 
+const PAYMENT_TYPES = {
+  STRIPE: 'stripe',
+  PAYPAL: 'paypal'
+};
+
+const PAYMENT = new mongoose.Schema(
+  {
+    amount: { type: Number, required: true },
+    earnings: Number,
+    type: { type: String, required: true, enum: Object.values(PAYMENT_TYPES) },
+    thirdPartyId: { type: String, required: true, index: true },
+    description: String,
+    affiliate: String,
+    created: Date
+  },
+  DEFAULT_OPTIONS
+);
+
 const ENROLLMENT = new mongoose.Schema(
   {
     user: { type: ObjectId, ref: 'user', required: true },
-    course: { type: ObjectId, ref: 'course', required: true }
+    course: { type: ObjectId, ref: 'course', required: true },
+    pricingPlan: { type: ObjectId, ref: 'pricing-plan', required: true },
+    competed: [ObjectId],
+    payments: [PAYMENT],
+    deleted: { type: Boolean, default: false },
+    created: Date,
+    deletedAt: Date
   },
   DEFAULT_OPTIONS
 );
 
 ENROLLMENT.statics.enroll = async args => {
-  const { user: _user, course: _course } = args;
+  const { user: _user, course: _course, payment } = args;
   const [user, course] = await Promise.all([User.findById(_user), Course.findById(_course)]);
-  if (!user) throw error404({ user }, _user);
-  if (!course) throw error404({ course }, _course);
-  const enrollment = new Enrollment(args).save();
+  if (!user) {
+    throw error404({ user }, _user);
+  } else if (!course) {
+    throw error404({ course }, _course);
+  }
+  const enrollment = new Enrollment({ ...args, created: new Date() });
+  enrollment.payments.push(payment);
   await user.addEnrollment(enrollment._id.toString());
-  return enrollment;
+  return enrollment.save();
 };
 
 ENROLLMENT.methods.delete = async function delete_() {
   const user = await User.findById(this.user);
   if (!user) throw error404({ user }, this.user);
-  await Promise.all([Enrollment.findByIdAndDelete(this._id), user.discardEnrollment(this._id)]);
-  return this;
+  this.deleted = true;
+  this.deletedAt = new Date();
+  await user.discardEnrollment(this._id);
+  return this.save();
 };
 
 const Enrollment = mongoose.model('enrollment', ENROLLMENT);

@@ -5,7 +5,7 @@ const HttpStatus = require('http-status-codes');
 const validator = require('../core/validator');
 const router = express.Router();
 const createLogger = require('../core/logger');
-const wistia = require('../core/wistia-driver');
+const wistia = require('../core/drivers/wistia-driver');
 const logger = createLogger('web-server.course-route');
 const upload = multer({ storage: multer.memoryStorage() });
 const { generateUploadUrl, deleteFileGcs } = require('../core/file-util');
@@ -162,7 +162,6 @@ module.exports = app => {
         deleted
       });
     } catch (error) {
-      console.error(error);
       res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
         errors: isValidJSONString(error.message) ? JSON.parse(error.message) : error.message
       });
