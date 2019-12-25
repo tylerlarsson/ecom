@@ -3,6 +3,7 @@ const { ObjectId } = mongoose.Schema.Types;
 const bcrypt = require('bcryptjs');
 const { DEFAULT_OPTIONS } = require('./common');
 const Role = require('./role');
+const Enrollment = require('./enrollment');
 const { error404 } = require('../core/util');
 const { sendMail } = require('../core/mail');
 
@@ -15,6 +16,7 @@ const USER = new mongoose.Schema(
     lastname: { type: String, index: true },
     roles: [{ type: String, ref: 'role' }],
     notes: [{ type: ObjectId, ref: 'internal-comment' }],
+    enrolledIn: [{ type: ObjectId, ref: 'enrollment' }],
     loginCount: { type: Number, default: 0 },
     loginLast: { type: Date, default: null },
     created: { type: Date, default: null },
@@ -186,6 +188,38 @@ USER.methods.deleteNote = async function deleteNote(note) {
   return this.save();
 };
 
+USER.methods.addEnrollment = async function addEnrollment(enrollment) {
+  const _enrollment = await Enrollment.findById(enrollment);
+  if (!_enrollment) {
+    throw error404({ enrollment }, enrollment);
+  } else {
+    const idx = this.enrolledIn.findIndex(i => i.toString() === enrollment);
+    if (idx !== -1) {
+      const error = new Error(`User ${this._id} already enrolled in ${enrollment}.`);
+      error.status = 400;
+      throw error;
+    }
+    this.enrolledIn.push(enrollment);
+    return this.save();
+  }
+};
+
+USER.methods.discardEnrollment = async function discardEnrollment(enrollment) {
+  const _enrollment = await Enrollment.findById(enrollment);
+  if (!_enrollment) {
+    throw error404({ enrollment }, enrollment);
+  } else {
+    const idx = this.enrolledIn.findIndex(i => i.toString() === enrollment);
+    if (idx === -1) {
+      const error = new Error(`User is not enrolled in ${enrollment}`);
+      error.status = 404;
+      throw error;
+    }
+    this.enrolledIn.splice(idx, 1);
+    return this.save();
+  }
+};
+
 USER.methods.addRole = async function addRole(roleName) {
   if (!this.roles) {
     this.roles = [];
@@ -199,9 +233,7 @@ USER.methods.addRole = async function addRole(roleName) {
 
 USER.methods.deleteRole = async function deleteRole(roleName) {
   const idx = this.roles.findIndex(r => r === roleName);
-  console.log(this.roles, !!idx);
   if (idx === -1) {
-    console.log('her');
     throw error404({ role: null }, roleName);
   }
   this.roles.splice(idx, 1);

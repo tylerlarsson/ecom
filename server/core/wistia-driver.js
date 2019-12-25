@@ -10,6 +10,20 @@ class WistiaDriver {
     this.uploadUrl = 'https://upload.wistia.com';
   }
 
+  handleError = response => {
+    const error = new Error(JSON.stringify(response.data));
+    error.status = response.status;
+    throw error;
+  };
+
+  normalizeHeatmap = heatmap => ({
+    receivedAt: heatmap && heatmap.received_at,
+    eventKey: heatmap && heatmap.event_key,
+    percentViewed: heatmap && heatmap.percent_viewed,
+    iFrame: heatmap && heatmap.iframe_heatmap_url,
+    mediaId: heatmap && heatmap.media_id
+  });
+
   async uploadVideo(file) {
     if (!isVideo(file.mimetype)) {
       const error = new Error(`Content type is not allowed.`);
@@ -54,6 +68,18 @@ class WistiaDriver {
       throw error;
     }
     return response.data;
+  }
+
+  async getVideoHeatMap(videoId, visitor) {
+    const url = `${this.apiUrl}/stats/events.json?api_password=${
+      this.apiKey
+    }&visitor_key=${visitor}&media_id=${videoId}`;
+    const response = await request({
+      method: 'GET',
+      url
+    });
+    this.handleError(response);
+    return response.data.map(i => this.normalizeHeatmap(i));
   }
 
   async getMediaStats(mediaId) {
