@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "create link configuration schema",
+  "type": "object",
+  "required": ["file", "lecture"],
+  "additionalProperties": false,
+  "properties": {
+    "file": {
+      "$ref": "#file"
+    },
+    "lecture": {
+      "$ref": "#mongo-id"
+    }
+  }
+}

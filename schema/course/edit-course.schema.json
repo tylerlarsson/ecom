@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "edit course configuration schema",
+  "type": "object",
+  "required": ["params", "body"],
+  "additionalProperties": false,
+  "properties": {
+    "params": {
+      "type": "object",
+      "required": ["course"],
+      "properties": {
+        "course": {
+          "$ref": "#mongo-id"
+        }
+      }
+    },
+    "body": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 3
+        },
+        "subtitle": {
+          "type": "string",
+          "minLength": 3
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "anyOf": [{ "$ref": "#mongo-id" }, { "$ref": "#name" }, { "type": "string", "format": "email" }]
+          },
+          "minItems": 1
+        },
+        "state": {
+          "type": "string",
+          "enum": ["active", "draft"]
+        }
+      }
+    }
+  }
+}
