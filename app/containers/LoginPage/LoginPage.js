@@ -5,8 +5,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import LoginForm from 'components/LoginForm';
+import LoginForm from 'components/Auth/LoginForm';
 import { signInAction } from 'redux/actions/auth';
+import Bg from 'assets/img/login-bg.jpg';
+import AuthHeader from 'components/Auth/AuthHeader';
+import AuthFooter from 'components/Auth/AuthFooter';
+import AuthReview from 'components/Auth/AuthReview';
+import Reviewer from 'assets/img/faces/oval.jpg';
 
 const styles = theme => ({
   root: {
@@ -24,7 +29,17 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'relative'
+  },
+  columnRight: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: `url(${Bg}) no-repeat left top`,
+    backgroundSize: 'cover',
+    position: 'relative'
   },
   title: {
     marginLeft: 50,
@@ -42,8 +57,20 @@ class LoginPage extends PureComponent {
     return (
       <div className={classes.root}>
         <Grid container spacing={0} className={classes.wrapper}>
-          <Grid item xs={12} className={classes.column}>
+          <Grid item xs={6} className={classes.column}>
+            <AuthHeader />
             <LoginForm onSubmit={onSubmit} />
+            <AuthFooter />
+          </Grid>
+          <Grid item xs={6} className={classes.columnRight}>
+            <AuthReview
+              text="My shop is making $30000 a month while I relax in Sousa, Dominican Republic. Living the dream!"
+              reviewer={{
+                avatar: Reviewer,
+                name: 'Harry Holder',
+                username: '@harryholder'
+              }}
+            />
           </Grid>
         </Grid>
       </div>
