@@ -60,13 +60,16 @@ const styles = theme => ({
       lineHeight: '40px',
       border: '1px solid #DFE5F9',
       '& input': {
-        height: '40px !important',
-        lineHeight: '40px !important',
+        height: '38px !important',
+        lineHeight: '38px !important',
         padding: 0
       },
-      '& input:-internal-autofill-selected': {
-        backgroundColor: 'transparent !important'
+      '& input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active ': {
+        WebkitBoxShadow: '0 0 0 30px white inset !important'
       }
+    },
+    '& .MuiOutlinedInput-adornedEnd': {
+      paddingRight: 0
     }
   },
   divider: {
@@ -92,7 +95,11 @@ const styles = theme => ({
     }
   },
   icon: {
-    color: theme.palette.secondary.main
+    color: theme.palette.secondary.icon
+  },
+  iconVis: {
+    color: '#DFE5F9',
+    fontSize: 18
   }
 });
 

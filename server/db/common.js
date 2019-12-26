@@ -8,6 +8,14 @@ const DEFAULT_OPTIONS = {
     }
   }
 };
+
+const PRICING_PLAN_TYPE = {
+  FREE: 'free',
+  SUBSCRIPTION: 'subscription',
+  ONE_TIME: 'one-time',
+  PAYMENT_PLAN: 'payment-plan'
+};
+
 /* eslint-enable no-param-reassign */
 
-module.exports = { DEFAULT_OPTIONS };
+module.exports = { DEFAULT_OPTIONS, PRICING_PLAN_TYPE };

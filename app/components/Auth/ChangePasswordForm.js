@@ -118,7 +118,7 @@ class Login extends Component {
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}
                       >
-                        {showPassword ? <Visibility className={classes.icon} /> : <VisibilityOff className={classes.icon} />}
+                        {showPassword ? <Visibility className={classes.iconVis} /> : <VisibilityOff className={classes.iconVis} />}
                       </IconButton>
                     </InputAdornment>
                   )
@@ -152,7 +152,7 @@ class Login extends Component {
                         onClick={this.handleClickShowConfirmPassword}
                         onMouseDown={this.handleMouseDownPassword}
                       >
-                        {showPassword ? <Visibility className={classes.icon} /> : <VisibilityOff className={classes.icon} />}
+                        {showPassword ? <Visibility className={classes.iconVis} /> : <VisibilityOff className={classes.iconVis} />}
                       </IconButton>
                     </InputAdornment>
                   )

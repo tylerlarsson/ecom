@@ -14,6 +14,7 @@ module.exports = {
     PricingPlan: require('./pricing-plan'),
     Page: require('./page'),
     Navigation: require('./navigation'),
-    InternalComment: require('./internal-comment')
+    InternalComment: require('./internal-comment'),
+    Enrollment: require('./enrollment')
   }
 };

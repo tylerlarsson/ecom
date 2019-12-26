@@ -135,7 +135,7 @@ class Login extends Component {
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}
                       >
-                        {showPassword ? <Visibility className={classes.icon} /> : <VisibilityOff className={classes.icon} />}
+                        {showPassword ? <Visibility className={classes.iconVis} /> : <VisibilityOff className={classes.iconVis} />}
                       </IconButton>
                     </InputAdornment>
                   )
@@ -194,6 +194,7 @@ Login.propTypes = {
   onCheckChange: PropTypes.func,
   checked: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any),
   login: PropTypes.object,
   classes: PropTypes.object
 };

@@ -11,7 +11,8 @@ export const theme = createMuiTheme({
     },
     secondary: {
       main: '#95A5A6',
-      dark: '#212529'
+      dark: '#212529',
+      icon: '#cad2d2'
     }
   }
 });

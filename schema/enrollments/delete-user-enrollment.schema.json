@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "delete link configuration schema",
+  "type": "object",
+  "required": ["enrollment", "user"],
+  "additionalProperties": false,
+  "properties": {
+    "enrollment": {
+      "$ref": "#mongo-id"
+    },
+    "user": {
+      "$ref": "#mongo-id"
+    }
+  }
+}
