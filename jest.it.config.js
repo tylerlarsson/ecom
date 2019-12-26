@@ -16,11 +16,12 @@ module.exports = {
   collectCoverageFrom: [
     'server/**/*.js',
     '!server/web-server.dev.js',
-    '!server/db-script/*.js',
+    '!server/scripts/*.js',
     '!server/db/test.js',
     '!server/middlewares/*.js',
     '!server/config.js'
   ],
   coverageDirectory: 'coverage-it',
-  testRegex: 'server-test/.*\\.test\\.js$'
+  // testRegex: 'server-test/.*\\.test\\.js$',
+  testRegex: 'server-test/api/file.test\\.js$'
 };

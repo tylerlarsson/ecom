@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "new internal comment configuration schema",
+  "type": "object",
+  "required": ["comment"],
+  "additionalProperties": false,
+  "properties": {
+    "comment": {
+      "$ref": "#mongo-id"
+    }
+  }
+}

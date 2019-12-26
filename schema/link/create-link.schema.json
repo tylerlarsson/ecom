@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "create link configuration schema",
+  "type": "object",
+  "required": ["params", "body"],
+  "additionalProperties": false,
+  "properties": {
+    "params": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["navigation"],
+      "properties": {
+        "navigation": {
+          "$ref": "#mongo-id"
+        }
+      }
+    },
+    "body": {
+      "type": "object",
+      "required": ["text"],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "visibleTo": {
+          "type": "string",
+          "enum": ["all", "logged-in", "logged-out", "nobody"]
+        }
+      }
+    }
+  }
+}

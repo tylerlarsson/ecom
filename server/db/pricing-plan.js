@@ -1,15 +1,8 @@
 const mongoose = require('mongoose');
 const Course = require('./course');
 const { ObjectId } = mongoose.Schema.Types;
-const { DEFAULT_OPTIONS } = require('./common');
+const { DEFAULT_OPTIONS, PRICING_PLAN_TYPE } = require('./common');
 const { softDeletedMiddleware } = require('../middleware/soft-deleted');
-
-const PRICING_PLAN_TYPE = {
-  FREE: 'free',
-  SUBSCRIPTION: 'subscription',
-  ONE_TIME: 'one-time',
-  PAYMENT_PLAN: 'payment-plan'
-};
 
 const PRICING_PLAN = new mongoose.Schema(
   {

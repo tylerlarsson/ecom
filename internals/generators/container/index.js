@@ -71,7 +71,7 @@ module.exports = {
       },
       {
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/tests/index.test.js',
+        path: '..test.js',
         templateFile: './container/test.js.hbs',
         abortOnFail: true,
       },
@@ -99,8 +99,8 @@ module.exports = {
       });
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/tests/actions.test.js',
-        templateFile: './container/actions.test.js.hbs',
+        path: '..test.js',
+        templateFile: '.test.js.hbs',
         abortOnFail: true,
       });
 
@@ -122,8 +122,8 @@ module.exports = {
       actions.push({
         type: 'add',
         path:
-          '../../app/containers/{{properCase name}}/tests/selectors.test.js',
-        templateFile: './container/selectors.test.js.hbs',
+          '..test.js',
+        templateFile: '.test.js.hbs',
         abortOnFail: true,
       });
 
@@ -136,8 +136,8 @@ module.exports = {
       });
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/tests/reducer.test.js',
-        templateFile: './container/reducer.test.js.hbs',
+        path: '..test.js',
+        templateFile: '.test.js.hbs',
         abortOnFail: true,
       });
     }
@@ -152,8 +152,8 @@ module.exports = {
       });
       actions.push({
         type: 'add',
-        path: '../../app/containers/{{properCase name}}/tests/saga.test.js',
-        templateFile: './container/saga.test.js.hbs',
+        path: '..test.js',
+        templateFile: '.test.js.hbs',
         abortOnFail: true,
       });
     }

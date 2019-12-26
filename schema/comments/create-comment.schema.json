@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "new internal comment configuration schema",
+  "type": "object",
+  "required": ["user", "content", "commentator"],
+  "additionalProperties": false,
+  "properties": {
+    "user": {
+      "$ref": "#mongo-id"
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "commentator": {
+      "$ref": "#mongo-id"
+    }
+  }
+}
