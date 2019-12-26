@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import ForgotPasswordForm from 'components/Auth/ForgotPasswordForm';
+import ChangePasswordForm from 'components/Auth/ChangePasswordForm';
 import { signInAction } from 'redux/actions/auth';
 import Bg from 'assets/img/forgot-bg.jpg';
 import AuthHeader from 'components/Auth/AuthHeader';
@@ -52,9 +52,9 @@ const styles = theme => ({
 });
 
 class ForgotPassword extends PureComponent {
-  onSubmit = email => {
-    const { history } = this.props;
-    history.push(routes.RESEND_PASSWORD);
+  onSubmit = password => {
+    // TODO send request
+    console.log('onSubmit', password);
   };
 
   render() {
@@ -65,7 +65,7 @@ class ForgotPassword extends PureComponent {
         <Grid container spacing={0} className={classes.wrapper}>
           <Grid item xs={6} className={classes.column}>
             <AuthHeader />
-            <ForgotPasswordForm onSubmit={this.onSubmit} />
+            <ChangePasswordForm onSubmit={this.onSubmit} />
             <AuthFooter />
           </Grid>
           <Grid item xs={6} className={classes.columnRight}>
