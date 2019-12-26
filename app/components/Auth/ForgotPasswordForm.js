@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import {
-  CssBaseline,
-  FormControl,
-  Typography,
-  Container,
-  TextField,
-  InputAdornment
-} from '@material-ui/core';
+import { CssBaseline, FormControl, Typography, Container, TextField, InputAdornment } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from 'components/Button/Button';
-import { Email } from '@material-ui/icons';
+import { EmailOutlined } from '@material-ui/icons';
 import EmailIcon from 'assets/img/email-icon.svg';
 import styles from './styles';
 
@@ -30,7 +23,7 @@ class ForgotPasswordForm extends Component {
   };
 
   validate = () => {
-    const { email, } = this.state;
+    const { email } = this.state;
 
     if (!email.trim()) {
       return false;
@@ -80,7 +73,7 @@ class ForgotPasswordForm extends Component {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Email className={classes.icon} />
+                      <EmailOutlined className={classes.icon} />
                     </InputAdornment>
                   )
                 }}
@@ -91,10 +84,7 @@ class ForgotPasswordForm extends Component {
             </div>
             <div className={classes.divider} style={{ marginTop: 40 }} />
             <div className={classes.actionsCenter} style={{ marginTop: 20 }}>
-              <Button
-                type="submit"
-                onClick={this.handleSubmit}
-              >
+              <Button type="submit" onClick={this.handleSubmit}>
                 Send Link
               </Button>
             </div>

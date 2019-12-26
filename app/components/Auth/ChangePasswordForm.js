@@ -118,7 +118,11 @@ class Login extends Component {
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}
                       >
-                        {showPassword ? <Visibility className={classes.iconVis} /> : <VisibilityOff className={classes.iconVis} />}
+                        {showPassword ? (
+                          <Visibility className={classes.iconVis} />
+                        ) : (
+                          <VisibilityOff className={classes.iconVis} />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   )
@@ -140,11 +144,7 @@ class Login extends Component {
                 autoComplete="current-password"
                 classes={{ root: classes.input }}
                 InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      &nbsp;
-                    </InputAdornment>
-                  ),
+                  startAdornment: <InputAdornment position="start">&nbsp;</InputAdornment>,
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
@@ -152,7 +152,11 @@ class Login extends Component {
                         onClick={this.handleClickShowConfirmPassword}
                         onMouseDown={this.handleMouseDownPassword}
                       >
-                        {showPassword ? <Visibility className={classes.iconVis} /> : <VisibilityOff className={classes.iconVis} />}
+                        {showPassword ? (
+                          <Visibility className={classes.iconVis} />
+                        ) : (
+                          <VisibilityOff className={classes.iconVis} />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   )
@@ -161,10 +165,7 @@ class Login extends Component {
             </FormControl>
             <div className={classes.divider} style={{ marginTop: 40 }} />
             <div className={classes.actionsCenter} style={{ marginTop: 20 }}>
-              <Button
-                type="submit"
-                onClick={this.handleSubmit}
-              >
+              <Button type="submit" onClick={this.handleSubmit}>
                 Confirm
               </Button>
             </div>

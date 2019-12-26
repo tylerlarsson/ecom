@@ -29,7 +29,7 @@ const headerStyle = () => ({
 
 const AuthHeader = ({ classes, courseId, prevLink, nextLink }) => (
   <div className={classes.root}>
-    <img src={Logo} width="auto"/>
+    <img src={Logo} width="auto" />
     <Link to={routes.HOME}>Home</Link>
   </div>
 );

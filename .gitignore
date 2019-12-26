@@ -11,3 +11,4 @@ __snapshots__
 npm-debug.log
 .idea
 logs
+.env.yaml

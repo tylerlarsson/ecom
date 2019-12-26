@@ -102,7 +102,7 @@ class Login extends Component {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Email className={classes.icon} />
+                      <EmailOutlined className={classes.icon} />
                     </InputAdornment>
                   )
                 }}
@@ -135,7 +135,11 @@ class Login extends Component {
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}
                       >
-                        {showPassword ? <Visibility className={classes.iconVis} /> : <VisibilityOff className={classes.iconVis} />}
+                        {showPassword ? (
+                          <Visibility className={classes.iconVis} />
+                        ) : (
+                          <VisibilityOff className={classes.iconVis} />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   )
@@ -144,28 +148,17 @@ class Login extends Component {
             </FormControl>
             <div className={classes.divider} style={{ marginTop: 40 }} />
             <div className={classes.actions} style={{ marginTop: 20 }}>
-              <Button
-                outlined
-                onClick={this.handleRegister}
-              >
+              <Button outlined onClick={this.handleRegister}>
                 Register
               </Button>
-              <Button
-                type="submit"
-                onClick={this.handleSubmit}
-              >
+              <Button type="submit" onClick={this.handleSubmit}>
                 Login
               </Button>
             </div>
             <div className={classes.actions} style={{ marginTop: 10 }}>
               <FormControlLabel
                 control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={onCheckChange('checkedB')}
-                    value="checkedB"
-                    color="primary"
-                  />
+                  <Checkbox checked={checked} onChange={onCheckChange('checkedB')} value="checkedB" color="primary" />
                 }
                 label="Remember me"
                 classes={{ root: classes.checkbox }}

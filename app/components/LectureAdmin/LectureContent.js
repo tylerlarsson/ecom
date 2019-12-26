@@ -100,9 +100,7 @@ function LectureContent(props) {
       <div className={classes.type}>
         <DragHandle />
       </div>
-      <div className={classes.content}>
-        {content}
-      </div>
+      <div className={classes.content}>{content}</div>
       {data.type === 'text' ? (
         <Edit className={classes.editIcon} onClick={onEdit} />
       ) : (

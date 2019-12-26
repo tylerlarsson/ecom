@@ -33,10 +33,10 @@ const styles = theme => ({
   },
   reviewer: {
     display: 'flex',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   },
   avatarWrap: {
-    width: 111,
+    width: 111
   },
   avatar: {
     width: 48,
@@ -65,8 +65,12 @@ const AuthReview = ({ classes, text, reviewer = {} }) => (
         <Avatar className={classes.avatar} src={reviewer.avatar} />
       </div>
       <div>
-        <Typography component="div" className={classes.name}>{reviewer.name}</Typography>
-        <Typography component="div" className={classes.username}>{reviewer.username}</Typography>
+        <Typography component="div" className={classes.name}>
+          {reviewer.name}
+        </Typography>
+        <Typography component="div" className={classes.username}>
+          {reviewer.username}
+        </Typography>
       </div>
     </div>
   </div>

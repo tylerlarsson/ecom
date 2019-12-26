@@ -6,7 +6,7 @@ const styles = theme => ({
     alignItems: 'left'
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%' // Fix IE 11 issue.
   },
   title: {
     color: theme.palette.secondary.dark,
