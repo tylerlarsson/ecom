@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import ForgotPasswordForm from 'components/Auth/ForgotPasswordForm';
+import ResendPasswordForm from 'components/Auth/ResendPasswordForm';
 import { signInAction } from 'redux/actions/auth';
 import Bg from 'assets/img/forgot-bg.jpg';
 import AuthHeader from 'components/Auth/AuthHeader';
@@ -65,7 +65,7 @@ class ForgotPassword extends PureComponent {
         <Grid container spacing={0} className={classes.wrapper}>
           <Grid item xs={6} className={classes.column}>
             <AuthHeader />
-            <ForgotPasswordForm onSubmit={this.onSubmit} />
+            <ResendPasswordForm onSubmit={this.onSubmit} />
             <AuthFooter />
           </Grid>
           <Grid item xs={6} className={classes.columnRight}>

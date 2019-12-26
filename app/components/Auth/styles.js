@@ -29,7 +29,7 @@ const styles = theme => ({
     color: theme.palette.secondary.main,
     fontSize: 12,
     textTransform: 'uppercase',
-    letterSpacing: '0.3em'
+    letterSpacing: '0.2em'
   },
   margin: {
     marginTop: theme.spacing(1),
@@ -39,6 +39,15 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  actionsCenter: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& a': {
+      color: theme.palette.primary.link,
+      textDecoration: 'none'
+    }
   },
   input: {
     '& fieldset': {
@@ -70,6 +79,11 @@ const styles = theme => ({
     color: theme.palette.primary.link,
     textDecoration: 'none',
     fontSize: 14
+  },
+  description: {
+    color: '#4A4A4A',
+    fontSize: 14,
+    lineHeight: '28px'
   },
   checkbox: {
     '& .MuiTypography-root': {

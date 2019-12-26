@@ -1,15 +1,11 @@
 import React from 'react';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-import { AppBar, Avatar, Toolbar, Typography } from '@material-ui/core';
-import { ChevronLeft, ChevronRight } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
-import GridContainer from 'components/Grid/GridContainer';
-import GridItem from 'components/Grid/GridItem';
 import routes from 'constants/routes.json';
 import Logo from 'assets/img/logo-black.png';
 
-const headerStyle = theme => ({
+const headerStyle = () => ({
   root: {
     position: 'absolute',
     top: 45,
@@ -31,11 +27,11 @@ const headerStyle = theme => ({
   }
 });
 
-const LectureNavbar = ({ classes, courseId, prevLink, nextLink }) => (
+const AuthHeader = ({ classes, courseId, prevLink, nextLink }) => (
   <div className={classes.root}>
     <img src={Logo} width="auto"/>
     <Link to={routes.HOME}>Home</Link>
   </div>
 );
 
-export default withStyles(headerStyle)(LectureNavbar);
+export default withStyles(headerStyle)(AuthHeader);

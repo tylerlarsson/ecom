@@ -10,6 +10,8 @@ import { signInAction } from 'redux/actions/auth';
 import Bg from 'assets/img/login-bg.jpg';
 import AuthHeader from 'components/Auth/AuthHeader';
 import AuthFooter from 'components/Auth/AuthFooter';
+import AuthReview from 'components/Auth/AuthReview';
+import Reviewer from 'assets/img/faces/oval.jpg';
 
 const styles = theme => ({
   root: {
@@ -61,7 +63,14 @@ class LoginPage extends PureComponent {
             <AuthFooter />
           </Grid>
           <Grid item xs={6} className={classes.columnRight}>
-            <div />
+            <AuthReview
+              text="My shop is making $30000 a month while I relax in Sousa, Dominican Republic. Living the dream!"
+              reviewer={{
+                avatar: Reviewer,
+                name: 'Harry Holder',
+                username: '@harryholder'
+              }}
+            />
           </Grid>
         </Grid>
       </div>

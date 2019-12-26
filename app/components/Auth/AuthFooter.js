@@ -1,11 +1,7 @@
 import React from 'react';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-import { AppBar, Avatar, Toolbar, Typography } from '@material-ui/core';
-import { ChevronLeft, ChevronRight } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
-import GridContainer from 'components/Grid/GridContainer';
-import GridItem from 'components/Grid/GridItem';
 import routes from 'constants/routes.json';
 
 const headerStyle = theme => ({
@@ -16,18 +12,18 @@ const headerStyle = theme => ({
     right: 50,
     display: 'flex',
     justifyContent: 'flex-start',
-    color: '#000',
+    color: theme.palette.secondary.dark,
     '& a': {
-      color: '#000',
+      color: theme.palette.primary.link,
       textDecoration: 'none'
     }
   }
 });
 
-const LectureNavbar = ({ classes, courseId, prevLink, nextLink }) => (
+const AuthFooter = ({ classes, courseId, prevLink, nextLink }) => (
   <div className={classes.root}>
-    <Link to={routes.HOME}>Terms - Privacy</Link>
+    <Link to={routes.PRIVACY}>Terms - Privacy</Link>
   </div>
 );
 
-export default withStyles(headerStyle)(LectureNavbar);
+export default withStyles(headerStyle)(AuthFooter);
