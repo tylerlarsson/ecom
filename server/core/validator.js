@@ -117,6 +117,8 @@ const deleteUserEnrollmentSchema = readJson('schema', 'enrollments', 'delete-use
 const getUserEnrollsSchema = readJson('schema', 'enrollments', 'get-user-enrollments.schema.json');
 const getCourseEnrollsSchema = readJson('schema', 'enrollments', 'get-course-enrolls.schema.json');
 const getEnrollmentSchema = readJson('schema', 'enrollments', 'get-enrollment.schema.json');
+const addUserEnrollmentSchema = readJson('schema', 'enrollments', 'add-user-enrollment.schema.json');
+const putEnrollmentSchema = readJson('schema', 'enrollments', 'put-enrollment.schema.json');
 
 module.exports = {
   name: ajv.compile(nameRequestSchema),
@@ -127,11 +129,13 @@ module.exports = {
   editPage: ajv.compile(editPageSchema),
   deleteUserEnrollment: ajv.compile(deleteUserEnrollmentSchema),
   tokenRequest: ajv.compile(tokenRequestSchema),
+  putEnrollment: ajv.compile(putEnrollmentSchema),
   getPricing: ajv.compile(getPricingSchema),
   deleteGcs: ajv.compile(deleteGcsSchema),
   getEnrollment: ajv.compile(getEnrollmentSchema),
   roleUserRoutes: ajv.compile(roleUserRoutesSchema),
   uploadGcs: ajv.compile(uploadGcsSchema),
+  addUserEnrollment: ajv.compile(addUserEnrollmentSchema),
   getPricingByCourse: ajv.compile(getPricingByCourseSchema),
   deletePlan: ajv.compile(deletePlanSchema),
   pageRequest: ajv.compile(pageRequestSchema),

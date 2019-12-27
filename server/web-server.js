@@ -25,6 +25,7 @@ require('./route/file')(app);
 require('./route/oauth')(app);
 require('./route/page')(app);
 require('./route/comments')(app);
+require('./route/enrollment')(app);
 
 const port = config.get('web-app:port');
 

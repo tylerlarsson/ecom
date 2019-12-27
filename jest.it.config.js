@@ -12,6 +12,7 @@ module.exports = {
       lines: 90
     }
   },
+  testTimeout: 30000,
   moduleDirectories: ['node_modules'],
   collectCoverageFrom: [
     'server/**/*.js',
@@ -23,5 +24,5 @@ module.exports = {
   ],
   coverageDirectory: 'coverage-it',
   // testRegex: 'server-test/.*\\.test\\.js$',
-  testRegex: 'server-test/api/file.test\\.js$'
+  testRegex: 'server-test/api/enrollment.test\\.js$'
 };

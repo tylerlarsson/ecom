@@ -27,7 +27,7 @@ const ENROLLMENT = new mongoose.Schema(
   {
     user: { type: ObjectId, ref: 'user', required: true },
     course: { type: ObjectId, ref: 'course', required: true },
-    pricingPlan: { type: ObjectId, ref: 'pricing-plan', required: true },
+    pricingPlan: { type: ObjectId, ref: 'pricing-plan' },
     competed: [ObjectId],
     payments: [PAYMENT],
     deleted: { type: Boolean, default: false },
@@ -46,9 +46,23 @@ ENROLLMENT.statics.enroll = async args => {
     throw error404({ course }, _course);
   }
   const enrollment = new Enrollment({ ...args, created: new Date() });
-  enrollment.payments.push(payment);
+  if (payment) {
+    enrollment.payments.push(payment);
+  }
   await user.addEnrollment(enrollment._id.toString());
   return enrollment.save();
+};
+
+ENROLLMENT.methods.addCompletedStep = async args => {
+  const { step } = args;
+  const idx = this.competed.findIndex(i => i.toString() === step.toString());
+  if (idx === -1) {
+    this.completed.push(step);
+    return this.save();
+  }
+  const error = new Error(`Step ${step} is already completed`);
+  error.status = 400;
+  throw error;
 };
 
 ENROLLMENT.methods.delete = async function delete_() {
