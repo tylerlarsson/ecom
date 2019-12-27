@@ -28,7 +28,7 @@ class PayPalDriver extends Driver {
 
   async singlePayment(orderId) {
     const basicAuth = this.getBasicAuth();
-    const auth = this.authenticate(basicAuth);
+    const auth = await this.authenticate(basicAuth);
     const {
       data: {
         id,

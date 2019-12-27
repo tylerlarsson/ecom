@@ -1,5 +1,5 @@
 const HttpStatus = require('http-status-codes');
-const validator = require('../validator');
+const validator = require('../core/validator');
 
 module.exports = DEFAULT_PAGE_SIZE => async (req, res, next) => {
   // eslint-disable-next-line prefer-const

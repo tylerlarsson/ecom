@@ -13,7 +13,8 @@ module.exports = {
     PricingPlan: require('./pricing-plan'),
     Page: require('./page'),
     Navigation: require('./navigation'),
-    InternalComment: require('./internal-comment')
+    InternalComment: require('./internal-comment'),
+    Enrollment: require('./enrollment')
   },
   mocks: {
     mockUser: {
@@ -57,7 +58,7 @@ module.exports = {
       title: 'Test pricing plan',
       subtitle: 'the way you choose to pay',
       description: 'the way you choose to pay',
-      type: 'one-time',
+      type: 'free',
       period: 150
     },
     mockId: mongoose.Types.ObjectId()
@@ -72,6 +73,15 @@ module.exports = {
     return this.model.PricingPlan.create({
       courseId: course._id,
       ...this.mocks.mockPricing
+    });
+  },
+
+  async enrollmentFactory() {
+    const course = await this.courseFactory();
+    const user = await this.userFactory();
+    return this.model.Enrollment.enroll({
+      user: user._id,
+      course: course._id
     });
   },
 

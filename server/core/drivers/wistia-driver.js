@@ -12,19 +12,15 @@ class WistiaDriver extends Driver {
     this.uploadUrl = 'https://upload.wistia.com';
   }
 
-  handleError = response => {
-    const error = new Error(JSON.stringify(response.data));
-    error.status = response.status;
-    throw error;
-  };
-
-  normalizeHeatmap = heatmap => ({
-    receivedAt: heatmap && heatmap.received_at,
-    eventKey: heatmap && heatmap.event_key,
-    percentViewed: heatmap && heatmap.percent_viewed,
-    iFrame: heatmap && heatmap.iframe_heatmap_url,
-    mediaId: heatmap && heatmap.media_id
-  });
+  normalizeHeatmap(heatmap) {
+    return {
+      receivedAt: heatmap && heatmap.received_at,
+      eventKey: heatmap && heatmap.event_key,
+      percentViewed: heatmap && heatmap.percent_viewed,
+      iFrame: heatmap && heatmap.iframe_heatmap_url,
+      mediaId: heatmap && heatmap.media_id
+    };
+  }
 
   async uploadVideo(file) {
     if (!isVideo(file.mimetype)) {

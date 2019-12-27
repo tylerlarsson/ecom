@@ -3,6 +3,7 @@ const express = require('express');
 const validator = require('../core/validator');
 const createLogger = require('../core/logger');
 const { error404 } = require('../core/util');
+const { PRICING_PLAN_TYPE } = require('../db/common');
 const _payment = require('../core/payment');
 const logger = createLogger();
 const db = require('../db');
@@ -148,9 +149,58 @@ module.exports = app => {
         throw error404({ pricing_plan: null }, req.body.pricingPlan);
       }
       const { payment, ...rest } = req.body;
-      const paymentObj = await _payment(req.body.service, pricing.type, payment);
-      const enrollment = await db.model.Enrollment.enroll({ ...rest, payment: paymentObj });
+      let enrollment;
+      if (pricing && pricing.type === PRICING_PLAN_TYPE.FREE) {
+        enrollment = await db.model.Enrollment.enroll({ ...rest });
+      } else {
+        const paymentObj = await _payment(req.body.service, pricing.type, payment);
+        enrollment = await db.model.Enrollment.enroll({ ...rest, payment: paymentObj });
+      }
       res.status(HttpStatus.CREATED).json({
+        enrollment
+      });
+    } catch (error) {
+      res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+        errors: error.message
+      });
+    }
+  });
+
+  router.post('/:user', async (req, res) => {
+    try {
+      const { params, body } = req;
+      if (!validator.addUserEnrollment({ params, body })) {
+        const { errors } = validator.addUserEnrollment;
+        logger.error('validation of add user enrollment request failed');
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
+        return;
+      }
+      const enrollment = await db.model.Enrollment.enroll({ ...params, ...body });
+      res.status(HttpStatus.CREATED).json({
+        enrollment
+      });
+    } catch (error) {
+      res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+        errors: error.message
+      });
+    }
+  });
+
+  router.put('/:enrollment', async (req, res) => {
+    try {
+      const { params, body } = req;
+      if (!validator.putEnrollment({ params, body })) {
+        const { errors } = validator.putEnrollment;
+        logger.error('validation of put user enrollment request failed');
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
+        return;
+      }
+      let enrollment = await db.model.Enrollment.findById(params.enrollment);
+      if (!enrollment) {
+        throw error404({ enrollment }, params.enrollment);
+      }
+      enrollment = await enrollment.addCompletedStep(body);
+      res.json({
         enrollment
       });
     } catch (error) {
@@ -217,7 +267,7 @@ module.exports = app => {
     }
   });
 
-  router.delete('/:enrollment/user/:user', async (req, res) => {
+  router.delete('/:enrollment', async (req, res) => {
     try {
       if (!validator.deleteUserEnrollment(req.params)) {
         const { errors } = validator.deleteUserEnrollment;
@@ -225,10 +275,11 @@ module.exports = app => {
         res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
         return;
       }
-      const enrollment = await db.model.Enrollment.findById(req.params.enrollment);
+      let enrollment = await db.model.Enrollment.findById(req.params.enrollment);
       if (!enrollment) {
         throw error404({ enrollment }, req.params.enrollment);
       }
+      enrollment = await enrollment.delete();
       res.json({
         deleted: enrollment
       });
