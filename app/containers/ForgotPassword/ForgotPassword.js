@@ -52,7 +52,7 @@ const styles = theme => ({
 });
 
 class ForgotPassword extends PureComponent {
-  onSubmit = email => {
+  onSubmit = () => {
     const { history } = this.props;
     history.push(routes.RESEND_PASSWORD);
   };

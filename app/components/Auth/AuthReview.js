@@ -1,11 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Link } from 'react-router-dom';
-import { Grid, AppBar, Avatar, Toolbar, Typography } from '@material-ui/core';
-import GridContainer from 'components/Grid/GridContainer';
-import GridItem from 'components/Grid/GridItem';
-import routes from 'constants/routes.json';
+import { Avatar, Typography } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -75,5 +72,11 @@ const AuthReview = ({ classes, text, reviewer = {} }) => (
     </div>
   </div>
 );
+
+AuthReview.propTypes = {
+  text: PropTypes.string,
+  reviewer: PropTypes.objectOf(PropTypes.any),
+  classes: PropTypes.object
+};
 
 export default withStyles(styles)(AuthReview);

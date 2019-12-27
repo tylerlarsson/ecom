@@ -53,20 +53,8 @@ class ForgotPasswordForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { login } = state;
-  return { login };
-}
-
-ForgotPasswordForm.defaultProps = {
-  onCheckChange: () => {}
-};
-
 ForgotPasswordForm.propTypes = {
-  onCheckChange: PropTypes.func,
-  checked: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
-  login: PropTypes.object,
   classes: PropTypes.object
 };
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(ForgotPasswordForm)));
+export default withRouter(connect()(withStyles(styles)(ForgotPasswordForm)));
