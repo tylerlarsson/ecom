@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
 import ChangePasswordForm from 'components/Auth/ChangePasswordForm';
-import { signInAction } from 'redux/actions/auth';
+import { resetPasswordAction } from 'redux/actions/auth';
 import Bg from 'assets/img/forgot-bg.jpg';
 import AuthHeader from 'components/Auth/AuthHeader';
 import AuthFooter from 'components/Auth/AuthFooter';
@@ -50,10 +50,16 @@ const styles = theme => ({
   }
 });
 
-class ForgotPassword extends PureComponent {
+class ChangePassword extends PureComponent {
   onSubmit = password => {
+    const { resetPassword } = this.props;
     // TODO send request
     console.log('onSubmit', password);
+    const payload = {
+      password,
+      id: '123'
+    }
+    resetPassword(payload);
   };
 
   render() {
@@ -84,12 +90,12 @@ class ForgotPassword extends PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onSubmit: ({ email, password }) => {
-    dispatch(signInAction(email, password));
+  resetPassword: password => {
+    dispatch(resetPasswordAction(password));
   }
 });
 
-ForgotPassword.propTypes = {
+ChangePassword.propTypes = {
   classes: PropTypes.object
 };
 
@@ -97,5 +103,5 @@ export default withRouter(
   connect(
     null,
     mapDispatchToProps
-  )(withStyles(styles)(ForgotPassword))
+  )(withStyles(styles)(ChangePassword))
 );

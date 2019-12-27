@@ -36,7 +36,7 @@ class Login extends Component {
   validate = () => {
     const { confirmPassword, password } = this.state;
 
-    if (!confirmPassword || !password) {
+    if (!confirmPassword || !password || confirmPassword !== password) {
       return false;
     }
 

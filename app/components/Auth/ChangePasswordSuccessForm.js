@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { CssBaseline, Typography, Container, Box } from '@material-ui/core';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from 'components/Button/Button';
 import routes from 'constants/routes.json';
 import styles from './styles';
 
-class ForgotPasswordForm extends Component {
+class ChangePasswordSuccessForm extends Component {
   handleSubmit = event => {
-    const { onSubmit } = this.props;
+    const { history } = this.props;
     event.preventDefault();
 
-    onSubmit();
+    history.push(routes.LOGIN);
   };
 
   render() {
@@ -24,28 +24,26 @@ class ForgotPasswordForm extends Component {
         <CssBaseline />
         <div>
           <div className={classes.subtitle} style={{ marginBottom: 21 }}>
-            RELAX, TAKE A BREATH, WE GOT YOU COVERED.
+            AWESOME, LET’S GET BACK ON TRACK.
           </div>
           <Typography component="h1" variant="h5" className={classes.title}>
-            Password Sent
+            It’s a Success
           </Typography>
           <Typography className={classes.description} style={{ marginTop: 20 }}>
             <Box mt={1} mb={1}>
-              We have sent you a link to change your password to your email. You should receiving it shortly.
+              Your password has been successfully changed, please keep it
+              in a secure place to ensure safety of your information.
             </Box>
 
             <Box mt={3}>
-              <b>Please be certain to check your junk or spam folder.</b>
+              <b>Now, let’s make sure your new password is working.  </b>
             </Box>
           </Typography>
           <div className={classes.divider} style={{ marginTop: 40 }} />
           <div className={classes.actionsCenter} style={{ marginTop: 20 }}>
             <Button type="submit" onClick={this.handleSubmit}>
-              Send Again
+              Go to Login
             </Button>
-          </div>
-          <div className={classes.actionsCenter} style={{ marginTop: 20 }}>
-            <Link to={routes.FORGOT_PASSWORD}>Try another Email Address</Link>
           </div>
         </div>
       </Container>
@@ -53,8 +51,8 @@ class ForgotPasswordForm extends Component {
   }
 }
 
-ForgotPasswordForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+ChangePasswordSuccessForm.propTypes = {
+  history: PropTypes.func.isRequired,
   classes: PropTypes.object
 };
-export default withRouter(connect()(withStyles(styles)(ForgotPasswordForm)));
+export default withRouter(connect()(withStyles(styles)(ChangePasswordSuccessForm)));
