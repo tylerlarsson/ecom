@@ -8,17 +8,13 @@ import {
   Container,
   TextField,
   InputAdornment,
-  IconButton,
-  Checkbox,
-  FormControlLabel
+  IconButton
 } from '@material-ui/core';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import routes from 'constants/routes.json';
 import Button from 'components/Button/Button';
-import { Email, VpnKey, Visibility, VisibilityOff } from '@material-ui/icons';
-import EmailIcon from 'assets/img/email-icon.svg';
-import KeyIcon from 'assets/img/key-icon.svg';
+import { VpnKey, Visibility, VisibilityOff } from '@material-ui/icons';
 import styles from './styles';
 
 class Login extends Component {
@@ -181,13 +177,8 @@ function mapStateToProps(state) {
   return { login };
 }
 
-Login.defaultProps = {
-  onCheckChange: () => {}
-};
-
 Login.propTypes = {
-  onCheckChange: PropTypes.func,
-  checked: PropTypes.bool,
+  history: PropTypes.objectOf(PropTypes.any),
   onSubmit: PropTypes.func.isRequired,
   login: PropTypes.object,
   classes: PropTypes.object

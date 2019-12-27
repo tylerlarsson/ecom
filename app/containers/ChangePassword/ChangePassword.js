@@ -12,7 +12,6 @@ import AuthHeader from 'components/Auth/AuthHeader';
 import AuthFooter from 'components/Auth/AuthFooter';
 import AuthReview from 'components/Auth/AuthReview';
 import Reviewer from 'assets/img/faces/oval.jpg';
-import routes from 'constants/routes.json';
 
 const styles = theme => ({
   root: {
@@ -91,7 +90,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ForgotPassword.propTypes = {
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.object
 };
 

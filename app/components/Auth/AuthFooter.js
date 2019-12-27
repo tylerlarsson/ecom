@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
@@ -20,10 +21,14 @@ const headerStyle = theme => ({
   }
 });
 
-const AuthFooter = ({ classes, courseId, prevLink, nextLink }) => (
+const AuthFooter = ({ classes }) => (
   <div className={classes.root}>
     <Link to={routes.PRIVACY}>Terms - Privacy</Link>
   </div>
 );
+
+AuthFooter.propTypes = {
+  classes: PropTypes.object
+};
 
 export default withStyles(headerStyle)(AuthFooter);

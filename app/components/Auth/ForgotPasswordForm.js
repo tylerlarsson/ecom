@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from 'components/Button/Button';
 import { EmailOutlined } from '@material-ui/icons';
-import EmailIcon from 'assets/img/email-icon.svg';
 import styles from './styles';
 
 class ForgotPasswordForm extends Component {
@@ -100,13 +99,7 @@ function mapStateToProps(state) {
   return { login };
 }
 
-ForgotPasswordForm.defaultProps = {
-  onCheckChange: () => {}
-};
-
 ForgotPasswordForm.propTypes = {
-  onCheckChange: PropTypes.func,
-  checked: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   login: PropTypes.object,
   classes: PropTypes.object

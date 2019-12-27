@@ -16,9 +16,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import routes from 'constants/routes.json';
 import Button from 'components/Button/Button';
-import { Email, VpnKey, Visibility, VisibilityOff } from '@material-ui/icons';
-import EmailIcon from 'assets/img/email-icon.svg';
-import KeyIcon from 'assets/img/key-icon.svg';
+import { EmailOutlined, VpnKey, Visibility, VisibilityOff } from '@material-ui/icons';
 import styles from './styles';
 
 class Login extends Component {

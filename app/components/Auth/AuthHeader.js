@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
@@ -27,11 +28,17 @@ const headerStyle = () => ({
   }
 });
 
-const AuthHeader = ({ classes, courseId, prevLink, nextLink }) => (
+const AuthHeader = ({ classes }) => (
   <div className={classes.root}>
-    <img src={Logo} width="auto" />
+    <Link to={routes.HOME}>
+      <img src={Logo} width="auto" alt="" />
+    </Link>
     <Link to={routes.HOME}>Home</Link>
   </div>
 );
+
+AuthHeader.propTypes = {
+  classes: PropTypes.object
+};
 
 export default withStyles(headerStyle)(AuthHeader);
