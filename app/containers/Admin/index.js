@@ -10,7 +10,8 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import Sidebar from "components/Sidebar/Sidebar.jsx";
-import routes from "constants/adminRoutes";
+import adminRoutes from "constants/adminRoutes";
+import routes from "constants/routes.json";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 
@@ -22,9 +23,10 @@ let userInfo = {};
 
 const switchRoutes = (
   <Switch>
-    {routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+    {adminRoutes.map((prop, key) => {
+      if (prop.layout === routes.ADMIN) {
         return [
+          <Redirect exact from={prop.layout} to={prop.layout + routes.DASHBOARD} />,
           <Route
             exact
             path={prop.layout + prop.path}
@@ -45,7 +47,6 @@ const switchRoutes = (
               key={`${key}${index}`}
             />
           ))
-
         ];
       }
     })}
@@ -122,7 +123,7 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    const menu = routes.filter(item => item.visible );
+    const menu = adminRoutes.filter(item => item.visible );
 
     return (
       <div className={classes.wrapper}>
