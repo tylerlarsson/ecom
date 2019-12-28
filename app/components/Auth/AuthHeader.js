@@ -23,7 +23,7 @@ const headerStyle = () => ({
     '& img': {
       width: 168,
       height: 20,
-      display: 'black'
+      display: 'block'
     }
   }
 });

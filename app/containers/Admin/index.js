@@ -13,13 +13,23 @@ import Sidebar from "components/Sidebar/Sidebar.jsx";
 import adminRoutes from "constants/adminRoutes";
 import routes from "constants/routes.json";
 
-import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
+// import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
+import AdminMainNavbar from 'components/Admin/TopBar/AdminMainNavbar';
 
 const { REACT_APP_SERVER_URL } = process.env;
 let userInfo = {};
+
+const styles = theme => ({
+  wrapperMain: {
+    marginTop: 64,
+  },
+  mainPanel: {
+    flex: 1
+  }
+});
 
 const switchRoutes = (
   <Switch>
@@ -126,7 +136,8 @@ class Dashboard extends React.Component {
     const menu = adminRoutes.filter(item => item.visible );
 
     return (
-      <div className={classes.wrapper}>
+      <div className={classes.wrapperMain}>
+        <AdminMainNavbar />
         <Sidebar
           routes={menu}
           logoText={"Ecom Freedom"}
@@ -149,4 +160,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Dashboard);
+export default withStyles(styles)(Dashboard);

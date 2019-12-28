@@ -51,11 +51,6 @@ const styles = theme => ({
 });
 
 class ChangePasswordSuccess extends PureComponent {
-  onSubmit = password => {
-    // TODO send request
-    console.log('onSubmit', password);
-  };
-
   render() {
     const { classes } = this.props;
 
@@ -83,19 +78,8 @@ class ChangePasswordSuccess extends PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: ({ email, password }) => {
-    dispatch(signInAction(email, password));
-  }
-});
-
 ChangePasswordSuccess.propTypes = {
   classes: PropTypes.object
 };
 
-export default withRouter(
-  connect(
-    null,
-    mapDispatchToProps
-  )(withStyles(styles)(ChangePasswordSuccess))
-);
+export default withRouter(withStyles(styles)(ChangePasswordSuccess));
