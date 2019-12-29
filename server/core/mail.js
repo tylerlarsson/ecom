@@ -1,5 +1,7 @@
 const nodeMailer = require('nodemailer');
 const ejs = require('ejs');
+const createLogger = require('./logger');
+const logger = createLogger('web-server.mail-module');
 const { getFilePath, checkFile } = require('./file-util');
 
 async function mailerFactory() {
@@ -32,11 +34,13 @@ async function sendMail(args) {
   if (!template) {
     return mailer.sendMail(args);
   }
-  const filePath = getFilePath('templates', template);
+  const filePath = getFilePath('server', 'templates', `${template}.ejs`);
   if (await checkFile(filePath)) {
     const rendered = await ejs.renderFile(filePath, data, { async: true });
     Object.assign(mailerArgs, { html: rendered });
-    return mailer.sendMail(mailerArgs);
+    const message = await mailer.sendMail(mailerArgs);
+    logger.info('Message preview', nodeMailer.getTestMessageUrl(message));
+    return message;
   }
   throw new Error(`Template ${template} does not exist.`);
 }
