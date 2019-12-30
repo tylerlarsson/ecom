@@ -16,37 +16,53 @@ module.exports = app => {
   /**
    * @swagger
    * definitions:
+   *   UserEnrollment:
+   *     type: object
+   *     properties:
+   *        course:
+   *          type: string
+   *          required: true
+   *          example: 5de67523938486465bbfdc78
+   *   StepPayload:
+   *     type: object
+   *     properties:
+   *       step:
+   *         type: string
+   *         required: true
+   *         example: 5de67523938486465bbfdc78
    *   NewEnroll:
-   *     user:
-   *       type: string
-   *       required: true
-   *       example: 5de67523938486465bbfdc78
-   *     course:
-   *       type: string
-   *       required: true
-   *       example: 5de67523938486465bbfdc78
-   *     pricingPlan:
-   *       type: string
-   *       required: true
-   *       example: 5de67523938486465bbfdc78
-   *     payment:
-   *       oneOf:
-   *         - type: object
-   *           properties:
-   *             order:
-   *               type: string
-   *               required: true
-   *               example: PayPal Form id fro single payment
-   *         - type: object
-   *           properties:
-   *             amount:
-   *               type: number
-   *               required: true
-   *               example: 300
-   *             source:
-   *               type: string
-   *               required: true
-   *               example: Stripe token
+   *     type: object
+   *     properties:
+   *        user:
+   *          type: string
+   *          required: true
+   *          example: 5de67523938486465bbfdc78
+   *        course:
+   *          type: string
+   *          required: true
+   *          example: 5de67523938486465bbfdc78
+   *        pricingPlan:
+   *          type: string
+   *          required: true
+   *          example: 5de67523938486465bbfdc78
+   *        payment:
+   *          oneOf:
+   *            - type: object
+   *              properties:
+   *                order:
+   *                  type: string
+   *                  required: true
+   *                  example: PayPal Form id fro single payment
+   *            - type: object
+   *              properties:
+   *                amount:
+   *                  type: number
+   *                  required: true
+   *                  example: 300
+   *                source:
+   *                  type: string
+   *                  required: true
+   *                  example: Stripe token
    * /enrollment:
    *   post:
    *     description: enrolls a user
@@ -84,6 +100,46 @@ module.exports = app => {
    *         description: enrollments by id
    *       422:
    *         description: model does not satisfy expected schema
+   *   put:
+   *     description: add step to enrollment
+   *     consumes:
+   *       - application/json
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: enrollment
+   *         in: path
+   *         required: true
+   *       - name: step
+   *         in: body
+   *         type: string
+   *         description: Step payload
+   *         schema:
+   *           $ref: '#/definitions/StepPayload'
+   *     responses:
+   *       200:
+   *         description: added step to enrollment
+   *       404:
+   *         description: enrollment is not found
+   *       400:
+   *         description: step already completed
+   *       422:
+   *         description: model does not satisfy expected schema
+   *   delete:
+   *     description: delete enrollment
+   *     consumes:
+   *       - application/json
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: enrollment
+   *         in: path
+   *         required: true
+   *     responses:
+   *       200:
+   *         description: enrollment deleted
+   *       422:
+   *         description: model does not satisfy expected schema
    * /enrollment/course/{course}:
    *   get:
    *     description: get enrollments by course mongo id
@@ -116,23 +172,28 @@ module.exports = app => {
    *         description: enrollments by user id
    *       422:
    *         description: model does not satisfy expected schema
-   * /enrollment/{enrollment}/user/{user}:
-   *   delete:
-   *     description: delete enrollment
+   *   post:
+   *     description: create free enrollment for user
    *     consumes:
    *       - application/json
    *     produces:
    *       - application/json
    *     parameters:
-   *       - name: enrollment
-   *         in: path
-   *         required: true
    *       - name: user
    *         in: path
    *         required: true
+   *         example: 5de67523938486465bbfdc78
+   *       - name: enrollment
+   *         in: body
+   *         required: true
+   *         type: string
+   *         schema:
+   *           $ref: '#/definitions/UserEnrollment'
    *     responses:
-   *       200:
-   *         description: enrollment deleted
+   *       201:
+   *         description: new enrollment is added for user
+   *       404:
+   *         description: user or course is not found
    *       422:
    *         description: model does not satisfy expected schema
    */
@@ -166,7 +227,7 @@ module.exports = app => {
     }
   });
 
-  router.post('/:user', async (req, res) => {
+  router.post('/user/:user', async (req, res) => {
     try {
       const { params, body } = req;
       if (!validator.addUserEnrollment({ params, body })) {
@@ -175,6 +236,7 @@ module.exports = app => {
         res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
         return;
       }
+      console.log('here');
       const enrollment = await db.model.Enrollment.enroll({ ...params, ...body });
       res.status(HttpStatus.CREATED).json({
         enrollment
@@ -255,6 +317,7 @@ module.exports = app => {
         const { errors } = validator.getUserEnrolls;
         logger.error('validation of get user enrollments request failed', errors);
         res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
+        return;
       }
       const enrollments = await db.model.Enrollment.find({ user: req.params.user });
       res.json({

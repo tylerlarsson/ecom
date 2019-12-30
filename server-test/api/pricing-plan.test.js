@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status-codes');
 const request = require('supertest');
-const config = require('../../server/config');
+const config = require('../../server/core/config');
 const app = require('../../server/web-server');
 const db = require('../../server/db/test');
 
@@ -36,7 +36,7 @@ describe('pricing plan api test', function() {
       .post(path)
       .send({ courseId: course._id, ...db.mocks.mockPricing });
     expect(res.status).toBe(HttpStatus.OK);
-    expect(res.body.plan.type).toBe('one-time');
+    expect(res.body.plan.type).toBe('free');
     expect(res.body.plan.title).toBe('Test pricing plan');
   });
   test(`should add to course model ref`, async () => {

@@ -23,6 +23,6 @@ module.exports = {
     '!server/config.js'
   ],
   coverageDirectory: 'coverage-it',
-  // testRegex: 'server-test/.*\\.test\\.js$',
-  testRegex: 'server-test/api/enrollment.test\\.js$'
+  testRegex: 'server-test/.*\\.test\\.js$'
+  // testRegex: 'server-test/api/enrollment.test\\.js$'
 };
