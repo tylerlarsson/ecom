@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "get wistia media configuration schema",
+  "type": "object",
+  "required": ["media"],
+  "additionalProperties": false,
+  "properties": {
+    "media": {
+      "type": "string"
+    }
+  }
+}

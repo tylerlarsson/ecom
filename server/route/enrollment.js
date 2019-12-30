@@ -1,6 +1,7 @@
 const HttpStatus = require('http-status-codes');
 const express = require('express');
 const validator = require('../core/validator');
+const wistia = require('../core/drivers/wistia-driver');
 const createLogger = require('../core/logger');
 const { error404 } = require('../core/util');
 const { PRICING_PLAN_TYPE } = require('../db/common');
@@ -350,6 +351,157 @@ module.exports = app => {
       res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
         errors: error.message
       });
+    }
+  });
+
+  /**
+   * @swagger
+   * /enrollment/visitor/visitor-overall:
+   *   get:
+   *     description: get visitor overall info
+   *     consumes:
+   *       - application/json
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: wistia info
+   *       500
+   *         description: internal server error
+   * /enrollment/visitor/{visitor}:
+   *   get:
+   *     description: get wistia stats by visitor key
+   *     consumes:
+   *       - application/json
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: visitor
+   *         in: path
+   *         required true
+   *         type: string
+   *         description: Wistia visitor key
+   *     responses:
+   *       200:
+   *         description: info by visitor key
+   *       422:
+   *         description: model does not satisfy expected schema
+   *       500:
+   *         description: internal server error
+   * /enrollment/media/{media}:
+   *   get:
+   *     description: get wistia media stats by hashed media id
+   *     consumes:
+   *       - application/json
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: media
+   *         in: path
+   *         required true
+   *         type: string
+   *         description: wistia media hashed id
+   *     responses:
+   *       200:
+   *         description: info by media id
+   *       422:
+   *         description: model does not satisfy expected schema
+   *       500:
+   *         description: internal server error
+   * /enrollment/media/{media}/heat-map/{visitor}:
+   *   get:
+   *     description: get wistia video heat map by hashed media id and visitor key
+   *     consumes:
+   *       - application/json
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: media
+   *         in: path
+   *         required true
+   *         type: string
+   *         description: wistia media hashed id
+   *       - name: visitor
+   *         in: path
+   *         required true
+   *         type: string
+   *         description: Wistia visitor key
+   *     responses:
+   *       200:
+   *         description: heat map
+   *       422:
+   *         description: model does not satisfy expected schema
+   *       500:
+   *         description: internal server error
+   */
+  router.get('/visitor/visitor-overall', async (req, res) => {
+    try {
+      const stats = await wistia.getVisitorOverall();
+      res.json({
+        stats
+      });
+    } catch (error) {
+      res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+        errors: error.message
+      });
+    }
+  });
+
+  router.get('/visitor/:visitor', async (req, res) => {
+    try {
+      if (!validator.getVisitorInfo(req.params)) {
+        const { errors } = validator.getVisitorInfo;
+        logger.error('validation of get wistia visitor info request failed', errors);
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
+        return;
+      }
+      const { visitor } = req.params;
+      const info = await wistia.getVisitorInfo(visitor);
+      res.json({
+        info
+      });
+    } catch (error) {
+      res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+        errors: error.message
+      });
+    }
+  });
+
+  router.get('/media/:media', async (req, res) => {
+    try {
+      if (!validator.getMediaStats(req.params)) {
+        const { errors } = validator.getMediaStats;
+        logger.error('validation of get wistia media stats request failed', errors);
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
+        return;
+      }
+      const { media } = req.params;
+      const stats = await wistia.getMediaStats(media);
+      res.json({
+        stats
+      });
+    } catch (error) {
+      res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+        errors: error.message
+      });
+    }
+  });
+
+  router.get('/media/:media/heat-map/:visitor', async (req, res) => {
+    try {
+      if (!validator.getHeatMap(req.params)) {
+        const { errors } = validator.getHeatMap;
+        logger.error('validation of get wistia video heat map request failed', errors);
+        res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
+        return;
+      }
+      const { media, visitor } = req.params;
+      const heatMap = await wistia.getVideoHeatMap(media, visitor);
+      res.json({
+        heatMap
+      });
+    } catch (error) {
+      res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({});
     }
   });
 
