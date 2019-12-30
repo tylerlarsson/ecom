@@ -26,6 +26,7 @@ import SignupPage from '../SignupPage/SignupPage';
 import ForgotPassword from '../ForgotPassword/ForgotPassword';
 import ResendPassword from '../ResendPassword/ResendPassword';
 import ChangePassword from '../ChangePassword/ChangePassword';
+import ChangePasswordSuccess from '../ChangePassword/ChangePasswordSuccess';
 import AdminPage from '../Admin';
 import Course from '../Courses/Course';
 import Lecture from '../Lecture/Lecture';
@@ -48,6 +49,7 @@ class App extends Component {
           <Route exact path={routes.FORGOT_PASSWORD} component={RequireNoAuth(ForgotPassword)} />
           <Route exact path={routes.RESEND_PASSWORD} component={RequireNoAuth(ResendPassword)} />
           <Route exact path={routes.CHANGE_PASSWORD} component={RequireNoAuth(ChangePassword)} />
+          <Route exact path={routes.CHANGE_PASSWORD_SUCCESS} component={RequireNoAuth(ChangePasswordSuccess)} />
           <Route path={routes.ADMIN} component={RequireAuth(AdminPage)} />
           <Route exact path={routes.COURSES_ENROLLED} component={RequireAuth(Course)} />
           <Route exact path={routes.LECTURE} component={RequireAuth(Lecture)} />

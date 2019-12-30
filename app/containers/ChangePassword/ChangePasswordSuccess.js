@@ -5,14 +5,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import ForgotPasswordForm from 'components/Auth/ForgotPasswordForm';
-import { forgotPasswordAction } from 'redux/actions/auth';
+import ChangePasswordSuccessForm from 'components/Auth/ChangePasswordSuccessForm';
+import { signInAction } from 'redux/actions/auth';
 import Bg from 'assets/img/forgot-bg.jpg';
 import AuthHeader from 'components/Auth/AuthHeader';
 import AuthFooter from 'components/Auth/AuthFooter';
 import AuthReview from 'components/Auth/AuthReview';
 import Reviewer from 'assets/img/faces/oval.jpg';
-import routes from 'constants/routes.json';
 
 const styles = theme => ({
   root: {
@@ -51,13 +50,7 @@ const styles = theme => ({
   }
 });
 
-class ForgotPassword extends PureComponent {
-  onSubmit = data => {
-    const { history, forgotPassword } = this.props;
-    forgotPassword(data);
-    history.push(routes.RESEND_PASSWORD);
-  };
-
+class ChangePasswordSuccess extends PureComponent {
   render() {
     const { classes } = this.props;
 
@@ -66,7 +59,7 @@ class ForgotPassword extends PureComponent {
         <Grid container spacing={0} className={classes.wrapper}>
           <Grid item xs={6} className={classes.column}>
             <AuthHeader />
-            <ForgotPasswordForm onSubmit={this.onSubmit} />
+            <ChangePasswordSuccessForm onSubmit={this.onSubmit} />
             <AuthFooter />
           </Grid>
           <Grid item xs={6} className={classes.columnRight}>
@@ -85,21 +78,8 @@ class ForgotPassword extends PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  forgotPassword: data => {
-    dispatch(forgotPasswordAction(data));
-  }
-});
-
-ForgotPassword.propTypes = {
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
-  forgotPassword: PropTypes.func.isRequired,
+ChangePasswordSuccess.propTypes = {
   classes: PropTypes.object
 };
 
-export default withRouter(
-  connect(
-    null,
-    mapDispatchToProps
-  )(withStyles(styles)(ForgotPassword))
-);
+export default withRouter(withStyles(styles)(ChangePasswordSuccess));

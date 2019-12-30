@@ -31,3 +31,5 @@ export const PRICING_PLAN_TYPES = [
   },
   { id: 4, type: 'payment-plan', name: 'Payment Plan', description: 'A Fixed Number of Payments', isRecurring: true }
 ];
+
+export const RESET_PASSWORD_ID_PARAM = 'bjson';

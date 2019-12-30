@@ -193,7 +193,7 @@ class Course extends Component {
             </GridItem>
           </GridContainer>
         </AdminContent>
-        <CourseSteps active={1} history={history} />
+        <CourseSteps active={1} />
       </>
     );
   }

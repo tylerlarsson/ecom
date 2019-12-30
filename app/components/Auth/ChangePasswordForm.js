@@ -36,7 +36,7 @@ class Login extends Component {
   validate = () => {
     const { confirmPassword, password } = this.state;
 
-    if (!confirmPassword || !password) {
+    if (!confirmPassword || !password || confirmPassword !== password) {
       return false;
     }
 
@@ -44,12 +44,12 @@ class Login extends Component {
   };
 
   handleSubmit = event => {
-    const { email, password } = this.state;
+    const { password } = this.state;
     const { onSubmit } = this.props;
     event.preventDefault();
 
     if (this.validate()) {
-      onSubmit({ email, password });
+      onSubmit(password);
     }
   };
 

@@ -120,19 +120,13 @@ export default function(state = initialState, action) {
       };
 
     // Requests for forgot password
-    case FORGOT_PASSWORD_REQUEST:
-      return {
-        ...state,
-        status: false,
-        error: null
-      };
     case FORGOT_PASSWORD_SUCCESS:
       if (!action.res.success) {
         return {
           ...state,
           forgotPassword: {
             ...state.forgotPassword,
-            status: action.res.success,
+            status: false,
             error: action.res.reason
           }
         };
@@ -141,7 +135,7 @@ export default function(state = initialState, action) {
         ...state,
         forgotPassword: {
           ...state.forgotPassword,
-          status: action.res.success
+          status: true
         }
       };
     case FORGOT_PASSWORD_FAILED:

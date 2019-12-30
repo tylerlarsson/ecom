@@ -163,6 +163,7 @@
     "offline-plugin": "5.0.6",
     "perfect-scrollbar": "^1.4.0",
     "prop-types": "15.7.2",
+    "query-string": "^6.9.0",
     "react": "16.8.6",
     "react-app-polyfill": "0.2.2",
     "react-csv": "^1.1.2",

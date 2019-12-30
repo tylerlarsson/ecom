@@ -45,27 +45,34 @@ export const signUpRequest = payload =>
     })
     .catch(err => ({ success: false, reason: err.response.data.message }));
 
-export const forgotPasswordRequest = payload =>
-  axios
-    .post(`${API_ENDPOINT_URL}/auth/forgot_password`, {
-      email: payload.email
+export const forgotPasswordRequest = payload => {
+  console.log('forgotPasswordRequest', payload);
+  return axios
+    .get(`${API_ENDPOINT_URL}/user/reset-password`, {
+      params: {
+        email: payload.email
+      },
+      headers: { 'content-type': 'application/json' }
     })
     .then(res => {
-      if (res.data.status) {
-        return { success: true };
+      console.log('forgotPasswordRequest res', res)
+      if (res.data) {
+        return { success: true, data: res.data };
       }
       return { success: false, reason: res.message };
     })
     .catch(err => ({ success: false, reason: err.response.data.message }));
+};
 
 export const resetPasswordRequest = payload => {
-  console.log('api.js', payload);
+  console.log('resetPasswordRequest', payload);
   return axios
-    .post(`${API_ENDPOINT_URL}/auth/reset_password/${payload.token}`, {
-      password: payload.password
+    .put(`${API_ENDPOINT_URL}/user/reset-password`, {
+      newPassword: payload.password,
+      id: payload.id
     })
     .then(res => {
-      if (res.data.status) {
+      if (res.data) {
         return { success: true };
       }
       return { success: false, reason: res.message };

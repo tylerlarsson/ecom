@@ -322,7 +322,7 @@ class CourseCurriculum extends Component {
             </GridItem>
           </GridContainer>
         </AdminContent>
-        <CourseSteps active={2} courseId={course && (course.id || course._id)} history={history} />
+        <CourseSteps active={2} courseId={course && (course.id || course._id)} />
       </>
     );
   }

@@ -10,21 +10,33 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import Sidebar from "components/Sidebar/Sidebar.jsx";
-import routes from "constants/adminRoutes";
+import adminRoutes from "constants/adminRoutes";
+import routes from "constants/routes.json";
 
-import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
+// import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
+import AdminMainNavbar from 'components/Admin/TopBar/AdminMainNavbar';
 
 const { REACT_APP_SERVER_URL } = process.env;
 let userInfo = {};
 
+const styles = theme => ({
+  wrapperMain: {
+    marginTop: 64,
+  },
+  mainPanel: {
+    flex: 1
+  }
+});
+
 const switchRoutes = (
   <Switch>
-    {routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+    {adminRoutes.map((prop, key) => {
+      if (prop.layout === routes.ADMIN) {
         return [
+          <Redirect exact from={prop.layout} to={prop.layout + routes.DASHBOARD} />,
           <Route
             exact
             path={prop.layout + prop.path}
@@ -45,7 +57,6 @@ const switchRoutes = (
               key={`${key}${index}`}
             />
           ))
-
         ];
       }
     })}
@@ -122,10 +133,11 @@ class Dashboard extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    const menu = routes.filter(item => item.visible );
+    const menu = adminRoutes.filter(item => item.visible );
 
     return (
-      <div className={classes.wrapper}>
+      <div className={classes.wrapperMain}>
+        <AdminMainNavbar />
         <Sidebar
           routes={menu}
           logoText={"Ecom Freedom"}
@@ -148,4 +160,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Dashboard);
+export default withStyles(styles)(Dashboard);

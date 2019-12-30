@@ -324,7 +324,7 @@ class PricingPlans extends Component {
             </Card>
           ) : null}
         </AdminContent>
-        <CourseSteps active={3} history={history} courseId={courseId} />
+        <CourseSteps active={3} courseId={courseId} />
       </>
     );
   }
