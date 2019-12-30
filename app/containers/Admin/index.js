@@ -17,7 +17,7 @@ import routes from "constants/routes.json";
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
-import AdminMainNavbar from 'components/Admin/TopBar/AdminMainNavbar';
+import AdminMainNavbar from 'components/Admin/AdminMainNavbar/AdminMainNavbar';
 
 const { REACT_APP_SERVER_URL } = process.env;
 let userInfo = {};
