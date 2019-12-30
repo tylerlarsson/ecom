@@ -182,10 +182,12 @@ module.exports = app => {
    *       id:
    *         type: string
    *         example: 5de674f6b5e0a845f3c94b5d
+   *         description: id from mail link
    *       newPassword:
    *         type: string
    *         example: passpass
-   * /reset-password:
+   *         description: new password
+   * /user/reset-password:
    *   get:
    *     parameters:
    *       - name: email
@@ -199,7 +201,7 @@ module.exports = app => {
    *       - application/json
    *     responses:
    *       200:
-   *         description: mail is sent to user's address
+   *         description: mail is sent to user's address, there is link with id in mail
    *       404:
    *         description: mail is not in DB
    *       422:
@@ -237,7 +239,7 @@ module.exports = app => {
       const { success } = await db.model.User.resetPasswordRequest({ email });
       res.json({ success });
     } catch (error) {
-      res.json(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
         errors: error.message
       });
     }
@@ -255,7 +257,7 @@ module.exports = app => {
         user
       });
     } catch (error) {
-      res.json(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
         errors: error.message
       });
     }
@@ -267,7 +269,7 @@ module.exports = app => {
       const user = await db.model.User.update({ id: params.user, ...body });
       res.json({ user });
     } catch (error) {
-      res.json(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
         errors: error.message
       });
     }
@@ -280,7 +282,7 @@ module.exports = app => {
         user
       });
     } catch (error) {
-      res.json(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
+      res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
         errors: error.message
       });
     }
