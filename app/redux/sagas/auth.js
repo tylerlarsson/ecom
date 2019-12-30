@@ -8,6 +8,7 @@ import {
   logOut
 } from 'utils/api/auth';
 import * as types from 'constants/actionTypes';
+import routes from 'constants/routes.json';
 
 // Responsible for searching media library, making calls to the API
 // and instructing the redux-saga middle ware on the next line of action,
@@ -47,7 +48,8 @@ export function* forgotPasswordRequestSaga({ payload }) {
 export function* resetPasswordRequestSaga({ payload }) {
   try {
     const res = yield call(resetPasswordRequest, payload);
-    yield [put({ type: types.RESET_PASSWORD_SUCCESS, res })];
+    yield put({ type: types.RESET_PASSWORD_SUCCESS, res });
+    window.location.href = routes.CHANGE_PASSWORD_SUCCESS;
   } catch (error) {
     yield put({ type: types.RESET_PASSWORD_FAILED, error });
   }

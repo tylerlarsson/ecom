@@ -48,7 +48,7 @@ export const signUpRequest = payload =>
 export const forgotPasswordRequest = payload => {
   console.log('forgotPasswordRequest', payload);
   return axios
-    .get(`${API_ENDPOINT_URL}/reset-password`, {
+    .get(`${API_ENDPOINT_URL}/user/reset-password`, {
       params: {
         email: payload.email
       },
@@ -67,12 +67,12 @@ export const forgotPasswordRequest = payload => {
 export const resetPasswordRequest = payload => {
   console.log('resetPasswordRequest', payload);
   return axios
-    .put(`${API_ENDPOINT_URL}/reset-password`, {
+    .put(`${API_ENDPOINT_URL}/user/reset-password`, {
       newPassword: payload.password,
       id: payload.id
     })
     .then(res => {
-      if (res.data.status) {
+      if (res.data) {
         return { success: true };
       }
       return { success: false, reason: res.message };

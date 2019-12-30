@@ -44,12 +44,12 @@ class Login extends Component {
   };
 
   handleSubmit = event => {
-    const { email, password } = this.state;
+    const { password } = this.state;
     const { onSubmit } = this.props;
     event.preventDefault();
 
     if (this.validate()) {
-      onSubmit({ email, password });
+      onSubmit(password);
     }
   };
 
