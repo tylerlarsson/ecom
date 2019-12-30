@@ -31,12 +31,12 @@ class ChangePasswordSuccessForm extends Component {
           </Typography>
           <Typography className={classes.description} style={{ marginTop: 20 }}>
             <Box mt={1} mb={1}>
-              Your password has been successfully changed, please keep it
-              in a secure place to ensure safety of your information.
+              Your password has been successfully changed, please keep it in a secure place to ensure safety of your
+              information.
             </Box>
 
             <Box mt={3}>
-              <b>Now, let’s make sure your new password is working.  </b>
+              <b>Now, let’s make sure your new password is working. </b>
             </Box>
           </Typography>
           <div className={classes.divider} style={{ marginTop: 40 }} />

@@ -279,7 +279,7 @@ class PricingPlans extends Component {
   };
 
   render() {
-    const { classes, history, plans, match } = this.props;
+    const { classes, plans, match } = this.props;
     const { newPlan } = this.state;
     const courseId = match && match.params && match.params.course;
     // prettier-ignore
@@ -335,8 +335,7 @@ PricingPlans.propTypes = {
   getPricingPlansAction: PropTypes.func.isRequired,
   plans: PropTypes.arrayOf(PropTypes.any),
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  match: PropTypes.objectOf(PropTypes.any).isRequired,
-  history: PropTypes.objectOf(PropTypes.any).isRequired
+  match: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
 const mapStateToProps = ({ courses }) => ({

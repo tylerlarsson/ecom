@@ -56,7 +56,7 @@ const styles = theme => ({
 class ChangePassword extends PureComponent {
   state = {
     id: false
-  }
+  };
 
   componentDidMount() {
     this.setId();

@@ -297,7 +297,7 @@ class CourseCurriculum extends Component {
   );
 
   render() {
-    const { classes, history } = this.props;
+    const { classes } = this.props;
     const { course } = this.state;
     const sections = (course && course.sections) || [];
     // const sections = orderBy((course && course.sections) || [], ['index'], ['asc']);

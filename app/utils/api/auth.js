@@ -55,7 +55,7 @@ export const forgotPasswordRequest = payload => {
       headers: { 'content-type': 'application/json' }
     })
     .then(res => {
-      console.log('forgotPasswordRequest res', res)
+      console.log('forgotPasswordRequest res', res);
       if (res.data) {
         return { success: true, data: res.data };
       }

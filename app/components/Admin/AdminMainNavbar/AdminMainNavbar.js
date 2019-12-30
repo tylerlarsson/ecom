@@ -22,11 +22,11 @@ const styles = theme => ({
       width: 168,
       height: 20,
       display: 'block'
-    },
+    }
   }
 });
 
-const AdminMainNavbar = ({ classes, title, right }) => (
+const AdminMainNavbar = ({ classes, right }) => (
   <AppBar elevation={1} position="fixed" className={classes.root}>
     <Toolbar>
       <Typography variant="h6">
@@ -41,6 +41,7 @@ const AdminMainNavbar = ({ classes, title, right }) => (
 );
 
 AdminMainNavbar.propTypes = {
+  right: PropTypes.objectOf(PropTypes.any),
   classes: PropTypes.object.isRequired
 };
 

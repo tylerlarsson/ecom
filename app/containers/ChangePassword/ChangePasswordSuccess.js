@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
 import ChangePasswordSuccessForm from 'components/Auth/ChangePasswordSuccessForm';
-import { signInAction } from 'redux/actions/auth';
 import Bg from 'assets/img/forgot-bg.jpg';
 import AuthHeader from 'components/Auth/AuthHeader';
 import AuthFooter from 'components/Auth/AuthFooter';
