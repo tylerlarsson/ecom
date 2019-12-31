@@ -6,7 +6,7 @@ import Bg from 'assets/img/login-bg.jpg';
 import AuthHeader from 'components/Auth/AuthHeader';
 import AuthFooter from 'components/Auth/AuthFooter';
 import AuthReview from 'components/Auth/AuthReview';
-import Reviewer from 'assets/img/faces/oval.jpg';
+import Alert from 'assets/img/alert.png';
 
 const styles = theme => ({
   root: {
@@ -24,6 +24,7 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     justifyContent: 'center',
+    flexDirection: 'column',
     alignItems: 'center',
     position: 'relative'
   },
@@ -42,6 +43,28 @@ const styles = theme => ({
     fontWeight: 'bold',
     letterSpacing: '0.05em',
     color: theme.palette.secondary.main
+  },
+  errorBox: {
+    background: '#FFF0F0',
+    border: '1px solid #931711',
+    borderRadius: 4,
+    padding: '12px 24px',
+    width: 398,
+    display: 'flex',
+    marginBottom: 30
+  },
+  errorTitle: {
+    fontSize: 14,
+    fontWeight: 500,
+    lineHeight: '22px',
+    color: '#931711',
+    marginTop: 4
+  },
+  errorDescription: {
+    fontSize: 12,
+    lineHeight: '16px',
+    color: '#4A4A4A',
+    marginBottom: 4
   }
 });
 
@@ -54,6 +77,13 @@ class AuthLayout extends PureComponent {
         <Grid container spacing={0} className={classes.wrapper}>
           <Grid item xs={6} className={classes.column}>
             <AuthHeader />
+            <div className={classes.errorBox}>
+              <img src={Alert} width={28} height={28} alt="" style={{ marginRight: 16 }} />
+              <div>
+                <div className={classes.errorTitle}>Unable to login with the provided information.</div>
+                <div className={classes.errorDescription}>Please check your information and try again.</div>
+              </div>
+            </div>
             {children}
             <AuthFooter />
           </Grid>

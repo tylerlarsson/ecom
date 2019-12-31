@@ -76,7 +76,7 @@ class Login extends Component {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <div className={classes.paper}>
+        <div>
           <div className={classes.subtitle} style={{ marginBottom: 21 }}>
             START YOUR PATH TO FINANCIAL FREEDOM.
           </div>

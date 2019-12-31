@@ -134,7 +134,7 @@ class SignupForm extends Component {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <div className={classes.paper}>
+        <div>
           <Typography component="h1" variant="h5" className={classes.title}>
             Sign up
           </Typography>

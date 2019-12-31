@@ -48,7 +48,7 @@ class ForgotPasswordForm extends Component {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <div className={classes.paper}>
+        <div>
           <div className={classes.subtitle} style={{ marginBottom: 21 }}>
             RELAX, TAKE A BREATH, WE GOT YOU COVERED.
           </div>
