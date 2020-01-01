@@ -366,7 +366,7 @@ module.exports = app => {
    *     responses:
    *       200:
    *         description: wistia info
-   *       500
+   *       500:
    *         description: internal server error
    * /enrollment/visitor/{visitor}:
    *   get:
@@ -378,7 +378,7 @@ module.exports = app => {
    *     parameters:
    *       - name: visitor
    *         in: path
-   *         required true
+   *         required: true
    *         type: string
    *         description: Wistia visitor key
    *     responses:
@@ -398,7 +398,7 @@ module.exports = app => {
    *     parameters:
    *       - name: media
    *         in: path
-   *         required true
+   *         required: true
    *         type: string
    *         description: wistia media hashed id
    *     responses:
@@ -418,12 +418,12 @@ module.exports = app => {
    *     parameters:
    *       - name: media
    *         in: path
-   *         required true
+   *         required: true
    *         type: string
    *         description: wistia media hashed id
    *       - name: visitor
    *         in: path
-   *         required true
+   *         required: true
    *         type: string
    *         description: Wistia visitor key
    *     responses:
