@@ -102,10 +102,8 @@ class Course extends Component {
         title,
         subtitle,
         authors: [author],
-        redirect: `${routes.ADMIN}${routes.CURRICULUM}`,
         history
       };
-      console.log('payload', payload);
       createCourseAction(payload);
     }
   };

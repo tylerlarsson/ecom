@@ -15,14 +15,13 @@ import routes from 'constants/routes.json';
 // and instructing the redux-saga middle ware on the next line of action,
 // for success or failure operation.
 /* eslint-disable no-use-before-define */
-export default function* watchAuthListener(context = {}) {
+export default function* watchAuthListener() {
   yield takeLatest(types.LOGIN_REQUEST, signInRequestSaga);
-  yield takeLatest(types.FORGOT_PASSWORD_REQUEST, forgotPasswordRequestSaga, context);
+  yield takeLatest(types.FORGOT_PASSWORD_REQUEST, forgotPasswordRequestSaga);
   yield takeLatest(types.RESET_PASSWORD_REQUEST, resetPasswordRequestSaga);
   yield takeLatest(types.UPDATE_USER_REQUEST, updateUserSaga);
-  yield takeLatest(types.SIGN_UP_REQUEST, signUpRequestSaga, context);
-  yield takeLatest(types.SIGN_UP_REQUEST, signUpRequestSaga, context);
-  yield takeLatest(types.LOG_OUT_REQUEST, logOutRequestSaga, context);
+  yield takeLatest(types.SIGN_UP_REQUEST, signUpRequestSaga);
+  yield takeLatest(types.LOG_OUT_REQUEST, logOutRequestSaga);
 }
 
 export function* signInRequestSaga({ payload }) {
@@ -30,21 +29,20 @@ export function* signInRequestSaga({ payload }) {
     const res = yield call(signInRequest, payload);
     yield put({ type: types.LOGIN_SUCCESS, res });
     if (res.success) {
-      window.location.href = '';
+      window.location.href = '/';
     }
   } catch (error) {
     yield put({ type: types.LOGIN_FAILED, error });
   }
 }
 
-export function* forgotPasswordRequestSaga({ history }, { payload }) {
+export function* forgotPasswordRequestSaga({ payload }) {
   try {
     const res = yield call(forgotPasswordRequest, payload);
     yield put({ type: types.FORGOT_PASSWORD_SUCCESS, res });
+
     if (res.success) {
-      history.push(routes.RESEND_PASSWORD);
-      // yield call(history.push, routes.RESEND_PASSWORD);
-      // yield put(push(routes.RESEND_PASSWORD));
+      yield put(push(routes.RESEND_PASSWORD));
     }
   } catch (error) {
     yield put({ type: types.FORGOT_PASSWORD_FAILED, error });
@@ -89,12 +87,13 @@ export function* updateUserSaga({ payload }) {
   }
 }
 
-export function* signUpRequestSaga({ history }, { payload }) {
+export function* signUpRequestSaga({ payload }) {
   try {
     const res = yield call(signUpRequest, payload);
     yield put({ type: types.SIGN_UP_SUCCESS, res });
-    if (history) {
-      history.push('/');
+
+    if (res.success) {
+      yield put(push(routes.HOME));
     }
   } catch (error) {
     yield put({ type: types.SIGN_UP_FAILED, error });

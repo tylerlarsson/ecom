@@ -118,7 +118,7 @@
     "classnames": "^2.2.6",
     "compression": "1.7.4",
     "compression-webpack-plugin": "2.0.0",
-    "connected-react-router": "^6.5.0",
+    "connected-react-router": "^6.6.1",
     "cors": "latest",
     "cross-env": "5.2.0",
     "css-loader": "2.1.1",

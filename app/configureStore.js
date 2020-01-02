@@ -4,11 +4,14 @@
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from 'redux/sagas';
 import createReducer from './reducers';
 
-export default function configureStore(initialState = {}, history) {
+export const history = createBrowserHistory()
+console.log('history', history)
+export default function configureStore(initialState = {}) {
   let composeEnhancers = compose;
   const reduxSagaMonitorOptions = {};
 

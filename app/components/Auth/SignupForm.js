@@ -122,7 +122,7 @@ class SignupForm extends Component {
         password,
         firstname: 'User',
         lastname: 'Name',
-        roles: ['5dbb7ba4bb63cb5e04523fb2']
+        roles: ['user']
       });
     }
   };

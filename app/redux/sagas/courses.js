@@ -1,4 +1,6 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
+import routes from 'constants/routes.json';
 import {
   getCourses,
   createCourses,
@@ -48,14 +50,15 @@ import {
   DELETE_PRICING_PLAN_FAILED
 } from 'constants/actionTypes';
 
+
 // Responsible for searching media library, making calls to the API
 // and instructing the redux-saga middle ware on the next line of action,
 // for success or failure operation.
 /* eslint-disable no-use-before-define */
-export default function* watchCoursesListener(context = {}) {
+export default function* watchCoursesListener() {
   yield takeLatest(GET_COURSES_REQUEST, getCoursesRequestSaga);
   yield takeLatest(GET_COURSE_REQUEST, getCourseRequestSaga);
-  yield takeLatest(CREATE_COURSES_REQUEST, createCoursesRequestSaga, context);
+  yield takeLatest(CREATE_COURSES_REQUEST, createCoursesRequestSaga);
   yield takeLatest(DELETE_COURSES_REQUEST, deleteCoursesRequestSaga);
   yield takeLatest(CREATE_SECTIONS_REQUEST, createSectionRequestSaga);
   yield takeLatest(DELETE_SECTIONS_REQUEST, deleteSectionRequestSaga);
@@ -84,14 +87,25 @@ export function* getCourseRequestSaga({ payload }) {
   }
 }
 
-export function* createCoursesRequestSaga({ history }, { payload }) {
+export function* createCoursesRequestSaga({ payload }) {
   try {
     const res = yield call(createCourses, payload);
     // yield put({ type: CREATE_COURSES_SUCCESS, res });
     const id = res && res.data && res.data.id;
-    if (history && payload.redirect && id) {
-      return payload.history.push(payload.redirect.replace(':course', id));
+
+    if (id) {
+      const payload = {
+        title: 'First Section',
+        courseId: id
+      };
+      const route = `${routes.ADMIN}${routes.CURRICULUM}`.replace(':course', id);
+
+      yield call(createSectionRequestSaga, { payload });
+      yield put(push(route));
     }
+    // if (history && payload.redirect && id) {
+    //   return payload.history.push(payload.redirect.replace(':course', id));
+    // }
   } catch (error) {
     yield put({ type: CREATE_COURSES_FAILED, error });
   }
