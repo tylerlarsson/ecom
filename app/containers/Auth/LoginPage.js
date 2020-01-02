@@ -9,10 +9,11 @@ import AuthLayout from 'components/Auth/AuthLayout';
 
 class LoginPage extends PureComponent {
   render() {
-    const { onSubmit } = this.props;
+    const { onSubmit, error } = this.props;
 
     return (
       <AuthLayout
+        error={error}
         bg={Bg}
         review={{
           text: 'My shop is making $30000 a month while I relax in Sousa, Dominican Republic. Living the dream!',
@@ -27,6 +28,10 @@ class LoginPage extends PureComponent {
   }
 }
 
+const mapStateToProps = ({ auth }) => ({
+  error: auth.error
+});
+
 const mapDispatchToProps = dispatch => ({
   onSubmit: ({ email, password }) => {
     dispatch(signInAction(email, password));
@@ -34,10 +39,11 @@ const mapDispatchToProps = dispatch => ({
 });
 
 LoginPage.propTypes = {
+  error: PropTypes.objectOf(PropTypes.any),
   onSubmit: PropTypes.func.isRequired
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(LoginPage);

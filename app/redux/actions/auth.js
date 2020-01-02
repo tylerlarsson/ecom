@@ -6,7 +6,8 @@ import {
   GET_USER_REQUEST,
   LOG_OUT_REQUEST,
   SET_USER_REQUEST,
-  UPDATE_USER_REQUEST
+  UPDATE_USER_REQUEST,
+  SET_AUTH_ERROR_REQUEST
 } from 'constants/actionTypes';
 
 export const isAuth = () => {
@@ -60,4 +61,9 @@ export const signUpAction = user => ({
 
 export const logoutAction = () => ({
   type: LOG_OUT_REQUEST
+});
+
+export const setAuthError = (payload) => ({
+  type: SET_AUTH_ERROR_REQUEST,
+  payload
 });

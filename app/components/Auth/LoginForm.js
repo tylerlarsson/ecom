@@ -17,6 +17,8 @@ import { connect } from 'react-redux';
 import routes from 'constants/routes.json';
 import Button from 'components/Button/Button';
 import { EmailOutlined, VpnKey, Visibility, VisibilityOff } from '@material-ui/icons';
+import { setAuthError } from 'redux/actions/auth';
+import { EMAIL_PATTERN } from 'constants/default';
 import styles from './styles';
 
 class Login extends Component {
@@ -36,8 +38,31 @@ class Login extends Component {
 
   validate = () => {
     const { email, password } = this.state;
+    const { setAuthErrorAction } = this.props;
 
-    if (!email.trim() || !password) {
+    let error = {
+      title: null,
+      description: null
+    };
+
+    if (!email.trim() || !EMAIL_PATTERN.test(email) || !password) {
+      if (!email.trim()) {
+        error = {
+          title: 'Unable to login',
+          description: `Email can't be empty`
+        };
+      } else if (!EMAIL_PATTERN.test(email)) {
+        error = {
+          title: 'Unable to login',
+          description: `Email is not valid`
+        };
+      } else if (!password) {
+        error = {
+          title: 'Unable to login',
+          description: `Password can't be empty`
+        };
+      }
+      setAuthErrorAction(error);
       return false;
     }
 
@@ -176,17 +201,23 @@ function mapStateToProps(state) {
   const { login } = state;
   return { login };
 }
+const mapDispatchToProps = dispatch => ({
+  setAuthErrorAction: data => {
+    dispatch(setAuthError(data));
+  }
+});
 
 Login.defaultProps = {
   onCheckChange: () => {}
 };
 
 Login.propTypes = {
-  onCheckChange: PropTypes.func,
+  setAuthErrorAction: PropTypes.func.isRequired,
+  onCheckChange: PropTypes.func.isRequired,
   checked: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any),
   login: PropTypes.object,
   classes: PropTypes.object
 };
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(Login)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login)));

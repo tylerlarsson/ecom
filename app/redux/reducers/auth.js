@@ -13,7 +13,8 @@ import {
   GET_USER_FAILED,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILED,
-  LOG_OUT_SUCCESS
+  LOG_OUT_SUCCESS,
+  SET_AUTH_ERROR_REQUEST
 } from 'constants/actionTypes';
 
 const initialState = {
@@ -39,6 +40,10 @@ const initialState = {
     status: false,
     error: null,
     userStatus: null
+  },
+  error: {
+    title: null,
+    description: null
   }
 };
 
@@ -55,6 +60,15 @@ export default function(state = initialState, action) {
         }
       };
 
+    case SET_AUTH_ERROR_REQUEST:
+      return {
+        ...state,
+        error: {
+          title: action.payload.title,
+          description: action.payload.description
+        }
+      };
+
     case LOGIN_SUCCESS:
       if (!action.res.success) {
         return {
@@ -62,7 +76,11 @@ export default function(state = initialState, action) {
           login: {
             ...state.login,
             loginStatus: action.res.success,
-            error: action.res.reason
+            error: action.res.reason || 'Bad Request'
+          },
+          error: {
+            title: 'Unable to login.',
+            description: action.res.reason || 'Bad Request'
           }
         };
       }
@@ -73,7 +91,8 @@ export default function(state = initialState, action) {
           status: true,
           error: null,
           userStatus: true
-        }
+        },
+        error: null
       };
     case LOGIN_FAILED:
       return {
@@ -81,6 +100,10 @@ export default function(state = initialState, action) {
         login: {
           ...state.login,
           error: 'Bad Request'
+        },
+        error: {
+          title: 'Unable to login.',
+          description: action.res.reason || 'Bad Request'
         }
       };
 

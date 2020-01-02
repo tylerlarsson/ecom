@@ -10,6 +10,7 @@ export const signInRequest = payload =>
       grant_type: 'password'
     })
     .then(res => {
+      // console.log('signInRequest res', res)
       if (res.data.access_token) {
         setAccessToken(res.data.access_token); // no-use-before-define
         // setUserID(res.data.user.id);
@@ -21,7 +22,7 @@ export const signInRequest = payload =>
       }
       return { success: false, reason: res.message };
     })
-    .catch(err => ({ success: false, reason: err.response.data.message }));
+    .catch(err => ({ success: false, reason: err.response.data }));
 
 export const signUpRequest = payload =>
   axios

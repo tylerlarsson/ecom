@@ -27,8 +27,8 @@ export default function* watchAuthListener(context = {}) {
 export function* signInRequestSaga({ payload }) {
   try {
     const res = yield call(signInRequest, payload);
+    yield put({ type: types.LOGIN_SUCCESS, res });
     if (res.success) {
-      yield put({ type: types.LOGIN_SUCCESS, res });
       window.location.href = '';
     }
   } catch (error) {

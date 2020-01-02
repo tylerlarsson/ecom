@@ -70,20 +70,22 @@ const styles = theme => ({
 
 class AuthLayout extends PureComponent {
   render() {
-    const { classes, children, review } = this.props;
+    const { classes, children, review, error } = this.props;
 
     return (
       <div className={classes.root}>
         <Grid container spacing={0} className={classes.wrapper}>
           <Grid item xs={6} className={classes.column}>
             <AuthHeader />
-            <div className={classes.errorBox}>
-              <img src={Alert} width={28} height={28} alt="" style={{ marginRight: 16 }} />
-              <div>
-                <div className={classes.errorTitle}>Unable to login with the provided information.</div>
-                <div className={classes.errorDescription}>Please check your information and try again.</div>
+            {error && (error.title || error.description) ? (
+              <div className={classes.errorBox}>
+                <img src={Alert} width={28} height={28} alt="" style={{ marginRight: 16 }} />
+                <div>
+                  <div className={classes.errorTitle}>{error.title}</div>
+                  <div className={classes.errorDescription}>{error.description}</div>
+                </div>
               </div>
-            </div>
+            ) : null}
             {children}
             <AuthFooter />
           </Grid>
@@ -97,6 +99,7 @@ class AuthLayout extends PureComponent {
 }
 
 AuthLayout.propTypes = {
+  error: PropTypes.objectOf(PropTypes.any),
   review: PropTypes.objectOf(PropTypes.any),
   children: PropTypes.objectOf(PropTypes.any),
   classes: PropTypes.objectOf(PropTypes.any)
