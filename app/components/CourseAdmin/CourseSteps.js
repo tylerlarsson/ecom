@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { map } from 'lodash';
 import { withStyles, AppBar, Toolbar, Typography } from '@material-ui/core';
 import { Done, ChevronRight } from '@material-ui/icons';
@@ -100,4 +101,4 @@ CourseSteps.propTypes = {
   courseId: PropTypes.string
 };
 
-export default withStyles(styles)(CourseSteps);
+export default withRouter(withStyles(styles)(CourseSteps));

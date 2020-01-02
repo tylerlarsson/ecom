@@ -1,5 +1,5 @@
 module.exports = {
-  label: 'Completed Course',
+  label: 'Completed CourseAdmin',
   type: 'string',
   order: 90,
   filter(/* plan */) {

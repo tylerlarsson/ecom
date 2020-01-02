@@ -162,6 +162,7 @@ module.exports = app => {
         deleted
       });
     } catch (error) {
+      console.error(error);
       res.status(error.status || HttpStatus.INTERNAL_SERVER_ERROR).json({
         errors: isValidJSONString(error.message) ? JSON.parse(error.message) : error.message
       });

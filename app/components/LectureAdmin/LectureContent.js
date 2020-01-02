@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Edit, Delete, Reorder, Image, OpenInNew, CloudDownload } from '@material-ui/icons';
+import { Edit, Delete, Reorder, Image, OpenInNew, CloudDownload, Attachment } from '@material-ui/icons';
 import { Paper } from '@material-ui/core';
 import { sortableHandle } from 'react-sortable-hoc';
 const HtmlToReactParser = require('html-to-react').Parser;
@@ -59,31 +59,48 @@ const useStyles = makeStyles({
 function LectureContent(props) {
   const classes = useStyles();
   const { onEdit, onDelete, onDownload, data } = props;
-  const DragHandle = sortableHandle(() =>
-    data.type === 'text' ? (
-      <div>
-        <Reorder className={classes.icon} /> Text
-      </div>
-    ) : (
-      <div>
-        <Image className={classes.icon} /> Image
-      </div>
-    )
-  );
+  const DragHandle = sortableHandle(() => {
+    switch (data.type) {
+      case 'text':
+        return (
+          <div>
+            <Reorder className={classes.icon} /> Text
+          </div>
+        );
+      case 'image':
+        return (
+          <div>
+            <Image className={classes.icon} /> Image
+          </div>
+        );
+      default:
+        return (
+          <div>
+            <Attachment className={classes.icon} /> Attachment
+          </div>
+        );
+    }
+  });
+  let content;
+
+  switch (data.type) {
+    case 'text':
+      content = <div className={classes.text}>{htmlToReactParser.parse(data.content)}</div>;
+      break;
+    case 'image':
+    default:
+      content = (
+        <a target="_blank" href={data.url} className={classes.url}>
+          <OpenInNew className={classes.newIcon} /> {data.name}
+        </a>
+      );
+  }
   return (
     <Paper className={classes.wrap}>
       <div className={classes.type}>
         <DragHandle />
       </div>
-      <div className={classes.content}>
-        {data.type === 'text' ? (
-          <div className={classes.text}>{htmlToReactParser.parse(data.content)}</div>
-        ) : (
-          <a target="_blank" href={data.url} className={classes.url}>
-            <OpenInNew className={classes.newIcon} /> {data.name}
-          </a>
-        )}
-      </div>
+      <div className={classes.content}>{content}</div>
       {data.type === 'text' ? (
         <Edit className={classes.editIcon} onClick={onEdit} />
       ) : (

@@ -8,13 +8,14 @@ import {
   logOut
 } from 'utils/api/auth';
 import * as types from 'constants/actionTypes';
+import routes from 'constants/routes.json';
 
 // Responsible for searching media library, making calls to the API
 // and instructing the redux-saga middle ware on the next line of action,
 // for success or failure operation.
 /* eslint-disable no-use-before-define */
 export default function* watchAuthListener(context = {}) {
-  yield takeLatest(types.LOGIN_REQUEST, signInRequestSaga, context);
+  yield takeLatest(types.LOGIN_REQUEST, signInRequestSaga);
   yield takeLatest(types.FORGOT_PASSWORD_REQUEST, forgotPasswordRequestSaga);
   yield takeLatest(types.RESET_PASSWORD_REQUEST, resetPasswordRequestSaga);
   yield takeLatest(types.UPDATE_USER_REQUEST, updateUserSaga);
@@ -23,15 +24,12 @@ export default function* watchAuthListener(context = {}) {
   yield takeLatest(types.LOG_OUT_REQUEST, logOutRequestSaga, context);
 }
 
-export function* signInRequestSaga({ history }, { payload }) {
+export function* signInRequestSaga({ payload }) {
   try {
     const res = yield call(signInRequest, payload);
     if (res.success) {
       yield put({ type: types.LOGIN_SUCCESS, res });
-      if (history) {
-        // history.push('/');
-        window.location.href = '';
-      }
+      window.location.href = '';
     }
   } catch (error) {
     yield put({ type: types.LOGIN_FAILED, error });
@@ -50,7 +48,8 @@ export function* forgotPasswordRequestSaga({ payload }) {
 export function* resetPasswordRequestSaga({ payload }) {
   try {
     const res = yield call(resetPasswordRequest, payload);
-    yield [put({ type: types.RESET_PASSWORD_SUCCESS, res })];
+    yield put({ type: types.RESET_PASSWORD_SUCCESS, res });
+    window.location.href = routes.CHANGE_PASSWORD_SUCCESS;
   } catch (error) {
     yield put({ type: types.RESET_PASSWORD_FAILED, error });
   }
@@ -96,13 +95,11 @@ export function* signUpRequestSaga({ history }, { payload }) {
   }
 }
 
-export function* logOutRequestSaga({ history }) {
+export function* logOutRequestSaga() {
   try {
     const res = yield call(logOut, {});
     yield put({ type: types.LOG_OUT_SUCCESS, res });
-    if (history) {
-      history.push('/');
-    }
+    window.location.href = '';
   } catch (error) {
     yield put({ type: types.SIGN_UP_FAILED, error });
   }

@@ -1,17 +1,20 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import qs from 'query-string';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import LoginForm from 'components/Auth/LoginForm';
-import { signInAction } from 'redux/actions/auth';
-import Bg from 'assets/img/login-bg.jpg';
+import ChangePasswordForm from 'components/Auth/ChangePasswordForm';
+import { resetPasswordAction } from 'redux/actions/auth';
+import Bg from 'assets/img/forgot-bg.jpg';
 import AuthHeader from 'components/Auth/AuthHeader';
 import AuthFooter from 'components/Auth/AuthFooter';
 import AuthReview from 'components/Auth/AuthReview';
 import Reviewer from 'assets/img/faces/oval.jpg';
+import { RESET_PASSWORD_ID_PARAM } from 'constants/default';
+import routes from 'constants/routes.json';
 
 const styles = theme => ({
   root: {
@@ -50,21 +53,51 @@ const styles = theme => ({
   }
 });
 
-class LoginPage extends PureComponent {
+class ChangePassword extends PureComponent {
+  state = {
+    id: false
+  };
+
+  componentDidMount() {
+    this.setId();
+  }
+
+  setId = () => {
+    const { location, history } = this.props;
+    const id = qs.parse(location && location.search, { ignoreQueryPrefix: true })[RESET_PASSWORD_ID_PARAM];
+
+    if (id) {
+      this.setState({ id });
+    } else {
+      history.push(routes.FORGOT_PASSWORD);
+    }
+  };
+
+  onSubmit = password => {
+    const { id } = this.state;
+    const { resetPassword } = this.props;
+
+    const payload = {
+      password,
+      id
+    };
+    resetPassword(payload);
+  };
+
   render() {
-    const { classes, onSubmit } = this.props;
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
         <Grid container spacing={0} className={classes.wrapper}>
           <Grid item xs={6} className={classes.column}>
             <AuthHeader />
-            <LoginForm onSubmit={onSubmit} />
+            <ChangePasswordForm onSubmit={this.onSubmit} />
             <AuthFooter />
           </Grid>
           <Grid item xs={6} className={classes.columnRight}>
             <AuthReview
-              text="My shop is making $30000 a month while I relax in Sousa, Dominican Republic. Living the dream!"
+              text="The road to success is littered with potholes.Try to enjoy the bumpy ride!"
               reviewer={{
                 avatar: Reviewer,
                 name: 'Harry Holder',
@@ -79,19 +112,21 @@ class LoginPage extends PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onSubmit: ({ email, password }) => {
-    dispatch(signInAction(email, password));
+  resetPassword: password => {
+    dispatch(resetPasswordAction(password));
   }
 });
 
-LoginPage.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  classes: PropTypes.object
+ChangePassword.propTypes = {
+  location: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+  classes: PropTypes.object,
+  resetPassword: PropTypes.func.isRequired
 };
 
 export default withRouter(
   connect(
     null,
     mapDispatchToProps
-  )(withStyles(styles)(LoginPage))
+  )(withStyles(styles)(ChangePassword))
 );

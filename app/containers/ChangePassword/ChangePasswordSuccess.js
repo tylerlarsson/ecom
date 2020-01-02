@@ -1,13 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import LoginForm from 'components/Auth/LoginForm';
-import { signInAction } from 'redux/actions/auth';
-import Bg from 'assets/img/login-bg.jpg';
+import ChangePasswordSuccessForm from 'components/Auth/ChangePasswordSuccessForm';
+import Bg from 'assets/img/forgot-bg.jpg';
 import AuthHeader from 'components/Auth/AuthHeader';
 import AuthFooter from 'components/Auth/AuthFooter';
 import AuthReview from 'components/Auth/AuthReview';
@@ -50,21 +48,21 @@ const styles = theme => ({
   }
 });
 
-class LoginPage extends PureComponent {
+class ChangePasswordSuccess extends PureComponent {
   render() {
-    const { classes, onSubmit } = this.props;
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
         <Grid container spacing={0} className={classes.wrapper}>
           <Grid item xs={6} className={classes.column}>
             <AuthHeader />
-            <LoginForm onSubmit={onSubmit} />
+            <ChangePasswordSuccessForm onSubmit={this.onSubmit} />
             <AuthFooter />
           </Grid>
           <Grid item xs={6} className={classes.columnRight}>
             <AuthReview
-              text="My shop is making $30000 a month while I relax in Sousa, Dominican Republic. Living the dream!"
+              text="The road to success is littered with potholes.Try to enjoy the bumpy ride!"
               reviewer={{
                 avatar: Reviewer,
                 name: 'Harry Holder',
@@ -78,20 +76,8 @@ class LoginPage extends PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: ({ email, password }) => {
-    dispatch(signInAction(email, password));
-  }
-});
-
-LoginPage.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+ChangePasswordSuccess.propTypes = {
   classes: PropTypes.object
 };
 
-export default withRouter(
-  connect(
-    null,
-    mapDispatchToProps
-  )(withStyles(styles)(LoginPage))
-);
+export default withRouter(withStyles(styles)(ChangePasswordSuccess));

@@ -5,13 +5,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import LoginForm from 'components/Auth/LoginForm';
+import ResendPasswordForm from 'components/Auth/ResendPasswordForm';
 import { signInAction } from 'redux/actions/auth';
-import Bg from 'assets/img/login-bg.jpg';
+import Bg from 'assets/img/forgot-bg.jpg';
 import AuthHeader from 'components/Auth/AuthHeader';
 import AuthFooter from 'components/Auth/AuthFooter';
 import AuthReview from 'components/Auth/AuthReview';
 import Reviewer from 'assets/img/faces/oval.jpg';
+import routes from 'constants/routes.json';
 
 const styles = theme => ({
   root: {
@@ -50,21 +51,26 @@ const styles = theme => ({
   }
 });
 
-class LoginPage extends PureComponent {
+class ForgotPassword extends PureComponent {
+  onSubmit = () => {
+    const { history } = this.props;
+    history.push(routes.RESEND_PASSWORD);
+  };
+
   render() {
-    const { classes, onSubmit } = this.props;
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
         <Grid container spacing={0} className={classes.wrapper}>
           <Grid item xs={6} className={classes.column}>
             <AuthHeader />
-            <LoginForm onSubmit={onSubmit} />
+            <ResendPasswordForm onSubmit={this.onSubmit} />
             <AuthFooter />
           </Grid>
           <Grid item xs={6} className={classes.columnRight}>
             <AuthReview
-              text="My shop is making $30000 a month while I relax in Sousa, Dominican Republic. Living the dream!"
+              text="The road to success is littered with potholes.Try to enjoy the bumpy ride!"
               reviewer={{
                 avatar: Reviewer,
                 name: 'Harry Holder',
@@ -84,8 +90,8 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-LoginPage.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+ForgotPassword.propTypes = {
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.object
 };
 
@@ -93,5 +99,5 @@ export default withRouter(
   connect(
     null,
     mapDispatchToProps
-  )(withStyles(styles)(LoginPage))
+  )(withStyles(styles)(ForgotPassword))
 );

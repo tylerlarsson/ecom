@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter, Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { fade, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import { Link } from 'react-router-dom';
 import InputBase from '@material-ui/core/InputBase';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import routes from '../constants/routes.json';
+import routes from '../../constants/routes.json';
 
 const styles = theme => ({
   paper: {
@@ -208,4 +208,4 @@ SignupForm.propTypes = {
   classes: PropTypes.object
 };
 
-export default withStyles(styles)(SignupForm);
+export default withRouter(withStyles(styles)(SignupForm));
