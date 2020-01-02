@@ -108,4 +108,4 @@ class WistiaDriver extends Driver {
   }
 }
 
-module.exports = new WistiaDriver('bd1af011eb07adcac3dce5747ea7ec73099b2761225a9c015da824c4521e9def');
+module.exports = new WistiaDriver('');

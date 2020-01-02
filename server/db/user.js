@@ -209,7 +209,7 @@ USER.methods.discardEnrollment = async function discardEnrollment(enrollment) {
   if (!_enrollment) {
     throw error404({ enrollment }, enrollment);
   } else {
-    const idx = this.enrolledIn.findIndex(i => i.toString() === enrollment);
+    const idx = this.enrolledIn.findIndex(i => i.toString() === enrollment.toString());
     if (idx === -1) {
       const error = new Error(`User is not enrolled in ${enrollment}`);
       error.status = 404;

@@ -36,7 +36,7 @@ describe('pricing plan api test', function() {
       .post(path)
       .send({ courseId: course._id, ...db.mocks.mockPricing });
     expect(res.status).toBe(HttpStatus.OK);
-    expect(res.body.plan.type).toBe('one-time');
+    expect(res.body.plan.type).toBe('free');
     expect(res.body.plan.title).toBe('Test pricing plan');
   });
   test(`should add to course model ref`, async () => {

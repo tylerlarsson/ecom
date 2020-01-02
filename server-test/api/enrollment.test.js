@@ -76,9 +76,9 @@ describe('enrollment api test', () => {
     expect(res.body.enrollment.pricingPlan).toBe(plan._id.toString());
   });
 
-  // POST /enrollment/:user
+  // POST /enrollment/user/:user
   test('should raise error if schema is invalid', async () => {
-    const res = await request(app).post(`${path}/12345`);
+    const res = await request(app).post(`${path}/user/12345`);
     expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
   });
   test('should raise error if user is not found', async () => {
@@ -92,7 +92,7 @@ describe('enrollment api test', () => {
   test('should raise error if course is not found', async () => {
     const user = await db.userFactory();
     const res = await request(app)
-      .post(`${path}/${user._id}`)
+      .post(`${path}/user/${user._id}`)
       .send({
         course: db.mocks.mockId
       });
@@ -102,7 +102,7 @@ describe('enrollment api test', () => {
     const user = await db.userFactory();
     const course = await db.courseFactory();
     const res = await request(app)
-      .post(`${path}/${user._id}`)
+      .post(`${path}/user/${user._id}`)
       .send({
         course: course._id
       });
@@ -126,7 +126,10 @@ describe('enrollment api test', () => {
   });
   test('should add step to completed property', async () => {
     const enrollment = await db.enrollmentFactory();
-    const lecture = await db.lectureFactory();
+    const {
+      lecture: [lecture]
+    } = await db.lectureFactory();
+    console.log('should add step to completed property', lecture, enrollment);
     const res = await request(app)
       .put(`${path}/${enrollment._id}`)
       .send({
@@ -137,7 +140,9 @@ describe('enrollment api test', () => {
   });
   test('should not add step twice', async () => {
     const enrollment = await db.enrollmentFactory();
-    const lecture = await db.lectureFactory();
+    const {
+      lecture: [lecture]
+    } = await db.lectureFactory();
     let res = await request(app)
       .put(`${path}/${enrollment._id}`)
       .send({
@@ -165,7 +170,7 @@ describe('enrollment api test', () => {
   test('should return enrollment', async () => {
     const enrollment = await db.enrollmentFactory();
     const res = await request(app).get(`${path}/${enrollment._id}`);
-    expect(res.status).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
+    expect(res.status).toBe(HttpStatus.OK);
     expect(res.body.enrollment.id).toBe(enrollment._id.toString());
   });
 

@@ -1,12 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "delete link configuration schema",
+  "title": "get visitor info configuration schema",
   "type": "object",
-  "required": ["enrollment"],
+  "required": ["visitor"],
   "additionalProperties": false,
   "properties": {
-    "enrollment": {
-      "$ref": "#mongo-id"
+    "visitor": {
+      "type": "string"
     }
   }
 }

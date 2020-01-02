@@ -119,6 +119,9 @@ const getCourseEnrollsSchema = readJson('schema', 'enrollments', 'get-course-enr
 const getEnrollmentSchema = readJson('schema', 'enrollments', 'get-enrollment.schema.json');
 const addUserEnrollmentSchema = readJson('schema', 'enrollments', 'add-user-enrollment.schema.json');
 const putEnrollmentSchema = readJson('schema', 'enrollments', 'put-enrollment.schema.json');
+const getHeatMapSchema = readJson('schema', 'enrollments', 'get-heatmap.schema.json');
+const getMediaStatsSchema = readJson('schema', 'enrollments', 'get-media-stats.schema.json');
+const getVisitorInfoSchema = readJson('schema', 'enrollments', 'get-visitor-info.schema.json');
 
 module.exports = {
   name: ajv.compile(nameRequestSchema),
@@ -170,5 +173,8 @@ module.exports = {
   deleteComment: ajv.compile(deleteCommentSchema),
   createEnrollment: ajv.compile(createEnrollmentSchema),
   getUserEnrolls: ajv.compile(getUserEnrollsSchema),
-  getCourseEnrolls: ajv.compile(getCourseEnrollsSchema)
+  getCourseEnrolls: ajv.compile(getCourseEnrollsSchema),
+  getVisitorInfo: ajv.compile(getVisitorInfoSchema),
+  getMediaStats: ajv.compile(getMediaStatsSchema),
+  getHeatMap: ajv.compile(getHeatMapSchema)
 };
