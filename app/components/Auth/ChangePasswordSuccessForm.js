@@ -52,7 +52,7 @@ class ChangePasswordSuccessForm extends Component {
 }
 
 ChangePasswordSuccessForm.propTypes = {
-  history: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.object
 };
 export default withRouter(connect()(withStyles(styles)(ChangePasswordSuccessForm)));

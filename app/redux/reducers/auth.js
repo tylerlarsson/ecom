@@ -188,7 +188,10 @@ export default function(state = initialState, action) {
         return {
           ...state,
           status: action.res.success,
-          error: action.res.reason
+          error: {
+            title: 'Unable to reset password',
+            description: (action.res && action.res.reason) || 'Bad Request'
+          }
         };
       }
       return {
@@ -200,7 +203,10 @@ export default function(state = initialState, action) {
       return {
         ...state,
         status: false,
-        error: 'Bad Request'
+        error: {
+          title: 'Unable to reset password',
+          description: (action.res && action.res.reason) || 'Bad Request'
+        }
       };
 
     case GET_USER_SUCCESS:

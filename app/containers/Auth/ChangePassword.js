@@ -43,8 +43,11 @@ class ChangePassword extends PureComponent {
   };
 
   render() {
+    const { error } = this.props;
+
     return (
       <AuthLayout
+        error={error}
         bg={Bg}
         review={{
           text: 'The road to success is littered with potholes.Try to enjoy the bumpy ride!',
@@ -59,6 +62,10 @@ class ChangePassword extends PureComponent {
   }
 }
 
+const mapStateToProps = ({ auth }) => ({
+  error: auth.error
+});
+
 const mapDispatchToProps = dispatch => ({
   resetPassword: password => {
     dispatch(resetPasswordAction(password));
@@ -66,6 +73,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ChangePassword.propTypes = {
+  error: PropTypes.objectOf(PropTypes.any),
   location: PropTypes.objectOf(PropTypes.any).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   resetPassword: PropTypes.func.isRequired
@@ -73,7 +81,7 @@ ChangePassword.propTypes = {
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(ChangePassword)
 );

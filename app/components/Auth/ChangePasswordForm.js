@@ -14,6 +14,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import routes from 'constants/routes.json';
 import Button from 'components/Button/Button';
+import { setAuthError } from 'redux/actions/auth';
 import { VpnKey, Visibility, VisibilityOff } from '@material-ui/icons';
 import styles from './styles';
 
@@ -35,8 +36,31 @@ class Login extends Component {
 
   validate = () => {
     const { confirmPassword, password } = this.state;
+    const { setAuthErrorAction } = this.props;
+
+    let error = {
+      title: null,
+      description: null
+    };
 
     if (!confirmPassword || !password || confirmPassword !== password) {
+      if (!password) {
+        error = {
+          title: 'Unable to change password',
+          description: `Password can't be empty`
+        };
+      } else if (!confirmPassword) {
+        error = {
+          title: 'Unable to change password',
+          description: `Confirm password can't be empty`
+        };
+      } else if (confirmPassword !== password) {
+        error = {
+          title: 'Unable to change password',
+          description: `Password and Confirm password don't match`
+        };
+      }
+      setAuthErrorAction(error);
       return false;
     }
 
@@ -177,10 +201,17 @@ function mapStateToProps(state) {
   return { login };
 }
 
+const mapDispatchToProps = dispatch => ({
+  setAuthErrorAction: data => {
+    dispatch(setAuthError(data));
+  }
+});
+
 Login.propTypes = {
+  setAuthErrorAction: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any),
   onSubmit: PropTypes.func.isRequired,
   login: PropTypes.object,
   classes: PropTypes.object
 };
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(Login)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login)));

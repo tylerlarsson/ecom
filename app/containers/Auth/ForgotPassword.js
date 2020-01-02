@@ -11,15 +11,13 @@ import AuthLayout from 'components/Auth/AuthLayout';
 
 class ForgotPassword extends PureComponent {
   onSubmit = data => {
-    const { history, forgotPassword } = this.props;
+    const { forgotPassword } = this.props;
     forgotPassword(data);
-    // history.push(routes.RESEND_PASSWORD);
   };
 
   render() {
     const { error } = this.props;
 
-    console.log('error', error);
     return (
       <AuthLayout
         error={error}
