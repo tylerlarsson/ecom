@@ -9,8 +9,8 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from 'redux/sagas';
 import createReducer from './reducers';
 
-export const history = createBrowserHistory()
-console.log('history', history)
+export const history = createBrowserHistory();
+console.log('history', history);
 export default function configureStore(initialState = {}) {
   let composeEnhancers = compose;
   const reduxSagaMonitorOptions = {};

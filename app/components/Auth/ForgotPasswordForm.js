@@ -132,4 +132,9 @@ ForgotPasswordForm.propTypes = {
   login: PropTypes.object,
   classes: PropTypes.object
 };
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ForgotPasswordForm)));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withStyles(styles)(ForgotPasswordForm))
+);

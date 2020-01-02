@@ -6,7 +6,6 @@ import ForgotPasswordForm from 'components/Auth/ForgotPasswordForm';
 import { forgotPasswordAction } from 'redux/actions/auth';
 import Bg from 'assets/img/forgot-bg.jpg';
 import Reviewer from 'assets/img/faces/oval.jpg';
-import routes from 'constants/routes.json';
 import AuthLayout from 'components/Auth/AuthLayout';
 
 class ForgotPassword extends PureComponent {
@@ -47,7 +46,6 @@ const mapDispatchToProps = dispatch => ({
 
 ForgotPassword.propTypes = {
   error: PropTypes.objectOf(PropTypes.any),
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
   forgotPassword: PropTypes.func.isRequired
 };
 

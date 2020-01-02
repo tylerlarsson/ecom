@@ -11,11 +11,8 @@ import '@babel/polyfill';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router'
+import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
-// import { ConnectedRouter } from 'connected-react-router';
-// import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 import { ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
 

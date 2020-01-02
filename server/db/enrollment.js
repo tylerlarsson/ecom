@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema.Types;
 const { DEFAULT_OPTIONS } = require('./common');
-const User = require('./user');
 const Course = require('./course');
 const { error404 } = require('../core/util');
 
@@ -28,7 +27,7 @@ const ENROLLMENT = new mongoose.Schema(
     user: { type: ObjectId, ref: 'user', required: true },
     course: { type: ObjectId, ref: 'course', required: true },
     pricingPlan: { type: ObjectId, ref: 'pricing-plan' },
-    competed: [ObjectId],
+    completed: [ObjectId],
     payments: [PAYMENT],
     deleted: { type: Boolean, default: false },
     created: Date,
@@ -39,23 +38,28 @@ const ENROLLMENT = new mongoose.Schema(
 
 ENROLLMENT.statics.enroll = async args => {
   const { user: _user, course: _course, payment } = args;
+  const User = mongoose.model('user');
   const [user, course] = await Promise.all([User.findById(_user), Course.findById(_course)]);
   if (!user) {
     throw error404({ user }, _user);
   } else if (!course) {
     throw error404({ course }, _course);
   }
-  const enrollment = new Enrollment({ ...args, created: new Date() });
+  let enrollment = new Enrollment({ ...args, created: new Date() });
   if (payment) {
     enrollment.payments.push(payment);
   }
+  enrollment = await enrollment.save();
   await user.addEnrollment(enrollment._id.toString());
-  return enrollment.save();
+  return enrollment;
 };
 
-ENROLLMENT.methods.addCompletedStep = async args => {
+ENROLLMENT.methods.addCompletedStep = async function addCompletedStep(args) {
   const { step } = args;
-  const idx = this.competed.findIndex(i => i.toString() === step.toString());
+  if (!this.completed) {
+    this.completed = [];
+  }
+  const idx = this.completed.findIndex(i => i.toString() === step.toString());
   if (idx === -1) {
     this.completed.push(step);
     return this.save();
@@ -66,6 +70,7 @@ ENROLLMENT.methods.addCompletedStep = async args => {
 };
 
 ENROLLMENT.methods.delete = async function delete_() {
+  const User = mongoose.model('user');
   const user = await User.findById(this.user);
   if (!user) throw error404({ user }, this.user);
   this.deleted = true;

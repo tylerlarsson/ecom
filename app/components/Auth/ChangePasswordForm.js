@@ -214,4 +214,9 @@ Login.propTypes = {
   login: PropTypes.object,
   classes: PropTypes.object
 };
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login)));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withStyles(styles)(Login))
+);
