@@ -52,21 +52,21 @@ const styles = theme => ({
   }
 });
 
-const AuthReview = ({ classes, text, reviewer = {} }) => (
+const AuthReview = ({ classes, text, name, username, avatar }) => (
   <div className={classes.root}>
     <div className={classes.review}>
       <Typography className={classes.text}>{text}</Typography>
     </div>
     <div className={classes.reviewer}>
       <div className={classes.avatarWrap}>
-        <Avatar className={classes.avatar} src={reviewer.avatar} />
+        <Avatar className={classes.avatar} src={avatar} />
       </div>
       <div>
         <Typography component="div" className={classes.name}>
-          {reviewer.name}
+          {name}
         </Typography>
         <Typography component="div" className={classes.username}>
-          {reviewer.username}
+          {username}
         </Typography>
       </div>
     </div>
@@ -74,8 +74,10 @@ const AuthReview = ({ classes, text, reviewer = {} }) => (
 );
 
 AuthReview.propTypes = {
+  avatar: PropTypes.string,
+  username: PropTypes.string,
+  name: PropTypes.string,
   text: PropTypes.string,
-  reviewer: PropTypes.objectOf(PropTypes.any),
   classes: PropTypes.object
 };
 

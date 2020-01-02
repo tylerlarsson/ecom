@@ -33,3 +33,5 @@ export const PRICING_PLAN_TYPES = [
 ];
 
 export const RESET_PASSWORD_ID_PARAM = 'bjson';
+
+export const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;  // eslint-disable-line
