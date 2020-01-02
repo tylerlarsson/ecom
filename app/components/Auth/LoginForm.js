@@ -201,6 +201,7 @@ function mapStateToProps(state) {
   const { login } = state;
   return { login };
 }
+
 const mapDispatchToProps = dispatch => ({
   setAuthErrorAction: data => {
     dispatch(setAuthError(data));
@@ -213,11 +214,16 @@ Login.defaultProps = {
 
 Login.propTypes = {
   setAuthErrorAction: PropTypes.func.isRequired,
-  onCheckChange: PropTypes.func.isRequired,
+  onCheckChange: PropTypes.func,
   checked: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any),
   login: PropTypes.object,
   classes: PropTypes.object
 };
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login)));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withStyles(styles)(Login))
+);

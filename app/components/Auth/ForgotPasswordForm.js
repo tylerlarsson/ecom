@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from 'components/Button/Button';
 import { EmailOutlined } from '@material-ui/icons';
+import { setAuthError } from 'redux/actions/auth';
+import { EMAIL_PATTERN } from 'constants/default';
 import styles from './styles';
 
 class ForgotPasswordForm extends Component {
@@ -23,8 +25,27 @@ class ForgotPasswordForm extends Component {
 
   validate = () => {
     const { email } = this.state;
+    const { setAuthErrorAction } = this.props;
 
-    if (!email.trim()) {
+    let error = {
+      title: null,
+      description: null
+    };
+
+    if (!email.trim() || !EMAIL_PATTERN.test(email)) {
+      if (!email.trim()) {
+        error = {
+          title: 'Unable to login',
+          description: `Email can't be empty`
+        };
+      } else if (!EMAIL_PATTERN.test(email)) {
+        error = {
+          title: 'Unable to login',
+          description: `Email is not valid`
+        };
+      }
+
+      setAuthErrorAction(error);
       return false;
     }
 
@@ -99,9 +120,16 @@ function mapStateToProps(state) {
   return { login };
 }
 
+const mapDispatchToProps = dispatch => ({
+  setAuthErrorAction: data => {
+    dispatch(setAuthError(data));
+  }
+});
+
 ForgotPasswordForm.propTypes = {
+  setAuthErrorAction: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   login: PropTypes.object,
   classes: PropTypes.object
 };
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(ForgotPasswordForm)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ForgotPasswordForm)));

@@ -62,7 +62,7 @@ export const forgotPasswordRequest = payload => {
       }
       return { success: false, reason: res.message };
     })
-    .catch(err => ({ success: false, reason: err.response.data.message }));
+    .catch(err => ({ success: false, reason: err.response.data && err.response.data.errors }));
 };
 
 export const resetPasswordRequest = payload => {

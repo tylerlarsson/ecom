@@ -63,7 +63,7 @@ export const logoutAction = () => ({
   type: LOG_OUT_REQUEST
 });
 
-export const setAuthError = (payload) => ({
+export const setAuthError = payload => ({
   type: SET_AUTH_ERROR_REQUEST,
   payload
 });

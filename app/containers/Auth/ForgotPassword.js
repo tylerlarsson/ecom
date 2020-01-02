@@ -13,12 +13,16 @@ class ForgotPassword extends PureComponent {
   onSubmit = data => {
     const { history, forgotPassword } = this.props;
     forgotPassword(data);
-    history.push(routes.RESEND_PASSWORD);
+    // history.push(routes.RESEND_PASSWORD);
   };
 
   render() {
+    const { error } = this.props;
+
+    console.log('error', error);
     return (
       <AuthLayout
+        error={error}
         bg={Bg}
         review={{
           text: 'The road to success is littered with potholes.Try to enjoy the bumpy ride!',
@@ -33,6 +37,10 @@ class ForgotPassword extends PureComponent {
   }
 }
 
+const mapStateToProps = ({ auth }) => ({
+  error: auth.error
+});
+
 const mapDispatchToProps = dispatch => ({
   forgotPassword: data => {
     dispatch(forgotPasswordAction(data));
@@ -40,13 +48,14 @@ const mapDispatchToProps = dispatch => ({
 });
 
 ForgotPassword.propTypes = {
+  error: PropTypes.objectOf(PropTypes.any),
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   forgotPassword: PropTypes.func.isRequired
 };
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(ForgotPassword)
 );

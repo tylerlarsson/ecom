@@ -1,4 +1,5 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
 import {
   signInRequest,
   forgotPasswordRequest,
@@ -16,7 +17,7 @@ import routes from 'constants/routes.json';
 /* eslint-disable no-use-before-define */
 export default function* watchAuthListener(context = {}) {
   yield takeLatest(types.LOGIN_REQUEST, signInRequestSaga);
-  yield takeLatest(types.FORGOT_PASSWORD_REQUEST, forgotPasswordRequestSaga);
+  yield takeLatest(types.FORGOT_PASSWORD_REQUEST, forgotPasswordRequestSaga, context);
   yield takeLatest(types.RESET_PASSWORD_REQUEST, resetPasswordRequestSaga);
   yield takeLatest(types.UPDATE_USER_REQUEST, updateUserSaga);
   yield takeLatest(types.SIGN_UP_REQUEST, signUpRequestSaga, context);
@@ -36,10 +37,15 @@ export function* signInRequestSaga({ payload }) {
   }
 }
 
-export function* forgotPasswordRequestSaga({ payload }) {
+export function* forgotPasswordRequestSaga({ history }, { payload }) {
   try {
     const res = yield call(forgotPasswordRequest, payload);
-    yield [put({ type: types.FORGOT_PASSWORD_SUCCESS, res })];
+    yield put({ type: types.FORGOT_PASSWORD_SUCCESS, res });
+    if (res.success) {
+      history.push(routes.RESEND_PASSWORD);
+      // yield call(history.push, routes.RESEND_PASSWORD);
+      // yield put(push(routes.RESEND_PASSWORD));
+    }
   } catch (error) {
     yield put({ type: types.FORGOT_PASSWORD_FAILED, error });
   }

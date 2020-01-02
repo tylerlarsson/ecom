@@ -79,8 +79,8 @@ export default function(state = initialState, action) {
             error: action.res.reason || 'Bad Request'
           },
           error: {
-            title: 'Unable to login.',
-            description: action.res.reason || 'Bad Request'
+            title: 'Unable to login',
+            description: (action.res && action.res.reason) || 'Bad Request'
           }
         };
       }
@@ -102,8 +102,8 @@ export default function(state = initialState, action) {
           error: 'Bad Request'
         },
         error: {
-          title: 'Unable to login.',
-          description: action.res.reason || 'Bad Request'
+          title: 'Unable to login',
+          description: (action.res && action.res.reason) || 'Bad Request'
         }
       };
 
@@ -144,6 +144,7 @@ export default function(state = initialState, action) {
 
     // Requests for forgot password
     case FORGOT_PASSWORD_SUCCESS:
+      console.log('FORGOT_PASSWORD_SUCCESS', action.res);
       if (!action.res.success) {
         return {
           ...state,
@@ -151,6 +152,10 @@ export default function(state = initialState, action) {
             ...state.forgotPassword,
             status: false,
             error: action.res.reason
+          },
+          error: {
+            title: 'Unable to restore password',
+            description: (action.res && action.res.reason) || 'Bad Request'
           }
         };
       }
@@ -159,15 +164,21 @@ export default function(state = initialState, action) {
         forgotPassword: {
           ...state.forgotPassword,
           status: true
-        }
+        },
+        error: null
       };
     case FORGOT_PASSWORD_FAILED:
+      console.log('FORGOT_PASSWORD_FAILED', action.res);
       return {
         ...state,
         forgotPassword: {
           ...state.forgotPassword,
           status: false,
           error: 'Bad Request'
+        },
+        error: {
+          title: 'Unable to restore password',
+          description: (action.res && action.res.reason) || 'Bad Request'
         }
       };
 
