@@ -12,7 +12,7 @@ import sidebarStyle from './styles';
 
 const useStyles = makeStyles(theme => ({
   nested: {
-    paddingLeft: `${theme.spacing(8)}px !important`
+    paddingLeft: `9px !important`
   },
   arrow: {
     float: 'right'

@@ -210,7 +210,9 @@ const sidebarStyle = theme => ({
     fontSize: 14,
     fontWeight: 500,
     fontFamily: "Roboto', 'Helvetica', 'Arial', sans-serif",
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    marginTop: 21,
+    marginLeft: 25
   },
   activePro: {
     [theme.breakpoints.up("md")]: {
