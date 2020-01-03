@@ -1,15 +1,13 @@
-// @material-ui/icons
-// import Dashboard from '@material-ui/icons/Dashboard';
-import Person from '@material-ui/icons/Person';
-import Dashboard from '@material-ui/icons/Dashboard';
-import Ballot from '@material-ui/icons/Ballot';
-import People from '@material-ui/icons/People';
-import Web from '@material-ui/icons/Web';
-import VideoLibrary from '@material-ui/icons/VideoLibrary';
-import TrendingUp from '@material-ui/icons/TrendingUp';
-import SettingsApplications from '@material-ui/icons/SettingsApplications';
-// core components/views for Admin layout
-// import UserProfile from 'views/UserProfile/UserProfile.jsx';
+import {
+  Person,
+  DashboardOutlined,
+  Ballot,
+  PeopleOutlined,
+  Web,
+  VideoLibrary,
+  TrendingUp,
+  SettingsApplications
+} from '@material-ui/icons';
 import HomePage from 'containers/HomePage';
 import Users from 'containers/Admin/Users/Users';
 import Roles from 'containers/Admin/Roles/Roles';
@@ -28,7 +26,7 @@ const dashboardRoutes = [
   {
     path: routes.DASHBOARD,
     name: 'Dashboard',
-    icon: Dashboard,
+    icon: DashboardOutlined,
     component: HomePage,
     layout: routes.ADMIN,
     visible: true
@@ -36,7 +34,7 @@ const dashboardRoutes = [
   {
     path: routes.USERS,
     name: 'Users',
-    icon: People,
+    icon: PeopleOutlined,
     component: Users,
     layout: routes.ADMIN,
     visible: true,
@@ -45,7 +43,6 @@ const dashboardRoutes = [
         path: routes.FILTER,
         link: routes.FILTER.replace(':role', 'admin'),
         name: 'Admins',
-        icon: People,
         component: UsersFilterPage,
         layout: routes.ADMIN,
         visible: true
@@ -54,7 +51,6 @@ const dashboardRoutes = [
         path: routes.FILTER,
         link: routes.FILTER.replace(':role', 'student'),
         name: 'Students',
-        icon: People,
         component: UsersFilterPage,
         layout: routes.ADMIN,
         visible: true
@@ -74,6 +70,22 @@ const dashboardRoutes = [
     name: 'Sales',
     icon: TrendingUp,
     component: HomePage,
+    layout: routes.ADMIN,
+    visible: true
+  },
+  {
+    path: routes.COURSES,
+    name: 'Courses',
+    icon: VideoLibrary,
+    component: CoursesPage,
+    layout: routes.ADMIN,
+    visible: true
+  },
+  {
+    path: routes.PROFILE,
+    name: 'Profile',
+    icon: Person,
+    component: ProfilePage,
     layout: routes.ADMIN,
     visible: true
   },
@@ -110,14 +122,6 @@ const dashboardRoutes = [
         visible: true
       }
     ]
-  },
-  {
-    path: routes.COURSES,
-    name: 'Courses',
-    icon: VideoLibrary,
-    component: CoursesPage,
-    layout: routes.ADMIN,
-    visible: true
   },
   {
     path: routes.NEW_COURSE,
@@ -158,14 +162,6 @@ const dashboardRoutes = [
     component: LecturePage,
     layout: routes.ADMIN,
     visible: false
-  },
-  {
-    path: routes.PROFILE,
-    name: 'Profile',
-    icon: Person,
-    component: ProfilePage,
-    layout: routes.ADMIN,
-    visible: true
   }
 ];
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { map, forEach, filter } from 'lodash';
-// @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Fab, Paper, Tabs, Tab } from '@material-ui/core';
 // core components
@@ -12,12 +11,12 @@ import CustomNavbar from 'components/Navbars/CustomNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import { createSection, getCourse, createLecture } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
-import LectureTitle from 'components/LectureAdmin/LectureTitle';
-import TabPanel from 'components/LectureAdmin/TabPanel';
+import LectureTitle from 'components/Admin/LectureAdmin/LectureTitle';
+import TabPanel from 'components/Admin/LectureAdmin/TabPanel';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import LectureContent from 'components/LectureAdmin/LectureContent';
+import LectureContent from 'components/Admin/LectureAdmin/LectureContent';
 import Dropzone from 'react-dropzone';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';

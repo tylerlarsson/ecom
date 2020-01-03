@@ -23,19 +23,42 @@ const styles = theme => ({
       height: 20,
       display: 'block'
     }
+  },
+  logo: {
+    width: 270,
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  grow: {
+    flex: 1,
+    paddingLeft: 40
+  },
+  search: {
+    fontSize: 14,
+    color: theme.palette.secondary.main,
+    background: 'transparent',
+    border: 'none',
+    outline: 'none'
+  },
+  right: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingRight: 30
   }
 });
 
 const AdminMainNavbar = ({ classes, right }) => (
-  <AppBar elevation={1} position="fixed" className={classes.root}>
-    <Toolbar>
-      <Typography variant="h6">
+  <AppBar elevation={0} className={classes.root}>
+    <Toolbar disableGutters>
+      <Typography variant="h6" className={classes.logo}>
         <Link to={routes.HOME}>
           <img src={Logo} width="auto" alt="" />
         </Link>
       </Typography>
-      <div className={classes.grow} />
-      <div style={{ float: 'right' }}>{right}</div>
+      <div className={classes.grow}>
+        <input className={classes.search} placeholder="Search for something…" />
+      </div>
+      <div className={classes.right}>{right}</div>
     </Toolbar>
   </AppBar>
 );

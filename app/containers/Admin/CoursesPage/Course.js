@@ -15,7 +15,7 @@ import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import { createCourse } from 'redux/actions/courses';
 import { getUsers } from 'redux/actions/users';
-import CourseSteps from 'components/CourseAdmin/CourseSteps';
+import CourseSteps from 'components/Admin/CourseAdmin/CourseSteps';
 
 const styles = {
   cardCategoryWhite: {
