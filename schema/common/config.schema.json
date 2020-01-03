@@ -8,7 +8,8 @@
     "base-path",
     "default-user-permissions",
     "default-admin-permissions",
-    "default-role-filters"
+    "default-role-filters",
+    "gcs-project-id"
   ],
   "additionalProperties": false,
   "properties": {
@@ -16,6 +17,15 @@
       "type": "string"
     },
     "gcs-project-id": {
+      "type": "string"
+    },
+    "wistia-key": {
+      "type": "string"
+    },
+    "mailjet-public": {
+      "type": "string"
+    },
+    "mailjet-private": {
       "type": "string"
     },
     "mongo": {
@@ -28,7 +38,8 @@
           "minLength": 7
         },
         "host": {
-          "type": "string"
+          "type": "string",
+          "format": "ipv4"
         },
         "db": {
           "type": "string"

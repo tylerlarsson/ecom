@@ -251,7 +251,6 @@ module.exports = app => {
         course: _course
       });
     } catch (error) {
-      console.error(error);
       res.status(error.status || 500).json({ errors: error.message });
     }
   });

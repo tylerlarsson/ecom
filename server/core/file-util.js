@@ -63,7 +63,8 @@ async function generateUploadUrl(filename, expires, bucket = 'course-images') {
   const opts = {
     version: 'v4',
     action: 'write',
-    expires: expires || Date.now() + 15 * 60 * 1000
+    expires: expires || Date.now() + 15 * 60 * 1000,
+    contentType
   };
   const hashedFilename = crypto.randomBytes(16).toString('hex') + filename;
   return getSignedUrl(hashedFilename, opts, bucket);
