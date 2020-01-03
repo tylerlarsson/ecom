@@ -8,7 +8,7 @@ import {
   blackColor,
   hexToRgb
 } from "assets/jss/material-dashboard-react.jsx";
-import { DRAWER_WIDTH } from 'constants/default';
+import { DRAWER_WIDTH, DRAWER_SUBMENU_WIDTH } from 'constants/default';
 
 const sidebarStyle = theme => ({
   drawerPaper: {
@@ -196,6 +196,21 @@ const sidebarStyle = theme => ({
       borderRadius: 4
     }
 
+  },
+  submenu: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    height: '100%',
+    width: DRAWER_SUBMENU_WIDTH,
+    background: '#425581'
+  },
+  submenuTitle: {
+    color: theme.palette.primary.link,
+    fontSize: 14,
+    fontWeight: 500,
+    fontFamily: "Roboto', 'Helvetica', 'Arial', sans-serif",
+    textTransform: 'uppercase'
   },
   activePro: {
     [theme.breakpoints.up("md")]: {

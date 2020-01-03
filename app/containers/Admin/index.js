@@ -36,7 +36,7 @@ const styles = theme => ({
   },
   mainPanel: {
     flex: 1,
-    height: '100%',
+    height: 'calc(100% - 64px)',
     overflow: 'auto'
   },
   icon: {
