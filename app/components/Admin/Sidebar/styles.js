@@ -24,7 +24,7 @@ const sidebarStyle = theme => ({
     [theme.breakpoints.up("md")]: {
       width: DRAWER_WIDTH,
       position: "relative",
-      height: "100%"
+      height: "calc(100% - 64px)"
     },
     [theme.breakpoints.down("sm")]: {
       width: DRAWER_WIDTH,
@@ -133,17 +133,17 @@ const sidebarStyle = theme => ({
     display: "block",
     textDecoration: "none",
     "&:hover,&:focus,&:visited,&": {
-      color: whiteColor
+      color: '#ECF0F1'
     }
   },
   itemLink: {
     width: "auto",
     transition: "all 300ms linear",
     margin: "8px 16px 0",
-    borderRadius: "3px",
+    borderRadius: "4px",
     position: "relative",
     display: "block",
-    padding: "10px 15px",
+    padding: "8px 15px",
     backgroundColor: "transparent",
     ...defaultFont
   },
@@ -153,23 +153,25 @@ const sidebarStyle = theme => ({
     fontSize: "24px",
     lineHeight: "30px",
     float: "left",
-    marginRight: "15px",
+    marginRight: "10px",
     textAlign: "center",
     verticalAlign: "middle",
-    color: "rgba(" + hexToRgb(whiteColor) + ", 0.8)"
+    color: "#526695"
   },
   itemText: {
     ...defaultFont,
     margin: "0",
     lineHeight: "30px",
     fontSize: "14px",
-    color: whiteColor
+    fontWeight: 400,
+    color: '#ECF0F1'
   },
   whiteFont: {
-    color: whiteColor
+    color: '#ECF0F1'
   },
   activeLink: {
-    backgroundColor: '#556791',
+    color: '#ECF0F1',
+    backgroundColor: "rgba(" + hexToRgb('#556791') + ", 0.8)",
     '&:hover,&:focus': {
       backgroundColor: '#556791'
     }
@@ -180,7 +182,20 @@ const sidebarStyle = theme => ({
     overflow: "auto",
     width: DRAWER_WIDTH,
     zIndex: "4",
-    overflowScrolling: "touch"
+    overflowScrolling: "touch",
+    paddingBottom: 10,
+    '&::-webkit-scrollbar': {
+      width: '0.4em'
+    },
+    '&::-webkit-scrollbar-track': {
+      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: 'rgba(149,165,166,.5)',
+      outline: '1px solid slategrey',
+      borderRadius: 4
+    }
+
   },
   activePro: {
     [theme.breakpoints.up("md")]: {
