@@ -7,41 +7,40 @@ import {
   grayColor,
   blackColor,
   hexToRgb
-} from "assets/jss/material-dashboard-react.jsx";
+} from 'assets/jss/material-dashboard-react.jsx';
 import { DRAWER_WIDTH, DRAWER_SUBMENU_WIDTH } from 'constants/default';
 
 const sidebarStyle = theme => ({
   drawerPaper: {
-    border: "none",
-    position: "relative",
-    top: "0",
-    bottom: "0",
-    left: "0",
-    zIndex: "1",
-    display: 'flex',
-    flexDirection: 'column',
+    border: 'none',
+    position: 'relative',
+    top: '0',
+    bottom: '0',
+    left: '0',
+    borderRadius: 0,
+    backgroundImage: 'linear-gradient(180deg, #3b4b77 0%, #242c46 100%)',
     width: DRAWER_WIDTH,
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up('md')]: {
       width: DRAWER_WIDTH,
-      position: "relative",
-      height: "calc(100% - 64px)"
+      position: 'relative',
+      height: 'calc(100% - 64px)'
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
       width: DRAWER_WIDTH,
       ...boxShadow,
-      position: "relative",
-      display: "block",
-      top: "0",
-      height: "100vh",
-      right: "0",
-      left: "auto",
-      zIndex: "1032",
-      visibility: "visible",
-      overflowY: "visible",
-      borderTop: "none",
-      textAlign: "left",
-      paddingRight: "0px",
-      paddingLeft: "0",
+      position: 'relative',
+      display: 'block',
+      top: '0',
+      height: '100vh',
+      right: '0',
+      left: 'auto',
+      zIndex: '1032',
+      visibility: 'visible',
+      overflowY: 'visible',
+      borderTop: 'none',
+      textAlign: 'left',
+      paddingRight: '0px',
+      paddingLeft: '0',
       transform: `translate3d(${DRAWER_WIDTH}px, 0, 0)`,
       ...transition
     }
@@ -60,7 +59,7 @@ const sidebarStyle = theme => ({
     textTransform: 'none'
   },
   logo: {
-    position: "relative",
+    position: 'relative',
     width: '100%',
     height: 213,
     minHeight: 213,
@@ -68,101 +67,80 @@ const sidebarStyle = theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: "4",
     background: 'rgba(' + hexToRgb(theme.palette.primary.main) + ',.74)'
   },
   logoLink: {
     ...defaultFont,
-    textTransform: "uppercase",
-    padding: "5px 0",
-    display: "block",
-    fontSize: "18px",
-    textAlign: "center",
-    fontWeight: "400",
-    lineHeight: "30px",
-    textDecoration: "none",
-    backgroundColor: "transparent",
-    "&,&:hover": {
+    textTransform: 'uppercase',
+    padding: '5px 0',
+    display: 'block',
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: '400',
+    lineHeight: '30px',
+    textDecoration: 'none',
+    backgroundColor: 'transparent',
+    '&,&:hover': {
       color: whiteColor
     }
   },
   logoImage: {
-    maxWidth: "101px",
-    maxHeight: "101px",
-    display: "block",
-    marginLeft: "auto",
-    marginRight: "auto"
+    maxWidth: '101px',
+    maxHeight: '101px',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto'
   },
   img: {
-    maxWidth: "101px",
-    border: "0"
-  },
-  background: {
-    position: "absolute",
-    zIndex: "1",
-    height: "100%",
-    width: "100%",
-    display: "block",
-    top: "0",
-    left: "0",
-    backgroundImage: 'linear-gradient(180deg, #3b4b77 0%, #242c46 100%)',
-    // backgroundSize: "cover",
-    // backgroundPosition: "center center",
-    "&:after": {
-      position: "absolute",
-      zIndex: "3",
-      width: "100%",
-      height: "100%",
-      content: '""',
-      display: "block",
-      // background: '#262b41',
-      // opacity: ".8"
-    }
+    maxWidth: '101px',
+    border: '0'
   },
   list: {
-    marginTop: "20px",
-    paddingLeft: "0",
-    paddingTop: "0",
-    paddingBottom: "0",
-    marginBottom: "0",
-    listStyle: "none",
-    position: "unset"
+    flex: 1,
+    marginTop: '12px',
+    paddingLeft: '0',
+    paddingTop: '0',
+    paddingBottom: '10px',
+    marginBottom: '0',
+    listStyle: 'none',
+    position: 'unset'
   },
   item: {
-    position: "relative",
-    display: "block",
-    textDecoration: "none",
-    "&:hover,&:focus,&:visited,&": {
+    position: 'relative',
+    display: 'block',
+    textDecoration: 'none',
+    '&:hover,&:focus,&:visited,&': {
       color: '#ECF0F1'
     }
   },
   itemLink: {
-    width: "auto",
-    transition: "all 300ms linear",
-    margin: "8px 16px 0",
-    borderRadius: "4px",
-    position: "relative",
-    display: "block",
-    padding: "8px 15px",
-    backgroundColor: "transparent",
-    ...defaultFont
+    width: 'auto',
+    transition: 'all 300ms linear',
+    margin: '8px 16px 0',
+    borderRadius: '4px',
+    position: 'relative',
+    display: 'block',
+    padding: '8px 15px',
+    backgroundColor: 'transparent',
+    ...defaultFont,
+    minHeight: 46
   },
   itemIcon: {
-    width: "24px",
-    height: "30px",
-    fontSize: "24px",
-    lineHeight: "30px",
-    float: "left",
-    marginRight: "10px",
-    textAlign: "center",
-    verticalAlign: "middle",
-    color: "#526695"
+    width: '24px',
+    height: '30px',
+    fontSize: '24px',
+    lineHeight: '30px',
+    float: 'left',
+    marginRight: '10px',
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    color: '#526695'
   },
   itemText: {
     ...defaultFont,
-    margin: "0",
-    lineHeight: "30px",
-    fontSize: "14px",
+    margin: '0',
+    lineHeight: '30px',
+    fontSize: '14px',
     fontWeight: 400,
     color: '#ECF0F1'
   },
@@ -171,19 +149,22 @@ const sidebarStyle = theme => ({
   },
   activeLink: {
     color: '#ECF0F1',
-    backgroundColor: "rgba(" + hexToRgb('#556791') + ", 0.8)",
-    '&:hover,&:focus': {
-      backgroundColor: '#556791'
+    backgroundColor: 'rgba(' + hexToRgb('#556791') + ', 0.5)',
+    '&:hover': {
+      backgroundColor: '#556791 !important'
+    },
+    '&:focus': {
+      backgroundColor: 'rgba(' + hexToRgb('#556791') + ', 0.5)'
     }
   },
   sidebarWrapper: {
-    position: "relative",
-    flex: 1,
-    overflow: "auto",
+    display: 'flex',
+    height: 'calc(100% - 213px)',
+    overflowY: 'auto',
+    overflowX: 'hidden',
     width: DRAWER_WIDTH,
-    zIndex: "4",
-    overflowScrolling: "touch",
-    paddingBottom: 10,
+    maxWidth: DRAWER_WIDTH,
+    overflowScrolling: 'touch',
     '&::-webkit-scrollbar': {
       width: '0.4em'
     },
@@ -195,30 +176,35 @@ const sidebarStyle = theme => ({
       outline: '1px solid slategrey',
       borderRadius: 4
     }
-
+  },
+  menus: {
+    display: 'flex',
+    flex: 1,
+    width: DRAWER_WIDTH,
+    maxWidth: DRAWER_WIDTH
   },
   submenu: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    height: '100%',
+    flex: 1,
     width: DRAWER_SUBMENU_WIDTH,
-    background: '#425581'
+    minWidth: DRAWER_SUBMENU_WIDTH,
+    background: '#425581',
+    boxShadow: '0 2px 2px rgba(0, 0, 0, 0.3)'
   },
   submenuTitle: {
-    color: theme.palette.primary.link,
+    color: 'rgba(255, 255, 255, .33)',
     fontSize: 14,
     fontWeight: 500,
-    fontFamily: "Roboto', 'Helvetica', 'Arial', sans-serif",
+    fontFamily: 'Roboto',
     textTransform: 'uppercase',
     marginTop: 21,
+    marginBottom: 8,
     marginLeft: 25
   },
   activePro: {
-    [theme.breakpoints.up("md")]: {
-      position: "absolute",
-      width: "100%",
-      bottom: "13px"
+    [theme.breakpoints.up('md')]: {
+      position: 'absolute',
+      width: '100%',
+      bottom: '13px'
     }
   }
 });
