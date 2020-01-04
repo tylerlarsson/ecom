@@ -1,5 +1,7 @@
 const ejs = require('ejs');
-const mailjet = require('mailjet').connect('public', 'private');
+const config = require('../core/config');
+// eslint-disable-next-line import/order
+const mailjet = require('node-mailjet').connect(config.get('mailjet-public'), config.get('mailjet-private'));
 const createLogger = require('./logger');
 const logger = createLogger('web-server.mail-module');
 const { getFilePath, checkFile } = require('./file-util');

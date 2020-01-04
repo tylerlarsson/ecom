@@ -186,7 +186,8 @@
     "ejs": "latest",
     "cors": "latest",
     "form-data": "latest",
-    "mailjet": "latest"
+    "mailjet": "latest",
+    "node-mailjet": "latest"
   },
   "devDependencies": {
     "compare-versions": "3.4.0",
