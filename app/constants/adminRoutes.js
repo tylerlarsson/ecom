@@ -6,7 +6,8 @@ import {
   Web,
   VideoLibrary,
   TrendingUp,
-  SettingsApplications
+  SettingsApplications,
+  ContactSupportOutlined
 } from '@material-ui/icons';
 import HomePage from 'containers/HomePage';
 import Users from 'containers/Admin/Users/Users';
@@ -90,6 +91,15 @@ const dashboardRoutes = [
     visible: true
   },
   {
+    type: 'divider',
+    visible: true
+  },
+  {
+    type: 'category',
+    name: 'Options',
+    visible: true
+  },
+  {
     path: routes.SETTINGS,
     name: 'Settings',
     icon: SettingsApplications,
@@ -130,6 +140,14 @@ const dashboardRoutes = [
     component: NewCourse,
     layout: routes.ADMIN,
     visible: false
+  },
+  {
+    path: routes.SUPPORT,
+    name: 'Support',
+    icon: ContactSupportOutlined,
+    component: HomePage,
+    layout: routes.ADMIN,
+    visible: true
   },
   {
     path: routes.CURRICULUM,

@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Paper, List, ListItem, ListItemText, Icon } from '@material-ui/core';
+import { Paper, List, ListItem, ListItemText, Icon, Divider } from '@material-ui/core';
 import sidebarStyle from './styles';
 
 const useStyles = makeStyles(theme => ({
@@ -65,7 +65,10 @@ const Sidebar = ({ ...props }) => {
         const activePro = ' ';
         const listItemClasses = classNames({
           [' ' + classes.activeLink]: activeRouteValue,
-          [' ' + styles.short]: activeChildItem,
+          [' ' + styles.short]: activeChildItem
+        });
+        const listItemShort = classNames({
+          [' ' + styles.short]: activeChildItem
         });
         const activeParentValue = activeParent(prop.children);
         const whiteFontClasses = classNames({ [' ' + classes.whiteFont]: activeRouteValue || activeParentValue });
@@ -76,25 +79,35 @@ const Sidebar = ({ ...props }) => {
               className={activePro + classes.item}
               activeClassName="active"
             >
-              <ListItem button className={classes.itemLink + listItemClasses}>
-                {typeof prop.icon === 'string' ? (
-                  <Icon
-                    className={classNames(classes.itemIcon, whiteFontClasses)}
-                  >
-                    {prop.icon}
-                  </Icon>
-                ) : (
-                  <prop.icon
-                    className={classNames(classes.itemIcon, whiteFontClasses)}
-                  />
-                )}
-                <ListItemText
-                  primary={activeChildItem ? null : prop.name}
-                  className={classNames(classes.itemText, whiteFontClasses)}
-                  style={{ display: 'inline-block' }}
-                  disableTypography={true}
-                />
-              </ListItem>
+              {prop.type === 'category' ? (
+                <ListItem className={classes.itemCategory + listItemShort}>
+                  {prop.name}
+                </ListItem>
+              ) : (
+                prop.type === 'divider' ? (
+                  <Divider variant="middle" component="li" className={classes.divider + listItemShort} />
+                  ) : (
+                  <ListItem button className={classes.itemLink + listItemClasses}>
+                    {typeof prop.icon === 'string' ? (
+                      <Icon
+                        className={classNames(classes.itemIcon, whiteFontClasses)}
+                      >
+                        {prop.icon}
+                      </Icon>
+                    ) : (
+                      <prop.icon
+                        className={classNames(classes.itemIcon, whiteFontClasses)}
+                      />
+                    )}
+                    <ListItemText
+                      primary={activeChildItem ? null : prop.name}
+                      className={classNames(classes.itemText, whiteFontClasses)}
+                      style={{ display: 'inline-block' }}
+                      disableTypography
+                    />
+                  </ListItem>
+                )
+              )}
             </NavLink>
           </div>
         );

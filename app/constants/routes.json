@@ -16,6 +16,7 @@
   "USER": "/user",
   "SITE": "/site",
   "SETTINGS": "/settings",
+  "SUPPORT": "/support",
   "SALES": "/sales",
   "COURSES": "/courses",
   "COURSES_ENROLLED": "/courses/enrolled/:course",

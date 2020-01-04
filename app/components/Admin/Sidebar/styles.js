@@ -125,6 +125,16 @@ const sidebarStyle = theme => ({
     ...defaultFont,
     minHeight: 46
   },
+  itemCategory: {
+    fontSize: 13,
+    fontWeight: 400,
+    fontFamily: 'Roboto',
+    margin: '8px 0 0 0',
+    display: 'block',
+    padding: '0 0 0 21px',
+    color: 'rgba(255, 255, 255, .33)',
+    backgroundColor: 'transparent',
+  },
   itemIcon: {
     width: '24px',
     height: '30px',
@@ -143,6 +153,11 @@ const sidebarStyle = theme => ({
     fontSize: '14px',
     fontWeight: 400,
     color: '#ECF0F1'
+  },
+  divider: {
+    background: 'rgba(' + hexToRgb('#95A5A6') + ', 0.5)',
+    marginTop: 16,
+    marginBottom: 24
   },
   whiteFont: {
     color: '#ECF0F1'
