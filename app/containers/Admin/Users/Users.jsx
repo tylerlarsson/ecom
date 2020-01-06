@@ -184,8 +184,8 @@ class Users extends Component {
 
     return (
       <>
-        <AdminNavbar title="Users" />
         <AdminContent>
+          <AdminNavbar title="Users" />
           <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
               <Card>

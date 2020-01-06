@@ -12,7 +12,7 @@ const AdminContent = ({ classes, children }) => (
 
 AdminContent.propTypes = {
   classes: PropTypes.object.isRequired,
-  children: PropTypes.object.isRequired
+  children: PropTypes.any
 };
 
 export default withStyles({ content, container })(AdminContent);

@@ -35,3 +35,6 @@ export const PRICING_PLAN_TYPES = [
 export const RESET_PASSWORD_ID_PARAM = 'bjson';
 
 export const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;  // eslint-disable-line
+
+export const DRAWER_WIDTH = 270;
+export const DRAWER_SUBMENU_WIDTH = 189;

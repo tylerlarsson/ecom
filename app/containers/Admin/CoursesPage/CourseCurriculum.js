@@ -16,11 +16,11 @@ import AdminNavbar from 'components/Navbars/AdminNavbar';
 import AdminContent from 'components/Content/AdminContent';
 import { createSection, getCourse, createLecture } from 'redux/actions/courses';
 import routes from 'constants/routes.json';
-import NewLectureButton from 'components/LectureAdmin/NewLectureButton';
-import Section from 'components/CourseAdmin/Section';
-import Lecture from 'components/LectureAdmin/Lecture';
+import NewLectureButton from 'components/Admin/LectureAdmin/NewLectureButton';
+import Section from 'components/Admin/CourseAdmin/Section';
+import Lecture from 'components/Admin/LectureAdmin/Lecture';
 // import { DND_DELAY } from 'constants/default';
-import CourseSteps from 'components/CourseAdmin/CourseSteps';
+import CourseSteps from 'components/Admin/CourseAdmin/CourseSteps';
 
 const styles = {
   cardCategoryWhite: {

@@ -111,7 +111,7 @@ export const getUsers = payload => {
     params.pageNumber = pagination.page;
     params.pageSize = pagination.rowsPerPage;
   }
-  console.log('getUsers', params);
+  // console.log('getUsers', params);
   return axios
     .get(`${API_ENDPOINT_URL}/user`, { params })
     .then(res => {

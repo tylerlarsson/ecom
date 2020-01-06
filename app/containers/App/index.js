@@ -41,7 +41,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <Switch>
           <Route exact path={routes.HOME} component={RequireAuth(HomePage)} />
           <Route exact path={routes.LOGIN} component={RequireNoAuth(LoginPage)} />
@@ -57,7 +57,7 @@ class App extends Component {
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />
-      </div>
+      </>
     );
   }
 }

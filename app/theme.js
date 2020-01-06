@@ -5,7 +5,8 @@ export const theme = createMuiTheme({
     primary: {
       main: '#32446F',
       inverse: '#fff',
-      link: '#556791'
+      link: '#556791',
+      bg: '#ebecf0'
     },
     secondary: {
       main: '#95A5A6',
