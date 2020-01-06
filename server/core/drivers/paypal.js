@@ -51,9 +51,7 @@ class PayPalDriver extends Driver {
     };
   }
 
-  getBasicAuth() {
-    return Buffer.from(`${this.client}:${this.secret}`).toString('base64');
-  }
+  getBasicAuth = () => Buffer.from(`${this.client}:${this.secret}`).toString('base64');
 }
 
 module.exports = new PayPalDriver();

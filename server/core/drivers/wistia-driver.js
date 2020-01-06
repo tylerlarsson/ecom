@@ -1,5 +1,6 @@
 const HttpStatus = require('http-status-codes');
 const FormData = require('form-data');
+const config = require('../config');
 const Driver = require('./driver');
 const { request } = require('../util');
 const { isVideo } = require('../file-util');
@@ -108,4 +109,4 @@ class WistiaDriver extends Driver {
   }
 }
 
-module.exports = new WistiaDriver('');
+module.exports = new WistiaDriver(config.get('wistia-key'));

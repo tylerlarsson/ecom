@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema.Types;
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const HttpStatus = require('http-status-codes');
 const { DEFAULT_OPTIONS } = require('./common');
 const Role = require('./role');
+const config = require('../core/config');
+const SECRET = config.get('web-app:secret');
 const Enrollment = require('./enrollment');
 const { error404 } = require('../core/util');
 const { sendMail } = require('../core/mail');
@@ -97,10 +101,17 @@ USER.statics.resetPasswordRequest = async ({ email }) => {
   if (!user) {
     throw error404({ user }, email, 'email');
   }
-  const link = `https://example.com/reset?bjson=${user.id}`;
+  const bJson = await jwt.sign(
+    {
+      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // 24 hours
+      data: user.id
+    },
+    SECRET
+  );
+  const link = `${config.get('base-path')}/reset-password?bjson=${bJson}`;
   const subject = 'Password recovery';
   const template = 'forgot-password';
-  const from = `EcomFreedom Support <support@ecomfreedom.com>`;
+  const from = `EcomFreedom Support <suppxort@ecomfreedom.com>`;
 
   const data = { link };
 
@@ -117,9 +128,24 @@ USER.statics.resetPasswordRequest = async ({ email }) => {
 };
 
 USER.statics.resetPassword = async args => {
-  const { id, newPassword } = args;
+  let { id } = args;
+  try {
+    id = await jwt.verify(id, SECRET);
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      const error = new Error(`Authorization token expired`);
+      error.status = HttpStatus.UNAUTHORIZED;
+      throw error;
+    }
+    if (error instanceof jwt.JsonWebTokenError) {
+      const error = new Error(`Invalid authorization token`);
+      error.status = HttpStatus.UNAUTHORIZED;
+      throw error;
+    }
+    throw error;
+  }
   const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(newPassword, salt);
+  const hash = await bcrypt.hash(args.newPassword, salt);
   const user = await User.findById(id);
   if (!user) {
     throw error404({ user }, id);

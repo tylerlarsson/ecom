@@ -17,5 +17,4 @@ const PRICING_PLAN_TYPE = {
 };
 
 /* eslint-enable no-param-reassign */
-
 module.exports = { DEFAULT_OPTIONS, PRICING_PLAN_TYPE };
