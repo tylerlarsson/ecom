@@ -44,6 +44,7 @@ const styles = theme => ({
     }
   }
 });
+
 const ButtonComponent = ({ classes, children, outlined, ...props }) => (
   <Button
     disableElevation
@@ -54,9 +55,11 @@ const ButtonComponent = ({ classes, children, outlined, ...props }) => (
     {children}
   </Button>
 );
+
 ButtonComponent.propTypes = {
   outlined: PropTypes.bool,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  children: PropTypes.objectOf(PropTypes.any)
+  children: PropTypes.any
 };
+
 export default withStyles(styles)(ButtonComponent);

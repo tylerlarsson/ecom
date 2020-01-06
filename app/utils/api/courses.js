@@ -43,7 +43,7 @@ export const createCourses = payload => {
   return axios
     .post(`${API_ENDPOINT_URL}/course`, data)
     .then(res => {
-      console.log('createCourses res', res);
+      // console.log('createCourses res', res);
       if (res.data) {
         return { success: true, data: res.data };
       }
@@ -86,7 +86,7 @@ export const createSection = payload => {
   return axios
     .post(`${API_ENDPOINT_URL}/course/${courseId}/section`, data)
     .then(res => {
-      console.log('createSection res', res);
+      // console.log('createSection res', res);
       if (res.data) {
         return { success: true, data: res.data };
       }
@@ -133,7 +133,7 @@ export const createLecture = payload => {
     data
   )
     .then(res => {
-      console.log('createLecture res', res);
+      // console.log('createLecture res', res);
       if (res.data) {
         return { success: true, data: res.data };
       }
@@ -161,7 +161,7 @@ export const getPricingPlans = payload => {
   return axios
     .get(`${API_ENDPOINT_URL}/pricing-plan/${courseId}`)
     .then(res => {
-      console.log('getPricingPlans res', res);
+      // console.log('getPricingPlans res', res);
       if (res.data) {
         return { success: true, data: res.data };
       }
@@ -196,7 +196,7 @@ export const addPricingPlan = payload => {
   return axios
     .post(`${API_ENDPOINT_URL}/pricing-plan`, data)
     .then(res => {
-      console.log('createSection res', res);
+      // console.log('createSection res', res);
       if (res.data) {
         return { success: true, data: res.data };
       }

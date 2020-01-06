@@ -4,9 +4,9 @@ import watchUsersListener from './users';
 import watchCoursesListener from './courses';
 import watchFilesListener from './files';
 
-export default function* rootSaga(context = {}) {
-  yield fork(watchAuthListener, context);
-  yield fork(watchUsersListener, context);
-  yield fork(watchCoursesListener, context);
-  yield fork(watchFilesListener, context);
+export default function* rootSaga() {
+  yield fork(watchAuthListener);
+  yield fork(watchUsersListener);
+  yield fork(watchCoursesListener);
+  yield fork(watchFilesListener);
 }
