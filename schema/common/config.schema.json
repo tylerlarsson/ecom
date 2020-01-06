@@ -8,14 +8,35 @@
     "base-path",
     "default-user-permissions",
     "default-admin-permissions",
-    "default-role-filters"
+    "default-role-filters",
+    "gcs-project-id",
+    "wistia-key",
+    "mailjet-private",
+    "mailjet-public",
+    "stripe-pub",
+    "stripe-private"
   ],
   "additionalProperties": false,
   "properties": {
     "$schema": {
       "type": "string"
     },
+    "stripe-pub": {
+      "type": "string"
+    },
+    "stripe-private": {
+      "type": "string"
+    },
     "gcs-project-id": {
+      "type": "string"
+    },
+    "wistia-key": {
+      "type": "string"
+    },
+    "mailjet-public": {
+      "type": "string"
+    },
+    "mailjet-private": {
       "type": "string"
     },
     "mongo": {

@@ -237,7 +237,6 @@ module.exports = app => {
         res.status(HttpStatus.UNPROCESSABLE_ENTITY).json({ errors });
         return;
       }
-      console.log('here');
       const enrollment = await db.model.Enrollment.enroll({ ...params, ...body });
       res.status(HttpStatus.CREATED).json({
         enrollment

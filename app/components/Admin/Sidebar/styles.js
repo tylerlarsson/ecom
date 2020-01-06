@@ -1,13 +1,4 @@
-import {
-  transition,
-  boxShadow,
-  defaultFont,
-  infoColor,
-  whiteColor,
-  grayColor,
-  blackColor,
-  hexToRgb
-} from 'assets/jss/material-dashboard-react.jsx';
+import { transition, boxShadow, defaultFont, whiteColor, hexToRgb } from 'assets/jss/material-dashboard-react.jsx'; // eslint-disable-line
 import { DRAWER_WIDTH, DRAWER_SUBMENU_WIDTH } from 'constants/default';
 
 const sidebarStyle = theme => ({
@@ -67,7 +58,7 @@ const sidebarStyle = theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    background: 'rgba(' + hexToRgb(theme.palette.primary.main) + ',.74)'
+    background: `rgba(${hexToRgb(theme.palette.primary.main)},.74)`
   },
   logoLink: {
     ...defaultFont,
@@ -133,7 +124,7 @@ const sidebarStyle = theme => ({
     display: 'block',
     padding: '0 0 0 21px',
     color: 'rgba(255, 255, 255, .33)',
-    backgroundColor: 'transparent',
+    backgroundColor: 'transparent'
   },
   itemIcon: {
     width: '24px',
@@ -155,7 +146,7 @@ const sidebarStyle = theme => ({
     color: '#ECF0F1'
   },
   divider: {
-    background: 'rgba(' + hexToRgb('#95A5A6') + ', 0.5)',
+    background: `rgba(${hexToRgb('#95A5A6')}, 0.5)`,
     marginTop: 16,
     marginBottom: 24
   },
@@ -164,16 +155,15 @@ const sidebarStyle = theme => ({
   },
   activeLink: {
     color: '#ECF0F1',
-    backgroundColor: 'rgba(' + hexToRgb('#556791') + ', 0.5)',
+    backgroundColor: `rgba(${hexToRgb('#556791')}, 0.5)`,
     '&:hover': {
       backgroundColor: '#556791 !important'
     },
     '&:focus': {
-      backgroundColor: 'rgba(' + hexToRgb('#556791') + ', 0.5)'
+      backgroundColor: `rgba(${hexToRgb('#556791')}, 0.5)`
     }
   },
   sidebarWrapper: {
-    display: 'flex',
     height: 'calc(100% - 213px)',
     overflowY: 'auto',
     overflowX: 'hidden',

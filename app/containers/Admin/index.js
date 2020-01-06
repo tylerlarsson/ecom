@@ -37,7 +37,8 @@ const styles = theme => ({
   mainPanel: {
     flex: 1,
     height: 'calc(100% - 64px)',
-    overflow: 'auto'
+    overflow: 'auto',
+    background: theme.palette.primary.bg
   },
   icon: {
     color: 'white'

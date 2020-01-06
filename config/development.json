@@ -14,6 +14,11 @@
     "refresh-token-expires-in": "1d"
   },
   "gcs-project-id": "fleet-impact-256815",
+  "wistia-key": "bd1af011eb07adcac3dce5747ea7ec73099b2761225a9c015da824c4521e9def",
+  "mailjet-public": "2c887dbd11d444fba2e8e08a3aeeae93",
+  "mailjet-private": "70b0983825ea2e0f98befd15f2c6692a",
+  "stripe-pub": "pk_test_pWW51adJUiGsLwUeYSOBInSj00tZZeBOqQ",
+  "stripe-private": "sk_test_3bCAYOtxSJ9LdHpSFINqaV7h007YtfcpzA\n",
   "base-path": "/api/v1",
   "default-admin-permissions": ["*"],
   "default-user-permissions": ["profile-view"],
